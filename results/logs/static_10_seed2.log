@@ -1,0 +1,11 @@
+  Note: 2 sensor(s) have no path to the gateway within the assumed static-route range (txRange=90 m) and are unreachable under static routing by construction.
+========================================
+  Protocol   : static
+  Sensors    : 10
+  Tx packets : 1360
+  Rx packets : 408
+  Packet loss: 952
+  PDR (%)    : 30
+  Throughput : 25.1794 kbps
+  Avg delay  : 0.0159086 s
+========================================

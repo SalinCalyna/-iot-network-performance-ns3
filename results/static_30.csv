@@ -1,0 +1,6 @@
+RoutingProtocol,NumberOfNodes,PosSeed,PacketsSent,PacketsReceived,PacketLoss,PDR,ThroughputKbps,AverageDelaySec
+static,30,1,4080,1494,2586,36.6176,92.2011,0.0505451
+static,30,2,4080,1360,2720,33.3333,83.9314,0.0435212
+static,30,3,4080,1632,2448,40,100.718,0.0519326
+static,30,4,4080,0,4080,0,0,0
+static,30,5,4080,1630,2450,39.951,100.594,0.0493698

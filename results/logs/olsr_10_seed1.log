@@ -1,0 +1,10 @@
+========================================
+  Protocol   : olsr
+  Sensors    : 10
+  Tx packets : 1360
+  Rx packets : 952
+  Packet loss: 408
+  PDR (%)    : 70
+  Throughput : 58.752 kbps
+  Avg delay  : 0.0267428 s
+========================================

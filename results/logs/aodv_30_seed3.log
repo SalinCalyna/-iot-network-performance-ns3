@@ -1,0 +1,10 @@
+========================================
+  Protocol   : aodv
+  Sensors    : 30
+  Tx packets : 4917
+  Rx packets : 2246
+  Packet loss: 2671
+  PDR (%)    : 45.6783
+  Throughput : 117.61 kbps
+  Avg delay  : 0.0831807 s
+========================================

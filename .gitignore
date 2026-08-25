@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+
+# ns-3 build artifacts (not part of this repo -- this repo is not a full
+# ns-3 checkout; scratch/iot-network.cc is meant to be dropped into one)
+build/
+cmake-cache/
+*.pcap
+*.log.tmp

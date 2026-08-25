@@ -1,0 +1,10 @@
+========================================
+  Protocol   : static
+  Sensors    : 50
+  Tx packets : 6800
+  Rx packets : 2717
+  Packet loss: 4083
+  PDR (%)    : 39.9559
+  Throughput : 167.678 kbps
+  Avg delay  : 0.0861685 s
+========================================

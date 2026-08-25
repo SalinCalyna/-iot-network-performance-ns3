@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IoT Network Performance Lab</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='vendor/chart.umd.min.js') }}"></script>
+</head>
+<body>
+<div class="app-shell">
+
+  <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <span class="brand-mark">&#9670;</span>
+      <span class="brand-text">IoT Network Lab</span>
+    </div>
+    <nav class="sidebar-nav" id="sidebar-nav">
+      <a href="#overview" data-section="overview" class="nav-link">Overview</a>
+      <a href="#performance" data-section="performance" class="nav-link">Performance</a>
+      <a href="#protocols" data-section="protocols" class="nav-link">Protocols</a>
+      <a href="#scaling" data-section="scaling" class="nav-link">Network Scaling</a>
+      <a href="#trials" data-section="trials" class="nav-link">Trials</a>
+      <a href="#topology" data-section="topology" class="nav-link">Topology</a>
+      <a href="#raw-data" data-section="raw-data" class="nav-link">Raw Data</a>
+      <a href="#methodology" data-section="methodology" class="nav-link">Methodology</a>
+      <a href="#validity" data-section="validity" class="nav-link">Validity</a>
+      <a href="#github" data-section="github" class="nav-link">GitHub</a>
+    </nav>
+    <a class="sidebar-github" href="https://github.com/SalinCalyna" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+        <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
+        0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+        -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07
+        -1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0
+        c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54
+        1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+      <span>@SalinCalyna</span>
+    </a>
+  </aside>
+
+  <main class="content">
+
+    <section class="hero" id="hero">
+      <div class="hero-grid-bg" aria-hidden="true"></div>
+      <div class="hero-inner">
+        <p class="eyebrow">Research Dashboard &middot; ns-3</p>
+        <h1>IoT Network Performance Lab</h1>
+        <p class="hero-subtitle">ns-3 Multi-Hop 802.11b Ad-Hoc Wireless Mesh</p>
+        <p class="hero-desc">Experimental analysis of routing protocol performance in multi-hop IoT wireless networks using ns-3.</p>
+        <div class="badge-row">
+          <span class="badge badge-aodv">AODV</span>
+          <span class="badge badge-olsr">OLSR</span>
+          <span class="badge badge-static">STATIC ROUTING</span>
+        </div>
+        <div class="hero-stats">
+          <div><strong id="hero-scenarios">&mdash;</strong><span>Scenarios</span></div>
+          <div><strong id="hero-trials">&mdash;</strong><span>Trials</span></div>
+          <div><strong id="hero-sizes">&mdash;</strong><span>Network sizes</span></div>
+        </div>
+        <div class="hero-buttons">
+          <a href="#performance" class="btn btn-primary">Explore Results</a>
+          <a href="https://github.com/SalinCalyna" target="_blank" rel="noopener" class="btn btn-ghost">View GitHub &#8599;</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="researcher-chip glass">
+      <div class="avatar-dot">S</div>
+      <div class="researcher-text">
+        <div class="researcher-name">Salinthip Keereerat <span class="researcher-id">&middot; 6630613037</span></div>
+        <div class="researcher-role">IoT Network Research &middot; ns-3 Simulation &amp; Network Performance Analysis</div>
+        <div class="researcher-affiliation">College of Computing, Prince of Songkla University</div>
+      </div>
+      <a href="https://github.com/SalinCalyna" target="_blank" rel="noopener" class="btn btn-small">View GitHub Profile &#8599;</a>
+    </section>
+
+    <section id="overview" class="section">
+      <h2 class="section-title">Overview</h2>
+      <div class="kpi-grid">
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="stat-scenarios">&mdash;</div>
+          <div class="kpi-label">Scenarios</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="stat-trials">&mdash;</div>
+          <div class="kpi-label">Experiment trials</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="stat-protocols">&mdash;</div>
+          <div class="kpi-label">Routing protocols</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="stat-sizes">&mdash;</div>
+          <div class="kpi-label">Network sizes</div>
+        </div>
+      </div>
+
+      <div class="status-card glass">
+        <h3>Current Experiment Status</h3>
+        <ul class="status-dots">
+          <li><span class="dot dot-ok"></span> V2.7 experiment complete</li>
+          <li><span class="dot dot-ok"></span> <span id="status-csv-count">&mdash;</span> CSV datasets available</li>
+          <li><span class="dot dot-ok"></span> 5 independent trials per scenario</li>
+        </ul>
+      </div>
+
+      <div class="panel glass" id="problems-panel" style="display:none;">
+        <h3>CSV loading notices</h3>
+        <ul id="problems-list"></ul>
+      </div>
+    </section>
+
+    <section id="performance" class="section">
+      <h2 class="section-title">Routing Protocol Performance</h2>
+
+      <div class="filters glass">
+        <div class="filter-group">
+          <label for="filter-protocol">Protocol</label>
+          <select id="filter-protocol">
+            <option value="all">All</option>
+            <option value="aodv">AODV</option>
+            <option value="olsr">OLSR</option>
+            <option value="static">Static</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filter-nodes">Number of nodes</label>
+          <select id="filter-nodes">
+            <option value="all">All</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="filter-trial">Trial</label>
+          <select id="filter-trial">
+            <option value="all">All (mean &plusmn; SD)</option>
+            <option value="1">Trial 1</option>
+            <option value="2">Trial 2</option>
+            <option value="3">Trial 3</option>
+            <option value="4">Trial 4</option>
+            <option value="5">Trial 5</option>
+          </select>
+        </div>
+        <div class="filter-group metric-tabs">
+          <label>Metric</label>
+          <div class="tabs" id="metric-tabs">
+            <button class="tab active" data-metric="pdr">PDR</button>
+            <button class="tab" data-metric="throughput">Throughput</button>
+            <button class="tab" data-metric="delay">Delay</button>
+            <button class="tab" data-metric="loss">Packet Loss</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card glass">
+        <div class="chart-header">
+          <h3 id="chart-title">Packet Delivery Ratio (PDR)</h3>
+          <span class="tag tag-warn" id="chart-status-tag" style="display:none;">Under investigation</span>
+          <span class="tag tag-ok" id="chart-status-ok">Confirmed / usable</span>
+        </div>
+        <p class="chart-note" id="chart-note"></p>
+        <div class="chart-wrap"><canvas id="main-chart" height="110"></canvas></div>
+      </div>
+
+      <div class="table-card glass">
+        <h3>Aggregated results (mean &plusmn; SD across trials)</h3>
+        <div class="table-wrap">
+          <table id="summary-table">
+            <thead>
+              <tr>
+                <th data-sort="protocol">Protocol</th>
+                <th data-sort="nodes">Nodes</th>
+                <th data-sort="trials">Trials</th>
+                <th data-sort="pdrMean">PDR (%)</th>
+                <th data-sort="throughputMean">Throughput (kbps)</th>
+                <th data-sort="delayMean">Delay (ms)</th>
+                <th data-sort="lossMean">Packet loss (pkts)</th>
+              </tr>
+            </thead>
+            <tbody id="summary-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="protocols" class="section">
+      <h2 class="section-title">Protocols</h2>
+      <div class="protocol-grid" id="protocol-grid">
+        <div class="protocol-card glass" data-protocol="aodv">
+          <div class="protocol-head">
+            <h3>AODV</h3>
+            <span class="protocol-kind">Reactive routing</span>
+          </div>
+          <p class="protocol-desc">Discovers routes on demand via RREQ/RREP flooding; only pays discovery cost when a route is actually needed.</p>
+          <div class="protocol-metrics" id="protocol-metrics-aodv"></div>
+          <div class="protocol-mini-chart"><canvas id="mini-chart-aodv" height="70"></canvas></div>
+          <button class="btn btn-small btn-outline" data-jump="performance" data-protocol="aodv">View Details</button>
+        </div>
+        <div class="protocol-card glass" data-protocol="olsr">
+          <div class="protocol-head">
+            <h3>OLSR</h3>
+            <span class="protocol-kind">Proactive routing</span>
+          </div>
+          <p class="protocol-desc">Maintains routes continuously via periodic Hello/TC messages, regardless of whether traffic needs them.</p>
+          <div class="protocol-metrics" id="protocol-metrics-olsr"></div>
+          <div class="protocol-mini-chart"><canvas id="mini-chart-olsr" height="70"></canvas></div>
+          <button class="btn btn-small btn-outline" data-jump="performance" data-protocol="olsr">View Details</button>
+        </div>
+        <div class="protocol-card glass" data-protocol="static">
+          <div class="protocol-head">
+            <h3>Static</h3>
+            <span class="protocol-kind">Static routing</span>
+          </div>
+          <p class="protocol-desc">Fixed BFS shortest-hop routes computed once from an assumed 90&nbsp;m disk connectivity model; never adapts at runtime.</p>
+          <div class="protocol-metrics" id="protocol-metrics-static"></div>
+          <div class="protocol-mini-chart"><canvas id="mini-chart-static" height="70"></canvas></div>
+          <button class="btn btn-small btn-outline" data-jump="performance" data-protocol="static">View Details</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="scaling" class="section">
+      <h2 class="section-title">How Does Network Size Affect Performance?</h2>
+      <p class="section-subtitle">10 &rarr; 20 &rarr; 30 &rarr; 50 nodes, same area, same traffic pattern per source &mdash; only node count changes.</p>
+      <div class="scaling-grid">
+        <div class="chart-card glass small"><h3>PDR</h3><canvas id="scale-pdr" height="160"></canvas></div>
+        <div class="chart-card glass small"><h3>Throughput</h3><canvas id="scale-throughput" height="160"></canvas></div>
+        <div class="chart-card glass small"><h3>Delay</h3><canvas id="scale-delay" height="160"></canvas></div>
+        <div class="chart-card glass small"><h3>Packet Loss</h3><canvas id="scale-loss" height="160"></canvas></div>
+      </div>
+    </section>
+
+    <section id="trials" class="section">
+      <h2 class="section-title">Trial Analysis</h2>
+      <div class="filters glass">
+        <div class="filter-group">
+          <label for="trial-protocol">Protocol</label>
+          <select id="trial-protocol">
+            <option value="aodv">AODV</option>
+            <option value="olsr">OLSR</option>
+            <option value="static">Static</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="trial-nodes">Number of nodes</label>
+          <select id="trial-nodes">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="50">50</option>
+          </select>
+        </div>
+      </div>
+      <div class="table-card glass">
+        <div class="table-wrap">
+          <table id="trial-table">
+            <thead>
+              <tr><th>Trial</th><th>PDR (%)</th><th>Throughput (kbps)</th><th>Delay (ms)</th><th>Packet loss (pkts)</th></tr>
+            </thead>
+            <tbody id="trial-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="stats-row" id="trial-stats"></div>
+    </section>
+
+    <section id="topology" class="section">
+      <h2 class="section-title">Network Topology</h2>
+      <p class="tag tag-info">Conceptual topology &mdash; node coordinates are not stored in the CSV results and are not invented here.</p>
+      <div class="topology-card glass">
+        <svg id="topology-svg" viewBox="0 0 640 320" role="img" aria-label="Conceptual multi-hop IoT mesh topology"></svg>
+        <p class="chart-note">Sensors relay through neighbouring sensors over multiple wireless hops to reach the Gateway/Sink at the centre of the field. Actual per-trial coordinates are generated at simulation time and are not persisted in the result CSVs.</p>
+      </div>
+    </section>
+
+    <section id="raw-data" class="section">
+      <h2 class="section-title">Raw Data Explorer</h2>
+      <div class="filters glass">
+        <div class="filter-group">
+          <label for="file-select">CSV file</label>
+          <select id="file-select"></select>
+        </div>
+        <a id="download-link" class="btn btn-small" href="#" download>Download CSV</a>
+      </div>
+      <div class="file-meta-grid" id="file-meta"></div>
+      <div class="table-card glass">
+        <div class="table-wrap">
+          <table id="raw-table">
+            <thead>
+              <tr>
+                <th>Protocol</th><th>Nodes</th><th>Trial</th><th>Packets sent</th><th>Packets received</th>
+                <th>Packet loss</th><th>PDR (%)</th><th>Throughput (kbps)</th><th>Delay (s)</th>
+              </tr>
+            </thead>
+            <tbody id="raw-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="stats-row" id="raw-stats"></div>
+    </section>
+
+    <section id="methodology" class="section">
+      <h2 class="section-title">Research Methodology</h2>
+      <div class="panel glass">
+        <dl class="methodology-grid" id="methodology-grid"></dl>
+        <p class="small-note">Values above are read from <code>experiments/run_experiments.sh</code> and <code>scratch/iot-network.cc</code> as they exist in the project &mdash; not hardcoded from a template.</p>
+      </div>
+    </section>
+
+    <section id="validity" class="section">
+      <h2 class="section-title">Experimental Validity</h2>
+      <div class="validity-grid">
+        <div class="validity-card glass ok">
+          <h3>&#10003; Confirmed</h3>
+          <ul>
+            <li>Same topology seeds (1&ndash;5) are used across AODV, OLSR and Static at each network size</li>
+            <li>5 independent trials per scenario</li>
+            <li>12 scenarios evaluated (3 protocols &times; 4 network sizes)</li>
+            <li>No arithmetic anomalies found (PDR&gt;100%, negative values, rx&gt;tx, etc.)</li>
+            <li>Throughput and delay comparisons across protocols and network sizes</li>
+          </ul>
+        </div>
+        <div class="validity-card glass warn">
+          <h3>&#9888; Under investigation</h3>
+          <span class="tag tag-warn">PDR comparison requires validation</span>
+          <p>
+            The V2.7.1 analysis identified a possible difference in how FlowMonitor counts
+            transmitted packets for AODV, due to routing retry/requeue behaviour in ns-3's AODV
+            implementation. AODV's <code>PacketsSent</code> count was observed to scale with
+            topology/network size in a way OLSR's and Static's counts do not. Therefore, AODV PDR
+            should not yet be treated as a final, confirmed comparison against OLSR/Static.
+          </p>
+          <ul>
+            <li>AODV PDR comparison against OLSR/Static</li>
+            <li>AODV's PacketsSent denominator</li>
+            <li>Exact packet-loss causes (MAC contention vs. PHY loss vs. queue drops vs. routing failure &mdash; not instrumented)</li>
+            <li>Packet Loss for AODV specifically inherits the PacketsSent caveat (Loss = Sent &minus; Received)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="github" class="section">
+      <h2 class="section-title">About This Project</h2>
+      <div class="about-card glass">
+        <p>Developed as an ns-3 IoT network performance research project analyzing multi-hop wireless mesh routing protocols.</p>
+        <p><strong>Author:</strong> Salinthip Keereerat</p>
+        <p><strong>Student ID:</strong> 6630613037</p>
+        <p><strong>Institution:</strong> College of Computing, Prince of Songkla University</p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/SalinCalyna" target="_blank" rel="noopener">@SalinCalyna</a></p>
+        <a href="https://github.com/SalinCalyna" target="_blank" rel="noopener" class="btn btn-primary">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
+            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
+            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07
+            -1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0
+            c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54
+            1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          View Source on GitHub &#8599;
+        </a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <div class="footer-title">IoT Network Performance Lab</div>
+      <div class="muted">ns-3 &middot; IoT &middot; Wireless Mesh &middot; Routing Protocol Analysis</div>
+      <div class="muted">College of Computing, Prince of Songkla University</div>
+      <div class="muted">&copy; 2026 Salinthip Keereerat &middot; <a href="https://github.com/SalinCalyna" target="_blank" rel="noopener">GitHub: @SalinCalyna &#8599;</a></div>
+    </footer>
+
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+RoutingProtocol,NumberOfNodes,PosSeed,PacketsSent,PacketsReceived,PacketLoss,PDR,ThroughputKbps,AverageDelaySec
+olsr,50,1,6800,1990,4810,29.2647,122.811,0.0772976
+olsr,50,2,6800,1935,4865,28.4559,119.417,0.0633146
+olsr,50,3,6800,1310,5490,19.2647,80.8457,0.0388897
+olsr,50,4,6800,0,6800,0,0,0
+olsr,50,5,6800,1564,5236,23,96.5211,0.0488354
