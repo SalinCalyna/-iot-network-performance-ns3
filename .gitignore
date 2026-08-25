@@ -3,6 +3,13 @@ __pycache__/
 *.pyc
 venv/
 .venv/
+myenv/
+
+# Secrets -- never commit real credentials; dashboard/.env.example is the
+# checked-in template, actual .env files are always local-only.
+.env
+*.env
+!*.env.example
 
 # Editor / OS
 .DS_Store

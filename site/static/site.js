@@ -1,6 +1,9 @@
-// IoT Network Performance Lab -- front end.
-// All numeric data comes from /api/* (backed by pandas reading results/*.csv
-// on every request) -- nothing here is a hardcoded experiment result.
+// IoT Network Performance Lab -- STATIC (GitHub Pages) front end.
+// This is the no-backend counterpart to dashboard/static/dashboard.js.
+// Every number comes from ./data/*.json, which is a build-time export of
+// the real results/*.csv files (see experiments/export_static_data.py) --
+// nothing here is invented, and this file makes no network calls other
+// than fetching those local JSON files and the local plot images.
 
 Chart.defaults.color = "#8b93a7";
 Chart.defaults.borderColor = "rgba(255,255,255,0.08)";
@@ -10,55 +13,59 @@ const PROTOCOL_COLORS = { aodv: "#3b82f6", olsr: "#f59e0b", static: "#22d3ee" };
 const PROTOCOL_LABELS = { aodv: "AODV", olsr: "OLSR", static: "Static" };
 
 const METRICS = {
-  pdr: {
-    title: "Packet Delivery Ratio (PDR)",
-    axisLabel: "PDR (%)",
-    meanKey: "pdrMean", stdKey: "pdrStd", rowKey: "pdr",
-    unit: "%", decimals: 2, scale: 1, underInvestigation: true,
-    note: "AODV's PacketsSent denominator was found to scale with topology/network size in a way OLSR's and Static's do not (V2.7.1 validation report). AODV PDR here is provisional, not a settled comparison.",
-  },
-  throughput: {
-    title: "Throughput",
-    axisLabel: "Throughput (kbps)",
-    meanKey: "throughputMean", stdKey: "throughputStd", rowKey: "throughputKbps",
-    unit: "kbps", decimals: 2, scale: 1, underInvestigation: false,
-    note: "Received IP-layer bytes divided by the 70 s active traffic window (30 s-100 s). Not affected by the PacketsSent caveat.",
-  },
-  delay: {
-    title: "End-to-End Delay",
-    axisLabel: "Delay (ms)",
-    meanKey: "delayMean", stdKey: "delayStd", rowKey: "delaySec",
-    unit: "ms", decimals: 2, scale: 1000, underInvestigation: false,
-    note: "Packet-count-weighted average end-to-end delay across all received packets (FlowMonitor delaySum / received packets).",
-  },
-  loss: {
-    title: "Packet Loss",
-    axisLabel: "Packet loss (packets)",
-    meanKey: "lossMean", stdKey: "lossStd", rowKey: "packetLoss",
-    unit: "pkts", decimals: 1, scale: 1, underInvestigation: false,
-    note: "PacketsSent - PacketsReceived. For AODV specifically this inherits the PacketsSent caveat -- see Validity section.",
-  },
+  pdr: { title: "Packet Delivery Ratio (PDR)", axisLabel: "PDR (%)", meanKey: "pdrMean", stdKey: "pdrStd", rowKey: "pdr", unit: "%", decimals: 2, scale: 1, underInvestigation: true,
+    note: "AODV's PacketsSent denominator was found to scale with topology/network size in a way OLSR's and Static's do not (V2.7.1 validation report). AODV PDR here is provisional, not a settled comparison." },
+  throughput: { title: "Throughput", axisLabel: "Throughput (kbps)", meanKey: "throughputMean", stdKey: "throughputStd", rowKey: "throughputKbps", unit: "kbps", decimals: 2, scale: 1, underInvestigation: false,
+    note: "Received IP-layer bytes divided by the 70 s active traffic window (30 s-100 s). Not affected by the PacketsSent caveat." },
+  delay: { title: "End-to-End Delay", axisLabel: "Delay (ms)", meanKey: "delayMean", stdKey: "delayStd", rowKey: "delaySec", unit: "ms", decimals: 2, scale: 1000, underInvestigation: false,
+    note: "Packet-count-weighted average end-to-end delay across all received packets (FlowMonitor delaySum / received packets)." },
+  loss: { title: "Packet Loss", axisLabel: "Packet loss (packets)", meanKey: "lossMean", stdKey: "lossStd", rowKey: "packetLoss", unit: "pkts", decimals: 1, scale: 1, underInvestigation: false,
+    note: "PacketsSent - PacketsReceived. For AODV specifically this inherits the PacketsSent caveat -- see Validity section." },
 };
 
 const state = { protocol: "all", nodes: "all", trial: "all", metric: "pdr" };
-const sortState = { summary: { key: "nodes", dir: 1 }, raw: { key: "trial", dir: 1 } };
+const sortState = { summary: { key: "nodes", dir: 1 } };
 
-let lastSummary = [];       // filtered by global state, drives Performance chart + table
-let fullSummary = [];       // unfiltered (all 12 rows), drives Protocols + Scaling sections
-let lastRawFile = null;
-
+let ALL_ROWS = [];
+let ALL_SUMMARY = [];
+let META = null;
+let lastSummary = [];
+let fullSummary = [];
 let mainChart = null;
 const scaleCharts = {};
 const miniCharts = {};
 
-function qs(params) {
-  const p = new URLSearchParams();
-  Object.entries(params).forEach(([k, v]) => p.set(k, v));
-  return p.toString();
-}
 function fmt(value, decimals) {
   if (value === null || value === undefined || Number.isNaN(value)) return "-";
   return Number(value).toFixed(decimals);
+}
+
+// ---- Local "API" -- filters the pre-loaded JSON exactly like the Flask endpoints do ----
+function localSummary({ protocol = "all", nodes = "all", trial = "all" } = {}) {
+  let rows = ALL_ROWS;
+  if (protocol !== "all") rows = rows.filter((r) => r.protocol === protocol);
+  if (nodes !== "all") rows = rows.filter((r) => r.nodes === Number(nodes));
+  if (trial !== "all") rows = rows.filter((r) => r.trial === Number(trial));
+  if (protocol === "all" && nodes === "all" && trial === "all") return ALL_SUMMARY;
+
+  const groups = {};
+  rows.forEach((r) => { const k = r.protocol + "|" + r.nodes; (groups[k] = groups[k] || []).push(r); });
+  const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+  const std = (a) => { if (a.length < 2) return 0; const m = mean(a); return Math.sqrt(a.reduce((s, v) => s + (v - m) ** 2, 0) / (a.length - 1)); };
+  return Object.values(groups).map((g) => ({
+    protocol: g[0].protocol, nodes: g[0].nodes, trials: g.length,
+    pdrMean: mean(g.map((r) => r.pdr)), pdrStd: std(g.map((r) => r.pdr)),
+    throughputMean: mean(g.map((r) => r.throughputKbps)), throughputStd: std(g.map((r) => r.throughputKbps)),
+    delayMean: mean(g.map((r) => r.delaySec)), delayStd: std(g.map((r) => r.delaySec)),
+    lossMean: mean(g.map((r) => r.packetLoss)), lossStd: std(g.map((r) => r.packetLoss)),
+  })).sort((a, b) => a.nodes - b.nodes || a.protocol.localeCompare(b.protocol));
+}
+function localRows({ protocol = "all", nodes = "all", trial = "all" } = {}) {
+  let rows = ALL_ROWS;
+  if (protocol !== "all") rows = rows.filter((r) => r.protocol === protocol);
+  if (nodes !== "all") rows = rows.filter((r) => r.nodes === Number(nodes));
+  if (trial !== "all") rows = rows.filter((r) => r.trial === Number(trial));
+  return rows;
 }
 
 // ---- Chart.js error-bar plugin (no external plugin dependency) ----
@@ -93,10 +100,7 @@ const errorBarsPlugin = {
 Chart.register(errorBarsPlugin);
 
 // ---------------- Meta / Methodology ----------------
-async function loadMeta() {
-  const res = await fetch("/api/meta");
-  const meta = await res.json();
-
+function applyMeta(meta) {
   document.getElementById("stat-scenarios").textContent = meta.totalScenarios;
   document.getElementById("stat-trials").textContent = meta.totalTrials;
   document.getElementById("stat-protocols").textContent = meta.protocols.length;
@@ -105,39 +109,16 @@ async function loadMeta() {
   document.getElementById("hero-trials").textContent = meta.totalTrials;
   document.getElementById("hero-sizes").textContent = meta.networkSizes.length;
   document.getElementById("status-csv-count").textContent = meta.csvFilesDetected.length;
-
-  if (meta.problems && meta.problems.length) {
-    const panel = document.getElementById("problems-panel");
-    const list = document.getElementById("problems-list");
-    list.innerHTML = "";
-    meta.problems.forEach((msg) => {
-      const li = document.createElement("li");
-      li.textContent = msg;
-      list.appendChild(li);
-    });
-    panel.style.display = "block";
-  }
 }
-
-async function loadMethodology() {
-  const res = await fetch("/api/methodology");
-  const m = await res.json();
+function applyMethodology(m) {
   const grid = document.getElementById("methodology-grid");
   const rows = [
-    ["Simulator", m.simulator],
-    ["Simulation file", m.simulationFile],
-    ["Network", m.network],
-    ["Gateway / Server", m.gatewayNote],
-    ["Routing protocols", m.protocols.join(" | ")],
-    ["Network sizes", m.networkSizes.join(", ") + " nodes"],
-    ["Trials", m.trialsPerScenario],
-    ["Deployment area", m.areaSize],
-    ["Tx power", m.txPowerDbm + " dBm"],
-    ["Static route range", m.txRangeNote],
-    ["Packet size", m.packetSize],
-    ["Traffic per source", m.trafficPerSource],
-    ["Total simulation time", m.totalSimTime],
-    ["Application start", m.applicationStart],
+    ["Simulator", m.simulator], ["Simulation file", m.simulationFile], ["Network", m.network],
+    ["Gateway / Server", m.gatewayNote], ["Routing protocols", m.protocols.join(" | ")],
+    ["Network sizes", m.networkSizes.join(", ") + " nodes"], ["Trials", m.trialsPerScenario],
+    ["Deployment area", m.areaSize], ["Tx power", m.txPowerDbm + " dBm"], ["Static route range", m.txRangeNote],
+    ["Packet size", m.packetSize], ["Traffic per source", m.trafficPerSource],
+    ["Total simulation time", m.totalSimTime], ["Application start", m.applicationStart],
     ["Active traffic window", m.activeTrafficWindow],
   ];
   grid.innerHTML = "";
@@ -149,10 +130,8 @@ async function loadMethodology() {
 }
 
 // ---------------- Performance section ----------------
-async function refreshPerformance() {
-  const params = { protocol: state.protocol, nodes: state.nodes, trial: state.trial };
-  const res = await fetch("/api/summary?" + qs(params));
-  lastSummary = await res.json();
+function refreshPerformance() {
+  lastSummary = localSummary(state);
   renderMainChart();
   renderSummaryTable();
 }
@@ -172,12 +151,9 @@ function renderMainChart() {
     lastSummary.filter((r) => r.protocol === proto).forEach((r) => { byNode[r.nodes] = r; });
     const data = nodeSizes.map((n) => (byNode[n] ? byNode[n][metric.meanKey] * metric.scale : null));
     const errorBars = nodeSizes.map((n) => (byNode[n] ? byNode[n][metric.stdKey] * metric.scale : null));
-    const key = proto.toLowerCase();
     return {
-      label: PROTOCOL_LABELS[key] + (metric.underInvestigation && key === "aodv" ? " (under investigation)" : ""),
-      data, errorBars,
-      backgroundColor: PROTOCOL_COLORS[key] || "#999",
-      borderRadius: 4,
+      label: PROTOCOL_LABELS[proto] + (metric.underInvestigation && proto === "aodv" ? " (under investigation)" : ""),
+      data, errorBars, backgroundColor: PROTOCOL_COLORS[proto] || "#999", borderRadius: 4,
     };
   });
 
@@ -190,16 +166,12 @@ function renderMainChart() {
       responsive: true, animation: false,
       plugins: {
         legend: { position: "top", labels: { color: "#dbe2f0" } },
-        tooltip: {
-          callbacks: {
-            label(item) {
-              const ds = item.dataset;
-              const err = ds.errorBars ? ds.errorBars[item.dataIndex] : null;
-              const base = `${ds.label}: ${fmt(item.raw, metric.decimals)} ${metric.unit}`;
-              return err != null ? `${base} (SD ${fmt(err, metric.decimals)})` : base;
-            },
-          },
-        },
+        tooltip: { callbacks: { label(item) {
+          const ds = item.dataset;
+          const err = ds.errorBars ? ds.errorBars[item.dataIndex] : null;
+          const base = `${ds.label}: ${fmt(item.raw, metric.decimals)} ${metric.unit}`;
+          return err != null ? `${base} (SD ${fmt(err, metric.decimals)})` : base;
+        } } },
       },
       scales: {
         y: { beginAtZero: true, title: { display: true, text: metric.axisLabel }, grid: { color: "rgba(255,255,255,0.06)" } },
@@ -216,14 +188,11 @@ function renderSummaryTable() {
   data.forEach((r) => {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${PROTOCOL_LABELS[r.protocol.toLowerCase()] || r.protocol}</td>
-      <td>${r.nodes}</td>
-      <td>${r.trials}</td>
+      <td>${PROTOCOL_LABELS[r.protocol] || r.protocol}</td><td>${r.nodes}</td><td>${r.trials}</td>
       <td>${fmt(r.pdrMean, 2)} &plusmn; ${fmt(r.pdrStd, 2)}</td>
       <td>${fmt(r.throughputMean, 2)} &plusmn; ${fmt(r.throughputStd, 2)}</td>
       <td>${fmt(r.delayMean * 1000, 2)} &plusmn; ${fmt(r.delayStd * 1000, 2)}</td>
-      <td>${fmt(r.lossMean, 1)} &plusmn; ${fmt(r.lossStd, 1)}</td>
-    `;
+      <td>${fmt(r.lossMean, 1)} &plusmn; ${fmt(r.lossStd, 1)}</td>`;
     tbody.appendChild(tr);
   });
   updateSortIndicators("summary-table", sortState.summary);
@@ -255,62 +224,55 @@ function attachSorting(tableId, sortSpec, renderFn) {
   });
 }
 
-// ---------------- Generated research graphs (analyze_results.py output) ----------------
-// Captions are derived automatically from the filename (metric_vs_nodes.png)
-// rather than a hardcoded per-file list, so a newly detected metric (e.g.
-// jitter, if a future CSV schema includes it) gets a sensible caption
-// without needing a code change here.
+// ---------------- Generated research graphs (pre-generated PNG/SVG files) ----------------
 function graphCaptionFromFilename(name) {
   const key = name.replace(/\.(png|svg)$/, "").replace(/_vs_nodes$/, "");
   const words = key.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   return `${words} vs Network Size`;
 }
-
+const KNOWN_GRAPHS = ["pdr_vs_nodes", "throughput_vs_nodes", "packet_loss_vs_nodes", "delay_vs_nodes", "jitter_vs_nodes"];
 async function loadResearchGraphs() {
-  const res = await fetch("/api/graphs");
-  const data = await res.json();
   const grid = document.getElementById("research-graphs-grid");
   const note = document.getElementById("research-graphs-note");
-
-  if (!data.graphs.length) {
+  const found = [];
+  for (const base of KNOWN_GRAPHS) {
+    const name = base + ".png";
+    // HEAD-less existence check via Image load; jitter is only included if analyze_results.py
+    // actually detected a jitter column in the source CSVs and generated the file.
+    // eslint-disable-next-line no-await-in-loop
+    const exists = await new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = `results/plots/${name}`;
+    });
+    if (exists) found.push(name);
+  }
+  if (!found.length) {
     grid.innerHTML = "";
-    note.innerHTML = "No generated plots found yet. Run <code>./experiments/run_and_analyze.sh</code> to create them.";
+    note.innerHTML = "No generated plots found in this export.";
     return;
   }
-
-  const svgSet = new Set(data.svgGraphs || []);
-  grid.innerHTML = data.graphs
-    .map((name) => {
-      const svgName = name.replace(/\.png$/, ".svg");
-      const svgLink = svgSet.has(svgName)
-        ? ` &middot; <a href="/results/plots/${encodeURIComponent(svgName)}" download>SVG</a>`
-        : "";
-      return `
-      <div class="research-graph-item">
-        <img src="/results/plots/${encodeURIComponent(name)}" alt="${graphCaptionFromFilename(name)}" loading="lazy">
-        <div class="research-graph-caption">${graphCaptionFromFilename(name)}${svgLink}</div>
-      </div>
-    `;
-    })
-    .join("");
-
-  const when = data.generatedAt ? new Date(data.generatedAt * 1000).toLocaleString() : "unknown";
-  note.innerHTML = data.statisticsAvailable
-    ? `Generated ${when}. Full statistics: <a href="/download/statistics.csv">statistics.csv</a>.`
-    : "statistics.csv not found -- graphs may be out of date.";
+  grid.innerHTML = found.map((name) => {
+    const svgName = name.replace(/\.png$/, ".svg");
+    return `<div class="research-graph-item">
+      <img src="results/plots/${name}" alt="${graphCaptionFromFilename(name)}" loading="lazy">
+      <div class="research-graph-caption">${graphCaptionFromFilename(name)} &middot; <a href="results/plots/${svgName}" download>SVG</a></div>
+    </div>`;
+  }).join("");
+  note.innerHTML = `Static export &mdash; full statistics: <a href="results/csv/statistics.csv" download>statistics.csv</a> (if included) or browse <a href="results/csv/">results/csv/</a>.`;
 }
 
-// ---------------- Protocols + Scaling (use full, unfiltered summary) ----------------
-async function loadFullSummary() {
-  const res = await fetch("/api/summary?" + qs({ protocol: "all", nodes: "all", trial: "all" }));
-  fullSummary = await res.json();
+// ---------------- Protocols + Scaling ----------------
+function loadFullSummary() {
+  fullSummary = localSummary({ protocol: "all", nodes: "all", trial: "all" });
   renderProtocolCards();
   renderScalingCharts();
 }
 
 function renderProtocolCards() {
   ["aodv", "olsr", "static"].forEach((key) => {
-    const rows = fullSummary.filter((r) => r.protocol.toLowerCase() === key);
+    const rows = fullSummary.filter((r) => r.protocol === key);
     if (!rows.length) return;
     const avg = (field) => rows.reduce((s, r) => s + r[field], 0) / rows.length;
     const box = document.getElementById(`protocol-metrics-${key}`);
@@ -318,8 +280,7 @@ function renderProtocolCards() {
       <div><span class="metric-label">Avg PDR</span><span class="metric-value">${fmt(avg("pdrMean"), 1)}%</span></div>
       <div><span class="metric-label">Avg Throughput</span><span class="metric-value">${fmt(avg("throughputMean"), 1)} kbps</span></div>
       <div><span class="metric-label">Avg Delay</span><span class="metric-value">${fmt(avg("delayMean") * 1000, 1)} ms</span></div>
-      <div><span class="metric-label">Avg Loss</span><span class="metric-value">${fmt(avg("lossMean"), 0)} pkts</span></div>
-    `;
+      <div><span class="metric-label">Avg Loss</span><span class="metric-value">${fmt(avg("lossMean"), 0)} pkts</span></div>`;
 
     const nodeSizes = rows.map((r) => r.nodes).sort((a, b) => a - b);
     const byNode = {}; rows.forEach((r) => { byNode[r.nodes] = r; });
@@ -327,21 +288,11 @@ function renderProtocolCards() {
     if (miniCharts[key]) miniCharts[key].destroy();
     miniCharts[key] = new Chart(ctx, {
       type: "line",
-      data: {
-        labels: nodeSizes,
-        datasets: [{
-          data: nodeSizes.map((n) => byNode[n].pdrMean),
-          borderColor: PROTOCOL_COLORS[key], backgroundColor: PROTOCOL_COLORS[key],
-          tension: 0.3, pointRadius: 3, fill: false,
-        }],
-      },
+      data: { labels: nodeSizes, datasets: [{ data: nodeSizes.map((n) => byNode[n].pdrMean), borderColor: PROTOCOL_COLORS[key], backgroundColor: PROTOCOL_COLORS[key], tension: 0.3, pointRadius: 3, fill: false }] },
       options: {
         responsive: true, animation: false,
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: (i) => `PDR: ${fmt(i.raw, 1)}%` } } },
-        scales: {
-          y: { display: true, beginAtZero: true, ticks: { display: false }, grid: { display: false } },
-          x: { display: true, ticks: { color: "#8b93a7", font: { size: 10 } }, grid: { display: false } },
-        },
+        scales: { y: { display: true, beginAtZero: true, ticks: { display: false }, grid: { display: false } }, x: { display: true, ticks: { color: "#8b93a7", font: { size: 10 } }, grid: { display: false } } },
       },
     });
   });
@@ -350,20 +301,13 @@ function renderProtocolCards() {
 function renderScalingCharts() {
   const nodeSizes = [...new Set(fullSummary.map((r) => r.nodes))].sort((a, b) => a - b);
   const protocols = ["aodv", "olsr", "static"];
-
   Object.entries(METRICS).forEach(([metricKey, metric]) => {
-    const canvasId = `scale-${metricKey}`;
-    const canvas = document.getElementById(canvasId);
+    const canvas = document.getElementById(`scale-${metricKey}`);
     if (!canvas) return;
     const datasets = protocols.map((key) => {
-      const rows = fullSummary.filter((r) => r.protocol.toLowerCase() === key);
+      const rows = fullSummary.filter((r) => r.protocol === key);
       const byNode = {}; rows.forEach((r) => { byNode[r.nodes] = r; });
-      return {
-        label: PROTOCOL_LABELS[key],
-        data: nodeSizes.map((n) => (byNode[n] ? byNode[n][metric.meanKey] * metric.scale : null)),
-        borderColor: PROTOCOL_COLORS[key], backgroundColor: PROTOCOL_COLORS[key],
-        tension: 0.3, pointRadius: 3, fill: false,
-      };
+      return { label: PROTOCOL_LABELS[key], data: nodeSizes.map((n) => (byNode[n] ? byNode[n][metric.meanKey] * metric.scale : null)), borderColor: PROTOCOL_COLORS[key], backgroundColor: PROTOCOL_COLORS[key], tension: 0.3, pointRadius: 3, fill: false };
     });
     if (scaleCharts[metricKey]) scaleCharts[metricKey].destroy();
     scaleCharts[metricKey] = new Chart(canvas.getContext("2d"), {
@@ -372,46 +316,32 @@ function renderScalingCharts() {
       options: {
         responsive: true, animation: false,
         plugins: { legend: { position: "bottom", labels: { color: "#8b93a7", boxWidth: 10, font: { size: 11 } } } },
-        scales: {
-          y: { beginAtZero: true, title: { display: true, text: metric.axisLabel, font: { size: 11 } }, grid: { color: "rgba(255,255,255,0.06)" } },
-          x: { grid: { display: false } },
-        },
+        scales: { y: { beginAtZero: true, title: { display: true, text: metric.axisLabel, font: { size: 11 } }, grid: { color: "rgba(255,255,255,0.06)" } }, x: { grid: { display: false } } },
       },
     });
   });
 }
 
 // ---------------- Trial Analysis ----------------
-async function refreshTrials() {
+function refreshTrials() {
   const protocol = document.getElementById("trial-protocol").value;
   const nodes = document.getElementById("trial-nodes").value;
-  const res = await fetch("/api/rows?" + qs({ protocol, nodes, trial: "all" }));
-  const rows = await res.json();
+  const rows = localRows({ protocol, nodes, trial: "all" });
 
   const tbody = document.getElementById("trial-tbody");
   tbody.innerHTML = "";
-  rows.sort((a, b) => a.trial - b.trial).forEach((r) => {
+  [...rows].sort((a, b) => a.trial - b.trial).forEach((r) => {
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>Trial ${r.trial}</td>
-      <td>${fmt(r.pdr, 2)}</td>
-      <td>${fmt(r.throughputKbps, 2)}</td>
-      <td>${fmt(r.delaySec * 1000, 2)}</td>
-      <td>${r.packetLoss}</td>
-    `;
+    tr.innerHTML = `<td>Trial ${r.trial}</td><td>${fmt(r.pdr, 2)}</td><td>${fmt(r.throughputKbps, 2)}</td><td>${fmt(r.delaySec * 1000, 2)}</td><td>${r.packetLoss}</td>`;
     tbody.appendChild(tr);
   });
 
-  renderStatsTable(
-    "trial-stats",
-    rows,
-    [
-      { key: "pdr", label: "PDR (%)", decimals: 2 },
-      { key: "throughputKbps", label: "Throughput (kbps)", decimals: 2 },
-      { key: "delaySec", label: "Delay (ms)", decimals: 2, scale: 1000 },
-      { key: "packetLoss", label: "Packet loss (pkts)", decimals: 1 },
-    ]
-  );
+  renderStatsTable("trial-stats", rows, [
+    { key: "pdr", label: "PDR (%)", decimals: 2 },
+    { key: "throughputKbps", label: "Throughput (kbps)", decimals: 2 },
+    { key: "delaySec", label: "Delay (ms)", decimals: 2, scale: 1000 },
+    { key: "packetLoss", label: "Packet loss (pkts)", decimals: 1 },
+  ]);
 }
 
 function computeStats(values) {
@@ -420,101 +350,71 @@ function computeStats(values) {
   const variance = n > 1 ? values.reduce((s, v) => s + (v - mean) ** 2, 0) / (n - 1) : 0;
   return { mean, std: Math.sqrt(variance), min: Math.min(...values), max: Math.max(...values) };
 }
-
 function renderStatsTable(containerId, rows, fields) {
   const container = document.getElementById(containerId);
   if (!rows.length) { container.innerHTML = "<p class='chart-note'>No data for this selection.</p>"; return; }
-  let html = `<table class="table-card glass" style="width:100%;"><thead><tr>
-    <th>Metric</th><th>Mean</th><th>Std dev</th><th>Min</th><th>Max</th>
-  </tr></thead><tbody>`;
+  let html = `<table class="table-card glass" style="width:100%;"><thead><tr><th>Metric</th><th>Mean</th><th>Std dev</th><th>Min</th><th>Max</th></tr></thead><tbody>`;
   fields.forEach((f) => {
     const scale = f.scale || 1;
     const values = rows.map((r) => r[f.key] * scale);
     const s = computeStats(values);
-    html += `<tr>
-      <td>${f.label}</td>
-      <td>${fmt(s.mean, f.decimals)}</td>
-      <td>${fmt(s.std, f.decimals)}</td>
-      <td>${fmt(s.min, f.decimals)}</td>
-      <td>${fmt(s.max, f.decimals)}</td>
-    </tr>`;
+    html += `<tr><td>${f.label}</td><td>${fmt(s.mean, f.decimals)}</td><td>${fmt(s.std, f.decimals)}</td><td>${fmt(s.min, f.decimals)}</td><td>${fmt(s.max, f.decimals)}</td></tr>`;
   });
   html += "</tbody></table>";
   container.innerHTML = html;
 }
 
 // ---------------- Raw Data Explorer ----------------
-async function loadFileList() {
-  const res = await fetch("/api/files");
-  const files = await res.json();
+function loadFileList() {
   const select = document.getElementById("file-select");
   select.innerHTML = "";
-  files.forEach((f) => {
+  META.csvFilesDetected.forEach((filename) => {
+    const [protocol, nodesExt] = filename.replace(".csv", "").split("_");
+    const nodes = Number(nodesExt);
+    const rows = ALL_ROWS.filter((r) => r.sourceFile === filename);
     const opt = document.createElement("option");
-    opt.value = f.filename;
-    opt.textContent = f.error ? `${f.filename} (error)` : `${f.filename} -- ${PROTOCOL_LABELS[(f.protocol || "").toLowerCase()] || f.protocol}, ${f.nodes} nodes, ${f.trialCount} trials`;
+    opt.value = filename;
+    opt.textContent = `${filename} -- ${PROTOCOL_LABELS[protocol] || protocol}, ${nodes} nodes, ${rows.length} trials`;
     select.appendChild(opt);
   });
-  if (files.length) await loadFileDetail(files[0].filename);
+  if (META.csvFilesDetected.length) loadFileDetail(META.csvFilesDetected[0]);
 }
 
-async function loadFileDetail(filename) {
-  lastRawFile = filename;
-  document.getElementById("download-link").href = "/download/" + encodeURIComponent(filename);
-  const res = await fetch("/api/file/" + encodeURIComponent(filename));
-  const data = await res.json();
+function loadFileDetail(filename) {
+  document.getElementById("download-link").href = `results/csv/${encodeURIComponent(filename)}`;
+  const rows = ALL_ROWS.filter((r) => r.sourceFile === filename);
 
   const metaBox = document.getElementById("file-meta");
-  if (data.error) {
-    metaBox.innerHTML = `<div class="stat-chip glass"><div class="kpi-value">!</div><div class="kpi-label">${data.error}</div></div>`;
-  } else {
-    const first = data.rows[0] || {};
-    metaBox.innerHTML = `
-      <div class="stat-chip glass"><div class="kpi-value">${first.RoutingProtocol ?? "-"}</div><div class="kpi-label">Protocol</div></div>
-      <div class="stat-chip glass"><div class="kpi-value">${first.NumberOfNodes ?? "-"}</div><div class="kpi-label">Nodes</div></div>
-      <div class="stat-chip glass"><div class="kpi-value">${data.rows.length}</div><div class="kpi-label">Trials in file</div></div>
-      <div class="stat-chip glass"><div class="kpi-value">${data.columns.length}</div><div class="kpi-label">Columns</div></div>
-    `;
-  }
+  const first = rows[0] || {};
+  metaBox.innerHTML = `
+    <div class="stat-chip glass"><div class="kpi-value">${PROTOCOL_LABELS[first.protocol] ?? "-"}</div><div class="kpi-label">Protocol</div></div>
+    <div class="stat-chip glass"><div class="kpi-value">${first.nodes ?? "-"}</div><div class="kpi-label">Nodes</div></div>
+    <div class="stat-chip glass"><div class="kpi-value">${rows.length}</div><div class="kpi-label">Trials in file</div></div>
+    <div class="stat-chip glass"><div class="kpi-value">9</div><div class="kpi-label">Columns</div></div>`;
 
   const tbody = document.getElementById("raw-tbody");
   tbody.innerHTML = "";
-  (data.rows || []).forEach((r) => {
+  rows.forEach((r) => {
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${r.RoutingProtocol}</td><td>${r.NumberOfNodes}</td><td>${r.PosSeed}</td>
-      <td>${r.PacketsSent}</td><td>${r.PacketsReceived}</td><td>${r.PacketLoss}</td>
-      <td>${fmt(r.PDR, 2)}</td><td>${fmt(r.ThroughputKbps, 2)}</td><td>${fmt(r.AverageDelaySec, 4)}</td>
-    `;
+    tr.innerHTML = `<td>${PROTOCOL_LABELS[r.protocol]}</td><td>${r.nodes}</td><td>${r.trial}</td>
+      <td>${r.packetsSent}</td><td>${r.packetsReceived}</td><td>${r.packetLoss}</td>
+      <td>${fmt(r.pdr, 2)}</td><td>${fmt(r.throughputKbps, 2)}</td><td>${fmt(r.delaySec, 4)}</td>`;
     tbody.appendChild(tr);
   });
 
-  if (data.stats) {
-    renderStatsTable(
-      "raw-stats",
-      (data.rows || []).map((r) => ({ pdr: r.PDR, throughputKbps: r.ThroughputKbps, delaySec: r.AverageDelaySec, packetLoss: r.PacketLoss })),
-      [
-        { key: "pdr", label: "PDR (%)", decimals: 2 },
-        { key: "throughputKbps", label: "Throughput (kbps)", decimals: 2 },
-        { key: "delaySec", label: "Delay (ms)", decimals: 2, scale: 1000 },
-        { key: "packetLoss", label: "Packet loss (pkts)", decimals: 1 },
-      ]
-    );
-  }
+  renderStatsTable("raw-stats", rows, [
+    { key: "pdr", label: "PDR (%)", decimals: 2 },
+    { key: "throughputKbps", label: "Throughput (kbps)", decimals: 2 },
+    { key: "delaySec", label: "Delay (ms)", decimals: 2, scale: 1000 },
+    { key: "packetLoss", label: "Packet loss (pkts)", decimals: 1 },
+  ]);
 }
 
-// ---------------- Topology (conceptual, static -- no invented coordinates) ----------------
-// ---------------- Interactive topology (TopologyEngine, static/topology.js) ----------------
-async function bootstrapTopology() {
-  const metaRes = await fetch("/api/meta");
-  const meta = await metaRes.json();
+// ---------------- Interactive topology ----------------
+function bootstrapTopology() {
   TopologyEngine.init({
-    meta: { networkSizes: meta.networkSizes, protocols: meta.protocols, trials: meta.trials },
-    getRow: async (protocol, nodes, seed) => {
-      const res = await fetch("/api/rows?" + qs({ protocol, nodes, trial: seed }));
-      const rows = await res.json();
-      return rows[0] || null;
-    },
+    meta: { networkSizes: META.networkSizes, protocols: META.protocols, trials: META.trials },
+    getRow: async (protocol, nodes, seed) => localRows({ protocol, nodes, trial: seed })[0] || null,
   });
 }
 
@@ -522,19 +422,10 @@ async function bootstrapTopology() {
 function setupNav() {
   const links = document.querySelectorAll(".nav-link");
   const sections = [...links].map((l) => document.getElementById(l.dataset.section)).filter(Boolean);
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          links.forEach((l) => l.classList.toggle("active", l.dataset.section === entry.target.id));
-        }
-      });
-    },
-    { rootMargin: "-40% 0px -55% 0px" }
-  );
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => { if (entry.isIntersecting) links.forEach((l) => l.classList.toggle("active", l.dataset.section === entry.target.id)); });
+  }, { rootMargin: "-40% 0px -55% 0px" });
   sections.forEach((s) => observer.observe(s));
-
   const sidebar = document.getElementById("sidebar");
   document.getElementById("menu-toggle").addEventListener("click", () => sidebar.classList.toggle("open"));
   links.forEach((l) => l.addEventListener("click", () => sidebar.classList.remove("open")));
@@ -553,7 +444,6 @@ function attachFilters() {
       renderMainChart();
     });
   });
-
   document.querySelectorAll("[data-jump]").forEach((btn) => {
     btn.addEventListener("click", () => {
       document.getElementById("filter-protocol").value = btn.dataset.protocol;
@@ -562,18 +452,21 @@ function attachFilters() {
       document.getElementById(btn.dataset.jump).scrollIntoView({ behavior: "smooth" });
     });
   });
-
   document.getElementById("trial-protocol").addEventListener("change", refreshTrials);
   document.getElementById("trial-nodes").addEventListener("change", refreshTrials);
-
   document.getElementById("file-select").addEventListener("change", (e) => loadFileDetail(e.target.value));
 }
 
-async function loadSigmoid() {
-  const res = await fetch("/api/sigmoid");
-  const data = await res.json();
-  renderSigmoidSection(data);
-}
+// Real-World section (realworld.js) fetches "/api/summary" on Flask; on the
+// static site it must read the same locally-loaded rows instead. realworld.js
+// calls this once on DOMContentLoaded (before our own JSON fetches may have
+// resolved), so it awaits `dataReadyPromise` rather than reading ALL_ROWS directly.
+let resolveDataReady;
+const dataReadyPromise = new Promise((resolve) => { resolveDataReady = resolve; });
+window.rwFetchSummary = async (protocol) => {
+  await dataReadyPromise;
+  return localSummary({ protocol, nodes: "all", trial: "all" });
+};
 
 function renderSigmoidSection(data) {
   const { meta, rows } = data;
@@ -588,10 +481,7 @@ function renderSigmoidSection(data) {
   });
 
   const card = document.getElementById("sigmoid-table-card");
-  if (!rows.length) {
-    card.style.display = "none";
-    return;
-  }
+  if (!rows.length) { card.style.display = "none"; return; }
   card.style.display = "";
   const tbody = document.getElementById("sigmoid-tbody");
   tbody.innerHTML = "";
@@ -606,12 +496,26 @@ function renderSigmoidSection(data) {
 }
 
 (async function init() {
+  const [rows, summary, meta, methodology, sigmoid] = await Promise.all([
+    fetch("data/rows.json").then((r) => r.json()),
+    fetch("data/summary.json").then((r) => r.json()),
+    fetch("data/meta.json").then((r) => r.json()),
+    fetch("data/methodology.json").then((r) => r.json()),
+    fetch("data/sigmoid.json").then((r) => r.json()),
+  ]);
+  ALL_ROWS = rows; ALL_SUMMARY = summary; META = meta;
+  resolveDataReady();
+
   attachFilters();
   attachSorting("summary-table", sortState.summary, renderSummaryTable);
   setupNav();
-
-  await Promise.all([loadMeta(), loadMethodology(), loadFullSummary(), loadResearchGraphs(), bootstrapTopology(), loadSigmoid()]);
-  await refreshPerformance();
-  await refreshTrials();
-  await loadFileList();
+  applyMeta(META);
+  applyMethodology(methodology);
+  loadFullSummary();
+  loadResearchGraphs();
+  bootstrapTopology();
+  renderSigmoidSection(sigmoid);
+  refreshPerformance();
+  refreshTrials();
+  loadFileList();
 })();

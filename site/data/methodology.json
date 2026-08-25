@@ -1,0 +1,27 @@
+{
+  "simulator": "ns-3 (ns-3.47-dev)",
+  "simulationFile": "scratch/iot-network.cc",
+  "network": "Multi-hop IEEE 802.11b ad-hoc IoT mesh: AdhocWifiMac, ConstantRateWifiManager @ DsssRate1Mbps, LogDistancePropagationLossModel (exponent=3.0, referenceLoss=40dB)",
+  "gatewayNote": "Gateway and Server are merged into a single node (hosts the sink application), positioned at the centre of the field.",
+  "protocols": [
+    "AODV (reactive)",
+    "OLSR (proactive)",
+    "Static (BFS shortest-hop routes over an assumed 90 m disk connectivity model, installed as fixed Ipv4StaticRouting host routes)"
+  ],
+  "networkSizes": [
+    10,
+    20,
+    30,
+    50
+  ],
+  "trialsPerScenario": "5 independent topology seeds (--posSeed 1-5)",
+  "areaSize": "250 m x 250 m square deployment area (fixed across all sizes and protocols)",
+  "txPowerDbm": 20.0,
+  "txRangeNote": "90 m nominal disk range, used only for computing Static routes",
+  "packetSize": "512 bytes",
+  "trafficPerSource": "8 kbps continuous UDP CBR per sensor (OnTime=1, OffTime=0)",
+  "totalSimTime": "100 s (--simTime=100)",
+  "applicationStart": "30 s (--appStart=30)",
+  "activeTrafficWindow": "70 s (from 30 s to 100 s) -- this is the window throughput is normalized over, not the total 100 s simulation time",
+  "source": "Values read from experiments/run_experiments.sh and scratch/iot-network.cc."
+}

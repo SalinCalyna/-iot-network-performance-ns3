@@ -1,0 +1,39 @@
+{
+  "totalScenarios": 12,
+  "totalTrials": 60,
+  "protocols": [
+    "aodv",
+    "olsr",
+    "static"
+  ],
+  "networkSizes": [
+    10,
+    20,
+    30,
+    50
+  ],
+  "trials": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "csvFilesDetected": [
+    "aodv_10.csv",
+    "aodv_20.csv",
+    "aodv_30.csv",
+    "aodv_50.csv",
+    "olsr_10.csv",
+    "olsr_20.csv",
+    "olsr_30.csv",
+    "olsr_50.csv",
+    "static_10.csv",
+    "static_20.csv",
+    "static_30.csv",
+    "static_50.csv"
+  ],
+  "problems": [],
+  "resultsDir": "results",
+  "note": "Exported once at build time from the real results/*.csv files -- this is a static snapshot, not a live query."
+}

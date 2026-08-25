@@ -1,0 +1,2 @@
+protocol,seed,nodes,traffic_condition,data_rate,packets_sent,packets_received,packet_loss,pdr,throughput_kbps,delay_sec,jitter_sec,hop_count,hop_count_method,routing_overhead_packets,unreachable_sensors,sigmoid_k,sigmoid_x0,sigmoid_w_link_quality,sigmoid_w_load
+olsr,1,15,medium,8kbps,1014,481,533,47.4359,51.948,0.0377149,0.0138405,1.38046,approx_timesForwarded,0,0,,,,
