@@ -1,0 +1,2 @@
+Timestamp,Version,RoutingProtocol,NumberOfNodes,TrafficLevel,DataRate,MobilityMode,MobilitySpeed,Seed,Duration,PacketsSent,PacketsReceived,PacketLoss,PDR,ThroughputKbps,AverageDelaySec,AverageJitterSec,RoutingOverheadPackets,AverageHopCount,HopCountMethod,PathChanges,AverageLinkUtilization,MaximumLinkUtilization,UnreachableSensors
+1787727218,v3,aodv,30,medium,8kbps,static,0,1,300,15810,8339,7471,52.7451,133.424,0.132765,0.0803332,33610,1.59132,approx_timesForwarded,425,0.00180923,0.0352408,0

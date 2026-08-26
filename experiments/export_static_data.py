@@ -142,17 +142,19 @@ METHODOLOGY = {
 }
 
 
-def load_sigmoid_validation_rows(v3_dir):
-    """V3 is a separate, in-progress research direction (scratch/iot-network-v3.cc):
-    only 4 rows exist (1 seed x {aodv,olsr,static,sigmoid}, medium traffic, 15 nodes).
-    This is a smoke-test validation run, NOT a statistical comparison -- n=1 per
-    protocol. Kept in its own JSON so it can never be silently merged into the
-    V2.7 12-scenario/5-trial dataset the rest of the dashboard relies on.
+def load_sigmoid_validation_rows(pilot_dir):
+    """V2.8 is a superseded, informal pilot (scratch/iot-network-v28-sigmoid-pilot.cc,
+    formerly iot-network-v3.cc before the advisor-assigned V3 study took over that
+    name): only 4 rows exist (1 seed x {aodv,olsr,static,sigmoid}, medium traffic,
+    15 nodes). This is a smoke-test validation run, NOT a statistical comparison --
+    n=1 per protocol. Kept in its own JSON so it can never be silently merged into
+    the V2.7 12-scenario/5-trial dataset the rest of the dashboard relies on, and
+    kept separate from the real V3 (Barabasi-Albert / risk-aware routing) dataset.
     """
     rows = []
-    if not os.path.isdir(v3_dir):
+    if not os.path.isdir(pilot_dir):
         return rows
-    for path in sorted(glob.glob(os.path.join(v3_dir, "*.csv"))):
+    for path in sorted(glob.glob(os.path.join(pilot_dir, "*.csv"))):
         with open(path, newline="") as f:
             reader = csv.DictReader(f)
             for r in reader:
@@ -185,29 +187,33 @@ def load_sigmoid_validation_rows(v3_dir):
 
 
 SIGMOID_META = {
-    "status": "VALIDATION ONLY -- not a statistical comparison",
+    "status": "SUPERSEDED -- V2.8 pilot, VALIDATION ONLY, not a statistical comparison",
     "note": (
-        "scratch/iot-network-v3.cc adds a 4th routing mode (sigmoid-weighted Dijkstra) "
-        "to a separate 15-node topology, as an early-stage research direction. Only a "
-        "single 4-run smoke test has been executed (1 seed, medium traffic, one run per "
-        "protocol) to confirm the code compiles, runs, and produces sane output -- the "
-        "full experiment matrix has not been run. These 4 rows must not be read as "
-        "evidence that sigmoid routing outperforms AODV/OLSR/Static; with n=1 per "
-        "protocol there is no variance estimate and no statistical basis for that claim."
+        "scratch/iot-network-v28-sigmoid-pilot.cc (renamed from iot-network-v3.cc; "
+        "'V3' now names the advisor-assigned Barabasi-Albert / risk-aware routing "
+        "study -- see site/data/v3-summary.json) added a 4th routing mode "
+        "(sigmoid-weighted Dijkstra) to a separate 15-node topology, as an "
+        "early-stage, informal research direction built before that assignment. "
+        "Only a single 4-run smoke test has been executed (1 seed, medium traffic, "
+        "one run per protocol) to confirm the code compiles, runs, and produces "
+        "sane output -- the full experiment matrix has not been run and never will "
+        "be, this pilot is superseded. These 4 rows must not be read as evidence "
+        "that sigmoid routing outperforms AODV/OLSR/Static; with n=1 per protocol "
+        "there is no variance estimate and no statistical basis for that claim."
     ),
     "equation": "S(x) = 1 / (1 + exp(-k * (x - x0)))",
     "proxies": [
         "link_quality = distance / txRange (geometric proxy for link reliability)",
         "load = node_degree / max_degree (proxy for relative node congestion)",
     ],
-    "docsSource": "docs/sigmoid-metric.md, docs/methodology.md, docs/experiment-design.md",
+    "docsSource": "docs/sigmoid-metric.md, docs/methodology.md, docs/experiment-design.md (all describe the superseded V2.8 pilot)",
 }
 
 
 def main():
     results_dir = sys.argv[1] if len(sys.argv) > 1 else "results"
     out_dir = sys.argv[2] if len(sys.argv) > 2 else "site/data"
-    v3_dir = os.path.join(os.path.dirname(results_dir) or ".", "results", "v3") if results_dir == "results" else os.path.join(results_dir, "v3")
+    pilot_dir = os.path.join(results_dir, "v28-sigmoid-pilot")
 
     rows, csv_files = load_all_rows(results_dir)
     if not rows:
@@ -216,7 +222,7 @@ def main():
 
     summary = build_summary(rows)
     meta = build_meta(rows, csv_files)
-    sigmoid_rows = load_sigmoid_validation_rows(v3_dir)
+    sigmoid_rows = load_sigmoid_validation_rows(pilot_dir)
 
     os.makedirs(out_dir, exist_ok=True)
     with open(os.path.join(out_dir, "rows.json"), "w") as f:

@@ -569,6 +569,392 @@ function attachFilters() {
   document.getElementById("file-select").addEventListener("change", (e) => loadFileDetail(e.target.value));
 }
 
+// ---------------- V3 Phase 1: expanded matrix (results/v3-ext/, /api/v3ext/*) ----------------
+// Separate dataset from V2's results/*.csv and from results/v3/ (a different
+// study, Barabasi-Albert/risk-aware routing) and results/v28-sigmoid-pilot/
+// (below) -- see docs/v3-experiment-framework.md.
+const V3EXT_METRICS = {
+  pdr: { title: "Packet Delivery Ratio (PDR)", axisLabel: "PDR (%)", key: "pdr", unit: "%", decimals: 2, scale: 1 },
+  throughput: { title: "Throughput", axisLabel: "Throughput (kbps)", key: "throughput", unit: "kbps", decimals: 2, scale: 1 },
+  delay: { title: "End-to-End Delay", axisLabel: "Delay (ms)", key: "delay", unit: "ms", decimals: 2, scale: 1000 },
+  jitter: { title: "Jitter", axisLabel: "Jitter (ms)", key: "jitter", unit: "ms", decimals: 2, scale: 1000 },
+  packetLoss: { title: "Packet Loss", axisLabel: "Packet loss (packets)", key: "packetLoss", unit: "pkts", decimals: 1, scale: 1 },
+  routingOverhead: { title: "Routing Overhead (best-effort -- undercounts broadcast control traffic)", axisLabel: "Overhead (packets)", key: "routingOverhead", unit: "pkts", decimals: 1, scale: 1 },
+  hopCount: { title: "Hop Count", axisLabel: "Hop count", key: "hopCount", unit: "hops", decimals: 2, scale: 1 },
+  pathChanges: { title: "Path Changes", axisLabel: "Path changes", key: "pathChanges", unit: "", decimals: 1, scale: 1 },
+  avgLinkUtil: { title: "Average Link Utilization", axisLabel: "Utilization (fraction)", key: "avgLinkUtil", unit: "", decimals: 4, scale: 1 },
+  maxLinkUtil: { title: "Maximum Link Utilization (MLU)", axisLabel: "Utilization (fraction)", key: "maxLinkUtil", unit: "", decimals: 4, scale: 1 },
+};
+
+const v3extState = { nodes: "all", traffic: "all", mobility: "all", routing: "all", duration: "all", metric: "pdr" };
+const v3extSort = { key: "nodes", dir: 1 };
+let v3extSummary = [];
+let v3extChart = null;
+
+async function loadV3extMeta() {
+  const res = await fetch("/api/v3ext/meta");
+  const meta = await res.json();
+  const fill = (id, values) => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = `<option value="all">All</option>` + values.map((v) => `<option value="${v}">${v}</option>`).join("");
+  };
+  fill("v3ext-filter-nodes", meta.networkSizes);
+  fill("v3ext-filter-traffic", meta.trafficLevels);
+  fill("v3ext-filter-mobility", meta.mobilityModes);
+  fill("v3ext-filter-duration", meta.durations);
+  const routingSel = document.getElementById("v3ext-filter-routing");
+  routingSel.innerHTML = `<option value="all">All (compare protocols)</option>` +
+    meta.protocols.map((p) => `<option value="${p}">${PROTOCOL_LABELS[p] || p}</option>`).join("");
+  return meta;
+}
+
+async function refreshV3ext() {
+  const res = await fetch("/api/v3ext/summary?" + qs({
+    nodes: v3extState.nodes, traffic: v3extState.traffic, mobility: v3extState.mobility,
+    routing: v3extState.routing, duration: v3extState.duration,
+  }));
+  v3extSummary = await res.json();
+  renderV3extChart();
+  renderV3extTable();
+  renderV3extKpis();
+}
+
+function renderV3extChart() {
+  const metric = V3EXT_METRICS[v3extState.metric];
+  document.getElementById("v3ext-chart-title").textContent = metric.title + " vs. Network Size";
+  document.getElementById("v3ext-chart-note").textContent =
+    "Each point is the mean across whatever seeds are present for that (protocol, node count) cell under the current filters -- if multiple traffic/mobility cells match, the point averages across them too (the table below always lists every cell separately). Error bars are a 95% CI (Student's t) shown only for a single, unambiguous cell with n≥2 seeds.";
+
+  const nodeSizes = [...new Set(v3extSummary.map((r) => r.nodes))].sort((a, b) => a - b);
+  const protocols = [...new Set(v3extSummary.map((r) => r.protocol))].sort();
+
+  const datasets = protocols.map((proto) => {
+    const byNode = {};
+    v3extSummary.filter((r) => r.protocol === proto).forEach((r) => {
+      (byNode[r.nodes] = byNode[r.nodes] || []).push(r);
+    });
+    const data = nodeSizes.map((n) => {
+      const cells = byNode[n];
+      if (!cells) return null;
+      const vals = cells.map((c) => c[`${metric.key}Mean`] * metric.scale);
+      return vals.reduce((a, b) => a + b, 0) / vals.length;
+    });
+    const errorBars = nodeSizes.map((n) => {
+      const cells = byNode[n];
+      if (!cells || cells.length !== 1 || cells[0].n < 2) return null;
+      const ci = cells[0][`${metric.key}Ci95`];
+      return ci != null ? ci * metric.scale : null;
+    });
+    const key = proto.toLowerCase();
+    return {
+      label: PROTOCOL_LABELS[key] || proto,
+      data, errorBars,
+      borderColor: PROTOCOL_COLORS[key] || "#999",
+      backgroundColor: (PROTOCOL_COLORS[key] || "#999") + "33",
+      tension: 0.25,
+      pointRadius: 4,
+    };
+  });
+
+  const ctx = document.getElementById("v3ext-chart").getContext("2d");
+  if (v3extChart) v3extChart.destroy();
+  v3extChart = new Chart(ctx, {
+    type: "line",
+    data: { labels: nodeSizes.map((n) => n + " nodes"), datasets },
+    options: {
+      responsive: true, animation: false,
+      plugins: {
+        legend: { position: "top", labels: { color: "#dbe2f0" } },
+        tooltip: {
+          callbacks: {
+            label(item) {
+              const ds = item.dataset;
+              const err = ds.errorBars ? ds.errorBars[item.dataIndex] : null;
+              const base = `${ds.label}: ${fmt(item.raw, metric.decimals)} ${metric.unit}`;
+              return err != null ? `${base} (95% CI ±${fmt(err, metric.decimals)})` : base;
+            },
+          },
+        },
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: metric.axisLabel }, grid: { color: "rgba(255,255,255,0.06)" } },
+        x: { title: { display: true, text: "Network size" }, grid: { display: false } },
+      },
+    },
+  });
+}
+
+function renderV3extTable() {
+  const data = sortRows(v3extSummary, v3extSort);
+  const tbody = document.getElementById("v3ext-summary-tbody");
+  tbody.innerHTML = "";
+  const ciTag = (mean, ci95, n, decimals) =>
+    n < 2 || ci95 == null ? `${fmt(mean, decimals)} (n=${n})` : `${fmt(mean, decimals)} &plusmn; ${fmt(ci95, decimals)} (n=${n})`;
+  data.forEach((r) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${PROTOCOL_LABELS[r.protocol.toLowerCase()] || r.protocol}</td>
+      <td>${r.nodes}</td>
+      <td>${r.traffic}</td>
+      <td>${r.mobility}</td>
+      <td>${r.duration}</td>
+      <td>${r.n}</td>
+      <td>${ciTag(r.pdrMean, r.pdrCi95, r.n, 2)}</td>
+      <td>${ciTag(r.throughputMean, r.throughputCi95, r.n, 2)}</td>
+      <td>${ciTag(r.delayMean * 1000, r.delayCi95 != null ? r.delayCi95 * 1000 : null, r.n, 2)}</td>
+      <td>${ciTag(r.jitterMean * 1000, r.jitterCi95 != null ? r.jitterCi95 * 1000 : null, r.n, 2)}</td>
+      <td>${ciTag(r.packetLossMean, r.packetLossCi95, r.n, 1)}</td>
+      <td>${ciTag(r.routingOverheadMean, r.routingOverheadCi95, r.n, 1)}</td>
+      <td>${fmt(r.hopCountMean, 2)} (${r.hopCountMethod})</td>
+      <td>${ciTag(r.pathChangesMean, r.pathChangesCi95, r.n, 1)}</td>
+      <td>${ciTag(r.avgLinkUtilMean, r.avgLinkUtilCi95, r.n, 4)}</td>
+      <td>${ciTag(r.maxLinkUtilMean, r.maxLinkUtilCi95, r.n, 4)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  updateSortIndicators("v3ext-summary-table", v3extSort);
+}
+
+function attachV3extFilters() {
+  const onFilterChange = () => { refreshV3ext(); refreshV3extRaw(); };
+  document.getElementById("v3ext-filter-nodes").addEventListener("change", (e) => { v3extState.nodes = e.target.value; onFilterChange(); });
+  document.getElementById("v3ext-filter-traffic").addEventListener("change", (e) => { v3extState.traffic = e.target.value; onFilterChange(); });
+  document.getElementById("v3ext-filter-mobility").addEventListener("change", (e) => { v3extState.mobility = e.target.value; onFilterChange(); });
+  document.getElementById("v3ext-filter-routing").addEventListener("change", (e) => { v3extState.routing = e.target.value; onFilterChange(); });
+  document.getElementById("v3ext-filter-duration").addEventListener("change", (e) => { v3extState.duration = e.target.value; onFilterChange(); });
+  document.querySelectorAll("#v3ext-metric-tabs .tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#v3ext-metric-tabs .tab").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      v3extState.metric = btn.dataset.metric;
+      renderV3extChart();
+    });
+  });
+}
+
+// KPI summary cards -- averaged across whatever v3extSummary rows match the
+// current filters (a narrow-enough filter selects exactly one row, so the
+// "average" is just that row's own values). Empty selection shows "--", per
+// row, never a fabricated 0.
+function renderV3extKpis() {
+  const els = {
+    throughput: document.getElementById("v3ext-kpi-throughput"),
+    pdr: document.getElementById("v3ext-kpi-pdr"),
+    delay: document.getElementById("v3ext-kpi-delay"),
+    jitter: document.getElementById("v3ext-kpi-jitter"),
+    loss: document.getElementById("v3ext-kpi-loss"),
+    mlu: document.getElementById("v3ext-kpi-mlu"),
+  };
+  if (!v3extSummary.length) {
+    Object.values(els).forEach((el) => (el.textContent = "No data"));
+    document.getElementById("v3ext-kpi-note").textContent = "No data available for this configuration.";
+    return;
+  }
+  const avg = (key) => v3extSummary.reduce((s, r) => s + r[key], 0) / v3extSummary.length;
+  els.throughput.textContent = fmt(avg("throughputMean"), 2);
+  els.pdr.textContent = fmt(avg("pdrMean"), 2);
+  els.delay.textContent = fmt(avg("delayMean") * 1000, 2);
+  els.jitter.textContent = fmt(avg("jitterMean") * 1000, 2);
+  // PacketLoss is stored as a packet count, not a percentage -- express it as
+  // a % of PacketsSent-equivalent via (100 - PDR), which is exact since
+  // PacketLoss == PacketsSent - PacketsReceived for every validated row.
+  els.loss.textContent = fmt(100 - avg("pdrMean"), 2);
+  els.mlu.textContent = fmt(avg("maxLinkUtilMean") * 100, 2);
+  const n = v3extSummary.reduce((s, r) => s + r.n, 0);
+  document.getElementById("v3ext-kpi-note").textContent =
+    v3extSummary.length === 1
+      ? `Single matching cell -- n=${v3extSummary[0].n} seed(s).`
+      : `Averaged across ${v3extSummary.length} matching cells (${n} seed-runs total). Narrow the filters above for an exact single-condition reading.`;
+}
+
+// ---------------- V3 Phase 1: Comparison Mode (AODV vs OLSR vs Static) ----------------
+// Always locks node count / traffic / mobility / duration so protocols are
+// only ever compared under identical conditions -- never mismatched ones.
+const v3cmpState = { nodes: null, traffic: "medium", mobility: "static", duration: "300", metric: "pdr" };
+let v3cmpChart = null;
+const V3CMP_PROTOCOLS = ["aodv", "olsr", "static"];
+
+async function loadV3cmpMeta(meta) {
+  const fill = (id, values, selected) => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = values.map((v) => `<option value="${v}">${v}</option>`).join("");
+    if (selected != null && values.map(String).includes(String(selected))) sel.value = String(selected);
+  };
+  fill("v3cmp-filter-nodes", meta.networkSizes, meta.networkSizes.includes(50) ? 50 : meta.networkSizes[0]);
+  fill("v3cmp-filter-traffic", meta.trafficLevels, meta.trafficLevels.includes("medium") ? "medium" : meta.trafficLevels[0]);
+  fill("v3cmp-filter-mobility", meta.mobilityModes, meta.mobilityModes.includes("static") ? "static" : meta.mobilityModes[0]);
+  fill("v3cmp-filter-duration", meta.durations, meta.durations.map(String).includes("300") ? 300 : meta.durations[0]);
+  v3cmpState.nodes = document.getElementById("v3cmp-filter-nodes").value;
+  v3cmpState.traffic = document.getElementById("v3cmp-filter-traffic").value;
+  v3cmpState.mobility = document.getElementById("v3cmp-filter-mobility").value;
+  v3cmpState.duration = document.getElementById("v3cmp-filter-duration").value;
+}
+
+async function refreshV3cmp() {
+  const res = await fetch("/api/v3ext/summary?" + qs({
+    nodes: v3cmpState.nodes, traffic: v3cmpState.traffic, mobility: v3cmpState.mobility,
+    routing: "all", duration: v3cmpState.duration,
+  }));
+  const rows = await res.json();
+  renderV3cmpChart(rows);
+}
+
+function renderV3cmpChart(rows) {
+  const metric = V3EXT_METRICS[v3cmpState.metric];
+  const byProto = {};
+  rows.forEach((r) => { byProto[r.protocol.toLowerCase()] = r; });
+  const missing = V3CMP_PROTOCOLS.filter((p) => !byProto[p]);
+
+  const canvas = document.getElementById("v3cmp-chart");
+  const emptyEl = document.getElementById("v3cmp-empty");
+  const missingNoteEl = document.getElementById("v3cmp-missing-note");
+
+  if (rows.length === 0) {
+    if (v3cmpChart) { v3cmpChart.destroy(); v3cmpChart = null; }
+    canvas.style.display = "none";
+    emptyEl.style.display = "block";
+    missingNoteEl.textContent = "";
+    return;
+  }
+  canvas.style.display = "block";
+  emptyEl.style.display = "none";
+  missingNoteEl.textContent = missing.length
+    ? `No data available for this configuration: ${missing.map((p) => PROTOCOL_LABELS[p] || p).join(", ")}.`
+    : "";
+
+  const data = V3CMP_PROTOCOLS.map((p) => (byProto[p] ? byProto[p][`${metric.key}Mean`] * metric.scale : null));
+  const errorBars = V3CMP_PROTOCOLS.map((p) => {
+    const r = byProto[p];
+    if (!r || r.n < 2) return null;
+    const ci = r[`${metric.key}Ci95`];
+    return ci != null ? ci * metric.scale : null;
+  });
+
+  const ctx = canvas.getContext("2d");
+  if (v3cmpChart) v3cmpChart.destroy();
+  v3cmpChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: V3CMP_PROTOCOLS.map((p) => PROTOCOL_LABELS[p] || p),
+      datasets: [{
+        label: metric.title,
+        data, errorBars,
+        backgroundColor: V3CMP_PROTOCOLS.map((p) => (PROTOCOL_COLORS[p] || "#999") + "cc"),
+        borderColor: V3CMP_PROTOCOLS.map((p) => PROTOCOL_COLORS[p] || "#999"),
+        borderWidth: 1,
+      }],
+    },
+    options: {
+      responsive: true, animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label(item) {
+              const err = item.dataset.errorBars ? item.dataset.errorBars[item.dataIndex] : null;
+              if (item.raw == null) return `${item.label}: no data`;
+              const base = `${fmt(item.raw, metric.decimals)} ${metric.unit}`;
+              return err != null ? `${base} (95% CI ±${fmt(err, metric.decimals)})` : base;
+            },
+          },
+        },
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: metric.axisLabel }, grid: { color: "rgba(255,255,255,0.06)" } },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+}
+
+function attachV3cmpFilters() {
+  ["nodes", "traffic", "mobility", "duration"].forEach((key) => {
+    document.getElementById(`v3cmp-filter-${key}`).addEventListener("change", (e) => {
+      v3cmpState[key] = e.target.value;
+      refreshV3cmp();
+    });
+  });
+  document.querySelectorAll("#v3cmp-metric-tabs .tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#v3cmp-metric-tabs .tab").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      v3cmpState.metric = btn.dataset.metric;
+      refreshV3cmp();
+    });
+  });
+}
+
+// ---------------- V3 Phase 1: Raw Data table (per-run rows, /api/v3ext/rows) ----------------
+const v3extRawSort = { key: "nodes", dir: 1 };
+let v3extRawRows = [];
+
+async function refreshV3extRaw() {
+  const res = await fetch("/api/v3ext/rows?" + qs({
+    nodes: v3extState.nodes, traffic: v3extState.traffic, mobility: v3extState.mobility,
+    routing: v3extState.routing, duration: v3extState.duration,
+  }));
+  v3extRawRows = await res.json();
+  renderV3extRawTable();
+}
+
+function renderV3extRawTable() {
+  const data = sortRows(v3extRawRows, v3extRawSort);
+  const tbody = document.getElementById("v3ext-raw-tbody");
+  tbody.innerHTML = "";
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="16" class="empty-state">No data available for this configuration.</td></tr>`;
+    updateSortIndicators("v3ext-raw-table", v3extRawSort);
+    return;
+  }
+  data.forEach((r) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${r.nodes}</td>
+      <td>${r.traffic}</td>
+      <td>${r.mobility}</td>
+      <td>${PROTOCOL_LABELS[r.protocol.toLowerCase()] || r.protocol}</td>
+      <td>${r.seed}</td>
+      <td>${r.duration}</td>
+      <td>${fmt(r.throughputKbps, 2)}</td>
+      <td>${fmt(r.delaySec * 1000, 2)}</td>
+      <td>${fmt(r.jitterSec * 1000, 2)}</td>
+      <td>${fmt(r.pdr, 2)}</td>
+      <td>${r.packetLoss}</td>
+      <td>${r.routingOverheadPackets}</td>
+      <td>${fmt(r.hopCount, 2)} (${r.hopCountMethod})</td>
+      <td>${r.pathChanges}</td>
+      <td>${fmt(r.avgLinkUtilization, 4)}</td>
+      <td>${fmt(r.maxLinkUtilization, 4)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  updateSortIndicators("v3ext-raw-table", v3extRawSort);
+}
+
+// Sigmoid is deliberately not implemented for this track -- mark it in the
+// routing filter rather than silently omitting it, so it reads as "pending
+// Phase 3", not "forgotten".
+function markSigmoidPending() {
+  const hint = document.getElementById("v3ext-sigmoid-hint");
+  if (hint) hint.textContent = "Sigmoid: not yet implemented / pending Phase 3 -- no rows exist for it yet.";
+}
+
+async function bootstrapV3ext() {
+  const meta = await loadV3extMeta();
+  markSigmoidPending();
+  attachV3extFilters();
+  attachSorting("v3ext-summary-table", v3extSort, renderV3extTable);
+  attachSorting("v3ext-raw-table", v3extRawSort, renderV3extRawTable);
+  await refreshV3ext();
+  await refreshV3extRaw();
+
+  if (meta.networkSizes && meta.networkSizes.length) {
+    await loadV3cmpMeta(meta);
+    attachV3cmpFilters();
+    await refreshV3cmp();
+  }
+}
+
 async function loadSigmoid() {
   const res = await fetch("/api/sigmoid");
   const data = await res.json();
@@ -610,7 +996,7 @@ function renderSigmoidSection(data) {
   attachSorting("summary-table", sortState.summary, renderSummaryTable);
   setupNav();
 
-  await Promise.all([loadMeta(), loadMethodology(), loadFullSummary(), loadResearchGraphs(), bootstrapTopology(), loadSigmoid()]);
+  await Promise.all([loadMeta(), loadMethodology(), loadFullSummary(), loadResearchGraphs(), bootstrapTopology(), loadSigmoid(), bootstrapV3ext()]);
   await refreshPerformance();
   await refreshTrials();
   await loadFileList();

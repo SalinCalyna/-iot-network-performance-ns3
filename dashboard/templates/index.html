@@ -30,7 +30,9 @@
       <a href="#raw-data" data-section="raw-data" class="nav-link">Raw Data</a>
       <a href="#methodology" data-section="methodology" class="nav-link">Methodology</a>
       <a href="#validity" data-section="validity" class="nav-link">Validity</a>
-      <a href="#sigmoid" data-section="sigmoid" class="nav-link">Sigmoid (V3)</a>
+      <a href="#v3-ext" data-section="v3-ext" class="nav-link">Expanded Matrix (V3 Phase 1)</a>
+      <a href="#v3-ba-routing" data-section="v3-ba-routing" class="nav-link">BA Topology &amp; Risk-Aware Routing (V3)</a>
+      <a href="#sigmoid" data-section="sigmoid" class="nav-link">Sigmoid Pilot (V2.8)</a>
       <a href="#github" data-section="github" class="nav-link">GitHub</a>
     </nav>
     <a class="sidebar-github" href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener">
@@ -508,34 +510,278 @@
       </div>
     </section>
 
+    <section id="v3-ext" class="section">
+      <h2 class="section-title">Expanded Matrix &mdash; V3 Phase 1 <span class="badge badge-actual">ACTUAL DATA</span></h2>
+      <p class="chart-note">
+        Advisor direction (2026-08): V3 keeps V2's own topology-generation method unchanged
+        (uniform-random sensor placement, one gateway at the field centre) and first widens the
+        experiment matrix &mdash; network size, traffic level, mobility, and new metrics &mdash;
+        before any adaptive/Sigmoid routing work begins. Simulator:
+        <code>scratch/iot-network-v3-ext.cc</code>. Data: <code>results/v3-ext/*.csv</code> (a
+        different dataset from <code>results/v3/</code>, which belongs to a separate
+        Barabasi-Albert/risk-aware-routing study, and from
+        <code>results/v28-sigmoid-pilot/</code> below). Full source: <code>docs/v3-experiment-framework.md</code>.
+      </p>
+
+      <div class="limitation-callout glass" id="v3ext-degradation-warning">
+        <strong>75/100-node results &mdash; flagged for advisor review, not invalid:</strong>
+        the current validation indicates severe performance degradation at 75 and 100 nodes.
+        These are real, unmodified simulation outputs (<code>UnreachableSensors = 0</code> at
+        every node count tested, so this is not a connectivity failure) &mdash; they are kept and
+        shown here in full, not hidden or deleted. <code>areaSize = 250&nbsp;m</code> and
+        <code>txRange = 90&nbsp;m</code> remain fixed from V2 regardless of node count, so their
+        interpretation as a scalable baseline is pending advisor confirmation before the full
+        matrix is run at these sizes. See <em>Open questions</em> in
+        <code>docs/v3-experiment-framework.md</code>.
+      </div>
+
+      <div class="limitation-callout glass">
+        <strong>Scope of what's shown here:</strong> this is Validation / Smoke Test data (Seed 1),
+        not the Official V3 experiment. <code>--protocol=sigmoid</code> is deliberately not
+        implemented and refuses to run rather than fabricate a result. The Official V3 experiment
+        matrix (6 node sizes &times; 3 traffic levels &times; 3 mobility modes &times; 3 protocols
+        &times; <strong>seed values 20&ndash;30 inclusive, 11 seeds</strong>) has
+        <strong>not</strong> been run &mdash; what's here is a small-n validation/smoke-test dataset
+        using Seed 1 only. Any row with <code>n</code> (seed count) of 1&ndash;2 has a wide, largely
+        uninformative 95% CI by construction &mdash; shown anyway, not hidden, so the sample size is
+        always visible next to the number it qualifies.
+      </div>
+
+      <div class="filters glass">
+        <div class="filter-group">
+          <label for="v3ext-filter-nodes">Number of nodes</label>
+          <select id="v3ext-filter-nodes">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="v3ext-filter-traffic">Traffic level</label>
+          <select id="v3ext-filter-traffic">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="v3ext-filter-mobility">Mobility mode</label>
+          <select id="v3ext-filter-mobility">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="v3ext-filter-routing">Routing protocol</label>
+          <select id="v3ext-filter-routing">
+            <option value="all">All (compare protocols)</option>
+          </select>
+          <span class="small-note-inline" id="v3ext-sigmoid-hint"></span>
+        </div>
+        <div class="filter-group">
+          <label for="v3ext-filter-duration" title="Some scenarios have both short smoke-test runs and the real validation duration mixed in the same CSV -- pick one to avoid comparing across them.">Duration (s)</label>
+          <select id="v3ext-filter-duration">
+            <option value="all">All</option>
+          </select>
+        </div>
+        <div class="filter-group metric-tabs">
+          <label>Metric</label>
+          <div class="tabs" id="v3ext-metric-tabs">
+            <button class="tab active" data-metric="pdr">PDR</button>
+            <button class="tab" data-metric="throughput">Throughput</button>
+            <button class="tab" data-metric="delay">Delay</button>
+            <button class="tab" data-metric="jitter">Jitter</button>
+            <button class="tab" data-metric="packetLoss">Packet Loss</button>
+            <button class="tab" data-metric="routingOverhead">Routing Overhead</button>
+            <button class="tab" data-metric="hopCount">Hop Count</button>
+            <button class="tab" data-metric="pathChanges">Path Changes</button>
+            <button class="tab" data-metric="avgLinkUtil">Avg Link Util</button>
+            <button class="tab" data-metric="maxLinkUtil">Max Link Util (MLU)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="v3ext-kpi-grid">
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="v3ext-kpi-throughput">&mdash;</div>
+          <div class="kpi-label">Throughput (kbps)</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="v3ext-kpi-pdr">&mdash;</div>
+          <div class="kpi-label">PDR (%)</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="v3ext-kpi-delay">&mdash;</div>
+          <div class="kpi-label">Delay (ms)</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="v3ext-kpi-jitter">&mdash;</div>
+          <div class="kpi-label">Jitter (ms)</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="v3ext-kpi-loss">&mdash;</div>
+          <div class="kpi-label">Packet Loss (%)</div>
+        </div>
+        <div class="kpi-card glass">
+          <div class="kpi-value" id="v3ext-kpi-mlu">&mdash;</div>
+          <div class="kpi-label">Max Link Util (MLU, %)</div>
+        </div>
+      </div>
+      <p class="small-note" id="v3ext-kpi-note">Cards average whatever rows match the filters above; a filter combination narrow enough to select one row shows that row's own values.</p>
+
+      <div class="chart-card glass">
+        <div class="chart-header">
+          <h3 id="v3ext-chart-title">Packet Delivery Ratio (PDR) vs. Network Size</h3>
+        </div>
+        <p class="chart-note" id="v3ext-chart-note"></p>
+        <div class="chart-wrap"><canvas id="v3ext-chart" height="110"></canvas></div>
+        <p class="chart-note">Node-size trend: this chart is the primary view of how performance
+          changes as node count increases (10&nbsp;&rarr;&nbsp;20&nbsp;&rarr;&nbsp;30&nbsp;&rarr;&nbsp;50&nbsp;&rarr;&nbsp;75&nbsp;&rarr;&nbsp;100).
+          Switch the Metric tabs above to see PDR, Throughput, Delay, Jitter, Path Changes, or MLU
+          against network size.</p>
+      </div>
+
+      <div class="table-card glass">
+        <h3>Aggregated results (mean, n=seeds, 95% CI where n&ge;2)</h3>
+        <div class="table-wrap">
+          <table id="v3ext-summary-table">
+            <thead>
+              <tr>
+                <th data-sort="protocol">Protocol</th>
+                <th data-sort="nodes">Nodes</th>
+                <th data-sort="traffic">Traffic</th>
+                <th data-sort="mobility">Mobility</th>
+                <th data-sort="duration">Duration (s)</th>
+                <th data-sort="n">n</th>
+                <th data-sort="pdrMean">PDR (%)</th>
+                <th data-sort="throughputMean">Throughput (kbps)</th>
+                <th data-sort="delayMean">Delay (ms)</th>
+                <th data-sort="jitterMean">Jitter (ms)</th>
+                <th data-sort="packetLossMean">Packet Loss</th>
+                <th data-sort="routingOverheadMean">Routing Overhead</th>
+                <th data-sort="hopCountMean">Hop Count</th>
+                <th data-sort="pathChangesMean">Path Changes</th>
+                <th data-sort="avgLinkUtilMean">Avg Link Util</th>
+                <th data-sort="maxLinkUtilMean">Max Link Util (MLU)</th>
+              </tr>
+            </thead>
+            <tbody id="v3ext-summary-tbody"></tbody>
+          </table>
+        </div>
+        <p class="small-note">Rows are grouped by protocol/nodes/traffic/mobility/<strong>duration</strong> --
+          duration is part of the grouping key, not just a display column, because the same CSV can
+          contain both short smoke-test runs and the real validation duration for the same scenario;
+          grouping without it would silently average incompatible run lengths together. Routing
+          Overhead undercounts true AODV/OLSR control traffic (FlowMonitor does not see broadcast
+          RREQ/HELLO/TC frames &mdash; see <code>docs/v3-experiment-framework.md</code>). Hop Count is
+          exact for Static, approximate (<code>1 + timesForwarded/received</code>) for AODV/OLSR. Max
+          Link Util (MLU) is a per-neighbour-pair offered-load proxy, not a measured channel-busy
+          fraction.</p>
+      </div>
+
+      <div class="chart-card glass">
+        <h3>Comparison Mode &mdash; AODV vs. OLSR vs. Static (matched conditions)</h3>
+        <p class="chart-note">Compares protocols only under an identical node count / traffic /
+          mobility / duration &mdash; never across mismatched conditions. If a protocol has no run
+          recorded for the exact combination selected, its bar is omitted and a note says so instead
+          of showing a fabricated zero.</p>
+        <div class="filters glass" style="margin-bottom:14px;">
+          <div class="filter-group">
+            <label for="v3cmp-filter-nodes">Number of nodes</label>
+            <select id="v3cmp-filter-nodes"></select>
+          </div>
+          <div class="filter-group">
+            <label for="v3cmp-filter-traffic">Traffic level</label>
+            <select id="v3cmp-filter-traffic"></select>
+          </div>
+          <div class="filter-group">
+            <label for="v3cmp-filter-mobility">Mobility mode</label>
+            <select id="v3cmp-filter-mobility"></select>
+          </div>
+          <div class="filter-group">
+            <label for="v3cmp-filter-duration">Duration (s)</label>
+            <select id="v3cmp-filter-duration"></select>
+          </div>
+          <div class="filter-group metric-tabs">
+            <label>Metric</label>
+            <div class="tabs" id="v3cmp-metric-tabs">
+              <button class="tab active" data-metric="pdr">PDR</button>
+              <button class="tab" data-metric="throughput">Throughput</button>
+              <button class="tab" data-metric="delay">Delay</button>
+              <button class="tab" data-metric="jitter">Jitter</button>
+              <button class="tab" data-metric="packetLoss">Packet Loss</button>
+              <button class="tab" data-metric="routingOverhead">Routing Overhead</button>
+              <button class="tab" data-metric="hopCount">Hop Count</button>
+              <button class="tab" data-metric="pathChanges">Path Changes</button>
+              <button class="tab" data-metric="avgLinkUtil">Avg Link Util</button>
+              <button class="tab" data-metric="maxLinkUtil">Max Link Util (MLU)</button>
+            </div>
+          </div>
+        </div>
+        <div class="chart-wrap"><canvas id="v3cmp-chart" height="100"></canvas></div>
+        <p class="empty-state" id="v3cmp-empty" style="display:none;">No data available for this configuration.</p>
+        <p class="small-note" id="v3cmp-missing-note"></p>
+      </div>
+
+      <div class="table-card glass">
+        <h3>Raw Data &mdash; V3 Phase 1 (results/v3-ext/*.csv, per-run rows)</h3>
+        <p class="small-note">Every individual run currently on disk, unaggregated &mdash;
+          including older debug/smoke-test rows (distinguishable by Duration and Seed). Use the
+          Duration filter above (or the Duration column here) to isolate the official
+          Seed&nbsp;1/Duration&nbsp;300s validation rows from short smoke-test runs, e.g. the
+          extra 30s/40s rows accumulated in <code>aodv_10_medium_static.csv</code>.</p>
+        <div class="table-wrap">
+          <table id="v3ext-raw-table">
+            <thead>
+              <tr>
+                <th data-sort="nodes">Nodes</th>
+                <th data-sort="traffic">Traffic</th>
+                <th data-sort="mobility">Mobility</th>
+                <th data-sort="protocol">Routing</th>
+                <th data-sort="seed">Seed</th>
+                <th data-sort="duration">Duration (s)</th>
+                <th data-sort="throughputKbps">Throughput (kbps)</th>
+                <th data-sort="delaySec">Delay (ms)</th>
+                <th data-sort="jitterSec">Jitter (ms)</th>
+                <th data-sort="pdr">PDR (%)</th>
+                <th data-sort="packetLoss">Packet Loss</th>
+                <th data-sort="routingOverheadPackets">Routing Overhead</th>
+                <th data-sort="hopCount">Hop Count</th>
+                <th data-sort="pathChanges">Path Changes</th>
+                <th data-sort="avgLinkUtilization">Avg Link Util</th>
+                <th data-sort="maxLinkUtilization">Max Link Util (MLU)</th>
+              </tr>
+            </thead>
+            <tbody id="v3ext-raw-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
     <section id="sigmoid" class="section">
-      <h2 class="section-title">Sigmoid Routing Metric &mdash; V3 Research Direction</h2>
-      <span class="badge badge-future">VALIDATION ONLY &mdash; NOT A STATISTICAL COMPARISON</span>
+      <h2 class="section-title">Sigmoid Pilot &mdash; V2.8 (Superseded)</h2>
+      <span class="badge badge-future">SUPERSEDED &mdash; VALIDATION ONLY, NOT A STATISTICAL COMPARISON</span>
+      <p class="chart-note">This was an early, informal exploration built before the advisor assigned a specific paper to reproduce. It has been superseded by the <a href="#v3-ba-routing">V3 Barab&aacute;si&ndash;Albert / risk-aware routing study</a> above and will not be extended further &mdash; kept here only for reference.</p>
       <p class="chart-note" id="sigmoid-note">Loading...</p>
 
       <div class="panel glass">
         <h3>The metric</h3>
         <p class="chart-note">
           <code id="sigmoid-equation">S(x) = 1 / (1 + exp(-k * (x - x0)))</code>
-          is implemented in <code>scratch/iot-network-v3.cc</code> as a 4th routing mode
+          is implemented in <code>scratch/iot-network-v28-sigmoid-pilot.cc</code> as a 4th routing mode
           (Dijkstra over sigmoid-weighted edges), applied to two geometrically-justified
           proxies:
         </p>
         <ul id="sigmoid-proxies"></ul>
-        <p class="small-note">Full derivation and the k-value near-linear-regime analysis: <code>docs/sigmoid-metric.md</code>, <code>docs/methodology.md</code>, <code>docs/experiment-design.md</code>.</p>
+        <p class="small-note">Full derivation and the k-value near-linear-regime analysis: <code>docs/sigmoid-metric.md</code>, <code>docs/methodology.md</code>, <code>docs/experiment-design.md</code> (all describe this superseded V2.8 pilot).</p>
       </div>
 
       <div class="limitation-callout glass">
         <strong>Scope:</strong> only a single 4-run smoke test has been executed (1 seed,
         medium traffic, 15 nodes, one run per protocol) to confirm the sigmoid mode
-        compiles, runs, and produces sane output. The full experiment matrix has not
-        been run. With n=1 per protocol these 4 rows carry <strong>no variance estimate and
-        no statistical basis</strong> for claiming sigmoid routing outperforms (or
-        underperforms) AODV/OLSR/Static &mdash; <span class="badge badge-future">FUTURE WORK</span>.
+        compiles, runs, and produces sane output. The full experiment matrix was never
+        run and never will be &mdash; this pilot is superseded. With n=1 per protocol these
+        4 rows carry <strong>no variance estimate and no statistical basis</strong> for
+        claiming sigmoid routing outperforms (or underperforms) AODV/OLSR/Static.
       </div>
 
       <div class="table-card glass" id="sigmoid-table-card" style="display:none;">
-        <h3>V3 validation rows (results/v3/*.csv, as recorded)</h3>
+        <h3>V2.8 pilot validation rows (results/v28-sigmoid-pilot/*.csv, as recorded)</h3>
         <div class="table-wrap">
           <table id="sigmoid-table">
             <thead>
