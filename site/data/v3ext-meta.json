@@ -1,0 +1,48 @@
+{
+  "totalRows": 19,
+  "protocols": [
+    "aodv",
+    "olsr",
+    "static"
+  ],
+  "networkSizes": [
+    10,
+    20,
+    30,
+    50,
+    75,
+    100
+  ],
+  "trafficLevels": [
+    "medium"
+  ],
+  "mobilityModes": [
+    "low",
+    "static"
+  ],
+  "seeds": [
+    1,
+    2,
+    99
+  ],
+  "durations": [
+    30.0,
+    40.0,
+    300.0
+  ],
+  "csvFilesDetected": [
+    "aodv_100_medium_static.csv",
+    "aodv_10_medium_low.csv",
+    "aodv_10_medium_static.csv",
+    "aodv_20_medium_static.csv",
+    "aodv_30_medium_static.csv",
+    "aodv_50_medium_static.csv",
+    "aodv_75_medium_static.csv",
+    "olsr_10_medium_low.csv",
+    "olsr_10_medium_static.csv",
+    "static_10_medium_low.csv",
+    "static_10_medium_static.csv"
+  ],
+  "resultsDir": "results/v3-ext",
+  "note": "Exported once at build time from the real results/v3-ext/*.csv files -- a static snapshot, not a live query. Validation (Seed 1) and the Official V3 experiment (Seeds 20-30, 11 seeds inclusive) are distinct -- see docs/v3-experiment-framework.md's Seeds subsection. As of this export, only Seed 1 validation data exists on disk; Seeds 20-30 have not been run."
+}

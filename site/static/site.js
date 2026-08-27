@@ -495,15 +495,336 @@ function renderSigmoidSection(data) {
   });
 }
 
+// ================================================================
+// V3 Phase 1: expanded matrix (results/v3-ext/, static export at
+// data/v3ext-*.json via experiments/export_static_data.py). Separate
+// dataset from the V2.7 data above and from the Sigmoid pilot below --
+// see docs/v3-experiment-framework.md's "Four tracks" table. Filters
+// run entirely client-side against the pre-aggregated static JSON --
+// no backend, same numbers the Flask dashboard's /api/v3ext/* endpoints
+// serve live.
+// ================================================================
+const V3EXT_METRICS = {
+  pdr: { title: "Packet Delivery Ratio (PDR)", axisLabel: "PDR (%)", key: "pdr", unit: "%", decimals: 2, scale: 1 },
+  throughput: { title: "Throughput", axisLabel: "Throughput (kbps)", key: "throughput", unit: "kbps", decimals: 2, scale: 1 },
+  delay: { title: "End-to-End Delay", axisLabel: "Delay (ms)", key: "delay", unit: "ms", decimals: 2, scale: 1000 },
+  jitter: { title: "Jitter", axisLabel: "Jitter (ms)", key: "jitter", unit: "ms", decimals: 2, scale: 1000 },
+};
+
+let ALL_V3EXT_ROWS = [];
+let ALL_V3EXT_SUMMARY = [];
+let V3EXT_META = null;
+const v3extState = { nodes: "all", traffic: "all", mobility: "all", routing: "all", duration: "all", metric: "pdr" };
+const v3extSort = { key: "nodes", dir: 1 };
+let v3extSummary = [];
+let v3extChart = null;
+
+function localV3extSummary({ nodes = "all", traffic = "all", mobility = "all", routing = "all", duration = "all" } = {}) {
+  return ALL_V3EXT_SUMMARY.filter((r) =>
+    (nodes === "all" || r.nodes === Number(nodes)) &&
+    (traffic === "all" || r.traffic === traffic.toLowerCase()) &&
+    (mobility === "all" || r.mobility === mobility.toLowerCase()) &&
+    (routing === "all" || r.protocol === routing.toLowerCase()) &&
+    (duration === "all" || r.duration === Number(duration))
+  );
+}
+function localV3extRows({ nodes = "all", traffic = "all", mobility = "all", routing = "all", duration = "all" } = {}) {
+  return ALL_V3EXT_ROWS.filter((r) =>
+    (nodes === "all" || r.nodes === Number(nodes)) &&
+    (traffic === "all" || r.traffic === traffic.toLowerCase()) &&
+    (mobility === "all" || r.mobility === mobility.toLowerCase()) &&
+    (routing === "all" || r.protocol === routing.toLowerCase()) &&
+    (duration === "all" || r.duration === Number(duration))
+  );
+}
+
+function loadV3extMeta() {
+  const fill = (id, values) => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = `<option value="all">All</option>` + values.map((v) => `<option value="${v}">${v}</option>`).join("");
+  };
+  fill("v3ext-filter-nodes", V3EXT_META.networkSizes);
+  fill("v3ext-filter-traffic", V3EXT_META.trafficLevels);
+  fill("v3ext-filter-mobility", V3EXT_META.mobilityModes);
+  fill("v3ext-filter-duration", V3EXT_META.durations);
+  const routingSel = document.getElementById("v3ext-filter-routing");
+  routingSel.innerHTML = `<option value="all">All (compare protocols)</option>` +
+    V3EXT_META.protocols.map((p) => `<option value="${p}">${PROTOCOL_LABELS[p] || p}</option>`).join("");
+}
+
+function refreshV3ext() {
+  v3extSummary = localV3extSummary(v3extState);
+  renderV3extChart();
+  renderV3extTable();
+  renderV3extKpis();
+  renderV3extSecondaryMetrics();
+  renderV3extRawTable();
+}
+
+function renderV3extChart() {
+  const metric = V3EXT_METRICS[v3extState.metric];
+  document.getElementById("v3ext-chart-title").textContent = metric.title + " vs. Network Size";
+  document.getElementById("v3ext-chart-note").textContent =
+    "Each point is the mean across whatever seeds are present for that (protocol, node count) cell under the current filters.";
+
+  const nodeSizes = [...new Set(v3extSummary.map((r) => r.nodes))].sort((a, b) => a - b);
+  const protocols = [...new Set(v3extSummary.map((r) => r.protocol))].sort();
+
+  const datasets = protocols.map((proto) => {
+    const byNode = {};
+    v3extSummary.filter((r) => r.protocol === proto).forEach((r) => { (byNode[r.nodes] = byNode[r.nodes] || []).push(r); });
+    const data = nodeSizes.map((n) => {
+      const cells = byNode[n];
+      if (!cells) return null;
+      const vals = cells.map((c) => c[`${metric.key}Mean`] * metric.scale);
+      return vals.reduce((a, b) => a + b, 0) / vals.length;
+    });
+    return {
+      label: PROTOCOL_LABELS[proto] || proto, data,
+      borderColor: PROTOCOL_COLORS[proto] || "#999",
+      backgroundColor: (PROTOCOL_COLORS[proto] || "#999") + "33",
+      tension: 0.25, pointRadius: 4,
+    };
+  });
+
+  const ctx = document.getElementById("v3ext-chart").getContext("2d");
+  if (v3extChart) v3extChart.destroy();
+  v3extChart = new Chart(ctx, {
+    type: "line",
+    data: { labels: nodeSizes.map((n) => n + " nodes"), datasets },
+    options: {
+      responsive: true, animation: false,
+      plugins: {
+        legend: { position: "top", labels: { color: "#dbe2f0" } },
+        tooltip: { callbacks: { label(item) { return `${item.dataset.label}: ${fmt(item.raw, metric.decimals)} ${metric.unit}`; } } },
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: metric.axisLabel }, grid: { color: "rgba(255,255,255,0.06)" } },
+        x: { title: { display: true, text: "Network size" }, grid: { display: false } },
+      },
+    },
+  });
+}
+
+function renderV3extTable() {
+  const data = sortRows(v3extSummary, v3extSort);
+  const tbody = document.getElementById("v3ext-summary-tbody");
+  tbody.innerHTML = "";
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="16" class="empty-state">No data available for this configuration.</td></tr>`;
+    updateSortIndicators("v3ext-summary-table", v3extSort);
+    return;
+  }
+  data.forEach((r) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${PROTOCOL_LABELS[r.protocol] || r.protocol}</td><td>${r.nodes}</td><td>${r.traffic}</td><td>${r.mobility}</td>
+      <td>${r.duration}</td><td>${r.n}</td>
+      <td>${fmt(r.pdrMean, 2)} (n=${r.n})</td><td>${fmt(r.throughputMean, 2)}</td>
+      <td>${fmt(r.delayMean * 1000, 2)}</td><td>${fmt(r.jitterMean * 1000, 2)}</td>
+      <td>${fmt(r.packetLossMean, 1)}</td><td>${fmt(r.routingOverheadMean, 1)}</td>
+      <td>${fmt(r.hopCountMean, 2)} (${r.hopCountMethod})</td><td>${fmt(r.pathChangesMean, 1)}</td>
+      <td>${fmt(r.avgLinkUtilMean, 4)}</td><td>${fmt(r.maxLinkUtilMean, 4)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  updateSortIndicators("v3ext-summary-table", v3extSort);
+}
+
+function renderV3extKpis() {
+  const els = {
+    throughput: document.getElementById("v3ext-kpi-throughput"),
+    pdr: document.getElementById("v3ext-kpi-pdr"),
+    delay: document.getElementById("v3ext-kpi-delay"),
+    jitter: document.getElementById("v3ext-kpi-jitter"),
+  };
+  if (!v3extSummary.length) {
+    Object.values(els).forEach((el) => (el.textContent = "No data"));
+    document.getElementById("v3ext-kpi-note").textContent = "No data available for this configuration.";
+    return;
+  }
+  const avg = (key) => v3extSummary.reduce((s, r) => s + r[key], 0) / v3extSummary.length;
+  els.throughput.textContent = fmt(avg("throughputMean"), 2);
+  els.pdr.textContent = fmt(avg("pdrMean"), 2);
+  els.delay.textContent = fmt(avg("delayMean") * 1000, 2);
+  els.jitter.textContent = fmt(avg("jitterMean") * 1000, 2);
+  const n = v3extSummary.reduce((s, r) => s + r.n, 0);
+  document.getElementById("v3ext-kpi-note").textContent =
+    v3extSummary.length === 1
+      ? `Single matching cell -- n=${v3extSummary[0].n} seed(s).`
+      : `Averaged across ${v3extSummary.length} matching cells (${n} seed-runs total). Narrow the filters above for an exact single-condition reading.`;
+}
+
+function renderV3extSecondaryMetrics() {
+  const ids = ["v3ext-nm-loss", "v3ext-nm-overhead", "v3ext-nm-hopcount", "v3ext-nm-pathchanges", "v3ext-lp-avg", "v3ext-lp-max"];
+  if (!v3extSummary.length) {
+    ids.forEach((id) => { document.getElementById(id).textContent = "No data"; });
+    return;
+  }
+  const avg = (key) => v3extSummary.reduce((s, r) => s + r[key], 0) / v3extSummary.length;
+  document.getElementById("v3ext-nm-loss").textContent = fmt(avg("packetLossMean"), 1);
+  document.getElementById("v3ext-nm-overhead").textContent = fmt(avg("routingOverheadMean"), 1);
+  document.getElementById("v3ext-nm-hopcount").textContent = fmt(avg("hopCountMean"), 2);
+  document.getElementById("v3ext-nm-pathchanges").textContent = fmt(avg("pathChangesMean"), 1);
+  document.getElementById("v3ext-lp-avg").textContent = fmt(avg("avgLinkUtilMean") * 100, 3) + "%";
+  document.getElementById("v3ext-lp-max").textContent = fmt(avg("maxLinkUtilMean") * 100, 3) + "%";
+}
+
+function renderV3extRawTable() {
+  const data = sortRows(localV3extRows(v3extState), v3extSort);
+  const tbody = document.getElementById("v3ext-raw-tbody");
+  tbody.innerHTML = "";
+  if (!data.length) {
+    tbody.innerHTML = `<tr><td colspan="16" class="empty-state">No data available for this configuration.</td></tr>`;
+    return;
+  }
+  data.forEach((r) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${r.nodes}</td><td>${r.traffic}</td><td>${r.mobility}</td><td>${PROTOCOL_LABELS[r.protocol] || r.protocol}</td>
+      <td>${r.seed}</td><td>${r.duration}</td><td>${fmt(r.throughputKbps, 2)}</td><td>${fmt(r.delaySec * 1000, 2)}</td>
+      <td>${fmt(r.jitterSec * 1000, 2)}</td><td>${fmt(r.pdr, 2)}</td><td>${r.packetLoss}</td>
+      <td>${r.routingOverheadPackets}</td><td>${fmt(r.hopCount, 2)} (${r.hopCountMethod})</td><td>${r.pathChanges}</td>
+      <td>${fmt(r.avgLinkUtilization, 4)}</td><td>${fmt(r.maxLinkUtilization, 4)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function attachV3extFilters() {
+  const onChange = () => refreshV3ext();
+  document.getElementById("v3ext-filter-nodes").addEventListener("change", (e) => { v3extState.nodes = e.target.value; onChange(); });
+  document.getElementById("v3ext-filter-traffic").addEventListener("change", (e) => { v3extState.traffic = e.target.value; onChange(); });
+  document.getElementById("v3ext-filter-mobility").addEventListener("change", (e) => { v3extState.mobility = e.target.value; onChange(); });
+  document.getElementById("v3ext-filter-routing").addEventListener("change", (e) => { v3extState.routing = e.target.value; onChange(); });
+  document.getElementById("v3ext-filter-duration").addEventListener("change", (e) => { v3extState.duration = e.target.value; onChange(); });
+  document.querySelectorAll("#v3ext-metric-tabs .tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#v3ext-metric-tabs .tab").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      v3extState.metric = btn.dataset.metric;
+      renderV3extChart();
+    });
+  });
+}
+
+// ---------------- V3 Phase 1: Comparison Mode ----------------
+const v3cmpState = { nodes: null, traffic: "medium", mobility: "static", duration: "300", metric: "pdr" };
+let v3cmpChart = null;
+const V3CMP_PROTOCOLS = ["aodv", "olsr", "static"];
+
+function loadV3cmpMeta() {
+  const fill = (id, values, selected) => {
+    const sel = document.getElementById(id);
+    sel.innerHTML = values.map((v) => `<option value="${v}">${v}</option>`).join("");
+    if (selected != null && values.map(String).includes(String(selected))) sel.value = String(selected);
+  };
+  fill("v3cmp-filter-nodes", V3EXT_META.networkSizes, V3EXT_META.networkSizes.includes(50) ? 50 : V3EXT_META.networkSizes[0]);
+  fill("v3cmp-filter-traffic", V3EXT_META.trafficLevels, V3EXT_META.trafficLevels.includes("medium") ? "medium" : V3EXT_META.trafficLevels[0]);
+  fill("v3cmp-filter-mobility", V3EXT_META.mobilityModes, V3EXT_META.mobilityModes.includes("static") ? "static" : V3EXT_META.mobilityModes[0]);
+  fill("v3cmp-filter-duration", V3EXT_META.durations, V3EXT_META.durations.map(String).includes("300") ? 300 : V3EXT_META.durations[0]);
+  v3cmpState.nodes = document.getElementById("v3cmp-filter-nodes").value;
+  v3cmpState.traffic = document.getElementById("v3cmp-filter-traffic").value;
+  v3cmpState.mobility = document.getElementById("v3cmp-filter-mobility").value;
+  v3cmpState.duration = document.getElementById("v3cmp-filter-duration").value;
+}
+
+function refreshV3cmp() {
+  const rows = localV3extSummary({ nodes: v3cmpState.nodes, traffic: v3cmpState.traffic, mobility: v3cmpState.mobility, routing: "all", duration: v3cmpState.duration });
+  renderV3cmpChart(rows);
+}
+
+function renderV3cmpChart(rows) {
+  const metric = V3EXT_METRICS[v3cmpState.metric];
+  const byProto = {};
+  rows.forEach((r) => { byProto[r.protocol] = r; });
+  const missing = V3CMP_PROTOCOLS.filter((p) => !byProto[p]);
+
+  const canvas = document.getElementById("v3cmp-chart");
+  const emptyEl = document.getElementById("v3cmp-empty");
+  const missingNoteEl = document.getElementById("v3cmp-missing-note");
+
+  if (rows.length === 0) {
+    if (v3cmpChart) { v3cmpChart.destroy(); v3cmpChart = null; }
+    canvas.style.display = "none";
+    emptyEl.style.display = "block";
+    missingNoteEl.textContent = "";
+    return;
+  }
+  canvas.style.display = "block";
+  emptyEl.style.display = "none";
+  missingNoteEl.textContent = missing.length
+    ? `No data available for this configuration: ${missing.map((p) => PROTOCOL_LABELS[p] || p).join(", ")}.`
+    : "";
+
+  const data = V3CMP_PROTOCOLS.map((p) => (byProto[p] ? byProto[p][`${metric.key}Mean`] * metric.scale : null));
+  const ctx = canvas.getContext("2d");
+  if (v3cmpChart) v3cmpChart.destroy();
+  v3cmpChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: V3CMP_PROTOCOLS.map((p) => PROTOCOL_LABELS[p] || p),
+      datasets: [{
+        label: metric.title, data,
+        backgroundColor: V3CMP_PROTOCOLS.map((p) => (PROTOCOL_COLORS[p] || "#999") + "cc"),
+        borderColor: V3CMP_PROTOCOLS.map((p) => PROTOCOL_COLORS[p] || "#999"),
+        borderWidth: 1,
+      }],
+    },
+    options: {
+      responsive: true, animation: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label(item) { return item.raw == null ? `${item.label}: no data` : `${fmt(item.raw, metric.decimals)} ${metric.unit}`; } } },
+      },
+      scales: {
+        y: { beginAtZero: true, title: { display: true, text: metric.axisLabel }, grid: { color: "rgba(255,255,255,0.06)" } },
+        x: { grid: { display: false } },
+      },
+    },
+  });
+}
+
+function attachV3cmpFilters() {
+  ["nodes", "traffic", "mobility", "duration"].forEach((key) => {
+    document.getElementById(`v3cmp-filter-${key}`).addEventListener("change", (e) => { v3cmpState[key] = e.target.value; refreshV3cmp(); });
+  });
+  document.querySelectorAll("#v3cmp-metric-tabs .tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("#v3cmp-metric-tabs .tab").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      v3cmpState.metric = btn.dataset.metric;
+      refreshV3cmp();
+    });
+  });
+}
+
+function bootstrapV3ext() {
+  loadV3extMeta();
+  attachV3extFilters();
+  attachSorting("v3ext-summary-table", v3extSort, renderV3extTable);
+  attachSorting("v3ext-raw-table", v3extSort, renderV3extRawTable);
+  refreshV3ext();
+  if (V3EXT_META.networkSizes && V3EXT_META.networkSizes.length) {
+    loadV3cmpMeta();
+    attachV3cmpFilters();
+    refreshV3cmp();
+  }
+}
+
 (async function init() {
-  const [rows, summary, meta, methodology, sigmoid] = await Promise.all([
+  const [rows, summary, meta, methodology, sigmoid, v3extRows, v3extSummaryData, v3extMeta] = await Promise.all([
     fetch("data/rows.json").then((r) => r.json()),
     fetch("data/summary.json").then((r) => r.json()),
     fetch("data/meta.json").then((r) => r.json()),
     fetch("data/methodology.json").then((r) => r.json()),
     fetch("data/sigmoid.json").then((r) => r.json()),
+    fetch("data/v3ext-rows.json").then((r) => r.json()),
+    fetch("data/v3ext-summary.json").then((r) => r.json()),
+    fetch("data/v3ext-meta.json").then((r) => r.json()),
   ]);
   ALL_ROWS = rows; ALL_SUMMARY = summary; META = meta;
+  ALL_V3EXT_ROWS = v3extRows; ALL_V3EXT_SUMMARY = v3extSummaryData; V3EXT_META = v3extMeta;
   resolveDataReady();
 
   attachFilters();
@@ -518,4 +839,5 @@ function renderSigmoidSection(data) {
   refreshPerformance();
   refreshTrials();
   loadFileList();
+  bootstrapV3ext();
 })();
