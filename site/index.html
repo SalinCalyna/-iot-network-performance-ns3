@@ -31,7 +31,8 @@
       <a href="#methodology" data-section="methodology" class="nav-link">Methodology</a>
       <a href="#validity" data-section="validity" class="nav-link">Validity</a>
       <a href="#v3-ext" data-section="v3-ext" class="nav-link">Expanded Matrix (V3 Phase 1)</a>
-      <a href="#sigmoid" data-section="sigmoid" class="nav-link">Sigmoid (V3)</a>
+      <a href="#sigmoid" data-section="sigmoid" class="nav-link">Sigmoid Pilot (V2.8)</a>
+      <a href="#v4-sigmoid" data-section="v4-sigmoid" class="nav-link">V4 &mdash; Sigmoid Adaptive Routing</a>
       <a href="#github" data-section="github" class="nav-link">GitHub</a>
     </nav>
     <a class="sidebar-github" href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener">
@@ -706,33 +707,36 @@
     </section>
 
     <section id="sigmoid" class="section">
-      <h2 class="section-title">Sigmoid Routing Metric &mdash; V3 Research Direction</h2>
-      <span class="badge badge-future">VALIDATION ONLY &mdash; NOT A STATISTICAL COMPARISON</span>
+      <h2 class="section-title">Sigmoid Pilot &mdash; V2.8 (Superseded)</h2>
+      <span class="badge badge-future">SUPERSEDED &mdash; VALIDATION ONLY, NOT A STATISTICAL COMPARISON</span>
+      <p class="chart-note">This was an early, informal exploration built before the advisor assigned
+        the SE-OSPF paper this project now follows for the <a href="#v4-sigmoid">V4 research
+        direction</a> below. Kept here only for reference -- not extended further.</p>
       <p class="chart-note" id="sigmoid-note">Loading...</p>
 
       <div class="panel glass">
         <h3>The metric</h3>
         <p class="chart-note">
           <code id="sigmoid-equation">S(x) = 1 / (1 + exp(-k * (x - x0)))</code>
-          is implemented in <code>scratch/iot-network-v3.cc</code> as a 4th routing mode
+          is implemented in <code>scratch/iot-network-v28-sigmoid-pilot.cc</code> as a 4th routing mode
           (Dijkstra over sigmoid-weighted edges), applied to two geometrically-justified
           proxies:
         </p>
         <ul id="sigmoid-proxies"></ul>
-        <p class="small-note">Full derivation and the k-value near-linear-regime analysis: <code>docs/sigmoid-metric.md</code>, <code>docs/methodology.md</code>, <code>docs/experiment-design.md</code>.</p>
+        <p class="small-note">Full derivation and the k-value near-linear-regime analysis: <code>docs/sigmoid-metric.md</code>, <code>docs/methodology.md</code>, <code>docs/experiment-design.md</code> (all describe this superseded V2.8 pilot).</p>
       </div>
 
       <div class="limitation-callout glass">
         <strong>Scope:</strong> only a single 4-run smoke test has been executed (1 seed,
         medium traffic, 15 nodes, one run per protocol) to confirm the sigmoid mode
-        compiles, runs, and produces sane output. The full experiment matrix has not
-        been run. With n=1 per protocol these 4 rows carry <strong>no variance estimate and
-        no statistical basis</strong> for claiming sigmoid routing outperforms (or
-        underperforms) AODV/OLSR/Static &mdash; <span class="badge badge-future">FUTURE WORK</span>.
+        compiles, runs, and produces sane output. The full experiment matrix was never
+        run and never will be &mdash; this pilot is superseded. With n=1 per protocol these
+        4 rows carry <strong>no variance estimate and no statistical basis</strong> for
+        claiming sigmoid routing outperforms (or underperforms) AODV/OLSR/Static.
       </div>
 
       <div class="table-card glass" id="sigmoid-table-card" style="display:none;">
-        <h3>V3 validation rows (results/v3/*.csv, as recorded)</h3>
+        <h3>V2.8 pilot validation rows (results/v28-sigmoid-pilot/*.csv, as recorded)</h3>
         <div class="table-wrap">
           <table id="sigmoid-table">
             <thead>
@@ -746,6 +750,203 @@
           </table>
         </div>
         <p class="small-note">Routing overhead for OLSR is known to read as 0 here &mdash; FlowMonitor's <code>SendOutgoing</code> trace only counts unicast traffic and misses broadcast HELLO/TC packets (documented limitation, not fixed). See <code>docs/methodology.md</code>.</p>
+      </div>
+    </section>
+
+    <section id="v4-sigmoid" class="section">
+      <h2 class="section-title">V4 &mdash; Sigmoid-Based Adaptive Routing
+        <span class="badge badge-future">PROPOSED &mdash; NOT YET IMPLEMENTED</span>
+      </h2>
+      <p class="section-subtitle">Research direction inspired by Sigmoid-Enhanced OSPF (SE-OSPF)</p>
+      <p class="chart-note">
+        V4 is a <strong>proposed extension</strong> of the advisor's SE-OSPF research
+        (Thaenchaikun &amp; Kanjanasit, <em>"Performance Analysis of Sigmoid-Enhanced OSPF for
+        Risk-Aware Adaptive Routing in Secure Networks"</em>, Network (MDPI), vol. 6, no. 3,
+        art. 52, 2026 &mdash;
+        <a href="https://www.mdpi.com/2673-8732/6/3/52" target="_blank" rel="noopener">read the paper &#8599;</a>)
+        to the wireless IoT mesh environment used throughout this project. <strong>No V4 code has
+        been written, no V4 simulation has been run, and no V4 performance numbers exist.</strong>
+        Everything on this page is a design proposal awaiting advisor review &mdash; see
+        <a href="#v4-status">Current Status</a> below.
+      </p>
+
+      <!-- Section 1: Research Basis -->
+      <div class="panel glass">
+        <h3>1. Research Basis <span class="badge badge-conceptual">FROM THE PAPER</span></h3>
+        <p class="chart-note">The advisor's SE-OSPF pipeline, as described in the paper:</p>
+        <div class="pipeline-flow">
+          <div class="flow-step">Structural Risk (node degree / max degree)</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Normalized Risk R_ij</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Sigmoid Function</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Routing Cost</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Shortest Path (Dijkstra / OSPF)</div>
+        </div>
+        <p class="chart-note">The paper's sigmoid formulation:</p>
+        <p><code>f_r = 1 / (1 + exp(-k(x - x0)))</code></p>
+        <p><code>Cost_ij = C_min + (C_max - C_min) &times; f_r</code></p>
+        <ul>
+          <li><code>x</code> = normalized structural risk (the paper states <code>x = R_ij</code> directly)</li>
+          <li><code>x0</code> = sigmoid midpoint (paper tests 30, 50, 70)</li>
+          <li><code>k</code> = sigmoid steepness (paper tests 0.1&ndash;0.5)</li>
+          <li><code>C_min</code>, <code>C_max</code> = routing cost bounds</li>
+        </ul>
+        <p class="small-note"><strong>These equations are the advisor's published research basis and
+          are NOT yet implemented in V4.</strong> They are reproduced here for reference only.</p>
+      </div>
+
+      <!-- Section 2: Paper -> Our Extension -->
+      <div class="table-card glass">
+        <h3>2. How V4 Extends the Paper <span class="badge badge-conceptual">PROPOSED EXTENSION</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Advisor's SE-OSPF</th><th>Our V4 (proposed)</th></tr></thead>
+            <tbody>
+              <tr><td>OSPF (wired, link-state)</td><td>AODV / OLSR / Static (wireless ad-hoc mesh)</td></tr>
+              <tr><td>Barab&aacute;si&ndash;Albert scale-free topology</td><td>Existing V3 topology-generation method (V2's uniform-random placement), unchanged</td></tr>
+              <tr><td>Topology-based structural risk (only input)</td><td>Structural risk <em>and</em> measured link utilization (two inputs)</td></tr>
+              <tr><td>One sigmoid function</td><td>Two independent sigmoid functions (risk, load)</td></tr>
+              <tr><td>Single-input cost, Dijkstra</td><td>Weighted adaptive cost combining both sigmoids, same edge-cost-minimization principle</td></tr>
+              <tr><td>Evaluated against Standard/Linear OSPF</td><td>Evaluated against AODV / OLSR / Static (this project's existing baselines)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small-note">This is a <strong>proposed extension</strong>, not an existing result. See
+          <code>docs/v3-experiment-framework.md</code> and the V4 design-analysis notes for the full
+          reasoning behind each adaptation.</p>
+      </div>
+
+      <!-- Section 3: Proposed V4 Model -->
+      <div class="panel glass">
+        <h3>3. Proposed V4 Model <span class="badge badge-future">PENDING ADVISOR APPROVAL</span></h3>
+        <div class="pipeline-flow">
+          <div class="flow-step">Node Degree</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Structural Risk R_ij</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Sigmoid Risk Function</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Risk Cost</div>
+        </div>
+        <div class="pipeline-flow">
+          <div class="flow-step">Link Utilization</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Load Score L_ij</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Sigmoid Load Function</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Load Cost</div>
+        </div>
+        <div class="pipeline-flow">
+          <div class="flow-step">Risk Cost + Load Cost</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Weighted Adaptive Cost</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Route Selection</div>
+        </div>
+        <p class="chart-note"><strong>Proposed V4 mathematical model &mdash; pending advisor approval,
+          not the final model:</strong></p>
+        <ul>
+          <li><code>RiskScore_ij</code> = normalized structural risk (same form as the paper's R_ij)</li>
+          <li><code>LoadScore_ij</code> = measured link utilization (already in V3-ext's own metric set)</li>
+          <li><code>SigmoidRisk_ij = 1 / (1 + exp(-k_R(R_ij - x0_R)))</code></li>
+          <li><code>SigmoidLoad_ij = 1 / (1 + exp(-k_L(L_ij - x0_L)))</code></li>
+        </ul>
+        <p><code>AdaptiveCost_ij = w_R &times; SigmoidRisk_ij + w_L &times; SigmoidLoad_ij</code>, with <code>w_R + w_L = 1</code></p>
+        <p class="small-note">Lower <code>AdaptiveCost_ij</code> would be preferred (same minimization
+          direction as the paper's Dijkstra-based selection) &mdash; if and when this is implemented.</p>
+      </div>
+
+      <!-- Section 4: Parameters -->
+      <div class="table-card glass">
+        <h3>4. Parameters <span class="badge badge-future">ALL PROPOSED</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Parameter</th><th>Meaning</th><th>V4 Status</th></tr></thead>
+            <tbody>
+              <tr><td><code>x0_R</code></td><td>Risk sigmoid midpoint</td><td><span class="tag tag-warn">Proposed</span></td></tr>
+              <tr><td><code>k_R</code></td><td>Risk sigmoid steepness</td><td><span class="tag tag-warn">Proposed</span></td></tr>
+              <tr><td><code>x0_L</code></td><td>Load sigmoid midpoint</td><td><span class="tag tag-warn">Proposed</span></td></tr>
+              <tr><td><code>k_L</code></td><td>Load sigmoid steepness</td><td><span class="tag tag-warn">Proposed</span></td></tr>
+              <tr><td><code>w_R</code></td><td>Risk weighting</td><td><span class="tag tag-warn">Proposed</span></td></tr>
+              <tr><td><code>w_L</code></td><td>Load weighting</td><td><span class="tag tag-warn">Proposed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small-note">Initial conceptual starting points under consideration:
+          <code>x0_R = 0.5</code>, <code>x0_L = 0.5</code>, <code>w_R = 0.5</code>, <code>w_L = 0.5</code>
+          &mdash; these are <strong>only starting points requiring advisor approval, not experimentally
+          validated values.</strong> No parameter sweep has been run.</p>
+      </div>
+
+      <!-- Section 5: Connection to V3 -->
+      <div class="panel glass">
+        <h3>5. Connection to V3</h3>
+        <div class="pipeline-flow">
+          <div class="flow-step">V3 Phase 1</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Expanded baseline experiments</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">AODV / OLSR / Static</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Performance metrics</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">V4 research direction</div>
+          <div class="flow-down">&darr;</div>
+          <div class="flow-step">Sigmoid-based adaptive routing</div>
+        </div>
+        <p class="chart-note">V3 provides the baseline against which V4 will eventually be evaluated
+          &mdash; not a separate, disconnected study.</p>
+        <ul>
+          <li>Area Size = 250 &times; 250 m</li>
+          <li>Transmission Range = 90 m</li>
+          <li>Node sizes = 10, 20, 30, 50, 75, 100</li>
+          <li>Official Seeds = 20&ndash;30 (11 seeds, inclusive)</li>
+        </ul>
+        <p class="small-note"><strong>These V3 experimental conditions remain unchanged for V4
+          comparison.</strong></p>
+      </div>
+
+      <!-- Section 6: Experiment Plan -->
+      <div class="panel glass">
+        <h3>6. V4 Experiment Plan (Planned &mdash; Not Run)</h3>
+        <ol>
+          <li><strong>Stage 1 &mdash; Parameter validation / sensitivity study:</strong> vary <code>k_R</code>, <code>k_L</code>, <code>w_R</code>, <code>w_L</code> on a small validation subset.</li>
+          <li><strong>Stage 2:</strong> select a justified parameter configuration from Stage 1.</li>
+          <li><strong>Stage 3 &mdash; Matched-condition comparison:</strong> AODV, OLSR, Static, V4-Sigmoid, all under identical conditions.</li>
+          <li><strong>Stage 4 &mdash; Evaluate:</strong> PDR, Throughput, Delay, Jitter, Packet Loss, Routing Overhead, Hop Count, Path Changes, Average Link Utilization, Maximum Link Utilization.</li>
+          <li><strong>Stage 5:</strong> run the final experiment using Seeds 20&ndash;30.</li>
+        </ol>
+        <p class="small-note"><strong>No numerical V4 results are shown above or anywhere on this page,
+          because none exist yet.</strong></p>
+      </div>
+
+      <!-- Section 7: Fair Comparison -->
+      <div class="limitation-callout glass">
+        <strong>V4 will be compared under identical experimental conditions.</strong> Kept unchanged
+        from V3: Area Size (250&nbsp;&times;&nbsp;250&nbsp;m), Transmission Range (90&nbsp;m), node
+        placement/topology-generation method, traffic conditions, mobility conditions, Seeds
+        (20&ndash;30), and simulation duration. This prevents any apparent improvement from being
+        caused by a changed network environment rather than the routing method itself.
+      </div>
+
+      <!-- Section 8: Current Status -->
+      <div class="panel glass" id="v4-status">
+        <h3>8. Current Research Status</h3>
+        <div class="status-timeline">
+          <div class="status-row"><span class="status-name">V2.7 Baseline</span><span class="tag tag-ok">&#10003; Completed</span></div>
+          <div class="status-row"><span class="status-name">V3 Phase 1</span><span class="tag tag-ok">&#10003; Completed</span></div>
+          <div class="status-row"><span class="status-name">V3 Dashboard</span><span class="tag tag-ok">&#10003; Published / under verification</span></div>
+          <div class="status-row"><span class="status-name">Advisor Paper Study</span><span class="tag tag-ok">&#10003; Completed</span></div>
+          <div class="status-row"><span class="status-name">V4 Mathematical Design</span><span class="tag tag-ok">&#10003; Proposed</span></div>
+          <div class="status-row"><span class="status-name">Advisor Approval</span><span class="tag tag-warn">&#8987; Pending</span></div>
+          <div class="status-row"><span class="status-name">V4 Implementation</span><span class="badge badge-na">&#9675; Not started</span></div>
+          <div class="status-row"><span class="status-name">V4 Simulation</span><span class="badge badge-na">&#9675; Not started</span></div>
+          <div class="status-row"><span class="status-name">V4 Full Evaluation</span><span class="badge badge-na">&#9675; Not started</span></div>
+        </div>
       </div>
     </section>
 

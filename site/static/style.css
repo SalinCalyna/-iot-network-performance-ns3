@@ -343,6 +343,18 @@ tbody tr:hover { background: rgba(59,130,246,0.06); }
 }
 .scenario-flow .flow-arrow { color: var(--text-muted); font-weight: 400; }
 
+/* ---------- V4 research-direction pipeline diagrams ---------- */
+.pipeline-flow { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; margin: 14px 0; }
+.pipeline-flow .flow-step {
+  padding: 7px 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--panel-border);
+  border-radius: 8px; font-size: 0.85rem; font-weight: 600; color: var(--cyan);
+}
+.pipeline-flow .flow-down { color: var(--text-muted); font-weight: 400; padding: 2px 0 2px 16px; font-size: 0.9rem; }
+
+.status-timeline { display: flex; flex-direction: column; gap: 6px; margin: 12px 0; }
+.status-row { display: flex; align-items: center; gap: 12px; font-size: 0.88rem; }
+.status-row .status-name { min-width: 200px; color: var(--text); }
+
 .rw-controls { display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-end; padding: 16px 20px; margin-bottom: 16px; }
 .rw-controls select {
   padding: 8px 10px; border-radius: 8px; min-width: 190px;
