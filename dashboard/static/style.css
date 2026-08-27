@@ -238,6 +238,14 @@ a { color: inherit; }
 /* ---------- Tables ---------- */
 .table-card { padding: 20px 22px; margin-bottom: 16px; }
 .table-card h3 { margin: 0 0 12px; font-size: 0.95rem; }
+.table-card summary {
+  margin: 0 0 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  list-style: none; display: flex; align-items: center; gap: 8px; color: var(--text);
+}
+.table-card summary::-webkit-details-marker { display: none; }
+.table-card summary::before { content: "\25B8"; color: var(--text-muted); font-size: 0.8em; transition: transform 0.15s ease; }
+.table-card[open] summary::before { transform: rotate(90deg); }
+.table-card summary:hover { color: var(--blue); }
 .table-wrap { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 560px; }
 thead th {

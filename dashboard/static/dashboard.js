@@ -617,6 +617,7 @@ async function refreshV3ext() {
   renderV3extChart();
   renderV3extTable();
   renderV3extKpis();
+  renderV3extSecondaryMetrics();
 }
 
 function renderV3extChart() {
@@ -742,8 +743,6 @@ function renderV3extKpis() {
     pdr: document.getElementById("v3ext-kpi-pdr"),
     delay: document.getElementById("v3ext-kpi-delay"),
     jitter: document.getElementById("v3ext-kpi-jitter"),
-    loss: document.getElementById("v3ext-kpi-loss"),
-    mlu: document.getElementById("v3ext-kpi-mlu"),
   };
   if (!v3extSummary.length) {
     Object.values(els).forEach((el) => (el.textContent = "No data"));
@@ -755,16 +754,30 @@ function renderV3extKpis() {
   els.pdr.textContent = fmt(avg("pdrMean"), 2);
   els.delay.textContent = fmt(avg("delayMean") * 1000, 2);
   els.jitter.textContent = fmt(avg("jitterMean") * 1000, 2);
-  // PacketLoss is stored as a packet count, not a percentage -- express it as
-  // a % of PacketsSent-equivalent via (100 - PDR), which is exact since
-  // PacketLoss == PacketsSent - PacketsReceived for every validated row.
-  els.loss.textContent = fmt(100 - avg("pdrMean"), 2);
-  els.mlu.textContent = fmt(avg("maxLinkUtilMean") * 100, 2);
   const n = v3extSummary.reduce((s, r) => s + r.n, 0);
   document.getElementById("v3ext-kpi-note").textContent =
     v3extSummary.length === 1
       ? `Single matching cell -- n=${v3extSummary[0].n} seed(s).`
       : `Averaged across ${v3extSummary.length} matching cells (${n} seed-runs total). Narrow the filters above for an exact single-condition reading.`;
+}
+
+// Network Metrics + Link Performance tiles -- same averaging rule as the KPI
+// cards above (average of whatever v3extSummary rows currently match the
+// filters), just for the secondary metrics moved out of the main chart to
+// keep it readable.
+function renderV3extSecondaryMetrics() {
+  const ids = ["v3ext-nm-loss", "v3ext-nm-overhead", "v3ext-nm-hopcount", "v3ext-nm-pathchanges", "v3ext-lp-avg", "v3ext-lp-max"];
+  if (!v3extSummary.length) {
+    ids.forEach((id) => { document.getElementById(id).textContent = "No data"; });
+    return;
+  }
+  const avg = (key) => v3extSummary.reduce((s, r) => s + r[key], 0) / v3extSummary.length;
+  document.getElementById("v3ext-nm-loss").textContent = fmt(avg("packetLossMean"), 1);
+  document.getElementById("v3ext-nm-overhead").textContent = fmt(avg("routingOverheadMean"), 1);
+  document.getElementById("v3ext-nm-hopcount").textContent = fmt(avg("hopCountMean"), 2);
+  document.getElementById("v3ext-nm-pathchanges").textContent = fmt(avg("pathChangesMean"), 1);
+  document.getElementById("v3ext-lp-avg").textContent = fmt(avg("avgLinkUtilMean") * 100, 3) + "%";
+  document.getElementById("v3ext-lp-max").textContent = fmt(avg("maxLinkUtilMean") * 100, 3) + "%";
 }
 
 // ---------------- V3 Phase 1: Comparison Mode (AODV vs OLSR vs Static) ----------------
