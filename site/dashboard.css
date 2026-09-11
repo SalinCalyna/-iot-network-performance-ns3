@@ -184,3 +184,46 @@ footer.appfoot{padding:30px 28px 60px;color:var(--text-faint);font-size:.78rem;m
   .content{padding:0 16px}
   .topbar{padding:12px 16px}
 }
+
+/* ---------- real-world application section ---------- */
+.rw-flow{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0;margin:18px 0}
+.rw-scenario{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:18px}
+.rw-split{display:grid;grid-template-columns:1fr 44px 1fr;gap:0;align-items:stretch;margin:20px 0}
+@media(max-width:880px){.rw-split{grid-template-columns:1fr}}
+.rw-connector{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--text-faint);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;writing-mode:vertical-rl;text-orientation:mixed}
+@media(max-width:880px){.rw-connector{writing-mode:horizontal-tb;flex-direction:row;padding:10px 0}}
+.rw-connector .arrow{font-size:1.3rem;color:var(--accent)}
+.rw-panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column}
+.rw-panel-title{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.rw-panel-title .tagdot{width:7px;height:7px;border-radius:50%}
+#rw-map{width:100%;height:340px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);background:var(--bg-elevated)}
+.rw-mini-topo{width:100%;height:340px;border-radius:var(--radius-sm);border:1px solid var(--border-soft);background:var(--bg-elevated);position:relative;overflow:hidden}
+.rw-legend{display:flex;flex-direction:column;gap:6px;margin-top:12px;font-size:.74rem;color:var(--text-dim)}
+.rw-legend .grp{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);margin-top:8px}
+.rw-legend .row{display:flex;align-items:center;gap:7px}
+.rw-legend .mk{width:10px;height:10px;flex:0 0 10px;display:inline-block}
+.rw-legend .mk.circle{border-radius:50%}
+.rw-legend .mk.diamond{transform:rotate(45deg);border-radius:2px}
+.rw-legend .mk.square{border-radius:2px}
+.context-card{background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
+.context-card h4{margin:0 0 4px;font-size:.9rem}
+.context-card .loc{color:var(--text-faint);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.context-card ul{margin:0;padding-left:18px;color:var(--text-dim);font-size:.82rem}
+.context-card ul li{margin-bottom:3px}
+.leaflet-popup-content-wrapper{background:#0f1520!important;color:var(--text)!important;border:1px solid var(--border);border-radius:8px!important}
+.leaflet-popup-tip{background:#0f1520!important}
+.leaflet-popup-content{font-family:var(--font)!important;font-size:.8rem!important}
+.leaflet-popup-content .rw-pop-title{font-weight:700;margin-bottom:2px}
+.leaflet-popup-content .rw-pop-role{color:var(--accent);font-size:.72rem;font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.leaflet-popup-content .rw-pop-desc{color:var(--text-dim);font-size:.76rem}
+.leaflet-control-attribution{background:rgba(13,17,23,.75)!important;color:var(--text-faint)!important}
+.leaflet-control-attribution a{color:var(--text-dim)!important}
+.rw-why{margin-top:18px}
+.present-toggle{display:flex;align-items:center;gap:8px}
+.present-overlay{display:none;position:fixed;inset:0;background:rgba(6,9,14,.96);z-index:100;align-items:center;justify-content:center;flex-direction:column;padding:40px}
+.present-overlay.show{display:flex}
+.present-overlay .close{position:absolute;top:24px;right:28px;background:var(--panel);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:8px 14px;cursor:pointer;font-size:.85rem}
+.present-chain{display:flex;flex-direction:column;align-items:center;gap:0}
+.present-chain .pnode{font-size:1.5rem;font-weight:800;padding:18px 36px;border-radius:var(--radius);background:var(--panel);border:1px solid var(--border-line,var(--border));margin-bottom:2px;text-align:center;letter-spacing:.01em}
+.present-chain .parrow{font-size:1.6rem;color:var(--accent);margin:2px 0}
+@media(max-width:700px){.present-chain .pnode{font-size:1.05rem;padding:12px 20px}}

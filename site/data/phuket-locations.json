@@ -1,0 +1,36 @@
+{
+  "_readme": "Geographic data for the dashboard's 'Real-World IoT Application Simulation' section. Kept separate from simulation metrics (figure_data.csv / final_research.json) so physical-world context is never confused with NS-3 results. Only one coordinate in this file is sourced from the existing repository (dashboard/app.py's defaultCenter, itself marked 'approximate'). Every other point is an explicit, clearly-labelled PLACEHOLDER pending researcher confirmation -- none were fabricated as if surveyed or real.",
+  "anchor": {
+    "name": "Prince of Songkla University, Phuket Campus",
+    "latitude": 7.8917,
+    "longitude": 98.3897,
+    "type": "real-world-context",
+    "source": "existing repository config (dashboard/app.py defaultCenter), marked approximate",
+    "description": "The researcher's institution -- the one geographic point already present in this repository prior to this feature. Shown as real-world context only."
+  },
+  "conceptual_deployment": {
+    "_note": "PLACEHOLDER locations only. Coordinates below are illustrative points scattered near the anchor for layout purposes and are NOT surveyed, confirmed, or research-verified locations. They must be replaced with researcher-confirmed coordinates before any claim of real deployment sites.",
+    "gateway": {
+      "name": "Proposed IoT Gateway (placeholder)",
+      "latitude": 7.8917,
+      "longitude": 98.3897,
+      "type": "conceptual-gateway",
+      "description": "Illustrative gateway position at the campus anchor. Placeholder -- not a confirmed deployment site."
+    },
+    "server": {
+      "name": "Proposed Server / Monitoring Center (placeholder)",
+      "latitude": 7.8930,
+      "longitude": 98.3912,
+      "type": "conceptual-server",
+      "description": "Illustrative monitoring-center position. Placeholder -- not a confirmed deployment site."
+    },
+    "sensors": [
+      { "name": "Environmental Monitoring Site (placeholder)", "latitude": 7.8905, "longitude": 98.3880, "type": "sensor-environmental", "description": "Illustrative air/environmental sensing endpoint. Placeholder location." },
+      { "name": "Parking Monitoring Site (placeholder)", "latitude": 7.8928, "longitude": 98.3878, "type": "sensor-parking", "description": "Illustrative parking-occupancy sensing endpoint. Placeholder location." },
+      { "name": "Security Monitoring Site (placeholder)", "latitude": 7.8935, "longitude": 98.3900, "type": "sensor-security", "description": "Illustrative security-event sensing endpoint. Placeholder location." },
+      { "name": "Smart Lighting Site (placeholder)", "latitude": 7.8908, "longitude": 98.3922, "type": "sensor-lighting", "description": "Illustrative lighting-control endpoint. Placeholder location." },
+      { "name": "Emergency Monitoring Site (placeholder)", "latitude": 7.8922, "longitude": 98.3860, "type": "sensor-emergency", "description": "Illustrative emergency-alert sensing endpoint. Placeholder location." }
+    ]
+  },
+  "study_locations": []
+}

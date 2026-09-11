@@ -6,6 +6,7 @@
 <title>IoT Network Performance — NS-3 Research Platform</title>
 <meta name="description" content="Analysis of IoT Network Performance Using NS-3 — congestion bottleneck identification and traffic-rate mitigation in multi-hop IoT wireless networks.">
 <link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
 <body>
 
@@ -18,12 +19,14 @@
 
     <div class="navgroup">
       <div class="navlink" data-target="view-overview"><span class="dot"></span>Overview</div>
+      <div class="navlink" data-target="view-realworld"><span class="dot"></span>Real-World Application</div>
     </div>
 
     <div class="navgroup">
       <div class="glabel">Network</div>
+      <div class="navlink" data-target="view-topology"><span class="dot"></span>Network Topology</div>
       <div class="navlink" data-target="view-performance"><span class="dot"></span>Performance</div>
-      <div class="navlink" data-target="view-routing"><span class="dot"></span>Routing</div>
+      <div class="navlink" data-target="view-routing"><span class="dot"></span>Adaptive Routing</div>
       <div class="navlink" data-target="view-bottleneck"><span class="dot"></span>Bottleneck</div>
       <div class="navlink" data-target="view-retry"><span class="dot"></span>Retry Analysis</div>
     </div>
@@ -82,44 +85,215 @@
       </section>
 
       <section class="view" style="padding-top:0">
-        <div class="grid cols-1-2">
+        <div class="panel">
+          <h3>Network Health</h3>
+          <p class="panel-sub">Representative near-saturated condition — see note below</p>
+          <div id="health-panel"></div>
+          <div class="callout" style="margin-top:14px;font-size:.78rem" id="health-note"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ NETWORK TOPOLOGY (main visual) -->
+      <section class="view" id="view-topology">
+        <div class="badge-row"><span class="tag v3">Interactive</span></div>
+        <h2>Network Topology</h2>
+        <p class="lede">Interactive multi-hop IoT network visualization</p>
+        <div class="callout" style="margin-bottom:20px">The simulation models a multi-hop wireless IoT network in which sensor nodes communicate through intermediate nodes toward a gateway/sink. Network performance is evaluated as network size, traffic load, mobility, and routing strategy change.</div>
+
+        <div class="grid" style="grid-template-columns:1.7fr 1fr;gap:18px" id="topo-main-grid">
           <div class="panel">
-            <h3>Network Health</h3>
-            <p class="panel-sub">Representative near-saturated condition — see note below</p>
-            <div id="health-panel"></div>
-            <div class="callout" style="margin-top:14px;font-size:.78rem" id="health-note"></div>
+            <div class="panel-head">
+              <h3>Multi-hop IoT Mesh</h3>
+              <span class="tag" style="background:var(--panel-2);color:var(--text-dim)" id="topo-source-badge">Conceptual / Simulation Topology View</span>
+            </div>
+            <div class="topo-canvas" id="topo-canvas" style="aspect-ratio:4/3"></div>
+            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px" id="topo-note"></p>
+
+            <div class="panel" style="margin-top:16px;background:var(--panel-2)">
+              <div class="panel-head"><h3 style="margin:0">Route Traversal</h3></div>
+              <p class="panel-sub">Illustrative route traversal — highlights one hop-chain from an outer sensor to the gateway. This is a topology visualization aid, not a packet-level replay.</p>
+              <div class="filters" style="margin:8px 0">
+                <button class="pill" id="topo-play">▶ Play Route</button>
+                <button class="pill" id="topo-pause">⏸ Pause</button>
+                <button class="pill" id="topo-step">Step Forward</button>
+                <button class="pill" id="topo-reset">↻ Reset</button>
+              </div>
+              <div style="font-size:.78rem;color:var(--text-dim)" id="topo-traversal-caption">Select a configuration, then press Play Route.</div>
+            </div>
           </div>
-          <div class="panel">
-            <div class="panel-head"><h3>Network Topology</h3></div>
-            <p class="panel-sub">Sensor nodes → intermediate nodes → gateway → sink</p>
-            <div class="topo-wrap">
-              <div class="topo-canvas" id="topo-canvas"></div>
-              <div class="topo-controls">
-                <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
-                  <span class="fl" style="padding-left:2px;margin-bottom:4px">Network size</span>
-                  <div id="topo-n" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-                </div>
-                <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
-                  <span class="fl" style="padding-left:2px;margin-bottom:4px">Protocol</span>
-                  <div id="topo-p" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-                </div>
-                <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px">
-                  <span class="fl" style="padding-left:2px;margin-bottom:4px">Traffic</span>
-                  <div id="topo-t" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-                </div>
-                <div class="topo-legend">
-                  <div class="row"><span class="dotc" style="background:#fff;border:2px solid var(--accent)"></span>Gateway</div>
-                  <div class="row"><span class="dotc" style="background:#4da3ff"></span>Hop 1</div>
-                  <div class="row"><span class="dotc" style="background:#3ecf8e"></span>Hop 2</div>
-                  <div class="row"><span class="dotc" style="background:#f0a94e"></span>Hop 3</div>
-                  <div class="row"><span class="dotc" style="background:#ef5f6f"></span>Hop 4+</div>
-                </div>
+
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div class="panel">
+              <h3>Configuration</h3>
+              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
+                <span class="fl" style="padding-left:2px;margin-bottom:4px">Node count</span>
+                <div id="topo-n" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+              </div>
+              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
+                <span class="fl" style="padding-left:2px;margin-bottom:4px">Routing</span>
+                <div id="topo-p" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+              </div>
+              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
+                <span class="fl" style="padding-left:2px;margin-bottom:4px">Traffic</span>
+                <div id="topo-t" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+              </div>
+              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
+                <span class="fl" style="padding-left:2px;margin-bottom:4px">Mobility</span>
+                <div id="topo-m" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+              </div>
+              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px">
+                <span class="fl" style="padding-left:2px;margin-bottom:4px">Seed</span>
+                <div id="topo-s" style="display:flex;flex-wrap:wrap;gap:4px"></div>
               </div>
             </div>
-            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px" id="topo-note"></p>
+
+            <div class="panel">
+              <h3>Current View</h3>
+              <div id="topo-current-view"></div>
+            </div>
+
+            <div class="panel">
+              <h3>Measured Results</h3>
+              <div id="topo-measured-card"></div>
+            </div>
+
+            <div class="panel">
+              <h3>Legend</h3>
+              <div class="topo-legend">
+                <div class="row"><span class="dotc" style="background:#fff;border:2px solid var(--accent)"></span>Gateway</div>
+                <div class="row"><span class="dotc" style="background:#4da3ff"></span>Hop 1 sensor</div>
+                <div class="row"><span class="dotc" style="background:#3ecf8e"></span>Hop 2 sensor / active route</div>
+                <div class="row"><span class="dotc" style="background:#f0a94e"></span>Hop 3 sensor</div>
+                <div class="row"><span class="dotc" style="background:#ef5f6f"></span>Hop 4+ sensor</div>
+                <div class="row"><span style="width:14px;height:2px;background:#3ecf8e;display:inline-block"></span>Active route (highlighted)</div>
+                <div class="row"><span style="width:14px;height:2px;background:rgba(77,163,255,.5);display:inline-block"></span>Wireless link</div>
+                <div class="row"><span class="dotc" style="background:#ffe066"></span>Traversal marker (packet/traffic)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:20px">
+          <h3>How the network works</h3>
+          <div class="flowchart" style="margin:14px 0">
+            <div class="flow-node">Sensor</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Intermediate Node(s)</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Gateway</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Sink / Server</div>
+          </div>
+          <div class="flowchart horizontal" style="margin:14px 0">
+            <div class="flow-node">Traffic Generation</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Multi-hop Forwarding</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Gateway</div><div class="flow-arrow">→</div>
+            <div class="flow-node good">Performance Measurement</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:20px">
+          <div class="panel-head"><h3>Simulation Parameter Space</h3></div>
+          <p class="panel-sub">Documented experimental configuration — not every combination below has been experimentally completed. Official V3 baseline, existing V4/Sigmoid evidence, and the future Sigmoid metric research direction each cover different subsets (see below).</p>
+          <table class="data">
+            <thead><tr><th>Parameter</th><th>Suggested values</th></tr></thead>
+            <tbody>
+              <tr><td>Nodes</td><td>10, 20, 30, 50, 75, 100</td></tr>
+              <tr><td>Traffic</td><td>Low, Medium, High</td></tr>
+              <tr><td>Mobility</td><td>Static, Low, Medium</td></tr>
+              <tr><td>Routing</td><td>AODV, OLSR, Static, Sigmoid</td></tr>
+              <tr><td>Seeds</td><td>20–30</td></tr>
+              <tr><td>Duration</td><td>300–600 s</td></tr>
+            </tbody>
+          </table>
+          <div class="grid cols-3" style="margin-top:16px">
+            <div class="insight-card"><div class="k">Official V3 configuration</div>AODV / OLSR / Static, all 6 node counts, all 3 traffic levels, all 3 mobility modes, Seed 20–30, 300s — 1,782 completed runs.</div>
+            <div class="insight-card secondary"><div class="k">Existing V4 / Sigmoid evidence</div>Fixed sigmoid config vs. Static (594 runs) plus a 6-configuration activation screen (66 runs) at N=50, medium traffic, static mobility only.</div>
+            <div class="insight-card" style="border-color:var(--v4)"><div class="k" style="color:var(--v4)">Future Sigmoid metric direction</div>No experiments completed yet — see Adaptive Routing section for the proposed research pipeline.</div>
           </div>
         </div>
       </section>
+
+      <!-- ============================================================ REAL-WORLD APPLICATION -->
+      <section class="view" id="view-realworld">
+        <div class="badge-row"><span class="tag" style="background:var(--purple-soft);color:var(--v4)">CONCEPTUAL APPLICATION SCENARIO</span></div>
+        <h2>Real-World IoT Application Simulation</h2>
+        <p class="lede">Connecting the NS-3 research model to a real-world IoT deployment context</p>
+        <div class="callout warn" style="margin-bottom:18px">This visualization demonstrates how the routing protocols studied in NS-3 could be applied to a real-world IoT environment. It is not a physical network measurement.</div>
+
+        <div class="rw-scenario">
+          <p style="margin:0 0 14px;color:var(--text-dim)">Imagine a smart campus and surrounding urban environment in Phuket, Thailand, where environmental, parking, security, lighting, and emergency sensors communicate through a wireless IoT mesh network.</p>
+          <div class="flowchart horizontal" style="margin:0">
+            <div class="flow-node">IoT Sensors</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Wireless Mesh</div><div class="flow-arrow">→</div>
+            <div class="flow-node">IoT Gateway</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Server</div><div class="flow-arrow">→</div>
+            <div class="flow-node good">Monitoring Dashboard</div>
+          </div>
+        </div>
+
+        <div class="rw-split">
+          <div class="rw-panel">
+            <div class="rw-panel-title"><span class="tagdot" style="background:var(--accent)"></span>Phuket Real-World Context</div>
+            <div id="rw-map"></div>
+            <div class="rw-legend">
+              <div class="grp">Real-world context</div>
+              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Study / application anchor</div>
+              <div class="grp">Conceptual deployment</div>
+              <div class="row"><span class="mk diamond" style="background:#f0a94e"></span>Proposed IoT gateway</div>
+              <div class="row"><span class="mk square" style="background:#a78bfa"></span>Proposed server / monitoring</div>
+              <div class="row"><span class="mk circle" style="background:#3ecf8e"></span>Proposed sensor sites</div>
+            </div>
+            <button class="pill" id="rw-study-toggle" style="margin-top:12px;align-self:flex-start;border:1px solid var(--border)">Showing: Conceptual Deployment</button>
+          </div>
+          <div class="rw-connector"><span class="arrow">→</span>Application context → simulation abstraction</div>
+          <div class="rw-panel">
+            <div class="rw-panel-title"><span class="tagdot" style="background:var(--olsr)"></span>NS-3 Simulation Model</div>
+            <div class="rw-mini-topo" id="rw-mini-topo"></div>
+            <div class="rw-legend">
+              <div class="grp">Simulation</div>
+              <div class="row"><span class="mk circle" style="background:#fff;border:2px solid var(--accent)"></span>Gateway (simulated)</div>
+              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Hop 1 / Hop 2 / Hop 3+ (simulated nodes)</div>
+            </div>
+            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px">Captured node positions and hop distances from a real §10 bottleneck-characterisation run — an abstraction of the mesh above, not a rendering of the map's physical geography.</p>
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:18px">
+          <div class="context-card">
+            <div class="loc">Phuket, Thailand</div>
+            <h4>Application Context</h4>
+            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 8px">Potential IoT domains:</p>
+            <ul>
+              <li>Environmental Monitoring</li>
+              <li>Parking</li>
+              <li>Security</li>
+              <li>Smart Lighting</li>
+              <li>Emergency Monitoring</li>
+            </ul>
+            <p style="font-size:.76rem;color:var(--text-faint);margin-top:10px">Geographic context only — the NS-3 results represent simulation-based network performance, not physical measurements from these locations.</p>
+          </div>
+          <div class="context-card">
+            <div class="loc">Presentation Mode</div>
+            <h4>Explain this section in 30–60 seconds</h4>
+            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 12px">Shows the real-world → simulation → evidence chain as a single large-format diagram for live presentation.</p>
+            <button class="pill active" id="rw-present-btn" style="padding:8px 16px">▶ Enter Presentation Mode</button>
+          </div>
+        </div>
+
+        <div class="panel rw-why">
+          <h3>Why this matters</h3>
+          <p style="color:var(--text-dim);font-size:.85rem;margin:0">The geographic scenario provides a realistic application context for the network model. The actual performance results presented in this dashboard are generated from NS-3 simulations and should be interpreted as simulation evidence rather than physical measurements.</p>
+        </div>
+      </section>
+
+      <div class="present-overlay" id="rw-present-overlay">
+        <button class="close">✕ Close</button>
+        <div class="present-chain">
+          <div class="pnode">Real-World Application</div><div class="parrow">↓</div>
+          <div class="pnode">Phuket Geographic Context</div><div class="parrow">↓</div>
+          <div class="pnode">IoT Sensor Network</div><div class="parrow">↓</div>
+          <div class="pnode">NS-3 Simulation Model</div><div class="parrow">↓</div>
+          <div class="pnode" style="color:var(--ok);border-color:var(--ok)">Performance Analysis</div>
+        </div>
+      </div>
 
       <!-- ============================================================ PERFORMANCE -->
       <section class="view" id="view-performance">
@@ -149,9 +323,30 @@
 
       <!-- ============================================================ ROUTING / V4 -->
       <section class="view" id="view-routing">
-        <div class="badge-row"><span class="tag v4">V4 Investigation</span></div>
-        <h2>Does adaptive routing solve the problem?</h2>
-        <p class="lede">Sigmoid-based adaptive routing (V4) vs. Static, across 6 activation-screen configurations (N=50, medium traffic, 11 seeds each).</p>
+        <div class="badge-row">
+          <span class="tag v4">V4 Investigation — Existing Evidence</span>
+          <span class="tag" style="background:var(--purple-soft);color:var(--v4)">V3 Research Direction — Sigmoid Routing Metric</span>
+        </div>
+        <h2>Sigmoid Routing Metric — V3 Research Direction</h2>
+        <p class="lede">Following advisor guidance, the next research focus is the adaptive routing metric itself. This section separates what has already been simulated and measured (A) from what is proposed as the next research direction (B) — no new experiment has been run yet.</p>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3>Research progression</h3>
+          <div class="flowchart" style="margin:14px 0">
+            <div class="flow-node">V3 Baseline</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Network Performance Degradation</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">Bottleneck Investigation</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">Need for Adaptive Routing</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Adaptive Routing Metric</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Sigmoid Routing Metric</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Future metric development and validation</div>
+          </div>
+        </div>
+
+        <!-- ============================ A. EXISTING EVIDENCE ============================ -->
+        <div class="badge-row"><span class="tag v4">A · Existing Evidence</span></div>
+        <h3>Does adaptive routing solve the problem? — what has already been measured</h3>
+        <p class="lede">Sigmoid-based adaptive routing (V4) vs. Static, across 6 activation-screen configurations (N=50, medium traffic, 11 seeds each). This is completed, frozen research — presented here as the evidence that motivates investigating the routing metric further, not as a validated solution.</p>
         <div class="insight-card secondary" style="margin-bottom:18px">
           <div class="k">Research result</div>
           Routing activation ≠ performance improvement. The adaptive routing mechanism changed routing behaviour under selected conditions, but did not produce credible overall performance improvement relative to Static. This is treated as a valid scientific negative result, not a failed implementation.
@@ -163,6 +358,49 @@
           </table>
         </div>
         <div class="callout warn" style="margin-top:16px">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, not statistically credible (sign-test p=1.0), while delay worsened 21.6% and link utilisation worsened 42.8%.</div>
+
+        <!-- ============================ B. RESEARCH DIRECTION ============================ -->
+        <div class="badge-row" style="margin-top:40px"><span class="tag" style="background:var(--purple-soft);color:var(--v4)">B · V3 Research Direction — Sigmoid Routing Metric</span></div>
+        <h3>Why an adaptive routing metric?</h3>
+        <div class="callout" style="margin-bottom:20px">Current routing decisions may not sufficiently account for changing network conditions. Therefore, the next research step is to investigate whether a continuous routing metric can translate network conditions into an adaptive routing decision.</div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3>Sigmoid Routing Metric — conceptual pipeline</h3>
+          <p class="panel-sub">Conceptual only — no formula or parameter values are fixed yet; this is the pipeline shape the next research phase will investigate.</p>
+          <div class="flowchart" style="margin:14px 0">
+            <div class="flow-node">Network Conditions</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Routing-related Metrics</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Metric Normalization</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">Sigmoid Transformation</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Routing Score / Decision</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Adaptive Route Selection</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Network Performance Evaluation</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3>Research questions</h3>
+          <ul style="color:var(--text-dim);font-size:.85rem;margin:0;padding-left:20px">
+            <li>Which network conditions should contribute to the adaptive routing metric?</li>
+            <li>How should these conditions be normalized?</li>
+            <li>How can a sigmoid function transform the metric into a meaningful routing score?</li>
+            <li>Can the resulting metric improve route selection under congestion?</li>
+            <li>Does the metric improve PDR, delay, utilization, or packet loss?</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>Future validation</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">FUTURE WORK — not yet performed</span></div>
+          <p class="panel-sub">No experiments in this pipeline have been run. This is the proposed path for the next research phase, not a result.</p>
+          <div class="flowchart horizontal" style="margin:14px 0">
+            <div class="flow-node">Metric Design</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Parameter Sensitivity</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Route Selection</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Controlled NS-3 Experiments</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Baseline Comparison</div><div class="flow-arrow">→</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Statistical Validation</div>
+          </div>
+        </div>
       </section>
 
       <!-- ============================================================ BOTTLENECK -->
@@ -336,8 +574,10 @@
   </main>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script src="charts.js"></script>
 <script src="topology.js"></script>
+<script src="realworld.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

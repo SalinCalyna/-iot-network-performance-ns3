@@ -74,41 +74,151 @@ function renderHealth() {
     `Representative near-saturated condition: OLSR, N=100, high traffic (§10 bottleneck characterisation, 11 seeds). Thresholds: gateway airtime ≥85% = critical, ≥60% = congested, ≥35% = degraded, else normal.`;
 }
 
-// ---------------------------------------------------------------- 3. topology
-let topoState = { n: 75, protocol: "olsr", traffic: "high" };
+// ---------------------------------------------------------------- 3. topology (main Network Topology section)
+let topoState = { n: 75, protocol: "olsr", traffic: "high", mobility: "static", seed: 20 };
+let topoAnim = { path: [], step: 0, timer: null, playing: false };
+
 function renderTopoSection() {
   const nOpts = [10, 20, 30, 50, 75, 100];
-  const pOpts = ["aodv", "olsr", "static"];
+  const pOpts = ["aodv", "olsr", "static", "sigmoid"];
   const tOpts = ["low", "medium", "high"];
-  pillGroup(document.getElementById("topo-n"), nOpts.map(String), nOpts.indexOf(topoState.n), i => { topoState.n = nOpts[i]; drawTopo(); });
-  pillGroup(document.getElementById("topo-p"), pOpts.map(s => s.toUpperCase()), pOpts.indexOf(topoState.protocol), i => { topoState.protocol = pOpts[i]; drawTopo(); });
-  pillGroup(document.getElementById("topo-t"), tOpts.map(s => s[0].toUpperCase() + s.slice(1)), tOpts.indexOf(topoState.traffic), i => { topoState.traffic = tOpts[i]; drawTopo(); });
+  const mOpts = ["static", "low", "medium"];
+  const sOpts = [20, 25, 30];
+  pillGroup(document.getElementById("topo-n"), nOpts.map(String), nOpts.indexOf(topoState.n), i => { topoState.n = nOpts[i]; resetTraversal(); drawTopo(); });
+  pillGroup(document.getElementById("topo-p"), pOpts.map(s => s.toUpperCase()), pOpts.indexOf(topoState.protocol), i => { topoState.protocol = pOpts[i]; resetTraversal(); drawTopo(); });
+  pillGroup(document.getElementById("topo-t"), tOpts.map(s => s[0].toUpperCase() + s.slice(1)), tOpts.indexOf(topoState.traffic), i => { topoState.traffic = tOpts[i]; resetTraversal(); drawTopo(); });
+  const topoM = document.getElementById("topo-m");
+  if (topoM) pillGroup(topoM, mOpts.map(s => s[0].toUpperCase() + s.slice(1)), mOpts.indexOf(topoState.mobility), i => { topoState.mobility = mOpts[i]; resetTraversal(); drawTopo(); });
+  const topoS = document.getElementById("topo-s");
+  if (topoS) pillGroup(topoS, sOpts.map(String), sOpts.indexOf(topoState.seed), i => { topoState.seed = sOpts[i]; resetTraversal(); drawTopo(); });
+
+  const playBtn = document.getElementById("topo-play");
+  const pauseBtn = document.getElementById("topo-pause");
+  const resetBtn = document.getElementById("topo-reset");
+  const stepBtn = document.getElementById("topo-step");
+  if (playBtn) playBtn.addEventListener("click", playTraversal);
+  if (pauseBtn) pauseBtn.addEventListener("click", pauseTraversal);
+  if (resetBtn) resetBtn.addEventListener("click", () => { resetTraversal(); drawTopo(); });
+  if (stepBtn) stepBtn.addEventListener("click", stepTraversal);
+
   drawTopo();
 }
+
+function resetTraversal() {
+  pauseTraversal();
+  topoAnim.step = 0;
+}
+
+// Returns a measured-result summary for the closest available exact/pooled match, or null
+// if no measured result exists for this configuration. Never invents values.
+function lookupMeasured(protocol, n, traffic, mobility) {
+  if (mobility === "static" && (protocol === "olsr" || protocol === "static")) {
+    const cell = (DATA.bottleneck[protocol + "-" + traffic] || []).find(d => d.n === n);
+    if (cell) return { source: "§10 bottleneck study (exact match, 11 seeds)", pdr: cell.pdr, throughput: cell.throughput, gw_airtime: cell.gw_airtime, macq: cell.macq };
+  }
+  if (protocol === "aodv" || protocol === "olsr" || protocol === "static") {
+    const arr = DATA.baseline[protocol];
+    const cell = arr && arr.find(d => d.n === n);
+    if (cell) return { source: "V3 baseline (pooled across traffic & mobility, 99 seeds) — not this exact condition", pdr: cell.pdr, throughput: cell.throughput, delay: cell.delay, pooled: true };
+  }
+  return null;
+}
+
 function drawTopo() {
-  const { n, protocol, traffic } = topoState;
-  const key = `${protocol}-${n}-${traffic}`;
-  const real = DATA.topology_real[key];
+  const n = topoState.n, protocol = topoState.protocol, traffic = topoState.traffic, mobility = topoState.mobility, seed = topoState.seed;
+  const key = protocol + "-" + n + "-" + traffic;
+  const real = (mobility === "static" && seed === 20) ? DATA.topology_real[key] : null;
   const container = document.getElementById("topo-canvas");
   const noteEl = document.getElementById("topo-note");
   let nodes, congestionLevel = 0, source;
   if (real) {
     nodes = real; source = "real";
-    const bnKey = `${protocol}-${traffic}`;
+    const bnKey = protocol + "-" + traffic;
     const bnCell = (DATA.bottleneck[bnKey] || []).find(d => d.n === n);
     congestionLevel = bnCell ? bnCell.gw_airtime : 0;
   } else {
-    nodes = generateTopology(n, 20); source = "generated";
-    // borrow the nearest available real congestion figure for the same protocol/traffic if any exists at another N, else unknown
-    const bnCell = (DATA.bottleneck[`olsr-${traffic === "low" ? "medium" : traffic}`] || [])[0];
+    nodes = generateTopology(n, seed); source = "generated";
+    const bnCell = (DATA.bottleneck["olsr-" + (traffic === "low" ? "medium" : traffic)] || [])[0];
     congestionLevel = bnCell ? bnCell.gw_airtime * 0.4 : 0.2;
   }
-  renderTopology(container, nodes, { congestionLevel });
+  topoAnim.path = buildHopPath(nodes);
+  if (topoAnim.step > topoAnim.path.length - 1) topoAnim.step = 0;
+
+  renderTopology(container, nodes, {
+    congestionLevel: congestionLevel,
+    highlightPath: topoAnim.path,
+    markerStep: (topoAnim.playing || topoAnim.step > 0) ? topoAnim.step : -1
+  });
+
   if (source === "real") {
-    noteEl.innerHTML = `<strong>Captured topology</strong> — actual node positions and hop distances from the frozen bottleneck-characterisation run (${protocol.toUpperCase()}, N=${n}, ${traffic} traffic, seed 20). Gateway airtime in this condition: <strong>${(congestionLevel*100).toFixed(0)}%</strong>.`;
+    noteEl.innerHTML = "<strong>Captured topology</strong> — actual node positions and hop distances from the frozen bottleneck-characterisation run (" + protocol.toUpperCase() + ", N=" + n + ", " + traffic + " traffic, static mobility, seed 20). Gateway airtime in this condition: <strong>" + (congestionLevel * 100).toFixed(0) + "%</strong>.";
+  } else if (protocol === "sigmoid") {
+    noteEl.innerHTML = "<strong>Conceptual / Simulation Topology View</strong> — Sigmoid routing is the proposed V3 research direction (see Adaptive Routing) and has not been evaluated on this topology yet. This diagram uses the simulator's real placement algorithm for illustration only; no Sigmoid routing data exists for any configuration.";
   } else {
-    noteEl.innerHTML = `<strong>Illustrative topology</strong> — no per-node capture exists for ${protocol.toUpperCase()} / N=${n} / ${traffic} traffic in the frozen instrumentation (the bottleneck study covered OLSR/Static only, N≥ 30). This diagram uses the same placement algorithm as the simulator (uniform-random, seeded, 250×250m field, gateway at centre) for illustration; congestion colouring is not from a captured run for this exact condition.`;
+    noteEl.innerHTML = "<strong>Conceptual / Simulation Topology View</strong> — no per-node capture exists for " + protocol.toUpperCase() + " / N=" + n + " / " + traffic + " traffic / " + mobility + " mobility / seed " + seed + " in the frozen instrumentation (captured data covers OLSR/Static only, N∈{30,50,75,100}, static mobility, seed 20). This diagram uses the same placement algorithm as the simulator (uniform-random, seeded, 250×250m field, gateway at centre, 90m range) for illustration; it is not a captured run for this exact condition.";
   }
+
+  // "Current View" configuration summary
+  const cv = document.getElementById("topo-current-view");
+  if (cv) {
+    cv.innerHTML = '<div class="health-row"><div class="health-label">N</div><div style="flex:1;font-weight:700">' + n + '</div></div>'
+      + '<div class="health-row"><div class="health-label">Routing</div><div style="flex:1;font-weight:700">' + protocol.toUpperCase() + '</div></div>'
+      + '<div class="health-row"><div class="health-label">Traffic</div><div style="flex:1;font-weight:700">' + (traffic[0].toUpperCase() + traffic.slice(1)) + '</div></div>'
+      + '<div class="health-row"><div class="health-label">Mobility</div><div style="flex:1;font-weight:700">' + (mobility[0].toUpperCase() + mobility.slice(1)) + '</div></div>'
+      + '<div class="health-row"><div class="health-label">Seed</div><div style="flex:1;font-weight:700">' + seed + '</div></div>';
+  }
+
+  // measured-results card, shown only if a real match exists (never fabricated)
+  const mc = document.getElementById("topo-measured-card");
+  if (mc) {
+    const measured = lookupMeasured(protocol, n, traffic, mobility);
+    if (measured) {
+      mc.innerHTML = '<div class="panel-sub" style="margin-bottom:8px">' + measured.source + '</div>'
+        + '<div class="health-row"><div class="health-label">PDR</div><div style="flex:1;font-weight:700">' + measured.pdr.toFixed(2) + '%</div></div>'
+        + (measured.throughput != null ? '<div class="health-row"><div class="health-label">Throughput</div><div style="flex:1;font-weight:700">' + measured.throughput.toFixed(1) + ' kbps</div></div>' : "")
+        + (measured.gw_airtime != null ? '<div class="health-row"><div class="health-label">Gateway airtime</div><div style="flex:1;font-weight:700">' + (measured.gw_airtime * 100).toFixed(0) + '%</div></div>' : "");
+    } else {
+      mc.innerHTML = '<div class="panel-sub">No measured result exists for this exact configuration in the frozen research (this is expected for Sigmoid routing — see Adaptive Routing section).</div>';
+    }
+  }
+}
+
+// ---------------------------------------------------------------- route traversal animation
+// Illustrative route traversal only -- highlights the same hop-chain edges already drawn
+// in the topology, using the nearest-neighbour heuristic. This is NOT a packet-level replay.
+function renderTraversalFrame() {
+  const container = document.getElementById("topo-canvas");
+  const n = topoState.n, protocol = topoState.protocol, traffic = topoState.traffic, mobility = topoState.mobility, seed = topoState.seed;
+  const real = (mobility === "static" && seed === 20) ? DATA.topology_real[protocol + "-" + n + "-" + traffic] : null;
+  const nodes = real || generateTopology(n, seed);
+  renderTopology(container, nodes, { congestionLevel: 0.5, highlightPath: topoAnim.path, markerStep: topoAnim.step });
+  const caption = document.getElementById("topo-traversal-caption");
+  if (caption) {
+    const atEnd = topoAnim.step >= topoAnim.path.length - 1;
+    caption.textContent = atEnd
+      ? "Illustrative route traversal — reached the gateway."
+      : "Illustrative route traversal — hop " + (Math.floor(topoAnim.step) + 1) + " of " + (topoAnim.path.length - 1) + ".";
+  }
+}
+function playTraversal() {
+  if (!topoAnim.path.length) drawTopo();
+  if (topoAnim.playing) return;
+  topoAnim.playing = true;
+  topoAnim.timer = setInterval(function () {
+    topoAnim.step += 1;
+    if (topoAnim.step >= topoAnim.path.length - 1) { topoAnim.step = topoAnim.path.length - 1; pauseTraversal(); }
+    renderTraversalFrame();
+  }, 900);
+}
+function pauseTraversal() {
+  topoAnim.playing = false;
+  if (topoAnim.timer) { clearInterval(topoAnim.timer); topoAnim.timer = null; }
+}
+function stepTraversal() {
+  pauseTraversal();
+  if (!topoAnim.path.length) drawTopo();
+  topoAnim.step = Math.min(topoAnim.step + 1, Math.max(topoAnim.path.length - 1, 0));
+  renderTraversalFrame();
 }
 
 // ---------------------------------------------------------------- 4. performance charts
@@ -256,6 +366,7 @@ async function main() {
   renderV4();
   renderIntervention();
   renderStaticControl();
+  if (typeof initRealWorldSection === "function") initRealWorldSection(DATA);
   initNav();
 }
 document.addEventListener("DOMContentLoaded", main);
