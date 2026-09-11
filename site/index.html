@@ -3,197 +3,341 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Analysis of IoT Network Performance Using NS-3</title>
-<link rel="stylesheet" href="static/final-dashboard.css">
+<title>IoT Network Performance — NS-3 Research Platform</title>
+<meta name="description" content="Analysis of IoT Network Performance Using NS-3 — congestion bottleneck identification and traffic-rate mitigation in multi-hop IoT wireless networks.">
+<link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
 
-<header class="hero">
-  <div class="wrap">
-    <span class="badge">Research Complete &middot; Frozen</span>
-    <h1>Analysis of IoT Network Performance Using NS-3</h1>
-    <p class="subtitle">Identifying congestion bottlenecks and evaluating traffic-rate mitigation in multi-hop IoT wireless networks</p>
-    <div class="stat-grid">
-      <div class="stat-card"><div class="num" id="stat-v3">1,782</div><div class="label">V3 Official Runs</div></div>
-      <div class="stat-card"><div class="num" id="stat-v4">594</div><div class="label">V4 Matched Conditions</div></div>
-      <div class="stat-card"><div class="num" id="stat-bottleneck">176</div><div class="label">Bottleneck Runs</div></div>
-      <div class="stat-card"><div class="num" id="stat-repro">681/681</div><div class="label">Reproducibility PASS</div></div>
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="mark">NS3</div>
+      <div class="name">IoT Network<br>Performance<small>NS-3 Research Platform</small></div>
     </div>
-  </div>
-</header>
 
-<nav class="toc">
-  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px">
-    <a href="#overview">Overview</a>
-    <a href="#baseline">Baseline</a>
-    <a href="#v4">V4 Routing</a>
-    <a href="#bottleneck">Bottleneck</a>
-    <a href="#retry">Retry Exhaustion</a>
-    <a href="#intervention">Rate Intervention</a>
-    <a href="#static-control">Static Control</a>
-    <a href="#reproducibility">Reproducibility</a>
-    <a href="#conclusions">Conclusions</a>
-    <a href="#history">Research History</a>
-  </div>
-</nav>
-
-<div class="wrap">
-
-<section id="overview">
-  <h2>1. Overview</h2>
-  <p class="lede">Research question: <em>what is the main cause of packet loss in a multi-hop IoT network as network size and traffic load increase, and can the identified bottleneck be mitigated by reducing offered traffic rate?</em></p>
-  <div class="flow">
-    <span class="step">Network gets larger</span>&rarr;
-    <span class="step">Performance degrades</span>&rarr;
-    <span class="step">V4 routing adaptation investigated</span>&rarr;
-    <span class="step">Routing alone does not solve it</span>&rarr;
-    <span class="step">Bottleneck probe: gateway/first-hop congestion</span>&rarr;
-    <span class="step">Retry exhaustion: confirmed, secondary</span>&rarr;
-    <span class="step">Offered-rate reduction tested</span>&rarr;
-    <span class="step">OLSR N=75/100 improves</span>&rarr;
-    <span class="step">Effect is protocol- and load-dependent</span>
-  </div>
-  <div class="callout">All reported research values are based on the frozen <strong>Final Report Data Package</strong> at <code>analysis/final-report-data/</code> in the <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3">repository</a>.</div>
-</section>
-
-<section id="baseline">
-  <h2>2. Baseline Network Performance</h2>
-  <p class="lede">V3 official baseline &mdash; 1,782 runs, Seed 20&ndash;30, pooled over traffic level and mobility mode. PDR degrades monotonically with node count for all three protocols.</p>
-  <div class="grid2">
-    <div class="panel"><h3>Figure 1 &middot; PDR vs. node count</h3><div id="fig1"></div></div>
-    <div class="panel">
-      <h3>Key figures</h3>
-      <table><tr><th>Protocol</th><th>N=10</th><th>N=100</th></tr>
-        <tr><td>OLSR</td><td>69.48%</td><td>29.78%</td></tr>
-        <tr><td>Static</td><td>46.69%</td><td>17.20%</td></tr>
-        <tr><td>AODV</td><td>76.73%</td><td>4.00%</td></tr>
-      </table>
-      <div class="caveat">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison.</div>
+    <div class="navgroup">
+      <div class="navlink" data-target="view-overview"><span class="dot"></span>Overview</div>
     </div>
-  </div>
-</section>
 
-<section id="v4">
-  <h2>3. V4 Sigmoid-Based Routing Investigation</h2>
-  <p class="lede">Sigmoid-based adaptive routing changed routing behaviour under selected configurations, but activation did not translate into a measurable performance improvement. This is a valid negative result, not a failed implementation.</p>
-  <table>
-    <thead><tr><th>Configuration</th><th>Route-tree change vs. Static</th><th>Activated?</th><th>PDR (V4)</th><th>PDR (Static)</th></tr></thead>
-    <tbody id="v4-table-body"></tbody>
-  </table>
-  <div class="callout warn">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, which is <strong>not</strong> statistically credible (sign-test p=1.0), while delay worsened by 21.6% and link utilisation worsened by 42.8%.</div>
-</section>
-
-<section id="bottleneck">
-  <h2>4. Bottleneck Characterisation</h2>
-  <p class="lede">176 runs (OLSR/Static &times; 4 node counts &times; 2 traffic levels, 11 seeds) instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise where loss occurs.</p>
-  <div class="grid2">
-    <div class="panel"><h3>Figure 2 &middot; Gateway airtime vs. node count (high traffic)</h3><div id="fig2"></div></div>
-    <div class="panel">
-      <h3>Evidence</h3>
-      <ul>
-        <li>Gateway airtime reaches <strong>0.86&ndash;0.89</strong> at N&ge;75 under high traffic &mdash; an empirical near-saturation reference for this topology.</li>
-        <li>MAC-queue drops are <strong>1.2&ndash;2.4&times;</strong> over-represented in the first-hop neighbourhood.</li>
-        <li>NO_ROUTE / ROUTE_ERROR are negligible (&lt;2% of loss) in every tested condition &mdash; routing failure is not the mechanism.</li>
-      </ul>
-      <div class="caveat">Only 0&ndash;53% of actual packet loss is attributable to any single logged counter even at the most saturated cell &mdash; the bottleneck's location is well supported, but not every lost packet has a known individual cause.</div>
+    <div class="navgroup">
+      <div class="glabel">Network</div>
+      <div class="navlink" data-target="view-performance"><span class="dot"></span>Performance</div>
+      <div class="navlink" data-target="view-routing"><span class="dot"></span>Routing</div>
+      <div class="navlink" data-target="view-bottleneck"><span class="dot"></span>Bottleneck</div>
+      <div class="navlink" data-target="view-retry"><span class="dot"></span>Retry Analysis</div>
     </div>
-  </div>
-</section>
 
-<section id="retry">
-  <h2>5. Retry Exhaustion</h2>
-  <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
-  <table>
-    <thead><tr><th>Protocol</th><th>N</th><th>Traffic</th><th>Retry share of loss</th><th>MAC-queue share of loss</th></tr></thead>
-    <tbody id="retry-table-body"></tbody>
-  </table>
-  <div class="callout">Retry exhaustion is real (mean &asymp;6% of loss) but secondary to MAC-queue overflow in 10 of 12 cells, and concentrates farther from the gateway &mdash; the opposite spatial pattern from queue overflow.</div>
-</section>
-
-<section id="intervention">
-  <h2>6. Offered-Rate Intervention</h2>
-  <p class="lede">72-run rate sweep (16&rarr;12&rarr;8&rarr;4 kbps) testing whether reducing offered traffic rate relieves the bottleneck identified above.</p>
-  <div class="grid2">
-    <div class="panel"><h3>Figure 5 &middot; OLSR PDR vs. offered rate</h3><div id="fig5"></div></div>
-    <div class="panel"><h3>Figure 6 &middot; OLSR gateway airtime vs. offered rate</h3><div id="fig6"></div></div>
-  </div>
-  <div class="callout">At the deepest rate reduction (16&rarr;4 kbps): <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, both monotonic across every tested seed. At N=100, delivered <em>throughput rises</em> at a reduced offered rate (+25.5% at 12 kbps) &mdash; the signature of recovering from congestion collapse, not simply sending less.</div>
-</section>
-
-<section id="static-control">
-  <h2>7. Static Routing &mdash; Negative Control (N=50)</h2>
-  <p class="lede">Static routing at N=50 was tested under the same rate sweep, then diagnosed with a focused 12-run study.</p>
-  <div class="grid2">
-    <div class="panel"><h3>Figure 7 &middot; Static N=50 PDR vs. offered rate</h3><div id="fig7"></div></div>
-    <div class="panel">
-      <h3>Residual-loss diagnostic (all 12 runs)</h3>
-      <table><thead><tr><th>Rate</th><th>Seed</th><th>Attributable loss</th><th>Residual loss</th></tr></thead>
-        <tbody id="diag-table-body"></tbody>
-      </table>
+    <div class="navgroup">
+      <div class="glabel">Intervention</div>
+      <div class="navlink" data-target="view-intervention"><span class="dot"></span>Traffic Rate</div>
+      <div class="navlink" data-target="view-static-control"><span class="dot"></span>Static Control</div>
     </div>
-  </div>
-  <div class="callout warn">PDR does not improve (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>&minus;7.6 percentage points</strong>). This is not a broken protocol: congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss &mdash; residual (unattributed) loss ranges 64.65%&ndash;99.57% across all 12 runs.</div>
-</section>
 
-<section id="reproducibility">
-  <h2>8. Reproducibility</h2>
-  <p class="lede">The frozen research was independently re-executed using a 51-run validation matrix.</p>
-  <div class="grid2">
-    <div class="panel">
-      <div class="bignum">681 / 687</div>
-      <p>applicable metric comparisons passed exactly, with 0 failed comparisons and 0 numerical drift. 6 comparisons were not applicable because <code>MaxRetryDrops</code> was not available in the original bottleneck-characterisation dataset.</p>
+    <div class="navgroup">
+      <div class="glabel">Research</div>
+      <div class="navlink" data-target="view-reproducibility"><span class="dot"></span>Reproducibility</div>
+      <div class="navlink" data-target="view-conclusions"><span class="dot"></span>Conclusions</div>
     </div>
-    <div class="panel">
-      <h3>Validation matrix</h3>
-      <ul>
-        <li>51/51 runs completed successfully, 0 failed</li>
-        <li>V3 baseline: AODV/OLSR/Static &times; N=10/50/100</li>
-        <li>Bottleneck condition: OLSR &times; N=75/100, high traffic</li>
-        <li>Rate intervention: OLSR &times; N=75/100 &times; 16/4 kbps</li>
-        <li>Static negative control: N=50 &times; 16/4 kbps</li>
-      </ul>
+
+    <div class="sidebar-foot">
+      NS-3 Research &middot; 802.11b Multi-hop Mesh
+      <div class="status"><span class="pulse"></span>Research Complete</div>
     </div>
-  </div>
-  <p>Based on this validation, the frozen research results are considered reproducible. Full detail: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md">FINAL_REPRODUCIBILITY_CHECK.md</a>.</p>
-</section>
+  </aside>
 
-<section id="conclusions">
-  <h2>9. Conclusions &amp; Limitations</h2>
-  <div class="callout">The study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions and demonstrates that reducing offered traffic rate can effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities. However, the effectiveness of the intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed by the current instrumentation.</div>
-  <h3 style="margin-top:24px">Limitations</h3>
-  <ul>
-    <li><strong>AODV:</strong> FlowMonitor <code>PacketsSent</code>-denominator artifact &mdash; PDR/loss figures are indicative, not exact.</li>
-    <li><strong>OLSR:</strong> <code>RoutingOverheadPackets</code>=0 in the V3 dataset is a metric-coverage limitation, not evidence of zero control traffic.</li>
-    <li><strong>PHY RX drops</strong> are not directly equivalent to permanent packet loss.</li>
-    <li>Not every terminal packet fate is captured by the current instrumentation &mdash; the residual-loss finding is a measured gap, not a resolved mechanism.</li>
-    <li>The offered-rate intervention is a fixed-rate reduction, not an adaptive admission-control algorithm.</li>
-    <li>All findings are specific to the studied ns-3 topology, PHY/MAC configuration, and parameter set.</li>
-  </ul>
-</section>
+  <div class="scrim" id="scrim"></div>
 
-<section id="history">
-  <h2>Research History</h2>
-  <p class="lede">Earlier project iterations, kept for context. These are historical results, not part of the frozen final research above.</p>
-  <details>
-    <summary>V2.7 baseline (historical) &mdash; 60 runs, 10/20/30/50 nodes</summary>
-    <p>The project's first complete study: AODV/OLSR/Static &times; 4 node counts &times; 5 seeds. Superseded by the V3 Official Baseline (1,782 runs) shown above. Raw CSVs remain in <code>results/*.csv</code> for reference.</p>
-  </details>
-  <details>
-    <summary>Early V3 sigmoid prototype (historical) &mdash; 4-run smoke test</summary>
-    <p>An early, separate exploration of adaptive routing on a 15-node clustered topology, superseded by the V4 Sigmoid-Based Adaptive Routing study shown in Section 3.</p>
-  </details>
-  <p style="margin-top:14px">Full progression: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md">docs/research-history.md</a>.</p>
-</section>
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="menu-btn" id="menu-btn">☰</button>
+        <div>
+          <h1>Analysis of IoT Network Performance</h1>
+          <div class="sub">NS-3 Multi-hop Wireless IoT Network</div>
+        </div>
+      </div>
+      <div class="meta">
+        <span class="chip ok">● RESEARCH COMPLETE</span>
+        <span class="chip">NS-3</span>
+        <span class="chip">802.11b</span>
+        <span class="chip">Multi-hop Mesh</span>
+      </div>
+    </div>
 
+    <div class="content">
+
+      <!-- ============================================================ OVERVIEW -->
+      <section class="view hero" id="view-overview">
+        <div class="eyebrow">Research Intelligence Platform</div>
+        <h1>Where does packet loss come from?</h1>
+        <p>This study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions, and evaluates whether reducing offered traffic rate can improve network reliability.</p>
+
+        <div class="kpi-grid">
+          <div class="kpi"><div class="num" id="kpi-v3">—</div><div class="label">Official V3 Runs</div><div class="note">AODV / OLSR / Static, Seed 20–30</div></div>
+          <div class="kpi"><div class="num" id="kpi-v4">—</div><div class="label">V4 Matched Conditions</div><div class="note">Sigmoid adaptive routing vs. Static</div></div>
+          <div class="kpi"><div class="num" id="kpi-bottleneck">—</div><div class="label">Bottleneck Runs</div><div class="note">Per-node airtime / queue instrumentation</div></div>
+          <div class="kpi"><div class="num" id="kpi-repro">—</div><div class="label">Reproducibility</div><div class="note">Independent re-execution, applicable metrics</div></div>
+        </div>
+      </section>
+
+      <section class="view" style="padding-top:0">
+        <div class="grid cols-1-2">
+          <div class="panel">
+            <h3>Network Health</h3>
+            <p class="panel-sub">Representative near-saturated condition — see note below</p>
+            <div id="health-panel"></div>
+            <div class="callout" style="margin-top:14px;font-size:.78rem" id="health-note"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>Network Topology</h3></div>
+            <p class="panel-sub">Sensor nodes → intermediate nodes → gateway → sink</p>
+            <div class="topo-wrap">
+              <div class="topo-canvas" id="topo-canvas"></div>
+              <div class="topo-controls">
+                <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
+                  <span class="fl" style="padding-left:2px;margin-bottom:4px">Network size</span>
+                  <div id="topo-n" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+                </div>
+                <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
+                  <span class="fl" style="padding-left:2px;margin-bottom:4px">Protocol</span>
+                  <div id="topo-p" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+                </div>
+                <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px">
+                  <span class="fl" style="padding-left:2px;margin-bottom:4px">Traffic</span>
+                  <div id="topo-t" style="display:flex;flex-wrap:wrap;gap:4px"></div>
+                </div>
+                <div class="topo-legend">
+                  <div class="row"><span class="dotc" style="background:#fff;border:2px solid var(--accent)"></span>Gateway</div>
+                  <div class="row"><span class="dotc" style="background:#4da3ff"></span>Hop 1</div>
+                  <div class="row"><span class="dotc" style="background:#3ecf8e"></span>Hop 2</div>
+                  <div class="row"><span class="dotc" style="background:#f0a94e"></span>Hop 3</div>
+                  <div class="row"><span class="dotc" style="background:#ef5f6f"></span>Hop 4+</div>
+                </div>
+              </div>
+            </div>
+            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px" id="topo-note"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ PERFORMANCE -->
+      <section class="view" id="view-performance">
+        <div class="badge-row"><span class="tag v3">V3 Official Baseline</span></div>
+        <h2>Network Performance</h2>
+        <p class="lede">1,782 official runs (Seed 20–30), pooled over traffic level and mobility mode. Toggle protocols to compare.</p>
+        <div class="filters"><div class="filter-group"><span class="fl">Protocol</span><div id="perf-protocol-toggle" style="display:flex;gap:2px"></div></div></div>
+        <div id="perf-legend"></div>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Packet Delivery Ratio vs. Network Size</h3><div class="chart-wrap" id="chart-pdr"></div></div>
+          <div class="panel"><h3>Throughput vs. Network Size</h3><div class="chart-wrap" id="chart-throughput"></div></div>
+          <div class="panel"><h3>End-to-End Delay vs. Network Size</h3><div class="chart-wrap" id="chart-delay"></div></div>
+          <div class="panel"><h3>Packet Loss vs. Network Size</h3><div class="chart-wrap" id="chart-loss"></div></div>
+        </div>
+        <div class="callout" style="margin-top:16px">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and qualitative trends are unaffected.</div>
+
+        <h2 style="margin-top:40px">How does traffic load affect the network?</h2>
+        <p class="lede">Low → Medium → High offered rate, pooled over node count and mobility.</p>
+        <div class="flowchart horizontal" style="margin-bottom:20px">
+          <div class="flow-node good">Low traffic → Stable</div><div class="flow-arrow">→</div>
+          <div class="flow-node hot">Medium traffic → Increasing congestion</div><div class="flow-arrow">→</div>
+          <div class="flow-node bad">High traffic → Near-saturation</div>
+        </div>
+        <div id="traffic-legend"></div>
+        <div class="panel"><h3>PDR by Traffic Level</h3><div class="chart-wrap" id="chart-traffic-load"></div></div>
+      </section>
+
+      <!-- ============================================================ ROUTING / V4 -->
+      <section class="view" id="view-routing">
+        <div class="badge-row"><span class="tag v4">V4 Investigation</span></div>
+        <h2>Does adaptive routing solve the problem?</h2>
+        <p class="lede">Sigmoid-based adaptive routing (V4) vs. Static, across 6 activation-screen configurations (N=50, medium traffic, 11 seeds each).</p>
+        <div class="insight-card secondary" style="margin-bottom:18px">
+          <div class="k">Research result</div>
+          Routing activation ≠ performance improvement. The adaptive routing mechanism changed routing behaviour under selected conditions, but did not produce credible overall performance improvement relative to Static. This is treated as a valid scientific negative result, not a failed implementation.
+        </div>
+        <div class="panel">
+          <table class="data">
+            <thead><tr><th>Configuration</th><th>Route-tree change vs. Static</th><th>Activated?</th><th>PDR (V4)</th><th>PDR (Static)</th></tr></thead>
+            <tbody id="v4-table-body"></tbody>
+          </table>
+        </div>
+        <div class="callout warn" style="margin-top:16px">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, not statistically credible (sign-test p=1.0), while delay worsened 21.6% and link utilisation worsened 42.8%.</div>
+      </section>
+
+      <!-- ============================================================ BOTTLENECK -->
+      <section class="view" id="view-bottleneck">
+        <div class="badge-row"><span class="tag bottleneck">§10 Bottleneck Characterisation</span></div>
+        <h2>Where does packet loss occur?</h2>
+        <p class="lede">176 runs instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise the loss mechanism.</p>
+
+        <div class="flowchart horizontal" style="margin-bottom:24px">
+          <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Hop 3</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Hop 2</div><div class="flow-arrow">→</div>
+          <div class="flow-node hot">Hop 1</div><div class="flow-arrow">→</div>
+          <div class="flow-node bad">Gateway</div>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Gateway Airtime vs. Network Size</h3>
+            <p class="panel-sub">High traffic condition</p>
+            <div id="bn-legend"></div>
+            <div class="chart-wrap" id="chart-gw-airtime"></div>
+          </div>
+          <div class="panel">
+            <div class="insight-card primary">
+              <div class="k">Primary measurable bottleneck</div>
+              Gateway and first-hop congestion becomes dominant under near-saturated conditions. Gateway airtime reaches <strong>0.86–0.89</strong> at N≥75 under high traffic, and MAC-queue drops are <strong>1.2–2.4×</strong> over-represented in the first-hop neighbourhood.
+            </div>
+            <ul style="margin-top:14px;font-size:.84rem;color:var(--text-dim)">
+              <li>NO_ROUTE / ROUTE_ERROR: &lt;2% of loss in every tested condition</li>
+              <li>Retry exhaustion: measured separately (see Retry Analysis)</li>
+            </ul>
+            <div class="caveat" style="color:var(--text-faint);font-size:.78rem;margin-top:10px">Only 0–53% of actual packet loss is attributable to any single logged counter even at the most saturated cell — the bottleneck's location is well supported, not every lost packet has a known individual cause.</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:16px">
+          <div class="panel-head">
+            <h3>MAC Queue Drops by Hop Distance</h3>
+            <div class="filters" style="margin:0">
+              <div class="filter-group"><span class="fl">N</span><div id="hop-n" style="display:flex"></div></div>
+              <div class="filter-group"><span class="fl">Protocol</span><div id="hop-p" style="display:flex"></div></div>
+            </div>
+          </div>
+          <p class="panel-sub">High traffic. MAC queue drops are disproportionately concentrated around the first-hop gateway region.</p>
+          <div class="chart-wrap" id="chart-hop-macq"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ RETRY -->
+      <section class="view" id="view-retry">
+        <div class="badge-row"><span class="tag retry">Retry-Exhaustion Validation</span></div>
+        <h2>Is retransmission failure the main cause?</h2>
+        <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Average share of loss</h3><div class="chart-wrap" id="chart-retry-vs-macq"></div></div>
+          <div class="panel">
+            <div class="insight-card primary"><div class="k">Primary measurable bottleneck</div>MAC queue / gateway congestion</div>
+            <div class="insight-card secondary" style="margin-top:10px"><div class="k">Secondary mechanism</div>Retry exhaustion — real, but concentrated farther from the gateway, the opposite spatial pattern from queue overflow.</div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <table class="data">
+            <thead><tr><th>Protocol</th><th>N</th><th>Traffic</th><th>Retry share of loss</th><th>MAC-queue share of loss</th></tr></thead>
+            <tbody id="retry-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ INTERVENTION -->
+      <section class="view" id="view-intervention">
+        <div class="badge-row"><span class="tag intervention">Offered-Rate Intervention</span></div>
+        <h2>Can traffic reduction mitigate congestion?</h2>
+        <p class="lede">72-run rate sweep (16 → 12 → 8 → 4 kbps) testing whether reducing offered traffic rate relieves the identified bottleneck.</p>
+
+        <div class="grid cols-2" style="margin-bottom:22px">
+          <div class="flowchart">
+            <div class="flow-node bad">High offered rate</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">High gateway airtime</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">Queue overflow</div><div class="flow-arrow">↓</div>
+            <div class="flow-node bad">Packet loss</div>
+          </div>
+          <div class="flowchart">
+            <div class="flow-node good">Reduce offered rate</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Lower airtime</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Fewer queue drops</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Higher OLSR PDR</div>
+          </div>
+        </div>
+
+        <div class="filters"><div class="filter-group"><span class="fl">OLSR, N=</span><div id="int-n" style="display:flex"></div></div></div>
+        <div class="grid cols-2">
+          <div class="panel"><div id="int-legend"></div><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-pdr"></div></div>
+          <div class="panel"><h3>Gateway Airtime vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-airtime"></div></div>
+        </div>
+        <div class="panel" style="margin-top:16px;text-align:center">
+          <div class="num" style="font-size:2.2rem;font-weight:800;color:var(--ok)" id="int-delta">—</div>
+          <div style="color:var(--text-dim);font-size:.85rem" id="int-delta-label"></div>
+        </div>
+        <div class="callout ok" style="margin-top:16px">At the deepest reduction: <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, monotonic across every tested seed. At N=100, delivered throughput <em>rises</em> at a reduced offered rate (+25.5% at 12 kbps) — the signature of recovering from congestion collapse, not simply sending less.</div>
+      </section>
+
+      <!-- ============================================================ STATIC CONTROL -->
+      <section class="view" id="view-static-control">
+        <div class="badge-row"><span class="tag diagnostic">Static/N=50 Diagnostic</span></div>
+        <h2>OLSR vs. Static under the same intervention</h2>
+        <p class="lede">OLSR improves at high node densities. Static at N=50 shows a flat-to-negative response.</p>
+        <div id="sc-legend"></div>
+        <div class="panel"><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-static-control"></div></div>
+        <div class="callout warn" style="margin:16px 0">Intervention effectiveness is protocol- and load-dependent. Static/N=50 PDR does not improve with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>−7.6 percentage points</strong>). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss.</div>
+        <div class="panel">
+          <h3>Residual-loss diagnostic — all 12 runs</h3>
+          <table class="data">
+            <thead><tr><th>Rate</th><th>Seed</th><th>Attributable loss</th><th>Residual loss</th></tr></thead>
+            <tbody id="diag-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ REPRODUCIBILITY -->
+      <section class="view" id="view-reproducibility">
+        <div class="badge-row"><span class="tag repro">Reproducibility</span></div>
+        <h2>Research Reproducibility</h2>
+        <p class="lede">The frozen research was independently re-executed using a 51-run validation matrix.</p>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="num">51 / 51</div><div class="label">Successful Runs</div></div>
+          <div class="kpi"><div class="num">687</div><div class="label">Comparisons</div></div>
+          <div class="kpi"><div class="num" style="color:var(--ok)">681</div><div class="label">PASS</div></div>
+          <div class="kpi"><div class="num" style="color:var(--text-dim)">0 / 0</div><div class="label">FAIL / DRIFT</div></div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <div class="health-row"><div class="health-label">Configuration</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Exact match</div></div>
+          <div class="health-row"><div class="health-label">Simulation</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Successful (51/51)</div></div>
+          <div class="health-row"><div class="health-label">Numerical comparison</div><div style="flex:1;color:var(--ok);font-weight:700">✓ No drift (681/681 applicable)</div></div>
+          <div class="health-row"><div class="health-label">Research status</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Reproducible</div></div>
+        </div>
+        <p style="font-size:.8rem;color:var(--text-faint);margin-top:12px">6 comparisons not applicable — <code>MaxRetryDrops</code> was not instrumented in the original §10 dataset. Full detail: <a href="../analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md">FINAL_REPRODUCIBILITY_CHECK.md</a>.</p>
+      </section>
+
+      <!-- ============================================================ CONCLUSIONS -->
+      <section class="view" id="view-conclusions">
+        <h2>Research Conclusion</h2>
+        <div class="flowchart" style="margin:20px 0">
+          <div class="flow-node">Network scale + traffic load</div><div class="flow-arrow">↓</div>
+          <div class="flow-node hot">Higher contention</div><div class="flow-arrow">↓</div>
+          <div class="flow-node hot">Gateway / first-hop congestion</div><div class="flow-arrow">↓</div>
+          <div class="flow-node bad">Queue overflow</div><div class="flow-arrow">↓</div>
+          <div class="flow-node bad">Packet loss</div><div class="flow-arrow">↓</div>
+          <div class="flow-node good">Traffic management</div><div class="flow-arrow">↓</div>
+          <div class="flow-node good">Improved OLSR PDR at high node density</div>
+        </div>
+        <div class="callout" style="font-size:.95rem">The study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions and demonstrates that reducing offered traffic rate can effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities. However, the effectiveness of the intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed by the current instrumentation.</div>
+
+        <h2 style="margin-top:40px">Limitations</h2>
+        <div class="panel">
+          <div class="limitation-item"><div class="who">AODV</div><div class="desc">FlowMonitor <code>PacketsSent</code>-denominator artifact affects interpretation of PDR/PacketLoss — read as indicative, not exact.</div></div>
+          <div class="limitation-item"><div class="who">OLSR</div><div class="desc"><code>RoutingOverheadPackets</code> = 0 is a metric-coverage limitation, not proof of zero control traffic.</div></div>
+          <div class="limitation-item"><div class="who">Static</div><div class="desc">Some residual packet loss remains unattributed (64.65%–99.57% at Static/N=50, typically ≥92%).</div></div>
+          <div class="limitation-item"><div class="who">Instrumentation</div><div class="desc">Not all packet-loss mechanisms are directly observable using the current counters. PHY RX drops are not directly equivalent to permanent packet loss.</div></div>
+          <div class="limitation-item"><div class="who">V4</div><div class="desc">Routing adaptation did not produce measurable overall improvement, even at 100% activation.</div></div>
+        </div>
+        <p style="font-size:.8rem;color:var(--text-faint);margin-top:16px">Data source of truth: <a href="../analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md">analysis/final-report-data/</a>. Historical V2.7 results are shown separately in <a href="../README.md">Research History</a> and are not mixed into the charts above.</p>
+      </section>
+
+    </div>
+
+    <footer class="appfoot">
+      Salinthip Keereerat &middot; College of Computing, Prince of Songkla University, Phuket Campus &middot;
+      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3">Repository</a>
+    </footer>
+  </main>
 </div>
 
-<footer>
-  <div class="wrap">
-    Salinthip Keereerat &middot; College of Computing, Prince of Songkla University, Phuket Campus &middot;
-    <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3">Repository</a>
-  </div>
-</footer>
-
-<script src="static/final-dashboard.js"></script>
+<script src="charts.js"></script>
+<script src="topology.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
