@@ -40,6 +40,7 @@
     <div class="navgroup">
       <div class="glabel">Research</div>
       <div class="navlink" data-target="view-reproducibility"><span class="dot"></span>Reproducibility</div>
+      <div class="navlink" data-target="view-data-explorer"><span class="dot"></span>Data Explorer</div>
       <div class="navlink" data-target="view-conclusions"><span class="dot"></span>Conclusions</div>
     </div>
 
@@ -323,15 +324,52 @@
         <div id="perf-legend"></div>
         <div class="evidence-role primary">Primary Evidence</div>
         <div class="grid cols-2" style="margin-bottom:18px">
-          <div class="panel primary-evidence"><h3>Packet Delivery Ratio vs. Network Size</h3><p class="panel-sub">% of packets delivered</p><div class="chart-wrap" id="chart-pdr"></div></div>
-          <div class="panel primary-evidence"><h3>Throughput vs. Network Size</h3><p class="panel-sub">kbps delivered</p><div class="chart-wrap" id="chart-throughput"></div></div>
+          <div class="panel primary-evidence">
+            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3>Packet Delivery Ratio vs. Network Size</h3><p class="panel-sub">% of packets delivered</p><div class="chart-wrap" id="chart-pdr"></div></div>
+          <div class="panel primary-evidence">
+            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3>Throughput vs. Network Size</h3><p class="panel-sub">kbps delivered</p><div class="chart-wrap" id="chart-throughput"></div></div>
         </div>
         <div class="evidence-role">Supporting Evidence</div>
-        <div class="secondary-grid">
-          <div class="panel"><h3 style="font-size:.78rem">End-to-End Delay vs. Network Size</h3><p class="panel-sub">ms</p><div class="chart-wrap" id="chart-delay"></div></div>
-          <div class="panel"><h3 style="font-size:.78rem">Packet Loss vs. Network Size</h3><p class="panel-sub">packets</p><div class="chart-wrap" id="chart-loss"></div></div>
+        <div class="grid cols-3">
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag supporting">Supporting Evidence</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.78rem">End-to-End Delay vs. Network Size</h3><p class="panel-sub">ms</p><div class="chart-wrap" id="chart-delay"></div></div>
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag supporting">Supporting Evidence</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.78rem">Packet Loss vs. Network Size</h3><p class="panel-sub">packets</p><div class="chart-wrap" id="chart-loss"></div></div>
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag supporting">Supporting Evidence</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.78rem">Jitter vs. Network Size</h3><p class="panel-sub">ms, mean inter-packet delay variation</p><div class="chart-wrap" id="chart-jitter"></div></div>
         </div>
         <div class="callout" style="margin-top:16px">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and qualitative trends are unaffected.</div>
+
+        <div class="evidence-role" style="margin-top:32px">Routing &amp; Path Behavior Evidence</div>
+        <div class="grid cols-3">
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag routing">Routing Evidence</span><span class="metric-status limited">△ Limited coverage</span></div>
+            <h3 style="font-size:.78rem">Routing Overhead — Metric Coverage Limitation</h3><p class="panel-sub">control packets, mean per run</p><div class="chart-wrap" id="chart-routing-overhead"></div>
+            <p class="panel-sub" style="margin-top:10px;line-height:1.5">AODV: ✓ Measured (substantial, rising with N). OLSR: △ <code>RoutingOverheadPackets = 0</code> in the current dataset reflects metric coverage/instrumentation limitations and should not be interpreted as proof of zero routing control overhead. Static: ✓ Measured (genuine zero — no routing protocol runs, so there is no control traffic by design).</p>
+          </div>
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag routing">Routing Evidence</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.78rem">Hop Count vs. Network Size</h3><p class="panel-sub">mean hops to gateway</p><div class="chart-wrap" id="chart-hopcount-v3"></div>
+            <p class="panel-sub" style="margin-top:10px;line-height:1.5">AODV/OLSR hop count is approximated via times-forwarded; Static hop count is exact (computed from topology). Do not compare the exact Static value against the approximate AODV/OLSR values as if measured identically.</p>
+          </div>
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag routing">Routing Evidence</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.78rem">Path Changes vs. Network Size</h3><p class="panel-sub">mean route changes per run</p><div class="chart-wrap" id="chart-path-changes"></div>
+            <p class="panel-sub" style="margin-top:10px;line-height:1.5">Static = 0 by design (fixed shortest-path tree, routes never change) — not a coverage gap.</p>
+          </div>
+        </div>
+
+        <div class="evidence-role" style="margin-top:32px">Network Utilization / Bottleneck Evidence</div>
+        <div class="panel">
+          <div class="metric-meta"><span class="metric-tag mechanism">Mechanism Evidence</span><span class="metric-status measured">✓ Measured (proxy)</span></div>
+          <h3>Maximum Link Utilization vs. Network Size</h3><p class="panel-sub">busiest single link, % of nominal PHY rate</p><div class="chart-wrap" id="chart-mlu"></div>
+        </div>
+        <div class="callout" style="margin-top:16px">Maximum Link Utilization is distinct from Gateway Airtime (see Bottleneck Analysis, below) — MLU is a per-neighbour-pair delivered-load ratio against nominal PHY rate, computed for the single busiest link in each topology; Gateway Airtime measures the sensor-facing gateway's own channel-busy fraction specifically. MLU excludes retries, backoff, ACKs, headers, and other nodes' airtime, and per-link load spreads out as N grows — so a low MLU value is <strong>not</strong> evidence of an uncongested channel; taken at face value it would understate congestion. Treat it as a relative hot-link indicator, not a measured airtime fraction.</div>
 
         <h2 style="margin-top:40px">How does traffic load affect the network?</h2>
         <p class="lede">Low → Medium → High offered rate, pooled over node count and mobility.</p>
@@ -427,6 +465,87 @@
             <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Statistical Validation</div>
           </div>
         </div>
+
+        <!-- ============================ C. FUTURE EXPERIMENTS ============================ -->
+        <div class="badge-row" style="margin-top:40px">
+          <span class="tag" style="background:var(--purple-soft);color:var(--v4)">C · Future Experiments</span>
+          <span class="tag" style="background:var(--bad-soft);color:var(--bad)">V4 — Future Experiment · Status: → Planned</span>
+        </div>
+        <h3>Future Experiments</h3>
+        <p class="lede">Future experiments will first establish a baseline under conditions without risk. The study will then introduce risk conditions to evaluate how Sigmoid-based adaptive routing responds to changes in network conditions.</p>
+        <div class="callout" style="margin-bottom:20px">
+          <p style="margin:0 0 8px">Per advisor direction, the experiment follows a two-stage sequence: <strong>without risk first, for baseline, then with risk.</strong></p>
+          <p style="margin:0">The precise definition of the risk condition has not yet been finalized as part of the research methodology. No experiment in this design has been run, and no experimental values are presented.</p>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-head"><h3>Experimental sequence</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">Planned — not yet run</span></div>
+          <p class="panel-sub">Without Risk → Baseline → With Risk</p>
+          <div class="flowchart" style="margin:14px 0">
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint);text-align:left;padding:14px 18px;max-width:420px">
+              <div style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">01 — WITHOUT RISK</div>
+              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">Baseline Condition</div>
+              <div style="font-size:.8rem;color:var(--text-dim);font-weight:400">Establish the normal network performance baseline before introducing the risk condition.</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint);text-align:left;padding:14px 18px;max-width:420px">
+              <div style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">02 — WITH RISK</div>
+              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">Risk Condition</div>
+              <div style="font-size:.8rem;color:var(--text-dim);font-weight:400">Introduce the risk condition and evaluate how Sigmoid-based adaptive routing responds.</div>
+            </div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint);text-align:left;padding:14px 18px;max-width:420px">
+              <div style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">03 — COMPARISON</div>
+              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">Baseline vs. Risk Condition</div>
+              <div style="font-size:.8rem;color:var(--text-dim);font-weight:400">Compare network performance between the baseline condition and the risk condition.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-bottom:20px">
+          <div class="panel">
+            <div class="panel-head"><h3>Without Risk — Baseline</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">Planned</span></div>
+            <p class="panel-sub">Establish baseline network behavior under a normal condition without risk.</p>
+            <div class="flowchart" style="margin:14px 0">
+              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Normal network condition</div><div class="flow-arrow">↓</div>
+              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Measure network performance</div><div class="flow-arrow">↓</div>
+              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Establish baseline</div>
+            </div>
+            <p class="panel-sub" style="margin:10px 0 4px">Metrics:</p>
+            <ul style="color:var(--text-dim);font-size:.85rem;margin:0;padding-left:20px">
+              <li>PDR</li><li>Throughput</li><li>Delay</li><li>Jitter</li>
+              <li>Packet Loss</li><li>Hop Count</li><li>MLU</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>With Risk — Adaptive Routing</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">Planned</span></div>
+            <p class="panel-sub">Introduce the risk condition and evaluate how Sigmoid-based adaptive routing responds to the changed network condition.</p>
+            <div class="flowchart" style="margin:14px 0">
+              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Introduce risk condition</div><div class="flow-arrow">↓</div>
+              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Evaluate Sigmoid-based adaptive routing</div><div class="flow-arrow">↓</div>
+              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Measure network performance</div><div class="flow-arrow">↓</div>
+              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Compare with baseline</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><h3>Step 3 — Final Comparison</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">Planned</span></div>
+          <p class="panel-sub">Evaluate whether the adaptive routing mechanism can maintain or improve network performance under the risk condition.</p>
+          <div class="grid cols-2" style="margin-top:12px">
+            <div class="panel" style="background:var(--panel-2)">
+              <h3 style="font-size:.82rem">Without Risk</h3>
+              <p class="panel-sub" style="margin:0 0 4px">Baseline condition</p>
+              <p class="panel-sub" style="margin:0">No experimental values yet — planned condition.</p>
+            </div>
+            <div class="panel" style="background:var(--panel-2)">
+              <h3 style="font-size:.82rem">With Risk</h3>
+              <p class="panel-sub" style="margin:0 0 4px">Risk condition</p>
+              <p class="panel-sub" style="margin:0">No experimental values yet — planned condition.</p>
+            </div>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:16px">This planned baseline/risk design is separate from — and must not be confused with — the completed V3 official baseline (1,782 runs; see Network Performance, above) or the completed V4 activation-screen results (A · Existing Evidence, above). It is a future experiment on the V4 track only; V3 results are unaffected and unchanged.</div>
       </section>
 
       <!-- ============================================================ BOTTLENECK -->
@@ -607,6 +726,44 @@
         <p style="font-size:.8rem;color:var(--text-faint);margin-top:12px">6 comparisons not applicable — <code>MaxRetryDrops</code> was not instrumented in the original §10 dataset. Full detail: <a href="../analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md">FINAL_REPRODUCIBILITY_CHECK.md</a>.</p>
       </section>
 
+      <!-- ============================================================ DATA EXPLORER (live SQLite) -->
+      <section class="view" id="view-data-explorer">
+        <div class="section-eyebrow">Research Data Layer</div>
+        <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>Live SQLite Database</span></div>
+        <h2>Data Explorer</h2>
+        <p class="lede">A structured, auditable research-data layer generated from the frozen source CSVs. Queried live in your browser via SQLite compiled to WebAssembly — no server involved.</p>
+
+        <div class="flowchart horizontal" style="margin-bottom:20px">
+          <div class="flow-node">NS-3</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Raw CSV Results</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Validation / ETL</div><div class="flow-arrow">→</div>
+          <div class="flow-node good">SQLite research.db</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Dashboard Data Explorer</div>
+        </div>
+
+        <div class="callout" id="de-status" style="margin-bottom:18px">Initialising…</div>
+
+        <div class="panel" style="margin-bottom:16px">
+          <h3>Preset queries</h3>
+          <p class="panel-sub">Each preset runs a real SQL query against <code>research.db</code>. Every table traces back to a specific frozen source file — see the "Data sources" preset for provenance.</p>
+          <div class="filters" id="de-presets" style="margin:0"></div>
+        </div>
+
+        <div class="panel" style="margin-bottom:16px">
+          <div class="panel-head"><h3>SQL query (read-only)</h3><span id="de-run-status" style="font-size:.76rem;color:var(--text-faint)"></span></div>
+          <p class="panel-sub">Single <code>SELECT</code> statements only — no write access exists in this browser-side database.</p>
+          <textarea id="de-sql" rows="5" style="width:100%;font-family:var(--mono);font-size:.8rem;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel-2);color:var(--text);resize:vertical"></textarea>
+          <div style="margin-top:10px"><button class="pill active" id="de-run">▶ Run Query</button></div>
+        </div>
+
+        <div class="panel">
+          <h3>Result</h3>
+          <div id="de-result"></div>
+        </div>
+
+        <div class="caveat" style="color:var(--text-faint);font-size:.78rem;margin-top:14px">Two derived columns exist in <code>intervention_results</code> (<code>attributed_loss</code>, <code>residual_loss</code>) — computed from already-verbatim columns using the same accounting established in the Static/N=50 diagnostic, disclosed in <code>db_metadata</code>. Every other column is copied unmodified from its source CSV. Historical V2.7 data is not included in this database.</div>
+      </section>
+
       <!-- ============================================================ CONCLUSIONS -->
       <section class="view" id="view-conclusions">
         <div class="section-eyebrow">Key Findings</div>
@@ -643,9 +800,11 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
 <script src="charts.js"></script>
 <script src="topology.js"></script>
 <script src="realworld.js"></script>
+<script src="data-explorer.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -130,6 +130,19 @@ section.view:last-child{border-bottom:none}
 .evidence-role{font-size:.62rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);margin-bottom:6px}
 .evidence-role.primary{color:var(--accent)}
 .secondary-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.metric-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+.metric-tag{font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:3px;border:1px solid transparent;white-space:nowrap}
+.metric-tag.primary{background:var(--accent-soft);color:var(--accent);border-color:var(--accent-line)}
+.metric-tag.supporting{background:var(--panel-2);color:var(--text-dim);border-color:var(--border)}
+.metric-tag.routing{background:var(--purple-soft);color:var(--v4);border-color:rgba(107,70,193,.3)}
+.metric-tag.mechanism{background:var(--warn-soft);color:var(--warn);border-color:rgba(181,106,18,.3)}
+.metric-tag.v4tag{background:var(--purple-soft);color:var(--v4);border-color:rgba(107,70,193,.3)}
+.metric-tag.limitation{background:var(--bad-soft);color:var(--bad);border-color:rgba(192,57,43,.3)}
+.metric-status{font-size:.66rem;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.metric-status.measured{color:var(--ok)}
+.metric-status.available{color:var(--accent)}
+.metric-status.limited{color:var(--warn)}
+.metric-status.none{color:var(--text-faint)}
 
 /* ---------- filters ---------- */
 .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}

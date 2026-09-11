@@ -250,6 +250,11 @@ function drawPerfCharts() {
   lineChart(document.getElementById("chart-throughput"), activeSeries("throughput"), { colors: COLORS, unit: " kbps", yfmt: 0 });
   lineChart(document.getElementById("chart-delay"), activeSeries("delay"), { colors: COLORS, unit: " ms", yfmt: 0 });
   lineChart(document.getElementById("chart-loss"), activeSeries("loss"), { colors: COLORS, unit: " pkts", yfmt: 0 });
+  lineChart(document.getElementById("chart-jitter"), activeSeries("jitter"), { colors: COLORS, unit: " ms", yfmt: 1 });
+  groupedBar(document.getElementById("chart-routing-overhead"), activeSeries("routing_overhead"), { colors: COLORS, unit: " pkts", yfmt: 0, xlabel: x => `N=${x}` });
+  lineChart(document.getElementById("chart-hopcount-v3"), activeSeries("hop"), { colors: COLORS, unit: " hops", yfmt: 2 });
+  groupedBar(document.getElementById("chart-path-changes"), activeSeries("path_changes"), { colors: COLORS, unit: "", yfmt: 0, xlabel: x => `N=${x}` });
+  groupedBar(document.getElementById("chart-mlu"), activeSeries("link_util_max", 100), { colors: COLORS, unit: "%", yfmt: 1, xlabel: x => `N=${x}` });
 }
 function legendOnce(id) {
   const c = document.getElementById(id); c.innerHTML = "";
@@ -367,6 +372,7 @@ async function main() {
   renderIntervention();
   renderStaticControl();
   if (typeof initRealWorldSection === "function") initRealWorldSection(DATA);
+  if (typeof initDataExplorer === "function") initDataExplorer();
   initNav();
 }
 document.addEventListener("DOMContentLoaded", main);
