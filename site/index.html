@@ -3,989 +3,197 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IoT Network Performance Lab</title>
-<link rel="stylesheet" href="static/style.css">
-<script src="static/vendor/chart.umd.min.js"></script>
+<title>Analysis of IoT Network Performance Using NS-3</title>
+<link rel="stylesheet" href="static/final-dashboard.css">
 </head>
 <body>
-<div class="app-shell">
 
-  <button id="menu-toggle" class="menu-toggle" aria-label="Toggle navigation">
-    <span></span><span></span><span></span>
-  </button>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <span class="brand-mark">&#9670;</span>
-      <span class="brand-text">IoT Network Lab</span>
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Research Complete &middot; Frozen</span>
+    <h1>Analysis of IoT Network Performance Using NS-3</h1>
+    <p class="subtitle">Identifying congestion bottlenecks and evaluating traffic-rate mitigation in multi-hop IoT wireless networks</p>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="num" id="stat-v3">1,782</div><div class="label">V3 Official Runs</div></div>
+      <div class="stat-card"><div class="num" id="stat-v4">594</div><div class="label">V4 Matched Conditions</div></div>
+      <div class="stat-card"><div class="num" id="stat-bottleneck">176</div><div class="label">Bottleneck Runs</div></div>
+      <div class="stat-card"><div class="num" id="stat-repro">681/681</div><div class="label">Reproducibility PASS</div></div>
     </div>
-    <nav class="sidebar-nav" id="sidebar-nav">
-      <a href="#overview" data-section="overview" class="nav-link">Overview</a>
-      <a href="#performance" data-section="performance" class="nav-link">Performance</a>
-      <a href="#protocols" data-section="protocols" class="nav-link">Protocols</a>
-      <a href="#scaling" data-section="scaling" class="nav-link">Network Scaling</a>
-      <a href="#trials" data-section="trials" class="nav-link">Trials</a>
-      <a href="#topology" data-section="topology" class="nav-link">Topology</a>
-      <a href="#real-world" data-section="real-world" class="nav-link">Real-World App</a>
-      <a href="#raw-data" data-section="raw-data" class="nav-link">Raw Data</a>
-      <a href="#methodology" data-section="methodology" class="nav-link">Methodology</a>
-      <a href="#validity" data-section="validity" class="nav-link">Validity</a>
-      <a href="#v3-ext" data-section="v3-ext" class="nav-link">Expanded Matrix (V3 Phase 1)</a>
-      <a href="#sigmoid" data-section="sigmoid" class="nav-link">Sigmoid Pilot (V2.8)</a>
-      <a href="#v4-sigmoid" data-section="v4-sigmoid" class="nav-link">V4 &mdash; Sigmoid Adaptive Routing</a>
-      <a href="#github" data-section="github" class="nav-link">GitHub</a>
-    </nav>
-    <a class="sidebar-github" href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener">
-      <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
-        <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
-        0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
-        -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07
-        -1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0
-        c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54
-        1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-      </svg>
-      <span>@SalinCalyna</span>
-    </a>
-  </aside>
+  </div>
+</header>
 
-  <main class="content">
+<nav class="toc">
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:16px">
+    <a href="#overview">Overview</a>
+    <a href="#baseline">Baseline</a>
+    <a href="#v4">V4 Routing</a>
+    <a href="#bottleneck">Bottleneck</a>
+    <a href="#retry">Retry Exhaustion</a>
+    <a href="#intervention">Rate Intervention</a>
+    <a href="#static-control">Static Control</a>
+    <a href="#reproducibility">Reproducibility</a>
+    <a href="#conclusions">Conclusions</a>
+    <a href="#history">Research History</a>
+  </div>
+</nav>
 
-    <section class="hero" id="hero">
-      <div class="hero-grid-bg" aria-hidden="true"></div>
-      <div class="hero-inner">
-        <p class="eyebrow">Research Dashboard &middot; ns-3</p>
-        <h1>IoT Network Performance Lab</h1>
-        <p class="hero-subtitle">ns-3 Multi-Hop 802.11b Ad-Hoc Wireless Mesh</p>
-        <p class="hero-desc">Experimental analysis of routing protocol performance in multi-hop IoT wireless networks using ns-3.</p>
-        <div class="badge-row">
-          <span class="badge badge-aodv">AODV</span>
-          <span class="badge badge-olsr">OLSR</span>
-          <span class="badge badge-static">STATIC ROUTING</span>
-        </div>
-        <div class="hero-stats">
-          <div><strong id="hero-scenarios">&mdash;</strong><span>Scenarios</span></div>
-          <div><strong id="hero-trials">&mdash;</strong><span>Trials</span></div>
-          <div><strong id="hero-sizes">&mdash;</strong><span>Network sizes</span></div>
-        </div>
-        <div class="hero-buttons">
-          <a href="#performance" class="btn btn-primary">Explore Results</a>
-          <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener" class="btn btn-ghost">View GitHub &#8599;</a>
-        </div>
-      </div>
-    </section>
+<div class="wrap">
 
-    <section class="researcher-chip glass">
-      <div class="avatar-dot">S</div>
-      <div class="researcher-text">
-        <div class="researcher-name">Salinthip Keereerat <span class="researcher-id">&middot; 6630613037</span></div>
-        <div class="researcher-role">IoT Network Research &middot; ns-3 Simulation &amp; Network Performance Analysis</div>
-        <div class="researcher-affiliation">College of Computing, Prince of Songkla University, Phuket Campus</div>
-      </div>
-      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener" class="btn btn-small">View GitHub Profile &#8599;</a>
-    </section>
+<section id="overview">
+  <h2>1. Overview</h2>
+  <p class="lede">Research question: <em>what is the main cause of packet loss in a multi-hop IoT network as network size and traffic load increase, and can the identified bottleneck be mitigated by reducing offered traffic rate?</em></p>
+  <div class="flow">
+    <span class="step">Network gets larger</span>&rarr;
+    <span class="step">Performance degrades</span>&rarr;
+    <span class="step">V4 routing adaptation investigated</span>&rarr;
+    <span class="step">Routing alone does not solve it</span>&rarr;
+    <span class="step">Bottleneck probe: gateway/first-hop congestion</span>&rarr;
+    <span class="step">Retry exhaustion: confirmed, secondary</span>&rarr;
+    <span class="step">Offered-rate reduction tested</span>&rarr;
+    <span class="step">OLSR N=75/100 improves</span>&rarr;
+    <span class="step">Effect is protocol- and load-dependent</span>
+  </div>
+  <div class="callout">All reported research values are based on the frozen <strong>Final Report Data Package</strong> at <code>analysis/final-report-data/</code> in the <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3">repository</a>.</div>
+</section>
 
-    <section id="overview" class="section">
-      <h2 class="section-title">Overview <span class="badge badge-actual">ACTUAL DATA</span></h2>
-      <div class="kpi-grid">
-        <div class="kpi-card glass">
-          <div class="kpi-value" id="stat-scenarios">&mdash;</div>
-          <div class="kpi-label">Scenarios</div>
-        </div>
-        <div class="kpi-card glass">
-          <div class="kpi-value" id="stat-trials">&mdash;</div>
-          <div class="kpi-label">Experiment trials</div>
-        </div>
-        <div class="kpi-card glass">
-          <div class="kpi-value" id="stat-protocols">&mdash;</div>
-          <div class="kpi-label">Routing protocols</div>
-        </div>
-        <div class="kpi-card glass">
-          <div class="kpi-value" id="stat-sizes">&mdash;</div>
-          <div class="kpi-label">Network sizes</div>
-        </div>
-      </div>
+<section id="baseline">
+  <h2>2. Baseline Network Performance</h2>
+  <p class="lede">V3 official baseline &mdash; 1,782 runs, Seed 20&ndash;30, pooled over traffic level and mobility mode. PDR degrades monotonically with node count for all three protocols.</p>
+  <div class="grid2">
+    <div class="panel"><h3>Figure 1 &middot; PDR vs. node count</h3><div id="fig1"></div></div>
+    <div class="panel">
+      <h3>Key figures</h3>
+      <table><tr><th>Protocol</th><th>N=10</th><th>N=100</th></tr>
+        <tr><td>OLSR</td><td>69.48%</td><td>29.78%</td></tr>
+        <tr><td>Static</td><td>46.69%</td><td>17.20%</td></tr>
+        <tr><td>AODV</td><td>76.73%</td><td>4.00%</td></tr>
+      </table>
+      <div class="caveat">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison.</div>
+    </div>
+  </div>
+</section>
 
-      <div class="status-card glass">
-        <h3>Current Experiment Status</h3>
-        <ul class="status-dots">
-          <li><span class="dot dot-ok"></span> V2.7 experiment complete</li>
-          <li><span class="dot dot-ok"></span> <span id="status-csv-count">&mdash;</span> CSV datasets available</li>
-          <li><span class="dot dot-ok"></span> 5 independent trials per scenario</li>
-        </ul>
-      </div>
-      <p class="small-note">A 15-node topology has been proposed for a future study but has not been run &mdash; <span class="badge badge-future">FUTURE WORK</span>. Only 10/20/30/50-node results exist in the current V2.7 dataset.</p>
+<section id="v4">
+  <h2>3. V4 Sigmoid-Based Routing Investigation</h2>
+  <p class="lede">Sigmoid-based adaptive routing changed routing behaviour under selected configurations, but activation did not translate into a measurable performance improvement. This is a valid negative result, not a failed implementation.</p>
+  <table>
+    <thead><tr><th>Configuration</th><th>Route-tree change vs. Static</th><th>Activated?</th><th>PDR (V4)</th><th>PDR (Static)</th></tr></thead>
+    <tbody id="v4-table-body"></tbody>
+  </table>
+  <div class="callout warn">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, which is <strong>not</strong> statistically credible (sign-test p=1.0), while delay worsened by 21.6% and link utilisation worsened by 42.8%.</div>
+</section>
 
-      <div class="panel glass" id="problems-panel" style="display:none;">
-        <h3>CSV loading notices</h3>
-        <ul id="problems-list"></ul>
-      </div>
-    </section>
+<section id="bottleneck">
+  <h2>4. Bottleneck Characterisation</h2>
+  <p class="lede">176 runs (OLSR/Static &times; 4 node counts &times; 2 traffic levels, 11 seeds) instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise where loss occurs.</p>
+  <div class="grid2">
+    <div class="panel"><h3>Figure 2 &middot; Gateway airtime vs. node count (high traffic)</h3><div id="fig2"></div></div>
+    <div class="panel">
+      <h3>Evidence</h3>
+      <ul>
+        <li>Gateway airtime reaches <strong>0.86&ndash;0.89</strong> at N&ge;75 under high traffic &mdash; an empirical near-saturation reference for this topology.</li>
+        <li>MAC-queue drops are <strong>1.2&ndash;2.4&times;</strong> over-represented in the first-hop neighbourhood.</li>
+        <li>NO_ROUTE / ROUTE_ERROR are negligible (&lt;2% of loss) in every tested condition &mdash; routing failure is not the mechanism.</li>
+      </ul>
+      <div class="caveat">Only 0&ndash;53% of actual packet loss is attributable to any single logged counter even at the most saturated cell &mdash; the bottleneck's location is well supported, but not every lost packet has a known individual cause.</div>
+    </div>
+  </div>
+</section>
 
-    <section id="performance" class="section">
-      <h2 class="section-title">Routing Protocol Performance <span class="badge badge-actual">ACTUAL DATA</span></h2>
+<section id="retry">
+  <h2>5. Retry Exhaustion</h2>
+  <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
+  <table>
+    <thead><tr><th>Protocol</th><th>N</th><th>Traffic</th><th>Retry share of loss</th><th>MAC-queue share of loss</th></tr></thead>
+    <tbody id="retry-table-body"></tbody>
+  </table>
+  <div class="callout">Retry exhaustion is real (mean &asymp;6% of loss) but secondary to MAC-queue overflow in 10 of 12 cells, and concentrates farther from the gateway &mdash; the opposite spatial pattern from queue overflow.</div>
+</section>
 
-      <div class="filters glass">
-        <div class="filter-group">
-          <label for="filter-protocol">Protocol</label>
-          <select id="filter-protocol">
-            <option value="all">All</option>
-            <option value="aodv">AODV</option>
-            <option value="olsr">OLSR</option>
-            <option value="static">Static</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label for="filter-nodes">Number of nodes</label>
-          <select id="filter-nodes">
-            <option value="all">All</option>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="50">50</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label for="filter-trial">Trial</label>
-          <select id="filter-trial">
-            <option value="all">All (mean &plusmn; SD)</option>
-            <option value="1">Trial 1</option>
-            <option value="2">Trial 2</option>
-            <option value="3">Trial 3</option>
-            <option value="4">Trial 4</option>
-            <option value="5">Trial 5</option>
-          </select>
-        </div>
-        <div class="filter-group metric-tabs">
-          <label>Metric</label>
-          <div class="tabs" id="metric-tabs">
-            <button class="tab active" data-metric="pdr">PDR</button>
-            <button class="tab" data-metric="throughput">Throughput</button>
-            <button class="tab" data-metric="delay">Delay</button>
-            <button class="tab" data-metric="loss">Packet Loss</button>
-          </div>
-        </div>
-      </div>
+<section id="intervention">
+  <h2>6. Offered-Rate Intervention</h2>
+  <p class="lede">72-run rate sweep (16&rarr;12&rarr;8&rarr;4 kbps) testing whether reducing offered traffic rate relieves the bottleneck identified above.</p>
+  <div class="grid2">
+    <div class="panel"><h3>Figure 5 &middot; OLSR PDR vs. offered rate</h3><div id="fig5"></div></div>
+    <div class="panel"><h3>Figure 6 &middot; OLSR gateway airtime vs. offered rate</h3><div id="fig6"></div></div>
+  </div>
+  <div class="callout">At the deepest rate reduction (16&rarr;4 kbps): <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, both monotonic across every tested seed. At N=100, delivered <em>throughput rises</em> at a reduced offered rate (+25.5% at 12 kbps) &mdash; the signature of recovering from congestion collapse, not simply sending less.</div>
+</section>
 
-      <div class="chart-card glass">
-        <div class="chart-header">
-          <h3 id="chart-title">Packet Delivery Ratio (PDR)</h3>
-          <span class="tag tag-warn" id="chart-status-tag" style="display:none;">Under investigation</span>
-          <span class="tag tag-ok" id="chart-status-ok">Confirmed / usable</span>
-        </div>
-        <p class="chart-note" id="chart-note"></p>
-        <div class="chart-wrap"><canvas id="main-chart" height="110"></canvas></div>
-      </div>
+<section id="static-control">
+  <h2>7. Static Routing &mdash; Negative Control (N=50)</h2>
+  <p class="lede">Static routing at N=50 was tested under the same rate sweep, then diagnosed with a focused 12-run study.</p>
+  <div class="grid2">
+    <div class="panel"><h3>Figure 7 &middot; Static N=50 PDR vs. offered rate</h3><div id="fig7"></div></div>
+    <div class="panel">
+      <h3>Residual-loss diagnostic (all 12 runs)</h3>
+      <table><thead><tr><th>Rate</th><th>Seed</th><th>Attributable loss</th><th>Residual loss</th></tr></thead>
+        <tbody id="diag-table-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="callout warn">PDR does not improve (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>&minus;7.6 percentage points</strong>). This is not a broken protocol: congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss &mdash; residual (unattributed) loss ranges 64.65%&ndash;99.57% across all 12 runs.</div>
+</section>
 
-      <div class="table-card glass">
-        <h3>Aggregated results (mean &plusmn; SD across trials)</h3>
-        <div class="table-wrap">
-          <table id="summary-table">
-            <thead>
-              <tr>
-                <th data-sort="protocol">Protocol</th>
-                <th data-sort="nodes">Nodes</th>
-                <th data-sort="trials">Trials</th>
-                <th data-sort="pdrMean">PDR (%)</th>
-                <th data-sort="throughputMean">Throughput (kbps)</th>
-                <th data-sort="delayMean">Delay (ms)</th>
-                <th data-sort="lossMean">Packet loss (pkts)</th>
-              </tr>
-            </thead>
-            <tbody id="summary-tbody"></tbody>
-          </table>
-        </div>
-      </div>
+<section id="reproducibility">
+  <h2>8. Reproducibility</h2>
+  <p class="lede">The frozen research was independently re-executed using a 51-run validation matrix.</p>
+  <div class="grid2">
+    <div class="panel">
+      <div class="bignum">681 / 687</div>
+      <p>applicable metric comparisons passed exactly, with 0 failed comparisons and 0 numerical drift. 6 comparisons were not applicable because <code>MaxRetryDrops</code> was not available in the original bottleneck-characterisation dataset.</p>
+    </div>
+    <div class="panel">
+      <h3>Validation matrix</h3>
+      <ul>
+        <li>51/51 runs completed successfully, 0 failed</li>
+        <li>V3 baseline: AODV/OLSR/Static &times; N=10/50/100</li>
+        <li>Bottleneck condition: OLSR &times; N=75/100, high traffic</li>
+        <li>Rate intervention: OLSR &times; N=75/100 &times; 16/4 kbps</li>
+        <li>Static negative control: N=50 &times; 16/4 kbps</li>
+      </ul>
+    </div>
+  </div>
+  <p>Based on this validation, the frozen research results are considered reproducible. Full detail: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md">FINAL_REPRODUCIBILITY_CHECK.md</a>.</p>
+</section>
 
-      <div class="table-card glass" id="research-graphs-card">
-        <div class="chart-header">
-          <h3>Generated Research Graphs</h3>
-          <span class="badge badge-actual">ACTUAL DATA</span>
-        </div>
-        <p class="chart-note">
-          Static reference plots produced by <code>experiments/analyze_results.py</code> from the same
-          <code>results/*.csv</code> data as the interactive chart above &mdash; regenerate with
-          <code>./experiments/run_and_analyze.sh</code>. These are the pipeline's saved output, distinct
-          from the live Chart.js chart (which recomputes on every filter change).
-        </p>
-        <div class="research-graphs-grid" id="research-graphs-grid"></div>
-        <p class="small-note" id="research-graphs-note"></p>
-      </div>
-    </section>
+<section id="conclusions">
+  <h2>9. Conclusions &amp; Limitations</h2>
+  <div class="callout">The study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions and demonstrates that reducing offered traffic rate can effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities. However, the effectiveness of the intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed by the current instrumentation.</div>
+  <h3 style="margin-top:24px">Limitations</h3>
+  <ul>
+    <li><strong>AODV:</strong> FlowMonitor <code>PacketsSent</code>-denominator artifact &mdash; PDR/loss figures are indicative, not exact.</li>
+    <li><strong>OLSR:</strong> <code>RoutingOverheadPackets</code>=0 in the V3 dataset is a metric-coverage limitation, not evidence of zero control traffic.</li>
+    <li><strong>PHY RX drops</strong> are not directly equivalent to permanent packet loss.</li>
+    <li>Not every terminal packet fate is captured by the current instrumentation &mdash; the residual-loss finding is a measured gap, not a resolved mechanism.</li>
+    <li>The offered-rate intervention is a fixed-rate reduction, not an adaptive admission-control algorithm.</li>
+    <li>All findings are specific to the studied ns-3 topology, PHY/MAC configuration, and parameter set.</li>
+  </ul>
+</section>
 
-    <section id="protocols" class="section">
-      <h2 class="section-title">Protocols <span class="badge badge-actual">ACTUAL DATA</span></h2>
-      <div class="protocol-grid" id="protocol-grid">
-        <div class="protocol-card glass" data-protocol="aodv">
-          <div class="protocol-head">
-            <h3>AODV</h3>
-            <span class="protocol-kind">Reactive routing</span>
-          </div>
-          <p class="protocol-desc">Discovers routes on demand via RREQ/RREP flooding; only pays discovery cost when a route is actually needed.</p>
-          <div class="protocol-metrics" id="protocol-metrics-aodv"></div>
-          <div class="protocol-mini-chart"><canvas id="mini-chart-aodv" height="70"></canvas></div>
-          <button class="btn btn-small btn-outline" data-jump="performance" data-protocol="aodv">View Details</button>
-        </div>
-        <div class="protocol-card glass" data-protocol="olsr">
-          <div class="protocol-head">
-            <h3>OLSR</h3>
-            <span class="protocol-kind">Proactive routing</span>
-          </div>
-          <p class="protocol-desc">Maintains routes continuously via periodic Hello/TC messages, regardless of whether traffic needs them.</p>
-          <div class="protocol-metrics" id="protocol-metrics-olsr"></div>
-          <div class="protocol-mini-chart"><canvas id="mini-chart-olsr" height="70"></canvas></div>
-          <button class="btn btn-small btn-outline" data-jump="performance" data-protocol="olsr">View Details</button>
-        </div>
-        <div class="protocol-card glass" data-protocol="static">
-          <div class="protocol-head">
-            <h3>Static</h3>
-            <span class="protocol-kind">Static routing</span>
-          </div>
-          <p class="protocol-desc">Fixed BFS shortest-hop routes computed once from an assumed 90&nbsp;m disk connectivity model; never adapts at runtime.</p>
-          <div class="protocol-metrics" id="protocol-metrics-static"></div>
-          <div class="protocol-mini-chart"><canvas id="mini-chart-static" height="70"></canvas></div>
-          <button class="btn btn-small btn-outline" data-jump="performance" data-protocol="static">View Details</button>
-        </div>
-      </div>
-    </section>
+<section id="history">
+  <h2>Research History</h2>
+  <p class="lede">Earlier project iterations, kept for context. These are historical results, not part of the frozen final research above.</p>
+  <details>
+    <summary>V2.7 baseline (historical) &mdash; 60 runs, 10/20/30/50 nodes</summary>
+    <p>The project's first complete study: AODV/OLSR/Static &times; 4 node counts &times; 5 seeds. Superseded by the V3 Official Baseline (1,782 runs) shown above. Raw CSVs remain in <code>results/*.csv</code> for reference.</p>
+  </details>
+  <details>
+    <summary>Early V3 sigmoid prototype (historical) &mdash; 4-run smoke test</summary>
+    <p>An early, separate exploration of adaptive routing on a 15-node clustered topology, superseded by the V4 Sigmoid-Based Adaptive Routing study shown in Section 3.</p>
+  </details>
+  <p style="margin-top:14px">Full progression: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md">docs/research-history.md</a>.</p>
+</section>
 
-    <section id="scaling" class="section">
-      <h2 class="section-title">How Does Network Size Affect Performance? <span class="badge badge-actual">ACTUAL DATA</span></h2>
-      <p class="section-subtitle">10 &rarr; 20 &rarr; 30 &rarr; 50 nodes, same area, same traffic pattern per source &mdash; only node count changes.</p>
-      <div class="scaling-grid">
-        <div class="chart-card glass small"><h3>PDR</h3><canvas id="scale-pdr" height="160"></canvas></div>
-        <div class="chart-card glass small"><h3>Throughput</h3><canvas id="scale-throughput" height="160"></canvas></div>
-        <div class="chart-card glass small"><h3>Delay</h3><canvas id="scale-delay" height="160"></canvas></div>
-        <div class="chart-card glass small"><h3>Packet Loss</h3><canvas id="scale-loss" height="160"></canvas></div>
-      </div>
-    </section>
-
-    <section id="trials" class="section">
-      <h2 class="section-title">Trial Analysis <span class="badge badge-actual">ACTUAL DATA</span></h2>
-      <div class="filters glass">
-        <div class="filter-group">
-          <label for="trial-protocol">Protocol</label>
-          <select id="trial-protocol">
-            <option value="aodv">AODV</option>
-            <option value="olsr">OLSR</option>
-            <option value="static">Static</option>
-          </select>
-        </div>
-        <div class="filter-group">
-          <label for="trial-nodes">Number of nodes</label>
-          <select id="trial-nodes">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="50">50</option>
-          </select>
-        </div>
-      </div>
-      <div class="table-card glass">
-        <div class="table-wrap">
-          <table id="trial-table">
-            <thead>
-              <tr><th>Trial</th><th>PDR (%)</th><th>Throughput (kbps)</th><th>Delay (ms)</th><th>Packet loss (pkts)</th></tr>
-            </thead>
-            <tbody id="trial-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="stats-row" id="trial-stats"></div>
-    </section>
-
-    <section id="topology" class="section">
-      <h2 class="section-title">Network Topology</h2>
-      <div class="topo-label-row">
-        <span class="tag tag-info">Conceptual topology &mdash; node coordinates are not stored in the CSV results and are not invented here.</span>
-        <span class="badge badge-actual">Real experiment: <span id="topo-experiment-readout">10 nodes, AODV, seed 1</span></span>
-      </div>
-
-      <div class="topo-selectors glass">
-        <div class="filter-group"><label for="topo-sel-nodes">Node count</label><select id="topo-sel-nodes"></select></div>
-        <div class="filter-group"><label for="topo-sel-protocol">Protocol</label><select id="topo-sel-protocol"></select></div>
-        <div class="filter-group"><label for="topo-sel-seed">Seed</label><select id="topo-sel-seed"></select></div>
-      </div>
-
-      <div class="map-layout">
-        <div class="map-main glass">
-          <div class="map-shell" id="topo-shell">
-            <svg id="topo-svg" viewBox="0 0 900 560" role="img" aria-label="Interactive IoT network topology"></svg>
-
-            <div class="map-overlay map-overlay-topleft glass" id="topo-layers-panel">
-              <div class="overlay-title">Layers</div>
-              <label class="layer-toggle"><input type="checkbox" id="topo-layer-basemap" checked> Base field</label>
-              <label class="layer-toggle"><input type="checkbox" id="topo-layer-nodes" checked> IoT Nodes</label>
-              <label class="layer-toggle"><input type="checkbox" id="topo-layer-links" checked> Wireless Links</label>
-              <label class="layer-toggle"><input type="checkbox" id="topo-layer-gateway" checked> Gateway</label>
-              <label class="layer-toggle"><input type="checkbox" id="topo-layer-range"> Coverage Range</label>
-            </div>
-
-            <div class="map-overlay map-overlay-topright glass" id="topo-zoom-controls">
-              <button id="topo-zoom-in" class="zoom-btn" aria-label="Zoom in">+</button>
-              <button id="topo-zoom-out" class="zoom-btn" aria-label="Zoom out">&minus;</button>
-              <button id="topo-zoom-reset" class="zoom-btn" aria-label="Reset view">&#8635;</button>
-            </div>
-
-            <div class="map-overlay map-overlay-bottomleft glass" id="topo-range-panel">
-              <div class="overlay-title">Radio Range <span class="small-note-inline">(geometric visualization only)</span></div>
-              <input type="range" id="topo-range-slider" min="20" max="100" value="60" step="5" aria-label="Radio range in metres">
-              <div class="range-readout"><span>20 m</span><span id="topo-range-value">60 m</span><span>100 m</span></div>
-            </div>
-          </div>
-
-          <p class="map-attribution">Node positions are illustrative and deterministic, not the actual randomized NS-3 topology (V2.7 does not store per-run coordinates). Wireless links are a <strong>topology visualization</strong>, not an actual packet route.</p>
-
-          <div class="packet-controls">
-            <span class="tag tag-warn">Visualization &mdash; not a packet-level replay</span>
-            <div class="tabs">
-              <button class="tab" id="topo-play">&#9654; Start</button>
-              <button class="tab" id="topo-pause">&#10074;&#10074; Pause</button>
-              <button class="tab" id="topo-reset">&#8635; Reset</button>
-            </div>
-          </div>
-        </div>
-
-        <aside class="map-side">
-          <div class="panel glass" id="topo-node-inspector">
-            <h3>Node Inspector</h3>
-            <p class="chart-note">Click a node to inspect it.</p>
-          </div>
-          <div class="panel glass" id="topo-result-panel">
-            <h3>Experiment Result</h3>
-          </div>
-          <details class="panel glass" id="topo-topology-panel-wrap" open>
-            <summary><h3 style="display:inline;">Network Topology Stats</h3></summary>
-            <div id="topo-topology-panel"></div>
-          </details>
-        </aside>
-      </div>
-    </section>
-
-    <section id="real-world" class="section">
-      <h2 class="section-title">Real-World IoT Application Simulation</h2>
-      <span class="badge badge-conceptual">CONCEPTUAL APPLICATION SCENARIO</span>
-      <p class="chart-note">This visualization demonstrates how the routing protocols studied in NS-3 could be applied to a real-world IoT environment. It is not a physical network measurement.</p>
-      <div class="badge-row">
-        <span class="badge badge-conceptual">Research Simulation</span>
-        <span class="badge badge-conceptual">Real-world inspired topology</span>
-        <span class="badge badge-actual">NS-3 Simulation Data (metrics below)</span>
-      </div>
-
-      <div class="scenario-intro glass">
-        <p>Imagine a smart campus in Phuket, Thailand, where environmental, parking, security, lighting, and emergency sensors communicate through a wireless IoT mesh network.</p>
-        <div class="scenario-flow">
-          <span>IoT Sensors</span><span class="flow-arrow">&rarr;</span>
-          <span>Wireless Mesh</span><span class="flow-arrow">&rarr;</span>
-          <span>IoT Gateway</span><span class="flow-arrow">&rarr;</span>
-          <span>Server</span><span class="flow-arrow">&rarr;</span>
-          <span>Monitoring Dashboard</span>
-        </div>
-        <a href="https://www.google.com/maps?q=Phuket,Thailand" target="_blank" rel="noopener" class="btn btn-small btn-outline">View Phuket on Google Maps &#8599;</a>
-        <p class="small-note">This link opens the real city of Phuket on Google Maps for geographic context only &mdash; it is a plain external link, not an embedded map, and requires no API key. It is not connected to the simulated topology below.</p>
-      </div>
-
-      <div class="rw-controls glass">
-        <div class="filter-group">
-          <label>Routing protocol</label>
-          <div class="tabs" id="rw-protocol-tabs">
-            <button class="tab active" data-protocol="aodv">AODV</button>
-            <button class="tab" data-protocol="olsr">OLSR</button>
-            <button class="tab" data-protocol="static">STATIC</button>
-          </div>
-        </div>
-        <div class="filter-group">
-          <label for="rw-source">Source sensor</label>
-          <select id="rw-source"></select>
-        </div>
-        <div class="filter-group">
-          <label>Playback</label>
-          <div class="tabs">
-            <button class="tab" id="rw-start">&#9654; Start</button>
-            <button class="tab" id="rw-pause">&#10074;&#10074; Pause</button>
-            <button class="tab" id="rw-reset">&#8635; Reset</button>
-          </div>
-        </div>
-        <div class="filter-group">
-          <label>Guided walkthrough</label>
-          <button class="btn btn-small" id="rw-watch">&#9654; Watch Network Simulation (60s)</button>
-        </div>
-      </div>
-
-      <div class="rw-stage glass">
-        <svg id="rw-topology-svg" viewBox="0 0 900 520" role="img" aria-label="Conceptual smart campus IoT mesh"></svg>
-        <div class="rw-caption" id="rw-caption">Select a protocol and source sensor, then press Start.</div>
-        <div class="rw-progress" id="rw-progress" style="display:none;"><div class="rw-progress-bar" id="rw-progress-bar"></div></div>
-      </div>
-
-      <p class="small-note">Node roles, positions, and links are an illustrative smart-campus scenario for explaining the research to a non-NS-3 audience. Routing lines are a <strong>topology visualization</strong>, not an actual packet route, and routing animations show each protocol's general behaviour conceptually &mdash; they are not derived from packet-level simulation traces.</p>
-
-      <h3>From Simulation to Real-World Application</h3>
-      <ol class="rw-steps">
-        <li>IoT sensors generate data (temperature, air quality, parking occupancy, security events, and more).</li>
-        <li>Data is transmitted through the wireless mesh.</li>
-        <li>Multi-hop nodes forward packets toward the gateway.</li>
-        <li>The gateway collects the data.</li>
-        <li>The server processes the data.</li>
-        <li>Network performance can be evaluated using PDR, Throughput, End-to-End Delay, and Packet Loss.</li>
-      </ol>
-
-      <div class="rw-metrics-wrap">
-        <div class="chart-header">
-          <h3>Actual V2.7 NS-3 results for the selected protocol</h3>
-          <span class="badge badge-actual">ACTUAL DATA</span>
-        </div>
-        <p class="chart-note">Averaged across all four V2.7 network sizes (10/20/30/50 nodes), read live from <code>results/*.csv</code> &mdash; not invented for this visualization.</p>
-        <div class="kpi-grid" id="rw-metrics"></div>
-      </div>
-    </section>
-
-    <section id="raw-data" class="section">
-      <h2 class="section-title">Raw Data Explorer <span class="badge badge-actual">ACTUAL DATA</span></h2>
-      <div class="filters glass">
-        <div class="filter-group">
-          <label for="file-select">CSV file</label>
-          <select id="file-select"></select>
-        </div>
-        <a id="download-link" class="btn btn-small" href="#" download>Download CSV</a>
-      </div>
-      <div class="file-meta-grid" id="file-meta"></div>
-      <div class="table-card glass">
-        <div class="table-wrap">
-          <table id="raw-table">
-            <thead>
-              <tr>
-                <th>Protocol</th><th>Nodes</th><th>Trial</th><th>Packets sent</th><th>Packets received</th>
-                <th>Packet loss</th><th>PDR (%)</th><th>Throughput (kbps)</th><th>Delay (s)</th>
-              </tr>
-            </thead>
-            <tbody id="raw-tbody"></tbody>
-          </table>
-        </div>
-      </div>
-      <div class="stats-row" id="raw-stats"></div>
-    </section>
-
-    <section id="methodology" class="section">
-      <h2 class="section-title">Research Methodology</h2>
-      <div class="panel glass">
-        <dl class="methodology-grid" id="methodology-grid"></dl>
-        <p class="small-note">Values above are read from <code>experiments/run_experiments.sh</code> and <code>scratch/iot-network.cc</code> as they exist in the project &mdash; not hardcoded from a template.</p>
-      </div>
-    </section>
-
-    <section id="validity" class="section">
-      <h2 class="section-title">Experimental Validity</h2>
-      <div class="limitation-callout glass">
-        <strong>V2.7 Limitation:</strong> AODV packet-count accounting requires further validation
-        before making definitive cross-protocol PDR comparisons.
-      </div>
-      <div class="validity-grid">
-        <div class="validity-card glass ok">
-          <h3>&#10003; Confirmed</h3>
-          <ul>
-            <li>Same topology seeds (1&ndash;5) are used across AODV, OLSR and Static at each network size</li>
-            <li>5 independent trials per scenario</li>
-            <li>12 scenarios evaluated (3 protocols &times; 4 network sizes)</li>
-            <li>No arithmetic anomalies found (PDR&gt;100%, negative values, rx&gt;tx, etc.)</li>
-            <li>Throughput and delay comparisons across protocols and network sizes</li>
-          </ul>
-        </div>
-        <div class="validity-card glass warn">
-          <h3>&#9888; Under investigation</h3>
-          <span class="tag tag-warn">PDR comparison requires validation</span>
-          <p>
-            The V2.7.1 analysis identified a possible difference in how FlowMonitor counts
-            transmitted packets for AODV, due to routing retry/requeue behaviour in ns-3's AODV
-            implementation. AODV's <code>PacketsSent</code> count was observed to scale with
-            topology/network size in a way OLSR's and Static's counts do not. Therefore, AODV PDR
-            should not yet be treated as a final, confirmed comparison against OLSR/Static.
-          </p>
-          <ul>
-            <li>AODV PDR comparison against OLSR/Static <span class="badge badge-na">N/A</span></li>
-            <li>AODV's PacketsSent denominator</li>
-            <li>Exact packet-loss causes (MAC contention vs. PHY loss vs. queue drops vs. routing failure &mdash; not instrumented) <span class="badge badge-na">N/A</span></li>
-            <li>Packet Loss for AODV specifically inherits the PacketsSent caveat (Loss = Sent &minus; Received)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="v3-ext" class="section">
-      <h2 class="section-title">IoT Network Performance &mdash; V3 Phase 1
-        <span class="badge badge-conceptual">V3 PHASE 1</span>
-        <span class="badge badge-actual">ACTUAL DATA</span>
-      </h2>
-      <p class="section-subtitle">Expanded Experimental Evaluation &middot; V2 topology-preserving, seed-validated</p>
-      <p class="chart-note">
-        Advisor direction (2026-08): V3 keeps V2's own topology-generation method unchanged
-        (uniform-random sensor placement, one gateway at the field centre) and first widens the
-        experiment matrix &mdash; network size, traffic level, mobility, and new metrics &mdash;
-        before any adaptive/Sigmoid routing work begins. Data: <code>results/v3-ext/*.csv</code>
-        (a different dataset from the Barabasi-Albert/risk-aware-routing study and the informal
-        sigmoid pilot referenced below). Full source: <code>docs/v3-experiment-framework.md</code>.
-        This is a static, build-time export (see <code>experiments/export_static_data.py</code>) --
-        for live filtering against the CSVs directly, use the Flask dashboard.
-      </p>
-
-      <div class="filters glass">
-        <div class="filter-group">
-          <label for="v3ext-filter-nodes">Number of nodes</label>
-          <select id="v3ext-filter-nodes"><option value="all">All</option></select>
-        </div>
-        <div class="filter-group">
-          <label for="v3ext-filter-traffic">Traffic level</label>
-          <select id="v3ext-filter-traffic"><option value="all">All</option></select>
-        </div>
-        <div class="filter-group">
-          <label for="v3ext-filter-mobility">Mobility mode</label>
-          <select id="v3ext-filter-mobility"><option value="all">All</option></select>
-        </div>
-        <div class="filter-group">
-          <label for="v3ext-filter-routing">Routing protocol</label>
-          <select id="v3ext-filter-routing"><option value="all">All (compare protocols)</option></select>
-          <span class="small-note-inline" id="v3ext-sigmoid-hint">Sigmoid: not yet implemented / pending Phase 3 -- no rows exist for it yet.</span>
-        </div>
-        <div class="filter-group">
-          <label for="v3ext-filter-duration" title="Some scenarios have both short smoke-test runs and the real validation duration mixed in the same CSV -- pick one to avoid comparing across them.">Duration (s)</label>
-          <select id="v3ext-filter-duration"><option value="all">All</option></select>
-        </div>
-        <div class="filter-group metric-tabs">
-          <label>Metric</label>
-          <div class="tabs" id="v3ext-metric-tabs">
-            <button class="tab active" data-metric="pdr">PDR</button>
-            <button class="tab" data-metric="throughput">Throughput</button>
-            <button class="tab" data-metric="delay">Delay</button>
-            <button class="tab" data-metric="jitter">Jitter</button>
-          </div>
-        </div>
-      </div>
-
-      <div class="kpi-grid" id="v3ext-kpi-grid">
-        <div class="kpi-card glass"><div class="kpi-value" id="v3ext-kpi-throughput">&mdash;</div><div class="kpi-label">Throughput (kbps)</div></div>
-        <div class="kpi-card glass"><div class="kpi-value" id="v3ext-kpi-pdr">&mdash;</div><div class="kpi-label">PDR (%)</div></div>
-        <div class="kpi-card glass"><div class="kpi-value" id="v3ext-kpi-delay">&mdash;</div><div class="kpi-label">Delay (ms)</div></div>
-        <div class="kpi-card glass"><div class="kpi-value" id="v3ext-kpi-jitter">&mdash;</div><div class="kpi-label">Jitter (ms)</div></div>
-      </div>
-      <p class="small-note" id="v3ext-kpi-note">Cards average whatever rows match the filters above; a filter combination narrow enough to select one row shows that row's own values.</p>
-
-      <div class="chart-card glass">
-        <div class="chart-header"><h3 id="v3ext-chart-title">Packet Delivery Ratio (PDR) vs. Network Size</h3></div>
-        <p class="chart-note" id="v3ext-chart-note"></p>
-        <div class="chart-wrap"><canvas id="v3ext-chart" height="110"></canvas></div>
-        <p class="chart-note">Performance Trend: how PDR, Throughput, Delay, and Jitter change as
-          node count increases (10&nbsp;&rarr;&nbsp;20&nbsp;&rarr;&nbsp;30&nbsp;&rarr;&nbsp;50&nbsp;&rarr;&nbsp;75&nbsp;&rarr;&nbsp;100).
-          Packet Loss, Routing Overhead, Hop Count, Path Changes, and Link Utilization are covered
-          separately below in Network Metrics and Link Performance.</p>
-      </div>
-
-      <div class="chart-card glass">
-        <h3>Protocol Comparison &mdash; AODV vs. OLSR vs. Static</h3>
-        <p class="chart-note">Compares protocols only under an identical node count / traffic /
-          mobility / duration &mdash; never across mismatched conditions. If a protocol has no run
-          recorded for the exact combination selected, its bar is omitted and a note says so instead
-          of showing a fabricated zero.</p>
-        <div class="filters glass" style="margin-bottom:14px;">
-          <div class="filter-group"><label for="v3cmp-filter-nodes">Number of nodes</label><select id="v3cmp-filter-nodes"></select></div>
-          <div class="filter-group"><label for="v3cmp-filter-traffic">Traffic level</label><select id="v3cmp-filter-traffic"></select></div>
-          <div class="filter-group"><label for="v3cmp-filter-mobility">Mobility mode</label><select id="v3cmp-filter-mobility"></select></div>
-          <div class="filter-group"><label for="v3cmp-filter-duration">Duration (s)</label><select id="v3cmp-filter-duration"></select></div>
-          <div class="filter-group metric-tabs">
-            <label>Metric</label>
-            <div class="tabs" id="v3cmp-metric-tabs">
-              <button class="tab active" data-metric="pdr">PDR</button>
-              <button class="tab" data-metric="throughput">Throughput</button>
-              <button class="tab" data-metric="delay">Delay</button>
-              <button class="tab" data-metric="jitter">Jitter</button>
-            </div>
-          </div>
-        </div>
-        <div class="chart-wrap"><canvas id="v3cmp-chart" height="100"></canvas></div>
-        <p class="empty-state" id="v3cmp-empty" style="display:none;">No data available for this configuration.</p>
-        <p class="small-note" id="v3cmp-missing-note"></p>
-      </div>
-
-      <div class="limitation-callout glass" id="v3ext-degradation-warning">
-        <strong>&#9888; Network Congestion Warning:</strong> 75&ndash;100 node results show severe
-        PDR degradation under the current fixed Area Size (250&nbsp;&times;&nbsp;250&nbsp;m) and
-        Transmission Range (90&nbsp;m). Results are pending advisor review.
-        <span class="small-note-inline">These are real, unmodified simulation outputs
-        (<code>UnreachableSensors = 0</code> at every node count tested, so this is not a
-        connectivity failure) &mdash; not invalid, and not hidden. See <em>Open questions</em> in
-        <code>docs/v3-experiment-framework.md</code>.</span>
-      </div>
-
-      <div class="rw-metrics-wrap">
-        <div class="chart-header"><h3>Network Metrics</h3></div>
-        <p class="chart-note">Averaged across whatever rows match the filters above &mdash; same selection as the KPI cards and chart.</p>
-        <div class="kpi-grid" id="v3ext-networkmetrics-grid">
-          <div class="kpi-card glass"><div class="kpi-value" id="v3ext-nm-loss">&mdash;</div><div class="kpi-label">Packet Loss (packets)</div></div>
-          <div class="kpi-card glass"><div class="kpi-value" id="v3ext-nm-overhead">&mdash;</div><div class="kpi-label">Routing Overhead (packets)</div></div>
-          <div class="kpi-card glass"><div class="kpi-value" id="v3ext-nm-hopcount">&mdash;</div><div class="kpi-label">Hop Count (hops)</div></div>
-          <div class="kpi-card glass"><div class="kpi-value" id="v3ext-nm-pathchanges">&mdash;</div><div class="kpi-label">Path Changes (count)</div></div>
-        </div>
-      </div>
-
-      <div class="rw-metrics-wrap">
-        <div class="chart-header"><h3>Link Performance</h3></div>
-        <p class="chart-note">MLU is a per-neighbour-pair offered-load proxy, not a measured channel-busy fraction.</p>
-        <div class="kpi-grid" id="v3ext-linkperf-grid">
-          <div class="kpi-card glass"><div class="kpi-value" id="v3ext-lp-avg">&mdash;</div><div class="kpi-label">Average Link Utilization (%)</div></div>
-          <div class="kpi-card glass"><div class="kpi-value" id="v3ext-lp-max">&mdash;</div><div class="kpi-label">Maximum Link Utilization / MLU (%)</div></div>
-        </div>
-      </div>
-
-      <details class="table-card glass" open>
-        <summary>Aggregated results (mean, n=seeds where n&ge;2)</summary>
-        <div class="table-wrap">
-          <table id="v3ext-summary-table">
-            <thead>
-              <tr>
-                <th data-sort="protocol">Protocol</th><th data-sort="nodes">Nodes</th>
-                <th data-sort="traffic">Traffic</th><th data-sort="mobility">Mobility</th>
-                <th data-sort="duration">Duration (s)</th><th data-sort="n">n</th>
-                <th data-sort="pdrMean">PDR (%)</th><th data-sort="throughputMean">Throughput (kbps)</th>
-                <th data-sort="delayMean">Delay (ms)</th><th data-sort="jitterMean">Jitter (ms)</th>
-                <th data-sort="packetLossMean">Packet Loss</th><th data-sort="routingOverheadMean">Routing Overhead</th>
-                <th data-sort="hopCountMean">Hop Count</th><th data-sort="pathChangesMean">Path Changes</th>
-                <th data-sort="avgLinkUtilMean">Avg Link Util</th><th data-sort="maxLinkUtilMean">Max Link Util (MLU)</th>
-              </tr>
-            </thead>
-            <tbody id="v3ext-summary-tbody"></tbody>
-          </table>
-        </div>
-        <p class="small-note">Rows are grouped by protocol/nodes/traffic/mobility/<strong>duration</strong> --
-          the same CSV can contain both short smoke-test runs and the real validation duration for the
-          same scenario; grouping without duration would silently average incompatible run lengths
-          together. Routing Overhead undercounts true AODV/OLSR control traffic (FlowMonitor does not
-          see broadcast RREQ/HELLO/TC frames). Hop Count is exact for Static, approximate for AODV/OLSR.
-          <code>--protocol=sigmoid</code> is deliberately not implemented and refuses to run rather than
-          fabricate a result, so it never appears in this table.</p>
-      </details>
-
-      <details class="table-card glass" open>
-        <summary>Raw Experimental Data (results/v3-ext/*.csv, per-run rows)</summary>
-        <p class="small-note">Every individual run currently on disk, unaggregated &mdash; including
-          older debug/smoke-test rows (distinguishable by Duration and Seed). Use the Duration filter
-          above (or the Duration column here) to isolate the official Seed&nbsp;1/Duration&nbsp;300s
-          validation rows from short smoke-test runs.</p>
-        <div class="table-wrap">
-          <table id="v3ext-raw-table">
-            <thead>
-              <tr>
-                <th data-sort="nodes">Nodes</th><th data-sort="traffic">Traffic</th>
-                <th data-sort="mobility">Mobility</th><th data-sort="protocol">Routing</th>
-                <th data-sort="seed">Seed</th><th data-sort="duration">Duration (s)</th>
-                <th data-sort="throughputKbps">Throughput (kbps)</th><th data-sort="delaySec">Delay (ms)</th>
-                <th data-sort="jitterSec">Jitter (ms)</th><th data-sort="pdr">PDR (%)</th>
-                <th data-sort="packetLoss">Packet Loss</th><th data-sort="routingOverheadPackets">Routing Overhead</th>
-                <th data-sort="hopCount">Hop Count</th><th data-sort="pathChanges">Path Changes</th>
-                <th data-sort="avgLinkUtilization">Avg Link Util</th><th data-sort="maxLinkUtilization">Max Link Util (MLU)</th>
-              </tr>
-            </thead>
-            <tbody id="v3ext-raw-tbody"></tbody>
-          </table>
-        </div>
-      </details>
-
-      <div class="panel glass">
-        <h3>Experiment Settings &mdash; V3 Phase 1</h3>
-        <dl class="methodology-grid">
-          <dt>Network</dt><dd>10&ndash;100 nodes (10 / 20 / 30 / 50 / 75 / 100)</dd>
-          <dt>Traffic</dt><dd>Low / Medium / High</dd>
-          <dt>Mobility</dt><dd>Static / Low / Medium</dd>
-          <dt>Routing</dt><dd>AODV / OLSR / Static <span class="badge badge-na">Sigmoid &mdash; pending Phase 3</span></dd>
-          <dt>Validation</dt><dd>Seed 1 <span class="tag tag-ok">run &mdash; all six node sizes</span> &mdash; smoke test only, not a statistical result</dd>
-          <dt>Official Seeds</dt><dd>20&ndash;30 inclusive, 11 seeds <span class="tag tag-warn">not yet run</span></dd>
-          <dt>Duration</dt><dd>300&ndash;600 s (validation above used 300 s)</dd>
-          <dt>Topology</dt><dd>V2 topology-preserving &mdash; uniform-random sensor placement, unchanged</dd>
-          <dt>Area Size</dt><dd>250 &times; 250 m (fixed, all node counts)</dd>
-          <dt>Transmission Range</dt><dd>90 m (fixed, all node counts)</dd>
-        </dl>
-        <p class="small-note">Full detail, open questions, and the 75/100-node congestion
-          investigation: <code>docs/v3-experiment-framework.md</code>.</p>
-      </div>
-    </section>
-
-    <section id="sigmoid" class="section">
-      <h2 class="section-title">Sigmoid Pilot &mdash; V2.8 (Superseded)</h2>
-      <span class="badge badge-future">SUPERSEDED &mdash; VALIDATION ONLY, NOT A STATISTICAL COMPARISON</span>
-      <p class="chart-note">This was an early, informal exploration built before the advisor assigned
-        the SE-OSPF paper this project now follows for the <a href="#v4-sigmoid">V4 research
-        direction</a> below. Kept here only for reference -- not extended further.</p>
-      <p class="chart-note" id="sigmoid-note">Loading...</p>
-
-      <div class="panel glass">
-        <h3>The metric</h3>
-        <p class="chart-note">
-          <code id="sigmoid-equation">S(x) = 1 / (1 + exp(-k * (x - x0)))</code>
-          is implemented in <code>scratch/iot-network-v28-sigmoid-pilot.cc</code> as a 4th routing mode
-          (Dijkstra over sigmoid-weighted edges), applied to two geometrically-justified
-          proxies:
-        </p>
-        <ul id="sigmoid-proxies"></ul>
-        <p class="small-note">Full derivation and the k-value near-linear-regime analysis: <code>docs/sigmoid-metric.md</code>, <code>docs/methodology.md</code>, <code>docs/experiment-design.md</code> (all describe this superseded V2.8 pilot).</p>
-      </div>
-
-      <div class="limitation-callout glass">
-        <strong>Scope:</strong> only a single 4-run smoke test has been executed (1 seed,
-        medium traffic, 15 nodes, one run per protocol) to confirm the sigmoid mode
-        compiles, runs, and produces sane output. The full experiment matrix was never
-        run and never will be &mdash; this pilot is superseded. With n=1 per protocol these
-        4 rows carry <strong>no variance estimate and no statistical basis</strong> for
-        claiming sigmoid routing outperforms (or underperforms) AODV/OLSR/Static.
-      </div>
-
-      <div class="table-card glass" id="sigmoid-table-card" style="display:none;">
-        <h3>V2.8 pilot validation rows (results/v28-sigmoid-pilot/*.csv, as recorded)</h3>
-        <div class="table-wrap">
-          <table id="sigmoid-table">
-            <thead>
-              <tr>
-                <th>Protocol</th><th>Nodes</th><th>Traffic</th><th>PDR (%)</th>
-                <th>Throughput (kbps)</th><th>Delay (ms)</th><th>Jitter (ms)</th>
-                <th>Hop count</th><th>Method</th><th>Routing overhead (pkts)</th>
-              </tr>
-            </thead>
-            <tbody id="sigmoid-tbody"></tbody>
-          </table>
-        </div>
-        <p class="small-note">Routing overhead for OLSR is known to read as 0 here &mdash; FlowMonitor's <code>SendOutgoing</code> trace only counts unicast traffic and misses broadcast HELLO/TC packets (documented limitation, not fixed). See <code>docs/methodology.md</code>.</p>
-      </div>
-    </section>
-
-    <section id="v4-sigmoid" class="section">
-      <h2 class="section-title">V4 &mdash; Sigmoid-Based Adaptive Routing
-        <span class="badge badge-future">PROPOSED &mdash; NOT YET IMPLEMENTED</span>
-      </h2>
-      <p class="section-subtitle">Research direction inspired by Sigmoid-Enhanced OSPF (SE-OSPF)</p>
-      <p class="chart-note">
-        V4 is a <strong>proposed extension</strong> of the advisor's SE-OSPF research
-        (Thaenchaikun &amp; Kanjanasit, <em>"Performance Analysis of Sigmoid-Enhanced OSPF for
-        Risk-Aware Adaptive Routing in Secure Networks"</em>, Network (MDPI), vol. 6, no. 3,
-        art. 52, 2026 &mdash;
-        <a href="https://www.mdpi.com/2673-8732/6/3/52" target="_blank" rel="noopener">read the paper &#8599;</a>)
-        to the wireless IoT mesh environment used throughout this project. <strong>No V4 code has
-        been written, no V4 simulation has been run, and no V4 performance numbers exist.</strong>
-        Everything on this page is a design proposal awaiting advisor review &mdash; see
-        <a href="#v4-status">Current Status</a> below.
-      </p>
-
-      <!-- Section 1: Research Basis -->
-      <div class="panel glass">
-        <h3>1. Research Basis <span class="badge badge-conceptual">FROM THE PAPER</span></h3>
-        <p class="chart-note">The advisor's SE-OSPF pipeline, as described in the paper:</p>
-        <div class="pipeline-flow">
-          <div class="flow-step">Structural Risk (node degree / max degree)</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Normalized Risk R_ij</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Sigmoid Function</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Routing Cost</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Shortest Path (Dijkstra / OSPF)</div>
-        </div>
-        <p class="chart-note">The paper's sigmoid formulation:</p>
-        <p><code>f_r = 1 / (1 + exp(-k(x - x0)))</code></p>
-        <p><code>Cost_ij = C_min + (C_max - C_min) &times; f_r</code></p>
-        <ul>
-          <li><code>x</code> = normalized structural risk (the paper states <code>x = R_ij</code> directly)</li>
-          <li><code>x0</code> = sigmoid midpoint (paper tests 30, 50, 70)</li>
-          <li><code>k</code> = sigmoid steepness (paper tests 0.1&ndash;0.5)</li>
-          <li><code>C_min</code>, <code>C_max</code> = routing cost bounds</li>
-        </ul>
-        <p class="small-note"><strong>These equations are the advisor's published research basis and
-          are NOT yet implemented in V4.</strong> They are reproduced here for reference only.</p>
-      </div>
-
-      <!-- Section 2: Paper -> Our Extension -->
-      <div class="table-card glass">
-        <h3>2. How V4 Extends the Paper <span class="badge badge-conceptual">PROPOSED EXTENSION</span></h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Advisor's SE-OSPF</th><th>Our V4 (proposed)</th></tr></thead>
-            <tbody>
-              <tr><td>OSPF (wired, link-state)</td><td>AODV / OLSR / Static (wireless ad-hoc mesh)</td></tr>
-              <tr><td>Barab&aacute;si&ndash;Albert scale-free topology</td><td>Existing V3 topology-generation method (V2's uniform-random placement), unchanged</td></tr>
-              <tr><td>Topology-based structural risk (only input)</td><td>Structural risk <em>and</em> measured link utilization (two inputs)</td></tr>
-              <tr><td>One sigmoid function</td><td>Two independent sigmoid functions (risk, load)</td></tr>
-              <tr><td>Single-input cost, Dijkstra</td><td>Weighted adaptive cost combining both sigmoids, same edge-cost-minimization principle</td></tr>
-              <tr><td>Evaluated against Standard/Linear OSPF</td><td>Evaluated against AODV / OLSR / Static (this project's existing baselines)</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="small-note">This is a <strong>proposed extension</strong>, not an existing result. See
-          <code>docs/v3-experiment-framework.md</code> and the V4 design-analysis notes for the full
-          reasoning behind each adaptation.</p>
-      </div>
-
-      <!-- Section 3: Proposed V4 Model -->
-      <div class="panel glass">
-        <h3>3. Proposed V4 Model <span class="badge badge-future">PENDING ADVISOR APPROVAL</span></h3>
-        <div class="pipeline-flow">
-          <div class="flow-step">Node Degree</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Structural Risk R_ij</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Sigmoid Risk Function</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Risk Cost</div>
-        </div>
-        <div class="pipeline-flow">
-          <div class="flow-step">Link Utilization</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Load Score L_ij</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Sigmoid Load Function</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Load Cost</div>
-        </div>
-        <div class="pipeline-flow">
-          <div class="flow-step">Risk Cost + Load Cost</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Weighted Adaptive Cost</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Route Selection</div>
-        </div>
-        <p class="chart-note"><strong>Proposed V4 mathematical model &mdash; pending advisor approval,
-          not the final model:</strong></p>
-        <ul>
-          <li><code>RiskScore_ij</code> = normalized structural risk (same form as the paper's R_ij)</li>
-          <li><code>LoadScore_ij</code> = measured link utilization (already in V3-ext's own metric set)</li>
-          <li><code>SigmoidRisk_ij = 1 / (1 + exp(-k_R(R_ij - x0_R)))</code></li>
-          <li><code>SigmoidLoad_ij = 1 / (1 + exp(-k_L(L_ij - x0_L)))</code></li>
-        </ul>
-        <p><code>AdaptiveCost_ij = w_R &times; SigmoidRisk_ij + w_L &times; SigmoidLoad_ij</code>, with <code>w_R + w_L = 1</code></p>
-        <p class="small-note">Lower <code>AdaptiveCost_ij</code> would be preferred (same minimization
-          direction as the paper's Dijkstra-based selection) &mdash; if and when this is implemented.</p>
-      </div>
-
-      <!-- Section 4: Parameters -->
-      <div class="table-card glass">
-        <h3>4. Parameters <span class="badge badge-future">ALL PROPOSED</span></h3>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Parameter</th><th>Meaning</th><th>V4 Status</th></tr></thead>
-            <tbody>
-              <tr><td><code>x0_R</code></td><td>Risk sigmoid midpoint</td><td><span class="tag tag-warn">Proposed</span></td></tr>
-              <tr><td><code>k_R</code></td><td>Risk sigmoid steepness</td><td><span class="tag tag-warn">Proposed</span></td></tr>
-              <tr><td><code>x0_L</code></td><td>Load sigmoid midpoint</td><td><span class="tag tag-warn">Proposed</span></td></tr>
-              <tr><td><code>k_L</code></td><td>Load sigmoid steepness</td><td><span class="tag tag-warn">Proposed</span></td></tr>
-              <tr><td><code>w_R</code></td><td>Risk weighting</td><td><span class="tag tag-warn">Proposed</span></td></tr>
-              <tr><td><code>w_L</code></td><td>Load weighting</td><td><span class="tag tag-warn">Proposed</span></td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="small-note">Initial conceptual starting points under consideration:
-          <code>x0_R = 0.5</code>, <code>x0_L = 0.5</code>, <code>w_R = 0.5</code>, <code>w_L = 0.5</code>
-          &mdash; these are <strong>only starting points requiring advisor approval, not experimentally
-          validated values.</strong> No parameter sweep has been run.</p>
-      </div>
-
-      <!-- Section 5: Connection to V3 -->
-      <div class="panel glass">
-        <h3>5. Connection to V3</h3>
-        <div class="pipeline-flow">
-          <div class="flow-step">V3 Phase 1</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Expanded baseline experiments</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">AODV / OLSR / Static</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Performance metrics</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">V4 research direction</div>
-          <div class="flow-down">&darr;</div>
-          <div class="flow-step">Sigmoid-based adaptive routing</div>
-        </div>
-        <p class="chart-note">V3 provides the baseline against which V4 will eventually be evaluated
-          &mdash; not a separate, disconnected study.</p>
-        <ul>
-          <li>Area Size = 250 &times; 250 m</li>
-          <li>Transmission Range = 90 m</li>
-          <li>Node sizes = 10, 20, 30, 50, 75, 100</li>
-          <li>Official Seeds = 20&ndash;30 (11 seeds, inclusive)</li>
-        </ul>
-        <p class="small-note"><strong>These V3 experimental conditions remain unchanged for V4
-          comparison.</strong></p>
-      </div>
-
-      <!-- Section 6: Experiment Plan -->
-      <div class="panel glass">
-        <h3>6. V4 Experiment Plan (Planned &mdash; Not Run)</h3>
-        <ol>
-          <li><strong>Stage 1 &mdash; Parameter validation / sensitivity study:</strong> vary <code>k_R</code>, <code>k_L</code>, <code>w_R</code>, <code>w_L</code> on a small validation subset.</li>
-          <li><strong>Stage 2:</strong> select a justified parameter configuration from Stage 1.</li>
-          <li><strong>Stage 3 &mdash; Matched-condition comparison:</strong> AODV, OLSR, Static, V4-Sigmoid, all under identical conditions.</li>
-          <li><strong>Stage 4 &mdash; Evaluate:</strong> PDR, Throughput, Delay, Jitter, Packet Loss, Routing Overhead, Hop Count, Path Changes, Average Link Utilization, Maximum Link Utilization.</li>
-          <li><strong>Stage 5:</strong> run the final experiment using Seeds 20&ndash;30.</li>
-        </ol>
-        <p class="small-note"><strong>No numerical V4 results are shown above or anywhere on this page,
-          because none exist yet.</strong></p>
-      </div>
-
-      <!-- Section 7: Fair Comparison -->
-      <div class="limitation-callout glass">
-        <strong>V4 will be compared under identical experimental conditions.</strong> Kept unchanged
-        from V3: Area Size (250&nbsp;&times;&nbsp;250&nbsp;m), Transmission Range (90&nbsp;m), node
-        placement/topology-generation method, traffic conditions, mobility conditions, Seeds
-        (20&ndash;30), and simulation duration. This prevents any apparent improvement from being
-        caused by a changed network environment rather than the routing method itself.
-      </div>
-
-      <!-- Section 8: Current Status -->
-      <div class="panel glass" id="v4-status">
-        <h3>8. Current Research Status</h3>
-        <div class="status-timeline">
-          <div class="status-row"><span class="status-name">V2.7 Baseline</span><span class="tag tag-ok">&#10003; Completed</span></div>
-          <div class="status-row"><span class="status-name">V3 Phase 1</span><span class="tag tag-ok">&#10003; Completed</span></div>
-          <div class="status-row"><span class="status-name">V3 Dashboard</span><span class="tag tag-ok">&#10003; Published / under verification</span></div>
-          <div class="status-row"><span class="status-name">Advisor Paper Study</span><span class="tag tag-ok">&#10003; Completed</span></div>
-          <div class="status-row"><span class="status-name">V4 Mathematical Design</span><span class="tag tag-ok">&#10003; Proposed</span></div>
-          <div class="status-row"><span class="status-name">Advisor Approval</span><span class="tag tag-warn">&#8987; Pending</span></div>
-          <div class="status-row"><span class="status-name">V4 Implementation</span><span class="badge badge-na">&#9675; Not started</span></div>
-          <div class="status-row"><span class="status-name">V4 Simulation</span><span class="badge badge-na">&#9675; Not started</span></div>
-          <div class="status-row"><span class="status-name">V4 Full Evaluation</span><span class="badge badge-na">&#9675; Not started</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="github" class="section">
-      <h2 class="section-title">About This Project</h2>
-      <div class="about-card glass">
-        <p>Developed as an ns-3 IoT network performance research project analyzing multi-hop wireless mesh routing protocols.</p>
-        <p><strong>Author:</strong> Salinthip Keereerat</p>
-        <p><strong>Student ID:</strong> 6630613037</p>
-        <p><strong>Institution:</strong> College of Computing, Prince of Songkla University, Phuket Campus</p>
-        <p><strong>Advisor:</strong> Komsan Kanjanasit</p>
-        <p><strong>Co-advisors:</strong> Wisarut Chantara, Kullawat Chaowanawatee</p>
-        <p><strong>GitHub:</strong> <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener">@SalinCalyna</a></p>
-        <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener" class="btn btn-primary">
-          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
-            <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38
-            0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
-            -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07
-            -1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0
-            c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54
-            1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
-          </svg>
-          View Source on GitHub &#8599;
-        </a>
-      </div>
-    </section>
-
-    <footer class="site-footer">
-      <div class="footer-title">IoT Network Performance Lab</div>
-      <div class="muted">ns-3 &middot; IoT &middot; Wireless Mesh &middot; Routing Protocol Analysis</div>
-      <div class="muted">College of Computing, Prince of Songkla University, Phuket Campus</div>
-      <div class="muted">&copy; 2026 Salinthip Keereerat &middot; <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3.git" target="_blank" rel="noopener">GitHub: @SalinCalyna &#8599;</a></div>
-    </footer>
-
-  </main>
 </div>
 
-<script src="static/topology.js"></script>
-<script src="static/site.js"></script>
-<script src="static/realworld.js"></script>
+<footer>
+  <div class="wrap">
+    Salinthip Keereerat &middot; College of Computing, Prince of Songkla University, Phuket Campus &middot;
+    <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3">Repository</a>
+  </div>
+</footer>
+
+<script src="static/final-dashboard.js"></script>
 </body>
 </html>

@@ -1,0 +1,19 @@
+========================================
+  Protocol      : olsr
+  Sensors       : 10
+  Traffic level : medium (8kbps/sensor)
+  Mobility mode : medium (5 m/s)
+  Seed          : 22
+  Tx packets    : 5230
+  Rx packets    : 3192
+  Packet loss   : 2038
+  PDR (%)       : 61.0325
+  Throughput    : 51.072 kbps
+  Avg delay     : 0.0404806 s
+  Avg jitter    : 0.0249173 s
+  Routing ovhd  : 0 packets (best-effort)
+  Avg hop count : 1.10119 (approx_timesForwarded)
+  Path changes  : 68
+  Avg link util : 0.00251037
+  Max link util : 0.0258816
+========================================

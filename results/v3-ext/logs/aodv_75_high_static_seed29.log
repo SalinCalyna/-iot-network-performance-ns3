@@ -1,0 +1,19 @@
+========================================
+  Protocol      : aodv
+  Sensors       : 75
+  Traffic level : high (16kbps/sensor)
+  Mobility mode : static
+  Seed          : 29
+  Tx packets    : 79050
+  Rx packets    : 2448
+  Packet loss   : 76602
+  PDR (%)       : 3.09677
+  Throughput    : 39.168 kbps
+  Avg delay     : 0.495883 s
+  Avg jitter    : 0.183138 s
+  Routing ovhd  : 427048 packets (best-effort)
+  Avg hop count : 1.18668 (approx_timesForwarded)
+  Path changes  : 2936
+  Avg link util : 0.00109038
+  Max link util : 0.0148713
+========================================

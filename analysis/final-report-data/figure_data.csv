@@ -1,0 +1,93 @@
+figure_id,figure_title,series,x_var,x_value,y_var,y_value,source_file
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",aodv,node_count,10,PDR_mean,76.725,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",aodv,node_count,20,PDR_mean,61.764,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",aodv,node_count,30,PDR_mean,47.210,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",aodv,node_count,50,PDR_mean,23.462,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",aodv,node_count,75,PDR_mean,9.839,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",aodv,node_count,100,PDR_mean,3.998,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",olsr,node_count,10,PDR_mean,69.475,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",olsr,node_count,20,PDR_mean,56.996,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",olsr,node_count,30,PDR_mean,50.172,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",olsr,node_count,50,PDR_mean,44.936,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",olsr,node_count,75,PDR_mean,37.343,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",olsr,node_count,100,PDR_mean,29.775,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",static,node_count,10,PDR_mean,46.689,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",static,node_count,20,PDR_mean,32.105,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",static,node_count,30,PDR_mean,29.844,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",static,node_count,50,PDR_mean,25.420,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",static,node_count,75,PDR_mean,20.190,v3_core_results.csv
+Fig1,"PDR vs node count (V3, pooled traffic/mobility)",static,node_count,100,PDR_mean,17.199,v3_core_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-high,node_count,30,gw_airtime,0.4375,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-medium,node_count,30,gw_airtime,0.1850,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-high,node_count,50,gw_airtime,0.7353,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-medium,node_count,50,gw_airtime,0.3630,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-high,node_count,75,gw_airtime,0.8638,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-medium,node_count,75,gw_airtime,0.5807,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-high,node_count,100,gw_airtime,0.8893,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),olsr-medium,node_count,100,gw_airtime,0.7433,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-high,node_count,30,gw_airtime,0.3653,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-medium,node_count,30,gw_airtime,0.1717,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-high,node_count,50,gw_airtime,0.5622,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-medium,node_count,50,gw_airtime,0.2424,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-high,node_count,75,gw_airtime,0.6219,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-medium,node_count,75,gw_airtime,0.3041,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-high,node_count,100,gw_airtime,0.6559,bottleneck_results.csv
+Fig2,Gateway airtime vs node count / traffic (§10),static-medium,node_count,100,gw_airtime,0.3849,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-high,node_count,30,mac_queue_drops_mean,573.3,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-medium,node_count,30,mac_queue_drops_mean,0.0,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-high,node_count,50,mac_queue_drops_mean,10135.0,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-medium,node_count,50,mac_queue_drops_mean,15.2,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-high,node_count,75,mac_queue_drops_mean,28190.6,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-medium,node_count,75,mac_queue_drops_mean,1704.2,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-high,node_count,100,mac_queue_drops_mean,43475.9,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),olsr-medium,node_count,100,mac_queue_drops_mean,9542.0,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-high,node_count,30,mac_queue_drops_mean,1.5,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-medium,node_count,30,mac_queue_drops_mean,0.0,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-high,node_count,50,mac_queue_drops_mean,3256.9,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-medium,node_count,50,mac_queue_drops_mean,0.0,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-high,node_count,75,mac_queue_drops_mean,6550.3,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-medium,node_count,75,mac_queue_drops_mean,1.3,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-high,node_count,100,mac_queue_drops_mean,12463.7,bottleneck_results.csv
+Fig3,MAC queue drops vs node count / traffic (§10),static-medium,node_count,100,mac_queue_drops_mean,284.2,bottleneck_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",V4 (fixed sigmoid) N=10,protocol,V4,PDR,48.05,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",Static N=10,protocol,Static,PDR,46.69,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",V4 (fixed sigmoid) N=20,protocol,V4,PDR,32.08,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",Static N=20,protocol,Static,PDR,32.11,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",V4 (fixed sigmoid) N=30,protocol,V4,PDR,29.28,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",Static N=30,protocol,Static,PDR,29.84,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",V4 (fixed sigmoid) N=50,protocol,V4,PDR,24.68,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",Static N=50,protocol,Static,PDR,25.42,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",V4 (fixed sigmoid) N=75,protocol,V4,PDR,20.89,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",Static N=75,protocol,Static,PDR,20.19,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",V4 (fixed sigmoid) N=100,protocol,V4,PDR,17.14,v4_results.csv
+Fig4,"V4 vs Static PDR (matched, pooled)",Static N=100,protocol,Static,PDR,17.20,v4_results.csv
+Fig4,V4 vs Static PDR (strongest-activation config),"V4 Config6 (activated, N=50)",protocol,V4-activated,PDR,37.72,v4_results.csv
+Fig4,V4 vs Static PDR (strongest-activation config),Static (N=50),protocol,Static,PDR,36.44,v4_results.csv
+Fig5,OLSR PDR vs offered rate,N=50,rate_kbps,16,PDR_mean,41.89,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=50,rate_kbps,12,PDR_mean,45.98,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=50,rate_kbps,8,PDR_mean,41.08,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=50,rate_kbps,4,PDR_mean,39.18,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=75,rate_kbps,16,PDR_mean,26.28,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=75,rate_kbps,12,PDR_mean,32.29,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=75,rate_kbps,8,PDR_mean,37.77,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=75,rate_kbps,4,PDR_mean,40.95,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=100,rate_kbps,16,PDR_mean,14.53,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=100,rate_kbps,12,PDR_mean,22.73,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=100,rate_kbps,8,PDR_mean,29.29,rate_sweep_results.csv
+Fig5,OLSR PDR vs offered rate,N=100,rate_kbps,4,PDR_mean,39.74,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=50,rate_kbps,16,gw_airtime_mean,0.7662,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=50,rate_kbps,12,gw_airtime_mean,0.6471,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=50,rate_kbps,8,gw_airtime_mean,0.3902,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=50,rate_kbps,4,gw_airtime_mean,0.1928,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=75,rate_kbps,16,gw_airtime_mean,0.8701,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=75,rate_kbps,12,gw_airtime_mean,0.7854,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=75,rate_kbps,8,gw_airtime_mean,0.6168,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=75,rate_kbps,4,gw_airtime_mean,0.3588,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=100,rate_kbps,16,gw_airtime_mean,0.8896,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=100,rate_kbps,12,gw_airtime_mean,0.8738,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=100,rate_kbps,8,gw_airtime_mean,0.7584,rate_sweep_results.csv
+Fig6,OLSR gateway airtime vs offered rate,N=100,rate_kbps,4,gw_airtime_mean,0.5297,rate_sweep_results.csv
+Fig7,Static N=50 PDR vs offered rate,Static N=50,rate_kbps,16,PDR_mean,39.85,rate_sweep_results.csv
+Fig7,Static N=50 PDR vs offered rate,Static N=50,rate_kbps,12,PDR_mean,27.42,rate_sweep_results.csv
+Fig7,Static N=50 PDR vs offered rate,Static N=50,rate_kbps,8,PDR_mean,34.35,rate_sweep_results.csv
+Fig7,Static N=50 PDR vs offered rate,Static N=50,rate_kbps,4,PDR_mean,32.24,rate_sweep_results.csv

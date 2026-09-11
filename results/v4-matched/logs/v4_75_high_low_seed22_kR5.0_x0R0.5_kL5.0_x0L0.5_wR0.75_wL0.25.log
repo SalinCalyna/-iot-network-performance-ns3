@@ -1,0 +1,40 @@
+========================================
+  Protocol      : V4 (Sigmoid-Based Adaptive Routing)
+  Nodes         : 75
+  Seed          : 22
+  Traffic       : high
+  Mobility      : low
+  k_R           : 5
+  x0_R          : 0.5
+  k_L           : 5
+  x0_L          : 0.5
+  w_R           : 0.75
+  w_L           : 0.25
+  Area          : 250x250 m
+  txRange       : 90 m
+  Duration      : 300 s
+  Output dir    : /Users/pinpuk/ns-3-dev/results/v4-matched
+========================================
+  [V4 Pass 1/2] baseline hop-count measurement run (results discarded, only real link-byte counts kept)...
+  [V4 Pass 2/2] AdaptiveCost-weighted Dijkstra routes installed, final measurement run (this is the reported row)...
+========================================
+  Protocol      : v4 (Sigmoid-Based Adaptive Routing)
+  Sensors       : 75
+  Traffic level : high (16kbps/sensor)
+  Mobility mode : low (1 m/s)
+  Seed          : 22
+  V4 params     : k_R=5 x0_R=0.5 k_L=5 x0_L=0.5 w_R=0.75 w_L=0.25
+  Tx packets    : 79050
+  Rx packets    : 16403
+  Packet loss   : 62647
+  PDR (%)       : 20.7502
+  Throughput    : 262.448 kbps
+  Avg delay     : 0.185979 s
+  Avg jitter    : 0.0807642 s
+  Routing ovhd  : 0 packets (best-effort)
+  Avg hop count : 1.65333 (exact, V4 cost-tree)
+  Path changes  : 0
+  Avg link util : 0.0128169
+  Max link util : 0.128333
+  Unreachable   : 0
+========================================

@@ -1,0 +1,20 @@
+  Note: 3 sensor(s) have no path to the gateway within the assumed static-route range (txRange=90 m) and are unreachable under static routing by construction.
+========================================
+  Protocol      : static
+  Sensors       : 10
+  Traffic level : high (16kbps/sensor)
+  Mobility mode : low (1 m/s)
+  Seed          : 29
+  Tx packets    : 10540
+  Rx packets    : 4471
+  Packet loss   : 6069
+  PDR (%)       : 42.4194
+  Throughput    : 71.536 kbps
+  Avg delay     : 0.0311488 s
+  Avg jitter    : 0.0129775 s
+  Routing ovhd  : 0 packets (best-effort)
+  Avg hop count : 1.42857 (exact)
+  Path changes  : 0
+  Avg link util : 0.0144841
+  Max link util : 0.055849
+========================================

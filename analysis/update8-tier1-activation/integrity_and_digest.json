@@ -1,0 +1,102 @@
+{
+  "expected_runs": 66,
+  "actual_rows": 66,
+  "log_files": 66,
+  "output_csv_files": [
+    "v4_50_medium_static.csv"
+  ],
+  "routing_protocol": [
+    "v4"
+  ],
+  "node_counts": [
+    50
+  ],
+  "traffic": [
+    "medium"
+  ],
+  "mobility": [
+    "static"
+  ],
+  "durations": [
+    300.0
+  ],
+  "seeds": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30
+  ],
+  "k_R_values": [
+    "10"
+  ],
+  "k_L_values": [
+    "10"
+  ],
+  "w_R_values": [
+    0.5
+  ],
+  "x0_R_values": [
+    0.5,
+    0.8
+  ],
+  "x0_L_values": [
+    0.02,
+    0.05,
+    0.5
+  ],
+  "hopcount_method": [
+    "exact"
+  ],
+  "pathchanges_unique": [
+    0
+  ],
+  "n_param_configs": 6,
+  "rows_per_config_min_max": [
+    11,
+    11
+  ],
+  "duplicate (config,seed) rows": 0,
+  "NaN_or_Inf_in_metrics": 0,
+  "impossible_negatives": "none",
+  "param_bound_violations": 0,
+  "expected_6_configs_present": true,
+  "missing_configs": [],
+  "unexpected_configs": [],
+  "V3_official_rows": 0,
+  "INTEGRITY_OK": true,
+  "stage1_configs_x0=0.5_all_k": 27,
+  "stage1_total_route_changing_runs (x0=0.5, k in {0.5,2,5}, all w)": 1,
+  "tier1_total_route_changing_runs (x0 recentred, k=10)": 28,
+  "ANY_CONFIG_ACTIVATED (>=30% seeds)": true,
+  "activated_configs": [
+    {
+      "x0_R": 0.5,
+      "x0_L": 0.5,
+      "route_change_pct": 72.72727272727273
+    },
+    {
+      "x0_R": 0.8,
+      "x0_L": 0.05,
+      "route_change_pct": 45.45454545454545
+    },
+    {
+      "x0_R": 0.8,
+      "x0_L": 0.5,
+      "route_change_pct": 100.0
+    }
+  ],
+  "max_route_change_pct": 100.0,
+  "config_with_max_activity": {
+    "x0_R": 0.8,
+    "x0_L": 0.5,
+    "route_change_pct": 100.0,
+    "seeds_tree_differs_from_static": 11
+  }
+}

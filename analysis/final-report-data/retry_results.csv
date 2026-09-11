@@ -1,0 +1,13 @@
+protocol,N,traffic,n_seeds,PDR_mean,lost_pkts_mean,MaxRetryDrops_mean,MAC_queue_drops_mean,PHY_RX_drops_mean,gw_airtime,ring1_airtime,retry_pct_of_loss,macq_pct_of_loss,accounted_pct_of_loss,interpretation
+olsr,50,high,3,41.890,30584.3,3172.3,9913.7,6802130,0.7662,0.7552,10.52,33.06,43.70,MAC-queue overflow dominates over retry exhaustion
+olsr,50,medium,3,41.084,15524.3,2644.0,29.0,3500210,0.3902,0.3703,18.01,0.23,18.25,retry exhaustion is the larger (but still minor) of the two at this low-stress cell
+olsr,75,high,3,26.277,57873.0,2462.7,29747.0,13283574,0.8701,0.8631,4.25,51.47,55.88,MAC-queue overflow dominates over retry exhaustion
+olsr,75,medium,3,37.766,24598.0,3319.7,2009.0,8066652,0.6168,0.5853,13.45,8.16,21.62,retry exhaustion is the larger (but still minor) of the two at this low-stress cell
+olsr,100,high,3,14.532,84568.0,1757.3,44776.0,19535240,0.8896,0.8794,2.08,52.99,57.18,MAC-queue overflow dominates over retry exhaustion
+olsr,100,medium,3,29.290,36951.7,3305.7,9432.7,14315457,0.7584,0.7283,8.94,25.36,34.62,MAC-queue overflow dominates over retry exhaustion
+static,50,high,3,39.848,31700.0,1269.7,3712.7,4580262,0.5617,0.5424,4.04,12.09,16.13,MAC-queue overflow dominates over retry exhaustion
+static,50,medium,3,34.348,17299.3,305.7,0.0,2034634,0.2261,0.2174,1.77,0.00,1.77,retry exhaustion is the larger (but still minor) of the two at this low-stress cell
+static,75,high,3,28.939,56174.0,1204.7,4145.3,7632470,0.5949,0.5802,2.17,7.50,9.67,MAC-queue overflow dominates over retry exhaustion
+static,75,medium,3,27.508,28652.3,419.3,0.0,3555054,0.2725,0.2585,1.50,0.00,1.50,retry exhaustion is the larger (but still minor) of the two at this low-stress cell
+static,100,high,3,21.785,82438.3,1738.0,11057.0,12853035,0.6491,0.6432,2.11,13.52,15.63,MAC-queue overflow dominates over retry exhaustion
+static,100,medium,3,28.159,37860.3,1182.3,480.3,7062952,0.3913,0.3733,3.22,1.40,4.62,retry exhaustion is the larger (but still minor) of the two at this low-stress cell

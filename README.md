@@ -1,18 +1,19 @@
 # Analysis of IoT Network Performance Using NS-3
 
-Research project analyzing routing-protocol performance (AODV, OLSR, Static
-Routing) in a multi-hop 802.11b ad-hoc IoT wireless mesh, using the
-[ns-3](https://www.nsnam.org/) network simulator.
+Identifying congestion bottlenecks and evaluating traffic-rate mitigation in multi-hop IoT
+wireless networks, using the [ns-3](https://www.nsnam.org/) network simulator.
 
-**Current baseline: V2.7** — 12 scenarios (3 protocols x 4 network sizes:
-10/20/30/50 nodes), 5 independent topology seeds per scenario, 60 total
-simulation runs. A separate, in-progress **V3 sigmoid-routing extension**
-(4 validation runs only, not a full study) is also included — see
-[Sigmoid research direction](#sigmoid-routing-research-direction-v3) below.
+**Status:** Research Complete — the research described below is **frozen**.
 
-**Public dashboard:** https://salincalyna.github.io/-iot-network-performance-ns3/
-(static build of the same dashboard, auto-deployed from `site/` via GitHub
-Actions on every push to `main`)
+| | |
+|---|---|
+| Simulation | NS-3 |
+| Network | Multi-hop 802.11b ad-hoc IoT mesh |
+| Protocols | AODV / OLSR / Static / V4 Sigmoid-Based Adaptive Routing (investigation) |
+| Official V3 baseline | 1,782 runs |
+| Reproducibility | 51/51 validation runs PASS |
+| Research status | **FROZEN** |
+| Dashboard | [GitHub Pages](https://salincalyna.github.io/-iot-network-performance-ns3/) |
 
 ## Researcher
 
@@ -26,174 +27,233 @@ Actions on every push to `main`)
 | GitHub | [@SalinCalyna](https://github.com/SalinCalyna) |
 | Repository | https://github.com/SalinCalyna/-iot-network-performance-ns3 |
 
+## Research question
+
+> What is the main cause of packet loss in a multi-hop IoT network as network size and traffic
+> load increase, and can the identified bottleneck be mitigated by reducing offered traffic rate?
+
 ## Objective
 
-Compare how a reactive protocol (AODV), a proactive protocol (OLSR), and a
-fixed baseline (custom static routing) perform as a multi-hop wireless IoT
-sensor network scales from 10 to 50 nodes, using Packet Delivery Ratio,
-Throughput, End-to-End Delay, and Packet Loss measured directly from ns-3's
-FlowMonitor.
+To analyze and identify the factors affecting performance and packet loss in a multi-hop IoT
+network using NS-3, and to evaluate whether appropriate traffic management can mitigate
+congestion and improve network reliability.
+
+## Conclusion
+
+> The study identifies gateway and first-hop congestion as the dominant measurable bottleneck
+> under near-saturated conditions and demonstrates that reducing offered traffic rate can
+> effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities.
+> However, the effectiveness of the intervention is protocol- and load-dependent, and a portion
+> of packet loss remains unattributed by the current instrumentation.
+
+## Key findings
+
+**1. Network scale and traffic load.** Performance degrades as node count and traffic load
+increase, consistently across AODV, OLSR, and Static routing (V3 official baseline, 1,782 runs).
+
+**2. V4 routing investigation.** Sigmoid-based adaptive routing changed routing behaviour under
+selected conditions — up to 100% of seeds re-routed relative to Static's shortest-path tree at
+the strongest tested configuration — but routing activation did not produce a statistically
+credible performance improvement over Static. This is a valid negative result, not a failed
+implementation: the mechanism runs, computes, and measurably alters routes; it simply does not
+move delivery performance under the tested conditions.
+
+**3. Main measurable bottleneck.** Gateway and first-hop congestion becomes the dominant
+measurable bottleneck under near-saturated conditions (176-run bottleneck characterisation).
+Gateway airtime reaches approximately 0.86–0.89 at high node counts under high traffic, and
+MAC-layer queue drops are 1.2–2.4× over-represented in the first-hop neighbourhood. Routing
+failures (NO_ROUTE / ROUTE_ERROR) are negligible in every tested condition.
+
+**4. Retry exhaustion.** MAC-layer retry exhaustion exists and is directly measured (36-run
+validation), but it is not the dominant mechanism — it accounts for a mean of roughly 6% of loss
+and is concentrated farther from the gateway, the opposite spatial pattern from MAC-queue
+overflow.
+
+**5. Traffic-rate intervention.** Reducing offered traffic rate (16 → 12 → 8 → 4 kbps) improves
+OLSR PDR at N=75 and N=100 (72-run offered-rate sweep). At the deepest reduction tested:
+- **N=75: approximately +14.7 percentage points**
+- **N=100: approximately +25.2 percentage points**
+
+At N=100, delivered throughput actually *rises* at a reduced offered rate — the signature of
+recovering from congestion collapse rather than simply delivering less because less was sent.
+
+**6. Static routing.** Static routing at N=50 does not show the same improvement from
+offered-rate reduction (12-run diagnostic) — PDR is flat to negative across all tested rates and
+seeds. This is not evidence of a broken protocol: the mechanisms the intervention relieves
+(airtime, MAC-queue overflow) were never the dominant source of loss for this specific condition.
+
+**7. Remaining limitation.** A portion of packet loss remains unattributed by the current
+instrumentation — for the Static/N=50 diagnostic, residual (unattributed) loss ranges
+64.65%–99.57% across the 12 tested runs (typically ≥92%), while currently attributed mechanisms
+account for only about 0.4–35.4%. This is reported as an instrumentation limitation, not a claim
+about a specific unmeasured physical cause.
+
+## Important caveats
+
+- **AODV:** AODV's PDR and packet-loss figures are affected by a known ns-3 FlowMonitor
+  `PacketsSent`-denominator artifact tied to AODV's route discovery/repair behaviour. They should
+  be read as indicative and directionally robust, not exact cross-protocol comparisons. Throughput
+  and qualitative trends are unaffected.
+- **OLSR:** `RoutingOverheadPackets` reads 0 for OLSR in the V3 dataset. This is a
+  metric-coverage limitation in that measurement (its classifier is scoped to AODV's control
+  ports), **not** evidence that OLSR generates zero control traffic.
+- **Static routing:** some sensors were unreachable at low node counts in the V3 baseline (a
+  sparse-topology / placement effect, not a routing-failure mechanism); this was not observed as
+  material in the bottleneck/intervention experiments. The large unattributed-loss gap at
+  Static/N=50 (see Finding 7) is a separate, later finding specific to that condition.
+- **V4:** a valid negative result — the mechanism activates and changes routing behaviour, it
+  does not improve delivery performance under the tested conditions. This is not a failed
+  implementation.
+
+## Reproducibility
+
+The frozen research was independently re-executed using a 51-run validation matrix covering the
+V3 baseline (AODV/OLSR/Static), the bottleneck condition, the rate intervention, and the Static
+negative control. All 51 runs completed successfully. Of 687 metric comparisons, 681 applicable
+comparisons passed exactly, with no failed comparisons and no numerical drift. Six comparisons
+were not applicable because `MaxRetryDrops` was not available in the original §10 dataset (that
+instrumentation was added in a later phase). Based on this validation, the frozen research
+results are considered reproducible from the current source code and configuration.
+
+Full detail: [`analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md`](analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md).
+
+## Data source of truth
+
+All reported research values are based on the frozen **Final Report Data Package** at
+[`analysis/final-report-data/`](analysis/final-report-data/):
+
+| File | Contents |
+|---|---|
+| `final_metrics.csv` | Master cross-stage metrics table |
+| `v3_core_results.csv` | V3 baseline, by protocol × node count |
+| `v4_results.csv` | V4 matched / sensitivity / Tier-1 activation results |
+| `bottleneck_results.csv` | Gateway/first-hop congestion evidence (§10) |
+| `retry_results.csv` | Retry-exhaustion validation results |
+| `rate_sweep_results.csv` | Offered-rate intervention results, with deltas vs. the 16 kbps baseline |
+| `static_n50_diagnostic.csv` | Static/N=50 residual-loss accounting, all 12 runs |
+| `figure_data.csv` | Clean plotting data for the core figures |
+| `thesis_evidence_map.csv` | The seven findings mapped to research question, evidence, and limitation |
+| `REPORT_DATA_DICTIONARY.md` | Metric definitions, units, and caveats |
+| `final_number_check.csv` | Cross-file numerical consistency check |
+| `FINAL_REPORT_DATA_PACKAGE.md` | Package summary and authoritative numbers |
+
+## Research history
+
+The project progressed through seven phases before being frozen: V3 baseline → V4 sigmoid-routing
+investigation → bottleneck characterisation → retry-exhaustion validation → offered-rate
+intervention → Static/N=50 diagnostic → final reproducibility validation. Earlier project
+iterations (V1/V2.7) and their results are preserved for context, not as current findings — see
+[`docs/research-history.md`](docs/research-history.md).
+
+## Final research source code
+
+- **`scratch/iot-network-v3-ext.cc`** — the official V3 baseline simulator (AODV / OLSR / Static,
+  the full node-count/traffic/mobility matrix).
+- **`scratch/iot-network-bottleneck-probe.cc`** — the instrumented research simulator used for
+  bottleneck characterisation, retry-exhaustion validation, the offered-rate intervention, and the
+  Static/N=50 diagnostic. It replicates the V3 topology/PHY/MAC/traffic configuration exactly and
+  adds per-node instrumentation (airtime, MAC-queue drops, PHY RX drops, retry-exhaustion drops,
+  hop distance).
+
+`scratch/iot-network.cc`, `scratch/iot-network-v3.cc`, and `scratch/scratch-simulator.cc` are
+**legacy/historical implementations** from earlier project iterations (V1/V2.7 and an early V3
+sigmoid prototype) — kept for reference and reproducibility of the project's history, not part of
+the current frozen research. See `docs/research-history.md`.
 
 ## Repository contents
 
 ```
 scratch/
-  iot-network.cc          V2.7 simulation: multi-hop 802.11b ad-hoc IoT mesh,
-                           AODV / OLSR / Static routing, FlowMonitor metrics
-  iot-network-v3.cc        V3 (in-progress): 15-node clustered topology, adds a
-                           4th "sigmoid" routing mode -- validation-only, see below
-  scratch-simulator.cc     Earlier (V1) implementation, kept for reference
-experiments/
-  run_experiments.sh       Runs the full 12-scenario x 5-seed V2.7 matrix
-  run_and_analyze.sh       Wrapper: analyze-only by default, --run re-runs first
-  analyze_results.py       Auto-detects available metrics, writes results/statistics.csv
-                            and PNG+SVG plots to results/plots/
-  export_static_data.py    Exports results/*.csv (and results/v3/*.csv) to
-                            site/data/*.json for the GitHub Pages build
-  requirements.txt         Python dependencies
+  iot-network-v3-ext.cc          Final: V3 official baseline simulator (AODV/OLSR/Static)
+  iot-network-bottleneck-probe.cc Final: instrumented simulator (bottleneck/retry/rate-sweep/diagnostic)
+  iot-network.cc                 Legacy (V2.7)
+  iot-network-v3.cc               Legacy (early V3 sigmoid prototype)
+  scratch-simulator.cc            Legacy (V1)
 results/
-  *.csv                    V2.7 experiment results (12 files, 60 rows total)
-  logs/                    Per-run console logs
-  plots/                   Generated PNG + SVG plots (from analyze_results.py)
-  v3/                      V3 sigmoid validation results (4 rows only)
+  v3-ext/                        Official V3 baseline results (1,782 rows, Seed 20-30)
+  v4-matched/, v4-sensitivity/   V4 sigmoid-routing results
+  *.csv, logs/, plots/, v3/      Legacy (V2.7) results, kept for history
+analysis/
+  final-report-data/             Authoritative frozen results package (source of truth)
+  final-reproducibility-check/   51-run reproducibility validation
+  bottleneck-characterisation/   Raw §10 / retry-exhaustion / rate-sweep run outputs
+  update8-tier1-activation/      V4 activation-screen raw data
+  final-github-release/          This release's audit trail
 docs/
-  methodology.md, experiment-design.md, sigmoid-metric.md
-                           Design rationale for the V3 sigmoid extension
+  research-history.md             V1 -> V2 -> V3 -> V4 -> bottleneck -> intervention -> frozen
+  methodology.md, experiment-design.md, sigmoid-metric.md, v3-experiment-framework.md
+                                  Design rationale (historical + V3 framework)
 dashboard/
-  app.py                   Flask backend -- reads results/*.csv live via pandas.
-                           Local-only; not used by the public GitHub Pages site.
-  templates/, static/      Dashboard frontend (dark research-dashboard UI,
-                           Chart.js visualizations, interactive topology,
-                           methodology & validity panels)
+  app.py                         Local-only Flask dashboard (legacy V2.7 result browser;
+                                 not used by the public GitHub Pages site)
 site/
-  index.html, static/      Static (no-backend) build of the same dashboard,
-                           deployed to GitHub Pages
-  data/*.json               Build-time export of results/*.csv (see
-                           export_static_data.py) -- the static site's only
-                           data source, regenerated whenever results change
-  results/                 Copies of results/*.csv and results/plots/* served
-                           directly by the static site
+  index.html, static/, data/     Public GitHub Pages dashboard -- presents the frozen final
+                                 research (see Public dashboard below)
 .github/workflows/
-  deploy-pages.yml          GitHub Actions workflow: deploys site/ to GitHub
-                           Pages on every push to main
+  deploy-pages.yml                Deploys site/ to GitHub Pages on every push to main
 ```
 
-## Reproducing the simulation
-
-`scratch/iot-network.cc` is an ns-3 scratch program; it needs a working
-ns-3 checkout (developed against ns-3.47-dev) to build and run:
-
-```bash
-# from the root of a working ns-3 checkout
-cp scratch/iot-network.cc  <ns-3-checkout>/scratch/
-cp -r experiments           <ns-3-checkout>/
-cd <ns-3-checkout>
-./ns3 build scratch_iot-network
-./experiments/run_experiments.sh        # runs the full 60-run V2.7 matrix
-```
-
-The `results/` directory in this repository already contains the CSVs and
-logs produced by that matrix — you do not need to rerun it to inspect the
-data.
-
-## Regenerating graphs and statistics
-
-```bash
-cd <ns-3-checkout>
-python3 -m venv venv && source venv/bin/activate   # optional but recommended
-pip install -r experiments/requirements.txt
-./experiments/run_and_analyze.sh          # analyze-only: reads existing results/*.csv
-./experiments/run_and_analyze.sh --run    # re-runs the full matrix first, then analyzes
-```
-
-This writes `results/statistics.csv` (mean/std/min/max/count per
-protocol x network size) and PNG + SVG plots to `results/plots/`. The
-dashboard's "Generated Research Graphs" panel and the public GitHub Pages
-site both read this same output — nothing is regenerated at deploy time.
-
-## Running the dashboard locally (Flask)
-
-```bash
-python3 -m venv venv && source venv/bin/activate   # optional but recommended
-pip install -r requirements.txt
-python3 dashboard/app.py
-```
-Then open http://127.0.0.1:5000. The dashboard reads `results/*.csv`
-directly (via pandas) on every request — nothing is hardcoded, and adding a
-new CSV that follows the existing column structure is picked up
-automatically.
-
-## Public dashboard (GitHub Pages, static)
+## Public dashboard (GitHub Pages)
 
 https://salincalyna.github.io/-iot-network-performance-ns3/
 
-This is a static HTML/CSS/JS build of the same dashboard, since GitHub Pages
-cannot run a Flask backend. It reads pre-exported JSON under `site/data/`
-instead of querying `/api/*` live. To update it after new results:
+A static HTML/CSS/JS site (no backend) built from `analysis/final-report-data/figure_data.csv`
+and the other frozen package files, deployed automatically by GitHub Actions on every push to
+`main`. It presents: Overview, Baseline Performance, V4 Routing Investigation, Bottleneck,
+Retry Exhaustion, Offered-Rate Intervention, Static Control, Reproducibility, and Conclusions &
+Limitations. Earlier (V2.7/V3-prototype) results are shown separately under a "Research History"
+section, clearly labelled as historical and not mixed into the final-research charts.
+
+`dashboard/app.py` is a separate, local-only Flask tool that browses the legacy V2.7
+`results/*.csv` files directly; it is not the public dashboard and is not part of the frozen
+final research.
+
+## Reproducing the simulation
+
+Both final simulators are ns-3 scratch programs; they need a working ns-3 checkout to build and
+run:
 
 ```bash
-python3 experiments/export_static_data.py results site/data
-cp results/*.csv site/results/csv/
-cp results/plots/* site/results/plots/
-git add site/ results/ && git commit -m "Update results and regenerate static site data" && git push
-```
-GitHub Actions (`.github/workflows/deploy-pages.yml`) then redeploys
-`site/` to Pages automatically. Two features are Flask-only and are not
-available on the public static site: live re-validation of malformed CSVs
-(`/api/validate`) and on-the-fly `/api/graphs` discovery of newly-added plot
-files — the static site always reflects the JSON/assets present at the last
-export.
-
-## Methodology summary (V2.7 baseline)
-
-- Network: multi-hop IEEE 802.11b ad-hoc mesh (`AdhocWifiMac`,
-  `ConstantRateWifiManager @ DsssRate1Mbps`, `LogDistancePropagationLossModel`
-  exponent=3.0, referenceLoss=40dB)
-- Gateway/Sink/Server merged into a single node at the field centre
-- Deployment area: 250 x 250 m, tx power 20 dBm
-- Traffic: 8 kbps continuous UDP CBR per sensor, 512 B packets
-- Simulation time: 100 s total, application traffic active from 30 s-100 s
-  (70 s active window)
-- Static routing: BFS shortest-hop routes over an assumed 90 m disk
-  connectivity model, installed as real `Ipv4StaticRouting` host routes (not
-  `Ipv4GlobalRoutingHelper`, which was found to treat the shared wifi channel
-  as all-nodes-one-hop and defeats multi-hop routing)
-
-## Known limitation (V2.7.1 validation finding)
-
-A validation pass on the V2.7 results found that AODV's `PacketsSent` count,
-as measured by ns-3's FlowMonitor, is not constant across topology seeds the
-way OLSR's and Static's counts are — it appears to scale with topology
-conditions in a way that suggests FlowMonitor is counting some AODV
-route-repair/requeue events as new "sent" packets. **AODV PDR figures should
-therefore be treated as provisional, not a final confirmed comparison
-against OLSR/Static**, until this is resolved (most likely by counting
-offered packets at the application layer instead of via FlowMonitor's IP-layer
-trace). Throughput and delay are unaffected by this issue. This is reflected
-in the dashboard's Validity section.
-
-## Sigmoid routing research direction (V3)
-
-`scratch/iot-network-v3.cc` is a **separate**, in-progress extension: a
-15-node clustered topology with a wired Gateway/Server backhaul and a 4th
-routing mode ("sigmoid") that computes Dijkstra shortest paths over
-sigmoid-weighted edge costs,
-
-```
-S(x) = 1 / (1 + exp(-k * (x - x0)))
+# from the root of a working ns-3 checkout
+cp scratch/iot-network-v3-ext.cc scratch/iot-network-bottleneck-probe.cc <ns-3-checkout>/scratch/
+cd <ns-3-checkout>
+./ns3 build iot-network-v3-ext iot-network-bottleneck-probe
 ```
 
-applied to two geometrically-justified proxies: link quality
-(`distance / txRange`) and load (`node_degree / max_degree`). Full
-derivation and the analysis showing k = 0.1/0.2/0.3 sit in the sigmoid's
-near-linear regime for x in [0,1] are in `docs/sigmoid-metric.md`,
-`docs/methodology.md`, and `docs/experiment-design.md`.
+See `analysis/final-reproducibility-check/config_fingerprint.txt` for the exact parameter
+fingerprint (topology, PHY/MAC, traffic, timing, seed handling) confirmed reproducible against
+this repository's frozen results, and `analysis/final-report-data/REPORT_DATA_DICTIONARY.md` for
+every command-line flag and metric definition. The `results/` and `analysis/` directories in this
+repository already contain the CSVs produced by the frozen research — you do not need to rerun
+anything to inspect the data.
 
-**Only a 4-run smoke test has been executed** (1 seed, medium traffic, one
-run per protocol) to confirm the sigmoid mode compiles, runs, and produces
-sane output — the full experiment matrix has **not** been run. The
-dashboard's Sigmoid (V3) section shows these 4 rows for transparency, but
-they carry no variance estimate and are not a statistical comparison against
-AODV/OLSR/Static. Extending this to a full matrix, and resolving a known
-FlowMonitor routing-overhead measurement gap for OLSR (broadcast HELLO/TC
-traffic isn't captured by the `SendOutgoing` trace), is future work.
+## Legacy: earlier project material
+
+The sections below describe earlier (pre-freeze) project iterations, kept for history. They are
+**not** the current research — see Key Findings above for the frozen results.
+
+<details>
+<summary>V2.7 baseline (legacy)</summary>
+
+12 scenarios (3 protocols × 4 network sizes: 10/20/30/50 nodes), 5 independent topology seeds per
+scenario, 60 total simulation runs. Network: multi-hop IEEE 802.11b ad-hoc mesh (`AdhocWifiMac`,
+`ConstantRateWifiManager @ DsssRate1Mbps`, `LogDistancePropagationLossModel` exponent=3.0,
+referenceLoss=40dB); gateway/sink/server merged into a single node at the field centre; 250×250 m
+deployment area, 20 dBm tx power; 8 kbps continuous UDP CBR per sensor, 512 B packets; 100 s total
+simulation time, traffic active 30–100 s.
+
+A validation pass on the V2.7 results found the same AODV `PacketsSent`-denominator behaviour
+later confirmed and documented in the frozen research's AODV caveat above.
+</details>
+
+<details>
+<summary>Early V3 sigmoid prototype (legacy, superseded by V4)</summary>
+
+`scratch/iot-network-v3.cc` was an early, separate exploration: a 15-node clustered topology with
+a 4th routing mode computing Dijkstra shortest paths over sigmoid-weighted edge costs. Only a
+4-run smoke test was ever executed (not a statistical study). This line of investigation was
+superseded by the V4 Sigmoid-Based Adaptive Routing study on the official V3 topology (see Key
+Findings, Finding 2), which is the frozen, authoritative result for adaptive routing in this
+project. Design rationale for the prototype remains in `docs/sigmoid-metric.md`,
+`docs/methodology.md`, and `docs/experiment-design.md` for historical reference.
+</details>

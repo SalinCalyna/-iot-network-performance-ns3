@@ -1,0 +1,47 @@
+CONFIGURATION FINGERPRINT -- captured by direct source inspection, pre-run
+Sources: scratch/iot-network-v3-ext.cc (V3 baseline), scratch/iot-network-bottleneck-probe.cc (§10/retry/rate-sweep)
+Both binaries rebuilt this session with zero recompilation needed (cmake reported no stale targets) -- current
+binaries are confirmed current with current source, no source modified.
+
+Topology / placement
+  areaSize            = 250.0 m  (both files, default, unchanged)
+  gateway location     = (areaSize/2, areaSize/2) = (125,125)  (both files, identical)
+  txRange (nominal)    = 90.0 m  (both files, default, unchanged)
+  node placement RNG   = std::mt19937(seed), std::uniform_real_distribution<double>(0, areaSize)  (both files, identical)
+  hop-distance method   = BFS over disk-adjacency graph (dist <= txRange)  (both files, identical)
+
+PHY / MAC
+  standard              = WIFI_STANDARD_80211b  (both files)
+  remote station mgr    = ns3::ConstantRateWifiManager, DataMode=ControlMode=DsssRate1Mbps  (both files)
+  NonUnicastMode         = DsssRate1Mbps  (both files)
+  propagation delay      = ns3::ConstantSpeedPropagationDelayModel  (both files)
+  propagation loss       = ns3::LogDistancePropagationLossModel, Exponent=3.0, ReferenceDistance=1.0, ReferenceLoss=40.0  (both files, identical)
+  txPowerDbm             = 20.0 dBm  (both files, default, unchanged)
+  MAC type                = ns3::AdhocWifiMac  (both files)
+
+Routing
+  protocols under test    = aodv | olsr | static  (V3-ext); olsr | static only (probe, by design)
+  static routing           = BFS parent-tree host routes to gateway  (both files, identical algorithm)
+  OLSR                      = ns3::OlsrHelper, priority 10  (both files, identical)
+
+Traffic
+  packetSize               = 512 bytes  (both files, default, unchanged)
+  trafficLevel -> rate      = low=4kbps, medium=8kbps, high=16kbps  (both files, identical mapping)
+  OnOff pattern             = OnTime=Constant[1], OffTime=Constant[0] (always-on CBR)  (both files, identical)
+
+Timing
+  simTime                  = 300.0 s  (both files, default, unchanged)
+  appStart                 = 30.0 s  (both files, default, unchanged)
+
+Seed handling
+  RngSeedManager::SetSeed(seed); RngSeedManager::SetRun(1);  (both files, identical)
+  position RNG seeded with the same --seed value  (both files, identical)
+
+RESULT: NO CONFIGURATION MISMATCH FOUND. The two simulators are confirmed to share
+identical topology/PHY/MAC/propagation/traffic/timing/seed-handling parameters, matching
+the frozen experiment design documented in scratch/iot-network-bottleneck-probe.cc's own
+header ("replicates the V3 Official topology / PHY / MAC / traffic exactly").
+
+Output isolation: all reruns below use --outDir=analysis/final-reproducibility-check/data
+(V3-ext) or --outDir=analysis/final-reproducibility-check/data (probe), NEVER the original
+results/v3-ext or analysis/bottleneck-characterisation/data* directories.

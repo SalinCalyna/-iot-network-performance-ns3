@@ -1,0 +1,4 @@
+Timestamp,Version,RoutingProtocol,NumberOfNodes,TrafficLevel,DataRate,MobilityMode,MobilitySpeed,Seed,Duration,PacketsSent,PacketsReceived,PacketLoss,PDR,ThroughputKbps,AverageDelaySec,AverageJitterSec,RoutingOverheadPackets,AverageHopCount,HopCountMethod,PathChanges,AverageLinkUtilization,MaximumLinkUtilization,UnreachableSensors
+1789069826,v3,olsr,100,medium,8kbps,static,0,20,300,51601,12645,38956,24.5053,202.32,0.33169,0.173015,0,1.5531,approx_timesForwarded,3814,0.000589488,0.0261581,0
+1789070290,v3,olsr,100,medium,8kbps,static,0,25,300,52691,17476,35215,33.167,279.616,0.295463,0.163244,0,1.37308,approx_timesForwarded,3068,0.000539881,0.0240691,0
+1789070685,v3,olsr,100,medium,8kbps,static,0,30,300,52554,15870,36684,30.1975,253.92,0.32494,0.172093,0,1.47253,approx_timesForwarded,3376,0.000579856,0.024407,0

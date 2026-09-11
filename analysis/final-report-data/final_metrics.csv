@@ -1,0 +1,75 @@
+dataset_stage,protocol,node_count,traffic,mobility,offered_rate_kbps,seed_count,pdr_mean,pdr_sd,throughput_mean,throughput_sd,delay_mean,delay_sd,jitter_mean,jitter_sd,packet_loss_mean,gw_airtime,ring1_airtime,mac_queue_drops_mean,phy_rx_drops_mean,max_retry_drops_mean,routing_failures_mean,mean_hop_count
+V3-baseline,aodv,10,pooled(low/medium/high),pooled(static/low/medium),n/a,99,76.725,11.835,76.247,43.835,0.05100,0.01739,0.02878,0.01049,1381.2,n/a,n/a,n/a,n/a,n/a,0,1.228
+V3-baseline,aodv,20,pooled(low/medium/high),pooled(static/low/medium),n/a,99,61.764,10.647,121.568,68.913,0.08292,0.02329,0.04754,0.01537,4695.3,n/a,n/a,n/a,n/a,n/a,0,1.272
+V3-baseline,aodv,30,pooled(low/medium/high),pooled(static/low/medium),n/a,99,47.210,10.008,129.554,55.328,0.15545,0.04559,0.10167,0.03273,10342.8,n/a,n/a,n/a,n/a,n/a,0,1.325
+V3-baseline,aodv,50,pooled(low/medium/high),pooled(static/low/medium),n/a,99,23.462,7.988,97.557,31.415,0.28410,0.05010,0.19592,0.01959,24636.1,n/a,n/a,n/a,n/a,n/a,0,1.331
+V3-baseline,aodv,75,pooled(low/medium/high),pooled(static/low/medium),n/a,99,9.839,5.164,58.796,25.938,0.34509,0.06435,0.21989,0.03206,42425.2,n/a,n/a,n/a,n/a,n/a,0,1.208
+V3-baseline,aodv,100,pooled(low/medium/high),pooled(static/low/medium),n/a,99,3.998,2.838,30.981,17.598,0.38536,0.07699,0.22582,0.05187,59530.3,n/a,n/a,n/a,n/a,n/a,0,1.114
+V3-baseline,olsr,10,pooled(low/medium/high),pooled(static/low/medium),n/a,99,69.475,13.723,67.656,40.055,0.04103,0.00921,0.02262,0.00865,1857.5,n/a,n/a,n/a,n/a,n/a,0,1.153
+V3-baseline,olsr,20,pooled(low/medium/high),pooled(static/low/medium),n/a,99,56.996,13.800,111.976,68.026,0.06696,0.01703,0.03761,0.01348,5288.1,n/a,n/a,n/a,n/a,n/a,0,1.132
+V3-baseline,olsr,30,pooled(low/medium/high),pooled(static/low/medium),n/a,99,50.172,10.837,150.555,92.759,0.10124,0.02558,0.05732,0.01813,9021.0,n/a,n/a,n/a,n/a,n/a,0,1.153
+V3-baseline,olsr,50,pooled(low/medium/high),pooled(static/low/medium),n/a,99,44.936,7.979,215.324,112.291,0.17921,0.03408,0.10423,0.02608,17262.3,n/a,n/a,n/a,n/a,n/a,0,1.208
+V3-baseline,olsr,75,pooled(low/medium/high),pooled(static/low/medium),n/a,99,37.343,9.632,241.499,80.031,0.28324,0.03346,0.16884,0.03130,30724.9,n/a,n/a,n/a,n/a,n/a,0,1.287
+V3-baseline,olsr,100,pooled(low/medium/high),pooled(static/low/medium),n/a,99,29.775,11.280,231.455,48.234,0.36910,0.02921,0.22461,0.04332,45361.2,n/a,n/a,n/a,n/a,n/a,0,1.346
+V3-baseline,static,10,pooled(low/medium/high),pooled(static/low/medium),n/a,99,46.689,14.007,46.368,30.238,0.03202,0.00715,0.01568,0.00465,3248.7,n/a,n/a,n/a,n/a,n/a,0,1.448
+V3-baseline,static,20,pooled(low/medium/high),pooled(static/low/medium),n/a,99,32.105,13.641,64.153,46.703,0.05284,0.01413,0.02387,0.00555,8283.7,n/a,n/a,n/a,n/a,n/a,0,1.656
+V3-baseline,static,30,pooled(low/medium/high),pooled(static/low/medium),n/a,99,29.844,12.590,91.061,69.936,0.07418,0.02301,0.03232,0.00855,12748.7,n/a,n/a,n/a,n/a,n/a,0,1.647
+V3-baseline,static,50,pooled(low/medium/high),pooled(static/low/medium),n/a,99,25.420,10.281,130.492,98.965,0.10465,0.03027,0.04688,0.01304,22577.6,n/a,n/a,n/a,n/a,n/a,0,1.578
+V3-baseline,static,75,pooled(low/medium/high),pooled(static/low/medium),n/a,99,20.190,8.250,153.095,109.000,0.13046,0.03333,0.05817,0.01388,36531.5,n/a,n/a,n/a,n/a,n/a,0,1.579
+V3-baseline,static,100,pooled(low/medium/high),pooled(static/low/medium),n/a,99,17.199,6.924,171.536,111.924,0.16015,0.04079,0.07037,0.01716,50745.7,n/a,n/a,n/a,n/a,n/a,0,1.592
+§10-bottleneck-probe,olsr,30,high,static,n/a,11,42.525,8.321,215.009,n/a,0.10178,n/a,n/a,n/a,n/a,0.4375,0.4137,573.3,2206936,n/a (not instrumented in §10),3.0,n/a
+§10-bottleneck-probe,olsr,30,medium,static,n/a,11,38.230,10.141,96.704,n/a,0.06776,n/a,n/a,n/a,n/a,0.1850,0.1745,0.0,941572,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,olsr,50,high,static,n/a,11,38.699,5.642,326.036,n/a,0.19823,n/a,n/a,n/a,n/a,0.7353,0.7197,10135.0,6451845,n/a (not instrumented in §10),15.3,n/a
+§10-bottleneck-probe,olsr,50,medium,static,n/a,11,37.898,7.281,159.776,n/a,0.13780,n/a,n/a,n/a,n/a,0.3630,0.3423,15.2,3130330,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,olsr,75,high,static,n/a,11,25.206,2.654,315.719,n/a,0.30123,n/a,n/a,n/a,n/a,0.8638,0.8549,28190.6,12997211,n/a (not instrumented in §10),228.7,n/a
+§10-bottleneck-probe,olsr,75,medium,static,n/a,11,34.830,3.249,220.260,n/a,0.23209,n/a,n/a,n/a,n/a,0.5807,0.5482,1704.2,7581263,n/a (not instrumented in §10),0.4,n/a
+§10-bottleneck-probe,olsr,100,high,static,n/a,11,14.732,1.949,235.667,n/a,0.36650,n/a,n/a,n/a,n/a,0.8893,0.8809,43475.9,19597269,n/a (not instrumented in §10),1335.8,n/a
+§10-bottleneck-probe,olsr,100,medium,static,n/a,11,28.546,3.300,239.811,n/a,0.31976,n/a,n/a,n/a,n/a,0.7433,0.7168,9542.0,13971261,n/a (not instrumented in §10),65.6,n/a
+§10-bottleneck-probe,static,30,high,static,n/a,11,44.212,10.889,223.676,n/a,0.07461,n/a,n/a,n/a,n/a,0.3653,0.3403,1.5,1861048,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,static,30,medium,static,n/a,11,41.564,8.562,105.140,n/a,0.07041,n/a,n/a,n/a,n/a,0.1717,0.1589,0.0,866895,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,static,50,high,static,n/a,11,39.110,7.928,329.775,n/a,0.13529,n/a,n/a,n/a,n/a,0.5622,0.5353,3256.9,4556620,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,static,50,medium,static,n/a,11,36.444,5.004,153.649,n/a,0.09723,n/a,n/a,n/a,n/a,0.2424,0.2271,0.0,2084300,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,static,75,high,static,n/a,11,28.926,2.915,365.860,n/a,0.15312,n/a,n/a,n/a,n/a,0.6219,0.6027,6550.3,7968847,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,static,75,medium,static,n/a,11,30.674,4.354,193.985,n/a,0.12049,n/a,n/a,n/a,n/a,0.3041,0.2830,1.3,3970639,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,static,100,high,static,n/a,11,22.055,2.660,371.939,n/a,0.18535,n/a,n/a,n/a,n/a,0.6559,0.6416,12463.7,12394912,n/a (not instrumented in §10),0.0,n/a
+§10-bottleneck-probe,static,100,medium,static,n/a,11,27.802,5.600,234.429,n/a,0.16654,n/a,n/a,n/a,n/a,0.3849,0.3570,284.2,6809568,n/a (not instrumented in §10),0.0,n/a
+Retry-exhaustion-validation,olsr,50,high,static,n/a,3,41.890,5.599,352.720,n/a,0.20074,n/a,n/a,n/a,30584.3,0.7662,0.7552,9913.7,6802130,3172.3,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,olsr,50,medium,static,n/a,3,41.084,8.728,173.211,n/a,0.14144,n/a,n/a,n/a,15524.3,0.3902,0.3703,29.0,3500210,2644.0,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,olsr,75,high,static,n/a,3,26.277,1.635,329.984,n/a,0.30038,n/a,n/a,n/a,57873.0,0.8701,0.8631,29747.0,13283574,2462.7,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,olsr,75,medium,static,n/a,3,37.766,1.544,238.832,n/a,0.24195,n/a,n/a,n/a,24598.0,0.6168,0.5853,2009.0,8066652,3319.7,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,olsr,100,high,static,n/a,3,14.532,1.390,230.603,n/a,0.36337,n/a,n/a,n/a,84568.0,0.8896,0.8794,44776.0,19535240,1757.3,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,olsr,100,medium,static,n/a,3,29.290,3.594,245.285,n/a,0.31736,n/a,n/a,n/a,36951.7,0.7584,0.7283,9432.7,14315457,3305.7,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,static,50,high,static,n/a,3,39.848,1.834,336.000,n/a,0.14498,n/a,n/a,n/a,31700.0,0.5617,0.5424,3712.7,4580262,1269.7,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,static,50,medium,static,n/a,3,34.348,2.285,144.811,n/a,0.08942,n/a,n/a,n/a,17299.3,0.2261,0.2174,0.0,2034634,305.7,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,static,75,high,static,n/a,3,28.939,4.473,366.016,n/a,0.15252,n/a,n/a,n/a,56174.0,0.5949,0.5802,4145.3,7632470,1204.7,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,static,75,medium,static,n/a,3,27.508,4.514,173.963,n/a,0.11038,n/a,n/a,n/a,28652.3,0.2725,0.2585,0.0,3555054,419.3,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,static,100,high,static,n/a,3,21.785,1.907,367.387,n/a,0.20347,n/a,n/a,n/a,82438.3,0.6491,0.6432,11057.0,12853035,1738.0,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Retry-exhaustion-validation,static,100,medium,static,n/a,3,28.159,5.470,237.435,n/a,0.17112,n/a,n/a,n/a,37860.3,0.3913,0.3733,480.3,7062952,1182.3,0 (NO_ROUTE/ROUTE_ERROR not summed in this table; see retry_results.csv),n/a
+Offered-rate-sweep,olsr,50,high(label)/offered-rate-varied,static,16,3,41.89,5.60,352.72,47.01,0.20074,0.00668,0.10012,0.00381,30584.3,0.7662,0.7552,9913.7,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",3172.3,0,n/a
+Offered-rate-sweep,olsr,50,high(label)/offered-rate-varied,static,12,3,45.98,2.58,290.97,16.33,0.17748,0.01295,0.09268,0.00705,21364.3,0.6471,0.6272,3457.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",3749.0,0,n/a
+Offered-rate-sweep,olsr,50,high(label)/offered-rate-varied,static,8,3,41.08,8.73,173.21,36.80,0.14144,0.01457,0.07104,0.00474,15524.3,0.3902,0.3703,29.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",2644.0,0,n/a
+Offered-rate-sweep,olsr,50,high(label)/offered-rate-varied,static,4,3,39.18,6.59,82.43,13.86,0.12232,0.01375,0.06368,0.00631,7998.0,0.1928,0.1816,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",747.0,0,n/a
+Offered-rate-sweep,olsr,75,high(label)/offered-rate-varied,static,16,3,26.28,1.63,329.98,20.07,0.30038,0.00588,0.13980,0.00869,57873.0,0.8701,0.8631,29747.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",2462.7,0,n/a
+Offered-rate-sweep,olsr,75,high(label)/offered-rate-varied,static,12,3,32.29,1.66,304.58,14.20,0.25855,0.02136,0.13948,0.01087,39942.3,0.7854,0.7696,15134.7,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",3057.0,0,n/a
+Offered-rate-sweep,olsr,75,high(label)/offered-rate-varied,static,8,3,37.77,1.54,238.83,9.77,0.24195,0.01779,0.12711,0.00478,24598.0,0.6168,0.5853,2009.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",3319.7,0,n/a
+Offered-rate-sweep,olsr,75,high(label)/offered-rate-varied,static,4,3,40.95,1.97,129.23,6.20,0.24666,0.02952,0.14729,0.01118,11648.3,0.3588,0.3347,188.7,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",2001.7,0,n/a
+Offered-rate-sweep,olsr,100,high(label)/offered-rate-varied,static,16,3,14.53,1.39,230.60,26.73,0.36337,0.00490,0.16603,0.00868,84568.0,0.8896,0.8794,44776.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",1757.3,0,n/a
+Offered-rate-sweep,olsr,100,high(label)/offered-rate-varied,static,12,3,22.73,1.98,286.73,24.83,0.32418,0.01097,0.16229,0.00593,60916.0,0.8738,0.8617,28474.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",2441.3,0,n/a
+Offered-rate-sweep,olsr,100,high(label)/offered-rate-varied,static,8,3,29.29,3.59,245.29,32.14,0.31736,0.01573,0.16946,0.00441,36951.7,0.7584,0.7283,9432.7,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",3305.7,0,n/a
+Offered-rate-sweep,olsr,100,high(label)/offered-rate-varied,static,4,3,39.74,3.61,167.22,15.18,0.34575,0.00850,0.20135,0.00922,15848.7,0.5297,0.4884,1934.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",2666.0,0,n/a
+Offered-rate-sweep,static,50,high(label)/offered-rate-varied,static,16,3,39.85,1.83,336.00,15.46,0.14498,0.03015,0.06230,0.01176,31700.0,0.5617,0.5424,3712.7,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",1269.7,0,n/a
+Offered-rate-sweep,static,50,high(label)/offered-rate-varied,static,12,3,27.42,2.84,173.50,17.96,0.07374,0.00937,0.03326,0.00205,28706.3,0.2921,0.2802,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",227.3,0,n/a
+Offered-rate-sweep,static,50,high(label)/offered-rate-varied,static,8,3,34.35,2.28,144.81,9.63,0.08942,0.00535,0.04003,0.00247,17299.3,0.2261,0.2174,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",305.7,0,n/a
+Offered-rate-sweep,static,50,high(label)/offered-rate-varied,static,4,3,32.24,0.60,67.83,1.26,0.08121,0.00290,0.03742,0.00130,8910.3,0.1062,0.1026,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",94.0,0,n/a
+Offered-rate-sweep,static,75,high(label)/offered-rate-varied,static,16,3,28.94,4.47,366.02,56.57,0.15252,0.02408,0.06797,0.00870,56174.0,0.5949,0.5802,4145.3,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",1204.7,0,n/a
+Offered-rate-sweep,static,75,high(label)/offered-rate-varied,static,12,3,23.59,3.24,223.88,30.78,0.08907,0.00211,0.04304,0.00275,45332.7,0.3499,0.3373,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",491.7,0,n/a
+Offered-rate-sweep,static,75,high(label)/offered-rate-varied,static,8,3,27.51,4.51,173.96,28.55,0.11038,0.02021,0.04840,0.00717,28652.3,0.2725,0.2585,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",419.3,0,n/a
+Offered-rate-sweep,static,75,high(label)/offered-rate-varied,static,4,3,25.87,0.83,81.66,2.63,0.09760,0.00519,0.04525,0.00145,14621.3,0.1246,0.1198,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",167.0,0,n/a
+Offered-rate-sweep,static,100,high(label)/offered-rate-varied,static,16,3,21.79,1.91,367.39,32.15,0.20347,0.04221,0.07819,0.00994,82438.3,0.6491,0.6432,11057.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",1738.0,0,n/a
+Offered-rate-sweep,static,100,high(label)/offered-rate-varied,static,12,3,24.55,2.28,310.66,28.91,0.17349,0.03379,0.07447,0.01233,59683.7,0.5339,0.5217,5181.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",1111.7,0,n/a
+Offered-rate-sweep,static,100,high(label)/offered-rate-varied,static,8,3,28.16,5.47,237.43,46.12,0.17112,0.02933,0.06979,0.01249,37860.3,0.3913,0.3733,480.3,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",1182.3,0,n/a
+Offered-rate-sweep,static,100,high(label)/offered-rate-varied,static,4,3,20.77,5.87,87.41,24.72,0.11087,0.02138,0.05178,0.00919,20836.7,0.1402,0.1348,0.0,"n/a (pernode collision, aggregate phy_rx not extracted to this file)",183.7,0,n/a
+Static-N50-diagnostic,static,50,high(label)/offered-rate-varied,static,16,3,39.85,1.83,n/a,n/a,n/a,n/a,n/a,n/a,31700.0,n/a,n/a,3712.7,n/a,1269.7,0,n/a
+Static-N50-diagnostic,static,50,high(label)/offered-rate-varied,static,12,3,27.42,2.84,n/a,n/a,n/a,n/a,n/a,n/a,28706.3,n/a,n/a,0.0,n/a,227.3,0,n/a
+Static-N50-diagnostic,static,50,high(label)/offered-rate-varied,static,8,3,34.35,2.28,n/a,n/a,n/a,n/a,n/a,n/a,17299.3,n/a,n/a,0.0,n/a,305.7,0,n/a
+Static-N50-diagnostic,static,50,high(label)/offered-rate-varied,static,4,3,32.24,0.60,n/a,n/a,n/a,n/a,n/a,n/a,8910.3,n/a,n/a,0.0,n/a,94.0,0,n/a

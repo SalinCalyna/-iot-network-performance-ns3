@@ -1,0 +1,1 @@
+probe done: static n=100 traffic=medium seed=28  PDR=36.2638%  thr=305.776kbps  unreachable=0  phyRxDrop=8856362  macQdrop=1661  ipDropQueue=0  ipDropNoRoute=0  gwBusy=0.557665  ring1Busy=0.516377

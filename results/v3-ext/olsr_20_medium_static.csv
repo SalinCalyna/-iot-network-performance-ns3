@@ -1,0 +1,12 @@
+Timestamp,Version,RoutingProtocol,NumberOfNodes,TrafficLevel,DataRate,MobilityMode,MobilitySpeed,Seed,Duration,PacketsSent,PacketsReceived,PacketLoss,PDR,ThroughputKbps,AverageDelaySec,AverageJitterSec,RoutingOverheadPackets,AverageHopCount,HopCountMethod,PathChanges,AverageLinkUtilization,MaximumLinkUtilization,UnreachableSensors
+1788420525,v3,olsr,20,medium,8kbps,static,0,20,300,10540,5868,4672,55.6736,93.888,0.0501778,0.0199134,0,1.24761,approx_timesForwarded,12,0.0057192,0.0321792,0
+1788420530,v3,olsr,20,medium,8kbps,static,0,21,300,10540,5882,4658,55.8065,94.112,0.0665517,0.0357585,0,1.2103,approx_timesForwarded,23,0.00647304,0.0459725,0
+1788420533,v3,olsr,20,medium,8kbps,static,0,22,300,10540,4193,6347,39.7818,67.088,0.0472534,0.0220109,0,1.30193,approx_timesForwarded,14,0.00698444,0.036311,0
+1788420538,v3,olsr,20,medium,8kbps,static,0,23,300,10540,4334,6206,41.1195,69.344,0.0449545,0.0211953,0,1.13567,approx_timesForwarded,6,0.00573505,0.0261888,0
+1788420541,v3,olsr,20,medium,8kbps,static,0,24,300,10540,3399,7141,32.2486,54.384,0.0226598,0.0103972,0,1,approx_timesForwarded,0,0.00692599,0.0193536,0
+1788420545,v3,olsr,20,medium,8kbps,static,0,25,300,10540,3639,6901,34.5256,58.224,0.0385595,0.0172358,0,1.0654,approx_timesForwarded,1,0.00514964,0.0205978,0
+1788420549,v3,olsr,20,medium,8kbps,static,0,26,300,10540,2785,7755,26.4231,44.56,0.0229165,0.00938782,0,1.1149,approx_timesForwarded,8,0.00563354,0.0353894,0
+1788420553,v3,olsr,20,medium,8kbps,static,0,27,300,10540,5671,4869,53.8046,90.736,0.0560105,0.02218,0,1.37313,approx_timesForwarded,16,0.00617383,0.0346522,0
+1788420556,v3,olsr,20,medium,8kbps,static,0,28,300,10540,3165,7375,30.0285,50.64,0.0365906,0.015962,0,1.15134,approx_timesForwarded,3,0.00751933,0.0522854,0
+1788420562,v3,olsr,20,medium,8kbps,static,0,29,300,10540,6236,4304,59.1651,99.776,0.0678052,0.0337173,0,1.21745,approx_timesForwarded,22,0.00693556,0.0440525,0
+1788420565,v3,olsr,20,medium,8kbps,static,0,30,300,10540,3059,7481,29.0228,48.944,0.037336,0.0149825,0,1.23079,approx_timesForwarded,6,0.00422979,0.0358963,0

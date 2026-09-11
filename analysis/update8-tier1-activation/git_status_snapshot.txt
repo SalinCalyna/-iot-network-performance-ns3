@@ -1,0 +1,185 @@
+ D aodv_summary.png
+ D comparison_bars.png
+ M dashboard/app.py
+ M dashboard/static/dashboard.js
+ M dashboard/templates/index.html
+ M docs/v3-experiment-framework.md
+ D line_comparison.png
+ D per_protocol_summary.png
+ D plot_results.py
+ D plot_topology.py
+ D results.txt
+ M results/v3-ext/aodv_100_medium_static.csv
+ M results/v3-ext/aodv_10_medium_low.csv
+ M results/v3-ext/aodv_10_medium_static.csv
+ M results/v3-ext/aodv_20_medium_static.csv
+ M results/v3-ext/aodv_30_medium_static.csv
+ M results/v3-ext/aodv_50_medium_static.csv
+ M results/v3-ext/aodv_75_medium_static.csv
+ M results/v3-ext/olsr_10_medium_low.csv
+ M results/v3-ext/olsr_10_medium_static.csv
+ M results/v3-ext/static_10_medium_low.csv
+ M results/v3-ext/static_10_medium_static.csv
+ M scratch/scratch-simulator.cc
+ D topology_aodv.png
+ D topology_edges.txt
+ D topology_olsr.png
+ D topology_static.png
+?? analysis/
+?? experiments/v4_matched_condition.py
+?? results/plots/
+?? results/v3-ext/aodv_100_high_low.csv
+?? results/v3-ext/aodv_100_high_medium.csv
+?? results/v3-ext/aodv_100_high_static.csv
+?? results/v3-ext/aodv_100_low_low.csv
+?? results/v3-ext/aodv_100_low_medium.csv
+?? results/v3-ext/aodv_100_low_static.csv
+?? results/v3-ext/aodv_100_medium_low.csv
+?? results/v3-ext/aodv_100_medium_medium.csv
+?? results/v3-ext/aodv_10_high_low.csv
+?? results/v3-ext/aodv_10_high_medium.csv
+?? results/v3-ext/aodv_10_high_static.csv
+?? results/v3-ext/aodv_10_low_low.csv
+?? results/v3-ext/aodv_10_low_medium.csv
+?? results/v3-ext/aodv_10_low_static.csv
+?? results/v3-ext/aodv_10_medium_medium.csv
+?? results/v3-ext/aodv_20_high_low.csv
+?? results/v3-ext/aodv_20_high_medium.csv
+?? results/v3-ext/aodv_20_high_static.csv
+?? results/v3-ext/aodv_20_low_low.csv
+?? results/v3-ext/aodv_20_low_medium.csv
+?? results/v3-ext/aodv_20_low_static.csv
+?? results/v3-ext/aodv_20_medium_low.csv
+?? results/v3-ext/aodv_20_medium_medium.csv
+?? results/v3-ext/aodv_30_high_low.csv
+?? results/v3-ext/aodv_30_high_medium.csv
+?? results/v3-ext/aodv_30_high_static.csv
+?? results/v3-ext/aodv_30_low_low.csv
+?? results/v3-ext/aodv_30_low_medium.csv
+?? results/v3-ext/aodv_30_low_static.csv
+?? results/v3-ext/aodv_30_medium_low.csv
+?? results/v3-ext/aodv_30_medium_medium.csv
+?? results/v3-ext/aodv_50_high_low.csv
+?? results/v3-ext/aodv_50_high_medium.csv
+?? results/v3-ext/aodv_50_high_static.csv
+?? results/v3-ext/aodv_50_low_low.csv
+?? results/v3-ext/aodv_50_low_medium.csv
+?? results/v3-ext/aodv_50_low_static.csv
+?? results/v3-ext/aodv_50_medium_low.csv
+?? results/v3-ext/aodv_50_medium_medium.csv
+?? results/v3-ext/aodv_75_high_low.csv
+?? results/v3-ext/aodv_75_high_medium.csv
+?? results/v3-ext/aodv_75_high_static.csv
+?? results/v3-ext/aodv_75_low_low.csv
+?? results/v3-ext/aodv_75_low_medium.csv
+?? results/v3-ext/aodv_75_low_static.csv
+?? results/v3-ext/aodv_75_medium_low.csv
+?? results/v3-ext/aodv_75_medium_medium.csv
+?? results/v3-ext/olsr_100_high_low.csv
+?? results/v3-ext/olsr_100_high_medium.csv
+?? results/v3-ext/olsr_100_high_static.csv
+?? results/v3-ext/olsr_100_low_low.csv
+?? results/v3-ext/olsr_100_low_medium.csv
+?? results/v3-ext/olsr_100_low_static.csv
+?? results/v3-ext/olsr_100_medium_low.csv
+?? results/v3-ext/olsr_100_medium_medium.csv
+?? results/v3-ext/olsr_100_medium_static.csv
+?? results/v3-ext/olsr_10_high_low.csv
+?? results/v3-ext/olsr_10_high_medium.csv
+?? results/v3-ext/olsr_10_high_static.csv
+?? results/v3-ext/olsr_10_low_low.csv
+?? results/v3-ext/olsr_10_low_medium.csv
+?? results/v3-ext/olsr_10_low_static.csv
+?? results/v3-ext/olsr_10_medium_medium.csv
+?? results/v3-ext/olsr_20_high_low.csv
+?? results/v3-ext/olsr_20_high_medium.csv
+?? results/v3-ext/olsr_20_high_static.csv
+?? results/v3-ext/olsr_20_low_low.csv
+?? results/v3-ext/olsr_20_low_medium.csv
+?? results/v3-ext/olsr_20_low_static.csv
+?? results/v3-ext/olsr_20_medium_low.csv
+?? results/v3-ext/olsr_20_medium_medium.csv
+?? results/v3-ext/olsr_20_medium_static.csv
+?? results/v3-ext/olsr_30_high_low.csv
+?? results/v3-ext/olsr_30_high_medium.csv
+?? results/v3-ext/olsr_30_high_static.csv
+?? results/v3-ext/olsr_30_low_low.csv
+?? results/v3-ext/olsr_30_low_medium.csv
+?? results/v3-ext/olsr_30_low_static.csv
+?? results/v3-ext/olsr_30_medium_low.csv
+?? results/v3-ext/olsr_30_medium_medium.csv
+?? results/v3-ext/olsr_30_medium_static.csv
+?? results/v3-ext/olsr_50_high_low.csv
+?? results/v3-ext/olsr_50_high_medium.csv
+?? results/v3-ext/olsr_50_high_static.csv
+?? results/v3-ext/olsr_50_low_low.csv
+?? results/v3-ext/olsr_50_low_medium.csv
+?? results/v3-ext/olsr_50_low_static.csv
+?? results/v3-ext/olsr_50_medium_low.csv
+?? results/v3-ext/olsr_50_medium_medium.csv
+?? results/v3-ext/olsr_50_medium_static.csv
+?? results/v3-ext/olsr_75_high_low.csv
+?? results/v3-ext/olsr_75_high_medium.csv
+?? results/v3-ext/olsr_75_high_static.csv
+?? results/v3-ext/olsr_75_low_low.csv
+?? results/v3-ext/olsr_75_low_medium.csv
+?? results/v3-ext/olsr_75_low_static.csv
+?? results/v3-ext/olsr_75_medium_low.csv
+?? results/v3-ext/olsr_75_medium_medium.csv
+?? results/v3-ext/olsr_75_medium_static.csv
+?? results/v3-ext/run_log_20260903_141446.txt
+?? results/v3-ext/static_100_high_low.csv
+?? results/v3-ext/static_100_high_medium.csv
+?? results/v3-ext/static_100_high_static.csv
+?? results/v3-ext/static_100_low_low.csv
+?? results/v3-ext/static_100_low_medium.csv
+?? results/v3-ext/static_100_low_static.csv
+?? results/v3-ext/static_100_medium_low.csv
+?? results/v3-ext/static_100_medium_medium.csv
+?? results/v3-ext/static_100_medium_static.csv
+?? results/v3-ext/static_10_high_low.csv
+?? results/v3-ext/static_10_high_medium.csv
+?? results/v3-ext/static_10_high_static.csv
+?? results/v3-ext/static_10_low_low.csv
+?? results/v3-ext/static_10_low_medium.csv
+?? results/v3-ext/static_10_low_static.csv
+?? results/v3-ext/static_10_medium_medium.csv
+?? results/v3-ext/static_20_high_low.csv
+?? results/v3-ext/static_20_high_medium.csv
+?? results/v3-ext/static_20_high_static.csv
+?? results/v3-ext/static_20_low_low.csv
+?? results/v3-ext/static_20_low_medium.csv
+?? results/v3-ext/static_20_low_static.csv
+?? results/v3-ext/static_20_medium_low.csv
+?? results/v3-ext/static_20_medium_medium.csv
+?? results/v3-ext/static_20_medium_static.csv
+?? results/v3-ext/static_30_high_low.csv
+?? results/v3-ext/static_30_high_medium.csv
+?? results/v3-ext/static_30_high_static.csv
+?? results/v3-ext/static_30_low_low.csv
+?? results/v3-ext/static_30_low_medium.csv
+?? results/v3-ext/static_30_low_static.csv
+?? results/v3-ext/static_30_medium_low.csv
+?? results/v3-ext/static_30_medium_medium.csv
+?? results/v3-ext/static_30_medium_static.csv
+?? results/v3-ext/static_50_high_low.csv
+?? results/v3-ext/static_50_high_medium.csv
+?? results/v3-ext/static_50_high_static.csv
+?? results/v3-ext/static_50_low_low.csv
+?? results/v3-ext/static_50_low_medium.csv
+?? results/v3-ext/static_50_low_static.csv
+?? results/v3-ext/static_50_medium_low.csv
+?? results/v3-ext/static_50_medium_medium.csv
+?? results/v3-ext/static_50_medium_static.csv
+?? results/v3-ext/static_75_high_low.csv
+?? results/v3-ext/static_75_high_medium.csv
+?? results/v3-ext/static_75_high_static.csv
+?? results/v3-ext/static_75_low_low.csv
+?? results/v3-ext/static_75_low_medium.csv
+?? results/v3-ext/static_75_low_static.csv
+?? results/v3-ext/static_75_medium_low.csv
+?? results/v3-ext/static_75_medium_medium.csv
+?? results/v3-ext/static_75_medium_static.csv
+?? results/v4-matched/
+?? results/v4-sensitivity/
+?? site/

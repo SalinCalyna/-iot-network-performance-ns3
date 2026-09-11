@@ -1,0 +1,1 @@
+probe done: olsr n=100 traffic=high seed=27  PDR=15.0885%  thr=242.432kbps  unreachable=0  phyRxDrop=20551690  macQdrop=47609  ipDropQueue=0  ipDropNoRoute=1370  gwBusy=0.889452  ring1Busy=0.881446
