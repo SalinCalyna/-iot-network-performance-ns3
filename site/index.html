@@ -20,21 +20,16 @@
     <div class="navgroup">
       <div class="navlink" data-target="view-overview"><span class="dot"></span>Overview</div>
       <div class="navlink" data-target="view-realworld"><span class="dot"></span>Real-World Application</div>
+      <div class="navlink" data-target="view-topology"><span class="dot"></span>Network Architecture</div>
     </div>
 
     <div class="navgroup">
-      <div class="glabel">Network</div>
-      <div class="navlink" data-target="view-topology"><span class="dot"></span>Network Topology</div>
-      <div class="navlink" data-target="view-performance"><span class="dot"></span>Performance</div>
-      <div class="navlink" data-target="view-routing"><span class="dot"></span>Adaptive Routing</div>
+      <div class="glabel">Network Evidence</div>
+      <div class="navlink" data-target="view-performance"><span class="dot"></span>Network Performance</div>
+      <div class="navlink" data-target="view-protocol-comparison"><span class="dot"></span>Protocol Comparison</div>
       <div class="navlink" data-target="view-bottleneck"><span class="dot"></span>Bottleneck</div>
-      <div class="navlink" data-target="view-retry"><span class="dot"></span>Retry Analysis</div>
-    </div>
-
-    <div class="navgroup">
-      <div class="glabel">Intervention</div>
-      <div class="navlink" data-target="view-intervention"><span class="dot"></span>Traffic Rate</div>
-      <div class="navlink" data-target="view-static-control"><span class="dot"></span>Static Control</div>
+      <div class="navlink" data-target="view-intervention"><span class="dot"></span>Intervention</div>
+      <div class="navlink" data-target="view-routing"><span class="dot"></span>Adaptive Routing</div>
     </div>
 
     <div class="navgroup">
@@ -82,7 +77,16 @@
         <div class="eyebrow">Analysis of IoT Network Performance</div>
         <div class="hero-title">ANALYSIS OF IoT NETWORK PERFORMANCE</div>
         <p class="hero-subtitle">NS-3 Multi-hop Wireless IoT Network</p>
+        <p style="color:var(--accent);font-weight:700;font-size:.9rem;letter-spacing:.01em;margin:0 0 10px">From Real-World IoT Deployment to NS-3 Network Evidence</p>
         <p>This study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions, and evaluates whether reducing offered traffic rate can improve network reliability.</p>
+
+        <div class="flowchart horizontal" style="justify-content:flex-start;margin:4px 0 22px">
+          <div class="flow-node">Real-world IoT scenario</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Wireless mesh network</div><div class="flow-arrow">→</div>
+          <div class="flow-node hot">NS-3 simulation</div><div class="flow-arrow">→</div>
+          <div class="flow-node good">Measured network performance</div><div class="flow-arrow">→</div>
+          <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Future adaptive routing</div>
+        </div>
 
         <div class="kpi-grid">
           <div class="kpi"><div class="num"><span id="kpi-v3">—</span><span class="unit">runs</span></div><div class="label">Official V3 Runs</div><div class="note">AODV / OLSR / Static, Seed 20–30</div></div>
@@ -110,12 +114,155 @@
         </div>
       </section>
 
+      <!-- ============================================================ REAL-WORLD APPLICATION -->
+      <section class="view" id="view-realworld">
+        <div class="badge-row">
+          <span class="tag" style="background:var(--purple-soft);color:var(--v4)">CONCEPTUAL DEPLOYMENT</span>
+          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Simulation-based research context — not physical network measurements</span>
+        </div>
+        <h2>Real-World IoT Application</h2>
+        <p class="lede">Connecting the NS-3 research model to a realistic IoT deployment context</p>
+        <div class="callout warn" style="margin-bottom:18px">This visualization demonstrates how the routing protocols studied in NS-3 could be applied to a real-world IoT environment. It is not a physical network measurement.</div>
+
+        <div class="rw-scenario">
+          <p style="margin:0 0 4px;font-weight:700;color:var(--text)">Smart Campus + Urban IoT Environment — Phuket, Thailand</p>
+          <p style="margin:0 0 14px;color:var(--text-dim)">Imagine a smart campus and surrounding urban environment in Phuket, Thailand, where environmental, parking, security, lighting, and emergency sensors communicate through a wireless IoT mesh network.</p>
+          <div class="flowchart horizontal" style="margin:0 0 10px">
+            <div class="flow-node">Environmental Sensors</div>
+            <div class="flow-node">Parking Sensors</div>
+            <div class="flow-node">Security Sensors</div>
+            <div class="flow-node">Smart Lighting</div>
+            <div class="flow-node">Emergency Sensors</div>
+          </div>
+          <div class="flowchart horizontal" style="margin:0">
+            <div class="flow-node hot">Wireless IoT Mesh</div><div class="flow-arrow">→</div>
+            <div class="flow-node">IoT Gateway</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Edge / Network Server</div><div class="flow-arrow">→</div>
+            <div class="flow-node good">Monitoring Dashboard</div>
+          </div>
+        </div>
+
+        <div class="rw-split">
+          <div class="rw-panel">
+            <div class="rw-panel-title"><span class="tagdot" style="background:var(--accent)"></span>Phuket Real-World Context</div>
+            <div id="rw-map"></div>
+            <div class="rw-legend">
+              <div class="grp">Real-world context</div>
+              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Study / application anchor</div>
+              <div class="grp">Conceptual deployment</div>
+              <div class="row"><span class="mk diamond" style="background:#f0a94e"></span>Proposed IoT gateway</div>
+              <div class="row"><span class="mk square" style="background:#a78bfa"></span>Proposed server / monitoring</div>
+              <div class="row"><span class="mk circle" style="background:#3ecf8e"></span>Proposed sensor sites</div>
+            </div>
+            <button class="pill" id="rw-study-toggle" style="margin-top:12px;align-self:flex-start;border:1px solid var(--border)">Showing: Conceptual Deployment</button>
+          </div>
+          <div class="rw-connector"><span class="arrow">→</span>Application context → simulation abstraction</div>
+          <div class="rw-panel">
+            <div class="rw-panel-title"><span class="tagdot" style="background:var(--olsr)"></span>NS-3 Simulation Model</div>
+            <div class="rw-mini-topo" id="rw-mini-topo"></div>
+            <div class="rw-legend">
+              <div class="grp">Simulation</div>
+              <div class="row"><span class="mk circle" style="background:#fff;border:2px solid var(--accent)"></span>Gateway (simulated)</div>
+              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Hop 1 / Hop 2 / Hop 3+ (simulated nodes)</div>
+            </div>
+            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px">Captured node positions and hop distances from a real §10 bottleneck-characterisation run — an abstraction of the mesh above, not a rendering of the map's physical geography.</p>
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-top:18px">
+          <div class="context-card">
+            <div class="loc">Phuket, Thailand</div>
+            <h4>Application Context</h4>
+            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 8px">Potential IoT domains:</p>
+            <ul>
+              <li>Environmental Monitoring</li>
+              <li>Parking</li>
+              <li>Security</li>
+              <li>Smart Lighting</li>
+              <li>Emergency Monitoring</li>
+            </ul>
+            <p style="font-size:.76rem;color:var(--text-faint);margin-top:10px">Geographic context only — the NS-3 results represent simulation-based network performance, not physical measurements from these locations.</p>
+          </div>
+          <div class="context-card">
+            <div class="loc">Presentation Mode</div>
+            <h4>Explain this section in 30–60 seconds</h4>
+            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 12px">Shows the real-world → simulation → evidence chain as a single large-format diagram for live presentation.</p>
+            <button class="pill active" id="rw-present-btn" style="padding:8px 16px">▶ Enter Presentation Mode</button>
+          </div>
+        </div>
+
+        <div class="panel rw-why">
+          <h3>Why this matters</h3>
+          <p style="color:var(--text-dim);font-size:.85rem;margin:0">The geographic scenario provides a realistic application context for the network model. The actual performance results presented in this dashboard are generated from NS-3 simulations and should be interpreted as simulation evidence rather than physical measurements.</p>
+        </div>
+      </section>
+
+      <div class="present-overlay" id="rw-present-overlay">
+        <button class="close">✕ Close</button>
+        <div class="present-chain">
+          <div class="pnode">Real-World Application</div><div class="parrow">↓</div>
+          <div class="pnode">Phuket Geographic Context</div><div class="parrow">↓</div>
+          <div class="pnode">IoT Sensor Network</div><div class="parrow">↓</div>
+          <div class="pnode">NS-3 Simulation Model</div><div class="parrow">↓</div>
+          <div class="pnode" style="color:var(--ok);border-color:var(--ok)">Performance Analysis</div>
+        </div>
+      </div>
+
+      <!-- ============================================================ REAL-WORLD -> SIMULATION BRIDGE -->
+      <section class="view" id="view-bridge">
+        <div class="section-eyebrow">Research Method</div>
+        <div class="badge-row"><span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Method Bridge</span></div>
+        <h2>From Real-World Scenario to Research Evidence</h2>
+        <p class="lede">The real-world scenario provides application context; NS-3 provides controlled simulation evidence. This distinction stays explicit throughout the dashboard.</p>
+        <div class="grid cols-3" style="margin-top:8px">
+          <div class="panel">
+            <div class="evidence-role">Real World</div>
+            <h3 style="font-size:.9rem">Application Context</h3>
+            <ul style="color:var(--text-dim);font-size:.84rem;margin:10px 0 0;padding-left:20px">
+              <li>IoT sensors</li>
+              <li>Smart campus</li>
+              <li>Urban monitoring</li>
+              <li>Phuket context</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="evidence-role" style="color:var(--v4)">Simulation Abstraction</div>
+            <h3 style="font-size:.9rem">NS-3 Model</h3>
+            <ul style="color:var(--text-dim);font-size:.84rem;margin:10px 0 0;padding-left:20px">
+              <li>802.11b</li>
+              <li>Multi-hop wireless mesh</li>
+              <li>Gateway / sink</li>
+              <li>Routing protocols</li>
+              <li>Traffic generation</li>
+            </ul>
+          </div>
+          <div class="panel primary-evidence">
+            <div class="evidence-role primary">Research Evidence</div>
+            <h3 style="font-size:.9rem">Measured Results</h3>
+            <ul style="color:var(--text-dim);font-size:.84rem;margin:10px 0 0;padding-left:20px">
+              <li>PDR</li>
+              <li>Throughput</li>
+              <li>Delay</li>
+              <li>Packet Loss</li>
+              <li>Bottleneck</li>
+              <li>Routing behavior</li>
+            </ul>
+          </div>
+        </div>
+        <div class="flowchart horizontal" style="margin:20px 0 4px">
+          <div class="flow-node">Real World</div><div class="flow-arrow">→</div>
+          <div class="flow-node hot">Simulation Abstraction</div><div class="flow-arrow">→</div>
+          <div class="flow-node good">Research Evidence</div>
+        </div>
+        <div class="callout" style="margin-top:16px">The real-world scenario provides application context; NS-3 provides controlled simulation evidence.</div>
+      </section>
+
       <!-- ============================================================ NETWORK TOPOLOGY (main visual) -->
       <section class="view" id="view-topology">
-        <div class="section-eyebrow">Simulation Configuration</div>
+        <div class="section-eyebrow">Network Architecture</div>
         <div class="badge-row"><span class="tag v3">Interactive</span></div>
-        <h2>Network Topology</h2>
-        <p class="lede">Interactive multi-hop IoT network visualization</p>
+        <h2>Network Architecture</h2>
+        <p class="lede">Interactive multi-hop IoT network visualization — how the simulated network is structured</p>
         <div class="callout" style="margin-bottom:20px">The simulation models a multi-hop wireless IoT network in which sensor nodes communicate through intermediate nodes toward a gateway/sink. Network performance is evaluated as network size, traffic load, mobility, and routing strategy change.</div>
 
         <div class="grid" style="grid-template-columns:1.7fr 1fr;gap:18px" id="topo-main-grid">
@@ -193,16 +340,17 @@
 
         <div class="panel" style="margin-top:20px">
           <h3>How the network works</h3>
-          <div class="flowchart" style="margin:14px 0">
-            <div class="flow-node">Sensor</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Intermediate Node(s)</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Gateway</div><div class="flow-arrow">↓</div>
+          <div class="flowchart horizontal" style="margin:14px 0">
+            <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Intermediate Node</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Intermediate Node</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Gateway</div><div class="flow-arrow">→</div>
             <div class="flow-node good">Sink / Server</div>
           </div>
           <div class="flowchart horizontal" style="margin:14px 0">
-            <div class="flow-node">Traffic Generation</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Data Generation</div><div class="flow-arrow">→</div>
             <div class="flow-node">Multi-hop Forwarding</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Gateway</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Gateway Aggregation</div><div class="flow-arrow">→</div>
             <div class="flow-node good">Performance Measurement</div>
           </div>
         </div>
@@ -229,96 +377,12 @@
         </div>
       </section>
 
-      <!-- ============================================================ REAL-WORLD APPLICATION -->
-      <section class="view" id="view-realworld">
-        <div class="badge-row"><span class="tag" style="background:var(--purple-soft);color:var(--v4)">CONCEPTUAL APPLICATION SCENARIO</span></div>
-        <h2>Real-World IoT Application Simulation</h2>
-        <p class="lede">Connecting the NS-3 research model to a real-world IoT deployment context</p>
-        <div class="callout warn" style="margin-bottom:18px">This visualization demonstrates how the routing protocols studied in NS-3 could be applied to a real-world IoT environment. It is not a physical network measurement.</div>
-
-        <div class="rw-scenario">
-          <p style="margin:0 0 14px;color:var(--text-dim)">Imagine a smart campus and surrounding urban environment in Phuket, Thailand, where environmental, parking, security, lighting, and emergency sensors communicate through a wireless IoT mesh network.</p>
-          <div class="flowchart horizontal" style="margin:0">
-            <div class="flow-node">IoT Sensors</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Wireless Mesh</div><div class="flow-arrow">→</div>
-            <div class="flow-node">IoT Gateway</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Server</div><div class="flow-arrow">→</div>
-            <div class="flow-node good">Monitoring Dashboard</div>
-          </div>
-        </div>
-
-        <div class="rw-split">
-          <div class="rw-panel">
-            <div class="rw-panel-title"><span class="tagdot" style="background:var(--accent)"></span>Phuket Real-World Context</div>
-            <div id="rw-map"></div>
-            <div class="rw-legend">
-              <div class="grp">Real-world context</div>
-              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Study / application anchor</div>
-              <div class="grp">Conceptual deployment</div>
-              <div class="row"><span class="mk diamond" style="background:#f0a94e"></span>Proposed IoT gateway</div>
-              <div class="row"><span class="mk square" style="background:#a78bfa"></span>Proposed server / monitoring</div>
-              <div class="row"><span class="mk circle" style="background:#3ecf8e"></span>Proposed sensor sites</div>
-            </div>
-            <button class="pill" id="rw-study-toggle" style="margin-top:12px;align-self:flex-start;border:1px solid var(--border)">Showing: Conceptual Deployment</button>
-          </div>
-          <div class="rw-connector"><span class="arrow">→</span>Application context → simulation abstraction</div>
-          <div class="rw-panel">
-            <div class="rw-panel-title"><span class="tagdot" style="background:var(--olsr)"></span>NS-3 Simulation Model</div>
-            <div class="rw-mini-topo" id="rw-mini-topo"></div>
-            <div class="rw-legend">
-              <div class="grp">Simulation</div>
-              <div class="row"><span class="mk circle" style="background:#fff;border:2px solid var(--accent)"></span>Gateway (simulated)</div>
-              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Hop 1 / Hop 2 / Hop 3+ (simulated nodes)</div>
-            </div>
-            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px">Captured node positions and hop distances from a real §10 bottleneck-characterisation run — an abstraction of the mesh above, not a rendering of the map's physical geography.</p>
-          </div>
-        </div>
-
-        <div class="grid cols-2" style="margin-top:18px">
-          <div class="context-card">
-            <div class="loc">Phuket, Thailand</div>
-            <h4>Application Context</h4>
-            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 8px">Potential IoT domains:</p>
-            <ul>
-              <li>Environmental Monitoring</li>
-              <li>Parking</li>
-              <li>Security</li>
-              <li>Smart Lighting</li>
-              <li>Emergency Monitoring</li>
-            </ul>
-            <p style="font-size:.76rem;color:var(--text-faint);margin-top:10px">Geographic context only — the NS-3 results represent simulation-based network performance, not physical measurements from these locations.</p>
-          </div>
-          <div class="context-card">
-            <div class="loc">Presentation Mode</div>
-            <h4>Explain this section in 30–60 seconds</h4>
-            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 12px">Shows the real-world → simulation → evidence chain as a single large-format diagram for live presentation.</p>
-            <button class="pill active" id="rw-present-btn" style="padding:8px 16px">▶ Enter Presentation Mode</button>
-          </div>
-        </div>
-
-        <div class="panel rw-why">
-          <h3>Why this matters</h3>
-          <p style="color:var(--text-dim);font-size:.85rem;margin:0">The geographic scenario provides a realistic application context for the network model. The actual performance results presented in this dashboard are generated from NS-3 simulations and should be interpreted as simulation evidence rather than physical measurements.</p>
-        </div>
-      </section>
-
-      <div class="present-overlay" id="rw-present-overlay">
-        <button class="close">✕ Close</button>
-        <div class="present-chain">
-          <div class="pnode">Real-World Application</div><div class="parrow">↓</div>
-          <div class="pnode">Phuket Geographic Context</div><div class="parrow">↓</div>
-          <div class="pnode">IoT Sensor Network</div><div class="parrow">↓</div>
-          <div class="pnode">NS-3 Simulation Model</div><div class="parrow">↓</div>
-          <div class="pnode" style="color:var(--ok);border-color:var(--ok)">Performance Analysis</div>
-        </div>
-      </div>
-
       <!-- ============================================================ PERFORMANCE -->
       <section class="view" id="view-performance">
         <div class="section-eyebrow">Performance Results</div>
         <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>V3 — Validated Baseline</span></div>
         <h2>Network Performance</h2>
-        <p class="lede">1,782 official runs (Seed 20–30), pooled over traffic level and mobility mode. Toggle protocols to compare.</p>
+        <p class="lede">Validated NS-3 evidence across network scale, traffic load, mobility and routing strategy. 1,782 official runs (Seed 20–30), pooled over traffic level and mobility mode. Toggle protocols to compare.</p>
 <div class="key-finding"><span class="kf-label">Key Finding</span>Performance degrades monotonically with node count and traffic load across all three routing protocols — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
         <div class="filters"><div class="filter-group"><span class="fl">Protocol</span><div id="perf-protocol-toggle" style="display:flex;gap:2px"></div></div></div>
         <div id="perf-legend"></div>
@@ -345,7 +409,7 @@
         </div>
         <div class="callout" style="margin-top:16px">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and qualitative trends are unaffected.</div>
 
-        <div class="evidence-role" style="margin-top:32px">Protocol Comparison</div>
+        <div class="evidence-role" style="margin-top:32px" id="view-protocol-comparison">Protocol Comparison</div>
         <p class="panel-sub" style="margin:-4px 0 12px">Same measured data as above, shown as direct side-by-side bars per node count instead of overlaid lines.</p>
         <div class="grid cols-2" style="margin-bottom:20px">
           <div class="panel">
@@ -402,6 +466,162 @@
         </div>
         <div id="traffic-legend"></div>
         <div class="panel"><h3>PDR by Traffic Level</h3><div class="chart-wrap" id="chart-traffic-load"></div></div>
+      </section>
+
+      <!-- ============================================================ BOTTLENECK -->
+      <section class="view major" id="view-bottleneck">
+        <div class="section-eyebrow">Bottleneck Evidence</div>
+        <div class="badge-row"><span class="status-badge evidence"><span class="sb-dot"></span>Bottleneck Study — Evidence</span></div>
+        <h2>Where does packet loss occur?</h2>
+        <p class="lede">176 runs instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise the loss mechanism.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — gateway airtime reaches 0.86–0.89 at N≥75 under high traffic.</div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3>Observed mechanism chain</h3>
+          <p class="panel-sub">Relationships indicated by the measured data below — not asserted beyond what the metrics support.</p>
+          <div class="flowchart horizontal" style="margin:14px 0 0">
+            <div class="flow-node">Higher Node Density</div><div class="flow-arrow">→</div>
+            <div class="flow-node hot">Gateway / First-Hop Load</div><div class="flow-arrow">→</div>
+            <div class="flow-node hot">Queue / Retry Effects</div><div class="flow-arrow">→</div>
+            <div class="flow-node bad">Performance Degradation</div>
+          </div>
+        </div>
+
+        <div class="oei">
+          <div class="oei-col observation">
+            <div class="oei-label">Observation</div>
+            <p>PDR falls and gateway airtime rises together as node count and traffic increase, most sharply at N≥75 under high traffic.</p>
+          </div>
+          <div class="oei-col evidence">
+            <div class="oei-label">Evidence</div>
+            <ul>
+              <li>Gateway airtime 0.86–0.89 at N≥75/high</li>
+              <li>MAC-queue drops 1.2–2.4× over-represented at hop≤1</li>
+              <li>NO_ROUTE/ROUTE_ERROR &lt;2% of loss (routing failure excluded)</li>
+            </ul>
+          </div>
+          <div class="oei-col interpretation">
+            <div class="oei-label">Interpretation</div>
+            <p>The pattern is consistent with gateway/first-hop channel contention as the dominant measurable mechanism under these conditions, rather than routing failure. This does not establish a cause for every lost packet — see the residual-loss caveat below.</p>
+          </div>
+        </div>
+
+        <div class="flowchart horizontal" style="margin-bottom:24px">
+          <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Hop 3</div><div class="flow-arrow">→</div>
+          <div class="flow-node">Hop 2</div><div class="flow-arrow">→</div>
+          <div class="flow-node hot">Hop 1</div><div class="flow-arrow">→</div>
+          <div class="flow-node bad">Gateway</div>
+        </div>
+
+        <div class="evidence-grid">
+          <div class="panel primary-evidence">
+            <div class="evidence-role primary">Primary Evidence</div>
+            <h3>Gateway Airtime vs. Network Size</h3>
+            <p class="panel-sub">High traffic condition</p>
+            <div id="bn-legend"></div>
+            <div class="chart-wrap" id="chart-gw-airtime"></div>
+          </div>
+          <div class="panel">
+            <div class="insight-card primary">
+              <div class="k">Primary measurable bottleneck</div>
+              Gateway and first-hop congestion becomes dominant under near-saturated conditions. Gateway airtime reaches <strong>0.86–0.89</strong> at N≥75 under high traffic, and MAC-queue drops are <strong>1.2–2.4×</strong> over-represented in the first-hop neighbourhood.
+            </div>
+            <ul style="margin-top:14px;font-size:.84rem;color:var(--text-dim)">
+              <li>NO_ROUTE / ROUTE_ERROR: &lt;2% of loss in every tested condition</li>
+              <li>Retry exhaustion: measured separately (see Retry Analysis)</li>
+            </ul>
+            <div class="caveat" style="color:var(--text-faint);font-size:.78rem;margin-top:10px">Only 0–53% of actual packet loss is attributable to any single logged counter even at the most saturated cell — the bottleneck's location is well supported, not every lost packet has a known individual cause.</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:16px">
+          <div class="panel-head">
+            <h3>MAC Queue Drops by Hop Distance</h3>
+            <div class="filters" style="margin:0">
+              <div class="filter-group"><span class="fl">N</span><div id="hop-n" style="display:flex"></div></div>
+              <div class="filter-group"><span class="fl">Protocol</span><div id="hop-p" style="display:flex"></div></div>
+            </div>
+          </div>
+          <p class="panel-sub">High traffic. MAC queue drops are disproportionately concentrated around the first-hop gateway region.</p>
+          <div class="chart-wrap" id="chart-hop-macq"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ RETRY -->
+      <section class="view" id="view-retry">
+        <div class="section-eyebrow">Mechanism Evidence</div>
+        <div class="badge-row"><span class="tag retry">Retry-Exhaustion Validation</span></div>
+        <h2>Is retransmission failure the main cause?</h2>
+        <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Retry exhaustion is real but secondary — MAC-queue overflow dominates loss in 10 of the 12 measured cells.</div>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Average share of loss</h3><div class="chart-wrap" id="chart-retry-vs-macq"></div></div>
+          <div class="panel">
+            <div class="insight-card primary"><div class="k">Primary measurable bottleneck</div>MAC queue / gateway congestion</div>
+            <div class="insight-card secondary" style="margin-top:10px"><div class="k">Secondary mechanism</div>Retry exhaustion — real, but concentrated farther from the gateway, the opposite spatial pattern from queue overflow.</div>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <table class="data">
+            <thead><tr><th>Protocol</th><th>N</th><th>Traffic</th><th>Retry share of loss</th><th>MAC-queue share of loss</th></tr></thead>
+            <tbody id="retry-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ============================================================ INTERVENTION -->
+      <section class="view major" id="view-intervention">
+        <div class="section-eyebrow">Intervention</div>
+        <div class="badge-row"><span class="tag intervention">Offered-Rate Intervention</span></div>
+        <h2>Can traffic reduction mitigate congestion?</h2>
+        <p class="lede">72-run rate sweep (16 → 12 → 8 → 4 kbps) testing whether reducing offered traffic rate relieves the identified bottleneck.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load.</div>
+
+        <div class="grid cols-2" style="margin-bottom:22px">
+          <div class="flowchart">
+            <div class="flow-node bad">High offered rate</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">High gateway airtime</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">Queue overflow</div><div class="flow-arrow">↓</div>
+            <div class="flow-node bad">Packet loss</div>
+          </div>
+          <div class="flowchart">
+            <div class="flow-node good">Reduce offered rate</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Lower airtime</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Fewer queue drops</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Higher OLSR PDR</div>
+          </div>
+        </div>
+
+        <div class="filters"><div class="filter-group"><span class="fl">OLSR, N=</span><div id="int-n" style="display:flex"></div></div></div>
+        <div class="grid cols-2">
+          <div class="panel"><div id="int-legend"></div><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-pdr"></div></div>
+          <div class="panel"><h3>Gateway Airtime vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-airtime"></div></div>
+        </div>
+        <div class="panel" style="margin-top:16px;text-align:center">
+          <div class="num" style="font-size:2.2rem;font-weight:800;color:var(--ok)" id="int-delta">—</div>
+          <div style="color:var(--text-dim);font-size:.85rem" id="int-delta-label"></div>
+        </div>
+        <div class="callout ok" style="margin-top:16px">At the deepest reduction: <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, monotonic across every tested seed. At N=100, delivered throughput <em>rises</em> at a reduced offered rate (+25.5% at 12 kbps) — the signature of recovering from congestion collapse, not simply sending less.</div>
+      </section>
+
+      <!-- ============================================================ STATIC CONTROL -->
+      <section class="view" id="view-static-control">
+        <div class="section-eyebrow">Intervention</div>
+        <div class="badge-row"><span class="tag diagnostic">Static/N=50 Diagnostic</span></div>
+        <h2>OLSR vs. Static under the same intervention</h2>
+        <p class="lede">OLSR improves at high node densities. Static at N=50 shows a flat-to-negative response.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>The intervention is protocol- and load-dependent — Static/N=50 shows no comparable PDR improvement despite the same congestion relief.</div>
+        <div id="sc-legend"></div>
+        <div class="panel"><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-static-control"></div></div>
+        <div class="callout warn" style="margin:16px 0">Intervention effectiveness is protocol- and load-dependent. Static/N=50 PDR does not improve with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>−7.6 percentage points</strong>). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss.</div>
+        <div class="panel">
+          <h3>Residual-loss diagnostic — all 12 runs</h3>
+          <table class="data">
+            <thead><tr><th>Rate</th><th>Seed</th><th>Attributable loss</th><th>Residual loss</th></tr></thead>
+            <tbody id="diag-table-body"></tbody>
+          </table>
+        </div>
       </section>
 
       <!-- ============================================================ ROUTING / V4 -->
@@ -570,162 +790,6 @@
         <div class="callout" style="margin-top:16px">This planned baseline/risk design is separate from — and must not be confused with — the completed V3 official baseline (1,782 runs; see Network Performance, above) or the completed V4 activation-screen results (A · Existing Evidence, above). It is a future experiment on the V4 track only; V3 results are unaffected and unchanged.</div>
       </section>
 
-      <!-- ============================================================ BOTTLENECK -->
-      <section class="view major" id="view-bottleneck">
-        <div class="section-eyebrow">Bottleneck Evidence</div>
-        <div class="badge-row"><span class="status-badge evidence"><span class="sb-dot"></span>Bottleneck Study — Evidence</span></div>
-        <h2>Where does packet loss occur?</h2>
-        <p class="lede">176 runs instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise the loss mechanism.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — gateway airtime reaches 0.86–0.89 at N≥75 under high traffic.</div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <h3>Observed mechanism chain</h3>
-          <p class="panel-sub">Relationships indicated by the measured data below — not asserted beyond what the metrics support.</p>
-          <div class="flowchart horizontal" style="margin:14px 0 0">
-            <div class="flow-node">Higher Node Density</div><div class="flow-arrow">→</div>
-            <div class="flow-node hot">Gateway / First-Hop Load</div><div class="flow-arrow">→</div>
-            <div class="flow-node hot">Queue / Retry Effects</div><div class="flow-arrow">→</div>
-            <div class="flow-node bad">Performance Degradation</div>
-          </div>
-        </div>
-
-        <div class="oei">
-          <div class="oei-col observation">
-            <div class="oei-label">Observation</div>
-            <p>PDR falls and gateway airtime rises together as node count and traffic increase, most sharply at N≥75 under high traffic.</p>
-          </div>
-          <div class="oei-col evidence">
-            <div class="oei-label">Evidence</div>
-            <ul>
-              <li>Gateway airtime 0.86–0.89 at N≥75/high</li>
-              <li>MAC-queue drops 1.2–2.4× over-represented at hop≤1</li>
-              <li>NO_ROUTE/ROUTE_ERROR &lt;2% of loss (routing failure excluded)</li>
-            </ul>
-          </div>
-          <div class="oei-col interpretation">
-            <div class="oei-label">Interpretation</div>
-            <p>The pattern is consistent with gateway/first-hop channel contention as the dominant measurable mechanism under these conditions, rather than routing failure. This does not establish a cause for every lost packet — see the residual-loss caveat below.</p>
-          </div>
-        </div>
-
-        <div class="flowchart horizontal" style="margin-bottom:24px">
-          <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
-          <div class="flow-node">Hop 3</div><div class="flow-arrow">→</div>
-          <div class="flow-node">Hop 2</div><div class="flow-arrow">→</div>
-          <div class="flow-node hot">Hop 1</div><div class="flow-arrow">→</div>
-          <div class="flow-node bad">Gateway</div>
-        </div>
-
-        <div class="evidence-grid">
-          <div class="panel primary-evidence">
-            <div class="evidence-role primary">Primary Evidence</div>
-            <h3>Gateway Airtime vs. Network Size</h3>
-            <p class="panel-sub">High traffic condition</p>
-            <div id="bn-legend"></div>
-            <div class="chart-wrap" id="chart-gw-airtime"></div>
-          </div>
-          <div class="panel">
-            <div class="insight-card primary">
-              <div class="k">Primary measurable bottleneck</div>
-              Gateway and first-hop congestion becomes dominant under near-saturated conditions. Gateway airtime reaches <strong>0.86–0.89</strong> at N≥75 under high traffic, and MAC-queue drops are <strong>1.2–2.4×</strong> over-represented in the first-hop neighbourhood.
-            </div>
-            <ul style="margin-top:14px;font-size:.84rem;color:var(--text-dim)">
-              <li>NO_ROUTE / ROUTE_ERROR: &lt;2% of loss in every tested condition</li>
-              <li>Retry exhaustion: measured separately (see Retry Analysis)</li>
-            </ul>
-            <div class="caveat" style="color:var(--text-faint);font-size:.78rem;margin-top:10px">Only 0–53% of actual packet loss is attributable to any single logged counter even at the most saturated cell — the bottleneck's location is well supported, not every lost packet has a known individual cause.</div>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-top:16px">
-          <div class="panel-head">
-            <h3>MAC Queue Drops by Hop Distance</h3>
-            <div class="filters" style="margin:0">
-              <div class="filter-group"><span class="fl">N</span><div id="hop-n" style="display:flex"></div></div>
-              <div class="filter-group"><span class="fl">Protocol</span><div id="hop-p" style="display:flex"></div></div>
-            </div>
-          </div>
-          <p class="panel-sub">High traffic. MAC queue drops are disproportionately concentrated around the first-hop gateway region.</p>
-          <div class="chart-wrap" id="chart-hop-macq"></div>
-        </div>
-      </section>
-
-      <!-- ============================================================ RETRY -->
-      <section class="view" id="view-retry">
-        <div class="section-eyebrow">Mechanism Evidence</div>
-        <div class="badge-row"><span class="tag retry">Retry-Exhaustion Validation</span></div>
-        <h2>Is retransmission failure the main cause?</h2>
-        <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Retry exhaustion is real but secondary — MAC-queue overflow dominates loss in 10 of the 12 measured cells.</div>
-        <div class="grid cols-2">
-          <div class="panel"><h3>Average share of loss</h3><div class="chart-wrap" id="chart-retry-vs-macq"></div></div>
-          <div class="panel">
-            <div class="insight-card primary"><div class="k">Primary measurable bottleneck</div>MAC queue / gateway congestion</div>
-            <div class="insight-card secondary" style="margin-top:10px"><div class="k">Secondary mechanism</div>Retry exhaustion — real, but concentrated farther from the gateway, the opposite spatial pattern from queue overflow.</div>
-          </div>
-        </div>
-        <div class="panel" style="margin-top:16px">
-          <table class="data">
-            <thead><tr><th>Protocol</th><th>N</th><th>Traffic</th><th>Retry share of loss</th><th>MAC-queue share of loss</th></tr></thead>
-            <tbody id="retry-table-body"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ============================================================ INTERVENTION -->
-      <section class="view major" id="view-intervention">
-        <div class="section-eyebrow">Intervention</div>
-        <div class="badge-row"><span class="tag intervention">Offered-Rate Intervention</span></div>
-        <h2>Can traffic reduction mitigate congestion?</h2>
-        <p class="lede">72-run rate sweep (16 → 12 → 8 → 4 kbps) testing whether reducing offered traffic rate relieves the identified bottleneck.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load.</div>
-
-        <div class="grid cols-2" style="margin-bottom:22px">
-          <div class="flowchart">
-            <div class="flow-node bad">High offered rate</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">High gateway airtime</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">Queue overflow</div><div class="flow-arrow">↓</div>
-            <div class="flow-node bad">Packet loss</div>
-          </div>
-          <div class="flowchart">
-            <div class="flow-node good">Reduce offered rate</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Lower airtime</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Fewer queue drops</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Higher OLSR PDR</div>
-          </div>
-        </div>
-
-        <div class="filters"><div class="filter-group"><span class="fl">OLSR, N=</span><div id="int-n" style="display:flex"></div></div></div>
-        <div class="grid cols-2">
-          <div class="panel"><div id="int-legend"></div><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-pdr"></div></div>
-          <div class="panel"><h3>Gateway Airtime vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-airtime"></div></div>
-        </div>
-        <div class="panel" style="margin-top:16px;text-align:center">
-          <div class="num" style="font-size:2.2rem;font-weight:800;color:var(--ok)" id="int-delta">—</div>
-          <div style="color:var(--text-dim);font-size:.85rem" id="int-delta-label"></div>
-        </div>
-        <div class="callout ok" style="margin-top:16px">At the deepest reduction: <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, monotonic across every tested seed. At N=100, delivered throughput <em>rises</em> at a reduced offered rate (+25.5% at 12 kbps) — the signature of recovering from congestion collapse, not simply sending less.</div>
-      </section>
-
-      <!-- ============================================================ STATIC CONTROL -->
-      <section class="view" id="view-static-control">
-        <div class="section-eyebrow">Intervention</div>
-        <div class="badge-row"><span class="tag diagnostic">Static/N=50 Diagnostic</span></div>
-        <h2>OLSR vs. Static under the same intervention</h2>
-        <p class="lede">OLSR improves at high node densities. Static at N=50 shows a flat-to-negative response.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>The intervention is protocol- and load-dependent — Static/N=50 shows no comparable PDR improvement despite the same congestion relief.</div>
-        <div id="sc-legend"></div>
-        <div class="panel"><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-static-control"></div></div>
-        <div class="callout warn" style="margin:16px 0">Intervention effectiveness is protocol- and load-dependent. Static/N=50 PDR does not improve with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>−7.6 percentage points</strong>). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss.</div>
-        <div class="panel">
-          <h3>Residual-loss diagnostic — all 12 runs</h3>
-          <table class="data">
-            <thead><tr><th>Rate</th><th>Seed</th><th>Attributable loss</th><th>Residual loss</th></tr></thead>
-            <tbody id="diag-table-body"></tbody>
-          </table>
-        </div>
-      </section>
-
       <!-- ============================================================ REPRODUCIBILITY -->
       <section class="view" id="view-reproducibility">
         <div class="section-eyebrow">Research Progress</div>
@@ -791,15 +855,24 @@
         <div class="section-eyebrow">Key Findings</div>
         <h2>Research Conclusion</h2>
         <div class="flowchart" style="margin:20px 0">
-          <div class="flow-node">Network scale + traffic load</div><div class="flow-arrow">↓</div>
-          <div class="flow-node hot">Higher contention</div><div class="flow-arrow">↓</div>
-          <div class="flow-node hot">Gateway / first-hop congestion</div><div class="flow-arrow">↓</div>
-          <div class="flow-node bad">Queue overflow</div><div class="flow-arrow">↓</div>
-          <div class="flow-node bad">Packet loss</div><div class="flow-arrow">↓</div>
-          <div class="flow-node good">Traffic management</div><div class="flow-arrow">↓</div>
-          <div class="flow-node good">Improved OLSR PDR at high node density</div>
+          <div class="flow-node">Real-world IoT need</div><div class="flow-arrow">↓</div>
+          <div class="flow-node">Network scalability</div><div class="flow-arrow">↓</div>
+          <div class="flow-node hot">Congestion</div><div class="flow-arrow">↓</div>
+          <div class="flow-node hot">Gateway / first-hop bottleneck</div><div class="flow-arrow">↓</div>
+          <div class="flow-node">Traffic intervention</div><div class="flow-arrow">↓</div>
+          <div class="flow-node good">Improved OLSR PDR</div><div class="flow-arrow">↓</div>
+          <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Future adaptive routing</div>
         </div>
         <div class="callout" style="font-size:.95rem">The study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions and demonstrates that reducing offered traffic rate can effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities. However, the effectiveness of the intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed by the current instrumentation.</div>
+
+        <div class="panel" style="margin-top:20px">
+          <h3>Key takeaways</h3>
+          <ol style="color:var(--text-dim);font-size:.9rem;margin:10px 0 0;padding-left:22px;line-height:1.8">
+            <li>Network performance degrades as scale and traffic increase.</li>
+            <li>Gateway / first-hop congestion is the dominant measurable bottleneck under near-saturated conditions.</li>
+            <li>Traffic reduction can improve OLSR reliability at high node density, while adaptive routing remains a future research direction.</li>
+          </ol>
+        </div>
 
         <h2 style="margin-top:40px">Limitations</h2>
         <div class="panel">
