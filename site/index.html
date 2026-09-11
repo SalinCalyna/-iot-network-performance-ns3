@@ -72,15 +72,31 @@
 
       <!-- ============================================================ OVERVIEW -->
       <section class="view hero" id="view-overview">
-        <div class="eyebrow">Research Intelligence Platform</div>
-        <h1>Where does packet loss come from?</h1>
+        <div class="badge-row" style="margin-bottom:16px">
+          <span class="tag v3">V3</span><span class="tag" style="background:var(--panel-2);color:var(--text-dim)">NS-3</span>
+          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">IoT</span>
+          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">MULTI-HOP</span>
+          <span class="tag" style="background:var(--ok-soft);color:var(--ok)">RESEARCH</span>
+        </div>
+        <div class="eyebrow">Analysis of IoT Network Performance</div>
+        <div class="hero-title">ANALYSIS OF IoT NETWORK PERFORMANCE</div>
+        <p class="hero-subtitle">NS-3 Multi-hop Wireless IoT Network</p>
         <p>This study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions, and evaluates whether reducing offered traffic rate can improve network reliability.</p>
 
         <div class="kpi-grid">
-          <div class="kpi"><div class="num" id="kpi-v3">—</div><div class="label">Official V3 Runs</div><div class="note">AODV / OLSR / Static, Seed 20–30</div></div>
-          <div class="kpi"><div class="num" id="kpi-v4">—</div><div class="label">V4 Matched Conditions</div><div class="note">Sigmoid adaptive routing vs. Static</div></div>
-          <div class="kpi"><div class="num" id="kpi-bottleneck">—</div><div class="label">Bottleneck Runs</div><div class="note">Per-node airtime / queue instrumentation</div></div>
-          <div class="kpi"><div class="num" id="kpi-repro">—</div><div class="label">Reproducibility</div><div class="note">Independent re-execution, applicable metrics</div></div>
+          <div class="kpi"><div class="num"><span id="kpi-v3">—</span><span class="unit">runs</span></div><div class="label">Official V3 Runs</div><div class="note">AODV / OLSR / Static, Seed 20–30</div></div>
+          <div class="kpi"><div class="num"><span id="kpi-v4">—</span><span class="unit">runs</span></div><div class="label">V4 Matched Conditions</div><div class="note">Sigmoid adaptive routing vs. Static</div></div>
+          <div class="kpi"><div class="num"><span id="kpi-bottleneck">—</span><span class="unit">runs</span></div><div class="label">Bottleneck Runs</div><div class="note">Per-node airtime / queue instrumentation</div></div>
+          <div class="kpi"><div class="num"><span id="kpi-repro">—</span><span class="unit">checks</span></div><div class="label">Reproducibility</div><div class="note">Independent re-execution, applicable metrics</div></div>
+        </div>
+
+        <div class="story-rail">
+          <a href="#view-overview" class="story-node done"><span class="story-num">1</span>V3 Baseline</a>
+          <a href="#view-performance" class="story-node done"><span class="story-num">2</span>Performance Degradation</a>
+          <a href="#view-bottleneck" class="story-node done"><span class="story-num">3</span>Bottleneck Identification</a>
+          <a href="#view-intervention" class="story-node done"><span class="story-num">4</span>Traffic Intervention</a>
+          <a href="#view-conclusions" class="story-node done"><span class="story-num">5</span>Research Interpretation</a>
+          <a href="#view-routing" class="story-node direction"><span class="story-num">6</span>V4 Adaptive Routing Direction</a>
         </div>
       </section>
 
@@ -95,6 +111,7 @@
 
       <!-- ============================================================ NETWORK TOPOLOGY (main visual) -->
       <section class="view" id="view-topology">
+        <div class="section-eyebrow">Simulation Configuration</div>
         <div class="badge-row"><span class="tag v3">Interactive</span></div>
         <h2>Network Topology</h2>
         <p class="lede">Interactive multi-hop IoT network visualization</p>
@@ -297,16 +314,22 @@
 
       <!-- ============================================================ PERFORMANCE -->
       <section class="view" id="view-performance">
-        <div class="badge-row"><span class="tag v3">V3 Official Baseline</span></div>
+        <div class="section-eyebrow">Performance Results</div>
+        <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>V3 — Validated Baseline</span></div>
         <h2>Network Performance</h2>
         <p class="lede">1,782 official runs (Seed 20–30), pooled over traffic level and mobility mode. Toggle protocols to compare.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Performance degrades monotonically with node count and traffic load across all three routing protocols — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
         <div class="filters"><div class="filter-group"><span class="fl">Protocol</span><div id="perf-protocol-toggle" style="display:flex;gap:2px"></div></div></div>
         <div id="perf-legend"></div>
-        <div class="grid cols-2">
-          <div class="panel"><h3>Packet Delivery Ratio vs. Network Size</h3><div class="chart-wrap" id="chart-pdr"></div></div>
-          <div class="panel"><h3>Throughput vs. Network Size</h3><div class="chart-wrap" id="chart-throughput"></div></div>
-          <div class="panel"><h3>End-to-End Delay vs. Network Size</h3><div class="chart-wrap" id="chart-delay"></div></div>
-          <div class="panel"><h3>Packet Loss vs. Network Size</h3><div class="chart-wrap" id="chart-loss"></div></div>
+        <div class="evidence-role primary">Primary Evidence</div>
+        <div class="grid cols-2" style="margin-bottom:18px">
+          <div class="panel primary-evidence"><h3>Packet Delivery Ratio vs. Network Size</h3><p class="panel-sub">% of packets delivered</p><div class="chart-wrap" id="chart-pdr"></div></div>
+          <div class="panel primary-evidence"><h3>Throughput vs. Network Size</h3><p class="panel-sub">kbps delivered</p><div class="chart-wrap" id="chart-throughput"></div></div>
+        </div>
+        <div class="evidence-role">Supporting Evidence</div>
+        <div class="secondary-grid">
+          <div class="panel"><h3 style="font-size:.78rem">End-to-End Delay vs. Network Size</h3><p class="panel-sub">ms</p><div class="chart-wrap" id="chart-delay"></div></div>
+          <div class="panel"><h3 style="font-size:.78rem">Packet Loss vs. Network Size</h3><p class="panel-sub">packets</p><div class="chart-wrap" id="chart-loss"></div></div>
         </div>
         <div class="callout" style="margin-top:16px">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and qualitative trends are unaffected.</div>
 
@@ -323,7 +346,9 @@
 
       <!-- ============================================================ ROUTING / V4 -->
       <section class="view" id="view-routing">
+        <div class="section-eyebrow">V4 — Future Research Direction</div>
         <div class="badge-row">
+          <span class="status-badge direction"><span class="sb-dot"></span>V4 — Research Direction</span>
           <span class="tag v4">V4 Investigation — Existing Evidence</span>
           <span class="tag" style="background:var(--purple-soft);color:var(--v4)">V3 Research Direction — Sigmoid Routing Metric</span>
         </div>
@@ -347,6 +372,7 @@
         <div class="badge-row"><span class="tag v4">A · Existing Evidence</span></div>
         <h3>Does adaptive routing solve the problem? — what has already been measured</h3>
         <p class="lede">Sigmoid-based adaptive routing (V4) vs. Static, across 6 activation-screen configurations (N=50, medium traffic, 11 seeds each). This is completed, frozen research — presented here as the evidence that motivates investigating the routing metric further, not as a validated solution.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Routing activation ≠ performance improvement — the strongest-activation V4 configuration re-routes 100% of seeds but does not produce a statistically credible PDR gain.</div>
         <div class="insight-card secondary" style="margin-bottom:18px">
           <div class="k">Research result</div>
           Routing activation ≠ performance improvement. The adaptive routing mechanism changed routing behaviour under selected conditions, but did not produce credible overall performance improvement relative to Static. This is treated as a valid scientific negative result, not a failed implementation.
@@ -404,10 +430,42 @@
       </section>
 
       <!-- ============================================================ BOTTLENECK -->
-      <section class="view" id="view-bottleneck">
-        <div class="badge-row"><span class="tag bottleneck">§10 Bottleneck Characterisation</span></div>
+      <section class="view major" id="view-bottleneck">
+        <div class="section-eyebrow">Bottleneck Evidence</div>
+        <div class="badge-row"><span class="status-badge evidence"><span class="sb-dot"></span>Bottleneck Study — Evidence</span></div>
         <h2>Where does packet loss occur?</h2>
         <p class="lede">176 runs instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise the loss mechanism.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — gateway airtime reaches 0.86–0.89 at N≥75 under high traffic.</div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3>Observed mechanism chain</h3>
+          <p class="panel-sub">Relationships indicated by the measured data below — not asserted beyond what the metrics support.</p>
+          <div class="flowchart horizontal" style="margin:14px 0 0">
+            <div class="flow-node">Higher Node Density</div><div class="flow-arrow">→</div>
+            <div class="flow-node hot">Gateway / First-Hop Load</div><div class="flow-arrow">→</div>
+            <div class="flow-node hot">Queue / Retry Effects</div><div class="flow-arrow">→</div>
+            <div class="flow-node bad">Performance Degradation</div>
+          </div>
+        </div>
+
+        <div class="oei">
+          <div class="oei-col observation">
+            <div class="oei-label">Observation</div>
+            <p>PDR falls and gateway airtime rises together as node count and traffic increase, most sharply at N≥75 under high traffic.</p>
+          </div>
+          <div class="oei-col evidence">
+            <div class="oei-label">Evidence</div>
+            <ul>
+              <li>Gateway airtime 0.86–0.89 at N≥75/high</li>
+              <li>MAC-queue drops 1.2–2.4× over-represented at hop≤1</li>
+              <li>NO_ROUTE/ROUTE_ERROR &lt;2% of loss (routing failure excluded)</li>
+            </ul>
+          </div>
+          <div class="oei-col interpretation">
+            <div class="oei-label">Interpretation</div>
+            <p>The pattern is consistent with gateway/first-hop channel contention as the dominant measurable mechanism under these conditions, rather than routing failure. This does not establish a cause for every lost packet — see the residual-loss caveat below.</p>
+          </div>
+        </div>
 
         <div class="flowchart horizontal" style="margin-bottom:24px">
           <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
@@ -417,8 +475,9 @@
           <div class="flow-node bad">Gateway</div>
         </div>
 
-        <div class="grid cols-2">
-          <div class="panel">
+        <div class="evidence-grid">
+          <div class="panel primary-evidence">
+            <div class="evidence-role primary">Primary Evidence</div>
             <h3>Gateway Airtime vs. Network Size</h3>
             <p class="panel-sub">High traffic condition</p>
             <div id="bn-legend"></div>
@@ -452,9 +511,11 @@
 
       <!-- ============================================================ RETRY -->
       <section class="view" id="view-retry">
+        <div class="section-eyebrow">Mechanism Evidence</div>
         <div class="badge-row"><span class="tag retry">Retry-Exhaustion Validation</span></div>
         <h2>Is retransmission failure the main cause?</h2>
         <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Retry exhaustion is real but secondary — MAC-queue overflow dominates loss in 10 of the 12 measured cells.</div>
         <div class="grid cols-2">
           <div class="panel"><h3>Average share of loss</h3><div class="chart-wrap" id="chart-retry-vs-macq"></div></div>
           <div class="panel">
@@ -471,10 +532,12 @@
       </section>
 
       <!-- ============================================================ INTERVENTION -->
-      <section class="view" id="view-intervention">
+      <section class="view major" id="view-intervention">
+        <div class="section-eyebrow">Intervention</div>
         <div class="badge-row"><span class="tag intervention">Offered-Rate Intervention</span></div>
         <h2>Can traffic reduction mitigate congestion?</h2>
         <p class="lede">72-run rate sweep (16 → 12 → 8 → 4 kbps) testing whether reducing offered traffic rate relieves the identified bottleneck.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load.</div>
 
         <div class="grid cols-2" style="margin-bottom:22px">
           <div class="flowchart">
@@ -505,9 +568,11 @@
 
       <!-- ============================================================ STATIC CONTROL -->
       <section class="view" id="view-static-control">
+        <div class="section-eyebrow">Intervention</div>
         <div class="badge-row"><span class="tag diagnostic">Static/N=50 Diagnostic</span></div>
         <h2>OLSR vs. Static under the same intervention</h2>
         <p class="lede">OLSR improves at high node densities. Static at N=50 shows a flat-to-negative response.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>The intervention is protocol- and load-dependent — Static/N=50 shows no comparable PDR improvement despite the same congestion relief.</div>
         <div id="sc-legend"></div>
         <div class="panel"><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-static-control"></div></div>
         <div class="callout warn" style="margin:16px 0">Intervention effectiveness is protocol- and load-dependent. Static/N=50 PDR does not improve with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>−7.6 percentage points</strong>). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss.</div>
@@ -522,9 +587,11 @@
 
       <!-- ============================================================ REPRODUCIBILITY -->
       <section class="view" id="view-reproducibility">
+        <div class="section-eyebrow">Research Progress</div>
         <div class="badge-row"><span class="tag repro">Reproducibility</span></div>
         <h2>Research Reproducibility</h2>
         <p class="lede">The frozen research was independently re-executed using a 51-run validation matrix.</p>
+<div class="key-finding"><span class="kf-label">Key Finding</span>681 of 687 applicable metric comparisons reproduced exactly, 0 failures, 0 numerical drift.</div>
         <div class="kpi-grid">
           <div class="kpi"><div class="num">51 / 51</div><div class="label">Successful Runs</div></div>
           <div class="kpi"><div class="num">687</div><div class="label">Comparisons</div></div>
@@ -542,6 +609,7 @@
 
       <!-- ============================================================ CONCLUSIONS -->
       <section class="view" id="view-conclusions">
+        <div class="section-eyebrow">Key Findings</div>
         <h2>Research Conclusion</h2>
         <div class="flowchart" style="margin:20px 0">
           <div class="flow-node">Network scale + traffic load</div><div class="flow-arrow">↓</div>
