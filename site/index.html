@@ -345,6 +345,28 @@
         </div>
         <div class="callout" style="margin-top:16px">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and qualitative trends are unaffected.</div>
 
+        <div class="evidence-role" style="margin-top:32px">Protocol Comparison</div>
+        <p class="panel-sub" style="margin:-4px 0 12px">Same measured data as above, shown as direct side-by-side bars per node count instead of overlaid lines.</p>
+        <div class="grid cols-2" style="margin-bottom:20px">
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag primary">Protocol Comparison</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.82rem">PDR: AODV vs. OLSR vs. Static</h3><p class="panel-sub">% of packets delivered, by network size</p><div class="chart-wrap" id="chart-pdr-compare"></div>
+          </div>
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag primary">Protocol Comparison</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.82rem">Throughput: AODV vs. OLSR vs. Static</h3><p class="panel-sub">kbps delivered, by network size</p><div class="chart-wrap" id="chart-throughput-compare"></div>
+          </div>
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag supporting">Protocol Comparison</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.82rem">Delay: AODV vs. OLSR vs. Static</h3><p class="panel-sub">ms, by network size</p><div class="chart-wrap" id="chart-delay-compare"></div>
+          </div>
+          <div class="panel">
+            <div class="metric-meta"><span class="metric-tag supporting">Protocol Comparison</span><span class="metric-status measured">✓ Measured</span></div>
+            <h3 style="font-size:.82rem">Packet Loss: AODV vs. OLSR vs. Static</h3><p class="panel-sub">packets, by network size</p><div class="chart-wrap" id="chart-loss-compare"></div>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:-4px;margin-bottom:20px">Same FlowMonitor <code>PacketsSent</code>-denominator caveat applies to the AODV PDR/Packet Loss bars here as above.</div>
+
         <div class="evidence-role" style="margin-top:32px">Routing &amp; Path Behavior Evidence</div>
         <div class="grid cols-3">
           <div class="panel">
