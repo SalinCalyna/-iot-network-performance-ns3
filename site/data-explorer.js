@@ -65,7 +65,12 @@ const PRESETS = [
   }
 ];
 
-function el(tag, attrs, children) {
+// Named htmlEl (not el) to avoid colliding with charts.js's SVG-aware el() --
+// both are top-level `function` declarations sharing one global script scope,
+// and a same-named later declaration silently overwrites the earlier one,
+// which previously caused every chart to be built with document.createElement
+// (HTML namespace) instead of document.createElementNS (SVG namespace).
+function htmlEl(tag, attrs, children) {
   const e = document.createElement(tag);
   if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
   (children || []).forEach(c => e.appendChild(c));
@@ -75,20 +80,20 @@ function el(tag, attrs, children) {
 function renderResultTable(container, columns, rows) {
   container.innerHTML = "";
   if (!rows.length) { container.innerHTML = '<p class="panel-sub">Query returned no rows.</p>'; return; }
-  const table = el("table", { class: "data" });
-  const thead = el("thead", {}, [el("tr", {}, columns.map(c => el("th", {}, [document.createTextNode(c)])))]);
-  const tbody = el("tbody");
+  const table = htmlEl("table", { class: "data" });
+  const thead = htmlEl("thead", {}, [htmlEl("tr", {}, columns.map(c => htmlEl("th", {}, [document.createTextNode(c)])))]);
+  const tbody = htmlEl("tbody");
   rows.forEach(row => {
-    const tr = el("tr");
+    const tr = htmlEl("tr");
     row.forEach(v => {
-      const td = el("td", typeof v === "number" ? { class: "num" } : {});
+      const td = htmlEl("td", typeof v === "number" ? { class: "num" } : {});
       td.textContent = v === null ? "—" : String(v);
       tr.appendChild(td);
     });
     tbody.appendChild(tr);
   });
   table.appendChild(thead); table.appendChild(tbody);
-  const wrap = el("div", { style: "overflow-x:auto" }, [table]);
+  const wrap = htmlEl("div", { style: "overflow-x:auto" }, [table]);
   container.appendChild(wrap);
 }
 
