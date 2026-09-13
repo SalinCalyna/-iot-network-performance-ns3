@@ -10,6 +10,21 @@ function el(tag, attrs) {
 }
 function fmt(v, digits) { return typeof v === "number" ? v.toFixed(digits == null ? 1 : digits) : v; }
 
+// Resolve a "var(--name)" color reference to its computed value. SVG presentation
+// attributes (plain fill="..."/stroke="..." rather than a CSS class or style=)
+// are not reliably re-evaluated for custom-property substitution in every
+// rendering context, which previously left bars/lines/points invisible while
+// CSS-class-driven axis text and gridlines still rendered. Resolving to a
+// concrete color here removes that dependency entirely. Non-var() values and
+// already-resolved colors pass through unchanged.
+function resolveColor(v) {
+  if (typeof v !== "string") return v;
+  const m = v.match(/^var\((--[a-zA-Z0-9-]+)\)$/);
+  if (!m) return v;
+  const resolved = getComputedStyle(document.documentElement).getPropertyValue(m[1]).trim();
+  return resolved || v;
+}
+
 function ensureTooltip(container) {
   let tip = container.querySelector(".tooltip");
   if (!tip) {
@@ -53,7 +68,7 @@ function groupedBar(container, series, opts) {
       const h = (d.y / yMax) * plotH;
       const bx = pad.l + xi * groupW + groupW * 0.14 + ni * barW;
       const by = pad.t + plotH - h;
-      const rect = el("rect", { x: bx, y: by, width: barW * 0.82, height: Math.max(h, 1), fill: opts.colors[n], rx: 2 });
+      const rect = el("rect", { x: bx, y: by, width: barW * 0.82, height: Math.max(h, 1), fill: resolveColor(opts.colors[n]), rx: 2 });
       rect.addEventListener("mousemove", ev => {
         const r = container.getBoundingClientRect();
         showTip(container, tip, ev.clientX - r.left, ev.clientY - r.top,
@@ -90,9 +105,9 @@ function lineChart(container, series, opts) {
   xs.forEach((x, i) => { const t = el("text", { x: xScale(i), y: H - 8, "text-anchor": "middle" }); t.textContent = x; svg.appendChild(t); });
   names.forEach(n => {
     const pts = series[n].map((d, i) => `${xScale(i)},${yScale(d.y)}`).join(" ");
-    svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: opts.colors[n], "stroke-width": 2.5 }));
+    svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: resolveColor(opts.colors[n]), "stroke-width": 2.5 }));
     series[n].forEach((d, i) => {
-      const c = el("circle", { cx: xScale(i), cy: yScale(d.y), r: 4, fill: opts.colors[n], stroke: "#0d1117", "stroke-width": 1.5 });
+      const c = el("circle", { cx: xScale(i), cy: yScale(d.y), r: 4, fill: resolveColor(opts.colors[n]), stroke: "#0d1117", "stroke-width": 1.5 });
       c.addEventListener("mousemove", ev => {
         const r = container.getBoundingClientRect();
         showTip(container, tip, ev.clientX - r.left, ev.clientY - r.top,
@@ -114,11 +129,11 @@ function twoBar(container, a, b, opts) {
   const barH = 22, gap = 14, labelW = 74;
   [a, b].forEach((d, i) => {
     const y = i * (barH + gap) + 6;
-    const t = el("text", { x: 0, y: y + barH / 2 + 3, "font-size": 11, fill: "var(--text-dim)" }); t.textContent = d.label; svg.appendChild(t);
-    svg.appendChild(el("rect", { x: labelW, y, width: W - labelW - 46, height: barH, rx: 4, fill: "var(--panel-2)" }));
+    const t = el("text", { x: 0, y: y + barH / 2 + 3, "font-size": 11, fill: resolveColor("var(--text-dim)") }); t.textContent = d.label; svg.appendChild(t);
+    svg.appendChild(el("rect", { x: labelW, y, width: W - labelW - 46, height: barH, rx: 4, fill: resolveColor("var(--panel-2)") }));
     const w = ((W - labelW - 46) * d.value) / max;
-    svg.appendChild(el("rect", { x: labelW, y, width: Math.max(w, 2), height: barH, rx: 4, fill: d.color }));
-    const vt = el("text", { x: W - 4, y: y + barH / 2 + 3, "text-anchor": "end", "font-size": 11, fill: "var(--text)", "font-weight": 700 });
+    svg.appendChild(el("rect", { x: labelW, y, width: Math.max(w, 2), height: barH, rx: 4, fill: resolveColor(d.color) }));
+    const vt = el("text", { x: W - 4, y: y + barH / 2 + 3, "text-anchor": "end", "font-size": 11, fill: resolveColor("var(--text)"), "font-weight": 700 });
     vt.textContent = fmt(d.value, opts.yfmt) + (opts.unit || ""); svg.appendChild(vt);
   });
   container.appendChild(svg);

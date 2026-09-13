@@ -124,12 +124,12 @@ function renderTopology(container, nodes, opts) {
     const onPath = pathIds.has(nd.id);
     c.setAttribute("r", nd.is_gw ? 8 : (onPath ? 5.6 : 4.2));
     c.setAttribute("fill", nd.is_gw ? "#fff" : hopColor(nd.hop));
-    c.setAttribute("stroke", nd.is_gw ? "var(--accent)" : (onPath ? "#3ecf8e" : "#0d1117"));
+    c.setAttribute("stroke", nd.is_gw ? resolveColor("var(--accent)") : (onPath ? "#3ecf8e" : "#0d1117"));
     c.setAttribute("stroke-width", nd.is_gw ? 2.5 : (onPath ? 2 : 1));
     if (nd.is_gw) {
       const pulse = document.createElementNS(svg.namespaceURI, "circle");
       pulse.setAttribute("cx", px(nd.x)); pulse.setAttribute("cy", px(nd.y)); pulse.setAttribute("r", 8);
-      pulse.setAttribute("fill", "none"); pulse.setAttribute("stroke", "var(--accent)"); pulse.setAttribute("stroke-width", 1.5);
+      pulse.setAttribute("fill", "none"); pulse.setAttribute("stroke", resolveColor("var(--accent)")); pulse.setAttribute("stroke-width", 1.5);
       pulse.innerHTML = `<animate attributeName="r" from="8" to="22" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" from="0.6" to="0" dur="2s" repeatCount="indefinite"/>`;
       svg.appendChild(pulse);
     }
