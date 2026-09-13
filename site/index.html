@@ -18,38 +18,40 @@
     </div>
 
     <div class="navgroup">
+      <div class="glabel">Research</div>
       <div class="navlink" data-target="view-overview"><span class="dot"></span>Overview</div>
       <div class="navlink" data-target="view-realworld"><span class="dot"></span>Real-World Problem</div>
       <div class="navlink" data-target="view-research-questions"><span class="dot"></span>Research Questions</div>
-      <div class="navlink" data-target="view-topology"><span class="dot"></span>Simulation Model</div>
+      <div class="navlink" data-target="view-topology"><span class="dot"></span>Experimental Design</div>
     </div>
 
-    <div class="navgroup">
+    <div class="navgroup phase-measured">
       <div class="glabel">Without Risk — Measured</div>
-      <div class="navlink" data-target="view-baseline"><span class="dot"></span>Baseline — Without Risk</div>
+      <div class="navlink" data-target="view-baseline"><span class="dot"></span>Baseline</div>
       <div class="navlink" data-target="view-protocol-comparison"><span class="dot"></span>Protocol Comparison</div>
       <div class="navlink" data-target="view-performance"><span class="dot"></span>Performance Analysis</div>
       <div class="navlink" data-target="view-bottleneck"><span class="dot"></span>Bottleneck Analysis</div>
       <div class="navlink" data-target="view-retry"><span class="dot"></span>Retry Validation</div>
-      <div class="navlink" data-target="view-intervention"><span class="dot"></span>Traffic Intervention</div>
+      <div class="navlink" data-target="view-intervention"><span class="dot"></span>Intervention</div>
       <div class="navlink" data-target="view-reproducibility"><span class="dot"></span>Reproducibility</div>
     </div>
 
-    <div class="navgroup">
+    <div class="navgroup phase-planned">
       <div class="glabel">With Risk — Planned</div>
       <div class="navlink" data-target="view-risk-experiment"><span class="dot"></span>Risk Experiment</div>
       <div class="navlink" data-target="view-routing"><span class="dot"></span>Adaptive Routing</div>
     </div>
 
     <div class="navgroup">
-      <div class="glabel">Research</div>
-      <div class="navlink" data-target="view-data-explorer"><span class="dot"></span>Data &amp; Reproducibility</div>
-      <div class="navlink" data-target="view-conclusions"><span class="dot"></span>Conclusion</div>
+      <div class="glabel">Evidence</div>
+      <div class="navlink" data-target="view-data-explorer"><span class="dot"></span>Data Explorer</div>
+      <div class="navlink" data-target="view-conclusions"><span class="dot"></span>Findings</div>
+      <div class="navlink" data-target="view-roadmap"><span class="dot"></span>Research Roadmap</div>
     </div>
 
     <div class="sidebar-foot">
       NS-3 Research &middot; 802.11b Multi-hop Mesh
-      <div class="status"><span class="pulse"></span>Research Complete</div>
+      <div class="status"><span class="pulse"></span>Baseline Complete · Risk Planned</div>
     </div>
   </aside>
 
@@ -60,12 +62,13 @@
       <div style="display:flex;align-items:center;gap:12px">
         <button class="menu-btn" id="menu-btn">☰</button>
         <div>
-          <h1>Analysis of IoT Network Performance</h1>
-          <div class="sub">NS-3 Multi-hop Wireless IoT Network</div>
+          <h1>Analysis of IoT Network Performance Using NS-3</h1>
+          <div class="sub">NS-3 Multi-hop Wireless IoT Network — Research Operations View</div>
         </div>
       </div>
       <div class="meta">
-        <span class="chip ok">● RESEARCH COMPLETE</span>
+        <span class="chip ok">● BASELINE MEASURED</span>
+        <span class="chip" style="color:var(--planned);border-color:rgba(240,169,78,.3);background:var(--planned-soft)">◐ RISK PLANNED</span>
         <span class="chip">NS-3</span>
         <span class="chip">802.11b</span>
         <span class="chip">Multi-hop Mesh</span>
@@ -82,33 +85,51 @@
           <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">MULTI-HOP</span>
           <span class="tag" style="background:var(--ok-soft);color:var(--ok)">RESEARCH</span>
         </div>
-        <div class="eyebrow">Analysis of IoT Network Performance</div>
-        <div class="hero-title">ANALYSIS OF IoT NETWORK PERFORMANCE</div>
-        <p class="hero-subtitle">Multi-hop Wireless IoT Network Performance and Routing Protocol Comparison</p>
-        <p style="font-size:1rem;line-height:1.5;margin:4px 0 18px">This study investigates how network scale, traffic load, and network conditions affect IoT network performance using NS-3, compares AODV, OLSR, and Static Routing, identifies measurable bottlenecks, and extends the evaluation toward risk-aware adaptive routing.</p>
+        <div class="eyebrow">Master's Research · NS-3 Network Simulation</div>
+        <div class="hero-title">ANALYSIS OF IoT NETWORK PERFORMANCE USING NS-3</div>
+        <p class="hero-subtitle">Evaluating network scale, traffic load, routing behavior, bottlenecks, and adaptive routing strategies in IoT networks.</p>
 
-        <div class="grid cols-3" style="margin-bottom:18px">
-          <div class="panel" style="border-color:var(--ok)">
-            <h3 style="font-size:.9rem;margin:0 0 4px">Baseline</h3>
-            <div style="font-size:.78rem;font-weight:700;color:var(--text-dim);margin-bottom:2px">WITHOUT RISK</div>
-            <div class="metric-status measured" style="font-size:.72rem;margin-bottom:6px">✓ MEASURED</div>
-            <p class="panel-sub" style="margin:0">The completed V3 study (1,782 runs) that the rest of this dashboard is built on.</p>
+        <div class="status-strip">
+          <div class="status-chip"><span class="sc-label">Without Risk / Baseline</span><span class="sc-val measured">✓ Measured</span></div>
+          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">1,782</span><span class="sc-label">Baseline Runs</span></div>
+          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">3</span><span class="sc-label">Routing Protocols</span></div>
+          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">6</span><span class="sc-label">Network Scales</span></div>
+          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">20–30</span><span class="sc-label">Seeds</span></div>
+        </div>
+        <div class="status-strip" style="margin-top:-4px">
+          <div class="status-chip"><span class="sc-label">Baseline</span><span class="sc-val measured">Measured</span></div>
+          <div class="status-chip"><span class="sc-label">Bottleneck</span><span class="sc-val measured">Measured</span></div>
+          <div class="status-chip"><span class="sc-label">Intervention</span><span class="sc-val measured">Measured</span></div>
+          <div class="status-chip" style="border-color:rgba(213,85,90,.3)"><span class="sc-label">With Risk</span><span class="sc-val planned">Planned</span></div>
+          <div class="status-chip" style="border-color:rgba(124,156,255,.3)"><span class="sc-label">Sigmoid</span><span class="sc-val direction">Research Direction</span></div>
+        </div>
+
+        <div class="grid cols-3" style="margin:20px 0 18px">
+          <div class="panel">
+            <div class="evidence-role">Research Objective</div>
+            <p style="font-size:.86rem;color:var(--text-dim);margin:0">Evaluate how network scale and traffic load affect IoT network performance, and determine how routing strategies respond to congestion and changing network conditions.</p>
+            <div class="callout" style="margin-top:12px;padding:10px 12px;font-size:.78rem"><strong>Research Question —</strong> How do network scale, traffic load, and routing strategy affect IoT network performance? <a href="#view-research-questions" style="color:inherit;text-decoration:underline">All 7 RQs →</a></div>
           </div>
-          <div class="panel" style="border-color:var(--bad)">
-            <h3 style="font-size:.9rem;margin:0 0 4px">Risk Condition</h3>
-            <div style="font-size:.78rem;font-weight:700;color:var(--text-dim);margin-bottom:2px">WITH RISK</div>
-            <div class="metric-status" style="font-size:.72rem;color:var(--bad);margin-bottom:6px">→ PLANNED</div>
-            <p class="panel-sub" style="margin:0">The next research stage. Not yet run; no experimental values exist for this condition.</p>
+          <div class="panel">
+            <div class="evidence-role">Experimental Scope</div>
+            <div class="scope-grid" style="grid-template-columns:1fr 1fr">
+              <div class="scope-card"><div class="sc-k">Network Scale</div><div class="sc-v">10 → 100 nodes</div></div>
+              <div class="scope-card"><div class="sc-k">Traffic</div><div class="sc-v">Low / Medium / High</div></div>
+              <div class="scope-card"><div class="sc-k">Mobility</div><div class="sc-v">Static / Low / Medium</div></div>
+              <div class="scope-card"><div class="sc-k">Routing</div><div class="sc-v">AODV / OLSR / Static</div></div>
+            </div>
           </div>
-          <div class="panel" style="border-color:var(--v4)">
-            <h3 style="font-size:.9rem;margin:0 0 4px">Adaptive Routing</h3>
-            <div style="font-size:.78rem;font-weight:700;color:var(--text-dim);margin-bottom:2px">SIGMOID</div>
-            <div class="metric-status" style="font-size:.72rem;color:var(--v4);margin-bottom:6px">◇ RESEARCH DIRECTION</div>
-            <p class="panel-sub" style="margin:0">Motivated by completed V4 activation-screen evidence; full evaluation is future research, to be assessed under the risk condition once it is established.</p>
+          <div class="panel">
+            <div class="evidence-role">Research Status</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Baseline</div><span class="tag measured">Measured</span></div>
+              <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Risk Condition</div><span class="tag planned">Planned</span></div>
+              <div class="health-row" style="padding:0"><div class="health-label" style="flex:0 0 110px">Adaptive Routing</div><span class="tag direction">Research Direction</span></div>
+            </div>
+            <p style="font-size:.74rem;color:var(--text-faint);margin:10px 0 0">Condition: Without Risk → With Risk</p>
           </div>
         </div>
 
-        <div class="callout" style="margin:8px 0 16px"><strong>Research Question —</strong> How do network scale, traffic load, and routing strategy affect IoT network performance? <a href="#view-research-questions" style="color:inherit;text-decoration:underline">Full research questions →</a></div>
         <p>This study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions, and evaluates whether reducing offered traffic rate can improve network reliability.</p>
 
         <div class="flowchart horizontal" style="justify-content:flex-start;margin:4px 0 16px">
@@ -121,8 +142,8 @@
         <div class="badge-row" style="margin-bottom:22px">
           <span class="metric-status measured" style="font-size:.72rem">✓ MEASURED</span>
           <span class="metric-status limited" style="font-size:.72rem">△ LIMITED COVERAGE</span>
-          <span class="metric-status" style="font-size:.72rem;color:var(--bad)">→ PLANNED</span>
-          <span class="metric-status" style="font-size:.72rem;color:var(--v4)">◇ CONCEPTUAL</span>
+          <span class="metric-status planned" style="font-size:.72rem">→ PLANNED</span>
+          <span class="metric-status direction" style="font-size:.72rem">◇ RESEARCH DIRECTION / CONCEPTUAL</span>
         </div>
 
         <div class="kpi-grid">
@@ -160,6 +181,32 @@
         <h2>Real-World IoT Application Scenario</h2>
         <p class="lede">Why does this network model matter in the real world? A conceptual application context for the NS-3 research model — not a claim of physical deployment.</p>
         <div class="callout warn" style="margin-bottom:18px">Conceptual deployment scenario. No physical network measurements are claimed. This visualization demonstrates how the routing protocols studied in NS-3 could be applied to a real-world IoT environment.</div>
+
+        <div class="panel" style="margin-bottom:18px">
+          <h3 style="font-size:.85rem">Simplified IoT network architecture</h3>
+          <div class="flowchart" style="margin:14px 0 0">
+            <div class="flow-node">Sensors</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Wireless Network</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Routing</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">Gateway</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Application / Cloud</div>
+          </div>
+        </div>
+
+        <div class="grid cols-2" style="margin-bottom:18px">
+          <div class="panel">
+            <h3 style="font-size:.85rem">The real-world problem</h3>
+            <div class="flowchart" style="margin:14px 0 0">
+              <div class="flow-node">Network Scale + Traffic Load + Mobility</div><div class="flow-arrow">↓</div>
+              <div class="flow-node hot">Congestion</div><div class="flow-arrow">↓</div>
+              <div class="flow-node bad">Packet Loss / Delay / Throughput Degradation</div>
+            </div>
+          </div>
+          <div class="panel" style="border-color:var(--accent-line)">
+            <div class="evidence-role primary">Research Gap</div>
+            <p style="font-size:.84rem;color:var(--text-dim);margin:0">Performance degradation should not only be measured; its measurable network bottlenecks and routing behavior should also be investigated.</p>
+          </div>
+        </div>
 
         <div class="rw-scenario">
           <p style="margin:0 0 4px;font-weight:700;color:var(--text)">Smart Campus + Urban IoT Environment — Phuket, Thailand</p>
@@ -315,25 +362,54 @@
         <div class="badge-row"><span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Research Questions</span></div>
         <h2>Research Questions</h2>
         <p class="lede">The seven questions this research program addresses, spanning the completed Without-Risk baseline and the planned With-Risk / adaptive-routing extension.</p>
-        <div class="panel">
-          <ol style="color:var(--text-dim);font-size:.92rem;margin:0;padding-left:0;list-style:none;line-height:1.5">
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 44px">RQ1</span><span>How does network scale affect IoT network performance?</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 44px">RQ2</span><span>How does traffic load affect IoT network performance under different network scales?</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 44px">RQ3</span><span>How do AODV, OLSR, and Static Routing differ in performance?</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 44px">RQ4</span><span>What measurable network conditions and bottlenecks contribute to performance degradation?</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 44px">RQ5</span><span>Can reducing offered traffic mitigate congestion and improve performance?</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--bad);flex:0 0 44px">RQ6</span><span>How does network performance change between without-risk and with-risk conditions? <span class="metric-status" style="font-size:.68rem;color:var(--bad)">→ PLANNED</span></span></li>
-            <li style="display:flex;gap:14px;padding:12px 0"><span style="font-weight:800;color:var(--v4);flex:0 0 44px">RQ7</span><span>Can Sigmoid-based adaptive routing improve route selection and network performance under changing or risky network conditions? <span class="metric-status" style="font-size:.68rem;color:var(--v4)">◇ RESEARCH DIRECTION</span></span></li>
-          </ol>
+        <div class="grid cols-2">
+          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ1</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How does network scale affect IoT network performance?</p></div>
+          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ2</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How does traffic load affect performance under different network scales?</p></div>
+          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ3</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How do AODV, OLSR, and Static routing differ in performance?</p></div>
+          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ4</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">What measurable network conditions contribute to performance degradation?</p></div>
+          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ5</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">Can reducing offered traffic mitigate congestion and improve performance?</p></div>
+          <div class="panel" style="border-color:rgba(213,85,90,.3)"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ6</span><span class="tag planned">Planned</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How does performance change between Without-Risk and With-Risk conditions?</p></div>
+          <div class="panel" style="border-color:rgba(124,156,255,.3)"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ7</span><span class="tag direction">Future Research</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">Can Sigmoid-based adaptive routing improve route selection under changing or risky network conditions?</p></div>
         </div>
         <div class="callout" style="margin-top:16px">RQ1–RQ5 are addressed by the completed Without-Risk V3 baseline and its follow-on bottleneck, retry, and intervention studies. RQ6–RQ7 define the planned With-Risk / adaptive-routing extension and are not yet answered by any completed experiment.</div>
       </section>
 
       <!-- ============================================================ NETWORK TOPOLOGY (main visual) -->
       <section class="view" id="view-topology">
-        <div class="section-eyebrow">Network Architecture</div>
+        <div class="section-eyebrow">Experimental Design</div>
         <div class="badge-row"><span class="tag v3">Interactive</span></div>
-        <h2>Network Architecture</h2>
+        <h2>Experimental Design</h2>
+        <p class="lede">The research-design matrix and simulation pipeline behind every measured result in this dashboard.</p>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3 style="font-size:.85rem">Simulation pipeline</h3>
+          <div class="flowchart" style="margin:14px 0 0">
+            <div class="flow-node">Network Conditions</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">NS-3 Simulation</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">FlowMonitor / Network Metrics</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Performance Analysis</div><div class="flow-arrow">↓</div>
+            <div class="flow-node">Bottleneck Analysis</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">Validation</div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3 style="font-size:.85rem">Research-design matrix</h3>
+          <table class="data">
+            <thead><tr><th>Variable</th><th>Values</th></tr></thead>
+            <tbody>
+              <tr><td>Network Scale</td><td>10 / 20 / 30 / 50 / 75 / 100</td></tr>
+              <tr><td>Traffic</td><td>Low / Medium / High</td></tr>
+              <tr><td>Mobility</td><td>Static / Low / Medium</td></tr>
+              <tr><td>Routing</td><td>AODV / OLSR / Static</td></tr>
+              <tr><td>Seeds</td><td>20–30</td></tr>
+              <tr><td>Primary Metrics</td><td>PDR / Throughput / Delay / Packet Loss</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-eyebrow" style="margin-top:32px">Network Architecture</div>
+        <h3 style="margin:0 0 4px">Interactive Network Model</h3>
         <p class="lede">Interactive multi-hop IoT network visualization — how the simulated network is structured</p>
         <div class="badge-row" style="margin-bottom:12px">
           <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Topology: Multi-hop wireless mesh</span>
@@ -486,7 +562,8 @@
         <div class="filters"><div class="filter-group"><span class="fl">Protocol</span><div id="perf-protocol-toggle" style="display:flex;gap:2px"></div></div></div>
         <div id="perf-legend"></div>
 
-        <div class="evidence-role primary" style="font-size:.75rem" id="view-protocol-comparison">Protocol Comparison — AODV vs. OLSR vs. Static</div>
+        <div class="section-eyebrow" id="view-protocol-comparison">RQ3 — How Do Routing Protocols Differ?</div>
+        <div class="evidence-role primary" style="font-size:.75rem">Protocol Comparison — AODV vs. OLSR vs. Static</div>
         <p class="panel-sub" style="margin:-4px 0 12px">Direct side-by-side comparison per node count. These four charts are the primary research comparison for this study. <strong>All results below are from the completed Without-Risk baseline</strong> (see Baseline — Without Risk, above) — no risk condition is applied.</p>
         <div class="grid cols-2" style="margin-bottom:20px">
           <div class="panel primary-evidence">
@@ -506,11 +583,36 @@
             <h3>Packet Loss: AODV vs. OLSR vs. Static</h3><p class="panel-sub">packets, by network size</p><div class="chart-wrap" id="chart-loss-compare" style="min-height:260px"></div>
           </div>
         </div>
-        <div class="callout" style="margin-top:-4px;margin-bottom:20px">AODV PDR/Packet Loss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and delay trends are unaffected.</div>
+        <div class="callout" style="margin-top:-4px;margin-bottom:16px">AODV PDR/Packet Loss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and delay trends are unaffected.</div>
+        <div class="key-finding"><span class="kf-label">Key Observation</span>Performance differences become more pronounced as network scale and traffic load increase.</div>
 
         <div class="panel" style="margin-bottom:28px;background:var(--accent-soft);border-color:var(--accent-line)">
           <h3>What the comparison shows</h3>
           <p style="color:var(--text-dim);font-size:.88rem;margin:0">As node density and offered traffic increase, network performance degrades across all three evaluated routing strategies — this is not unique to any single protocol. Protocol behavior must be interpreted together with network load and congestion, not in isolation: no protocol is universally best under every tested condition. AODV's PDR/Packet Loss numbers should additionally be read with the FlowMonitor caveat above in mind.</p>
+        </div>
+
+        <div class="evidence-role">Performance Profile</div>
+        <div class="metric-profile" style="margin-bottom:24px">
+          <div class="mp-row">
+            <div class="mp-metric">PDR</div>
+            <div><div class="mp-label">Observation</div><div class="mp-text">Packet delivery decreases under heavier network pressure.</div></div>
+            <div><div class="mp-label">Interpretation</div><div class="mp-text">Consistent with rising channel contention as node count and traffic load increase.</div></div>
+          </div>
+          <div class="mp-row">
+            <div class="mp-metric">Throughput</div>
+            <div><div class="mp-label">Observation</div><div class="mp-text">Effective delivery becomes constrained under congestion.</div></div>
+            <div><div class="mp-label">Interpretation</div><div class="mp-text">Delivered throughput tracks the same capacity limits driving the PDR trend.</div></div>
+          </div>
+          <div class="mp-row">
+            <div class="mp-metric">Delay</div>
+            <div><div class="mp-label">Observation</div><div class="mp-text">Queueing and routing effects become more visible under load.</div></div>
+            <div><div class="mp-label">Interpretation</div><div class="mp-text">Supporting evidence for gateway/first-hop queue pressure — see Bottleneck Analysis.</div></div>
+          </div>
+          <div class="mp-row">
+            <div class="mp-metric">Packet Loss</div>
+            <div><div class="mp-label">Observation</div><div class="mp-text">Loss increases as network conditions approach saturation.</div></div>
+            <div><div class="mp-label">Interpretation</div><div class="mp-text">Read the AODV FlowMonitor caveat above alongside this trend.</div></div>
+          </div>
         </div>
 
         <div class="evidence-role">Primary Trend — PDR &amp; Throughput vs. Network Size</div>
@@ -575,11 +677,19 @@
 
       <!-- ============================================================ BOTTLENECK -->
       <section class="view major" id="view-bottleneck">
-        <div class="section-eyebrow">Bottleneck Evidence</div>
+        <div class="section-eyebrow">Network Bottleneck Monitor</div>
         <div class="badge-row"><span class="status-badge evidence"><span class="sb-dot"></span>Bottleneck Study — Evidence</span></div>
         <h2>Where does packet loss occur?</h2>
         <p class="lede">176 runs instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise the loss mechanism.</p>
 <div class="key-finding"><span class="kf-label">Key Finding</span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — gateway airtime reaches 0.86–0.89 at N≥75 under high traffic.</div>
+
+        <div class="op-console" style="margin-bottom:20px">
+          <div class="op-row"><div class="op-name">Gateway</div><div class="op-desc">Channel-busy fraction reaches 0.86–0.89 at N≥75 under high traffic</div><div class="op-level high">High Utilization</div></div>
+          <div class="op-row"><div class="op-name">First-hop Region</div><div class="op-desc">MAC-queue drops 1.2–2.4× over-represented at hop ≤1</div><div class="op-level high">High Congestion Pressure</div></div>
+          <div class="op-row"><div class="op-name">MAC Queue Drops</div><div class="op-desc">Major measurable contributor to loss (see Retry Validation)</div><div class="op-level high">Major Contributor</div></div>
+          <div class="op-row"><div class="op-name">Retry Exhaustion</div><div class="op-desc">Real but secondary mechanism (see Retry Validation)</div><div class="op-level mid">Secondary Contributor</div></div>
+          <div class="op-row"><div class="op-name">NO_ROUTE / ROUTE_ERROR</div><div class="op-desc">Routing failure — not the driver of measured loss</div><div class="op-level low">Low (&lt;2%)</div></div>
+        </div>
 
         <div class="panel" style="margin-bottom:20px">
           <h3>Why does performance degrade? — observed mechanism chain</h3>
@@ -638,7 +748,7 @@
               <li>NO_ROUTE / ROUTE_ERROR: &lt;2% of loss in every tested condition</li>
               <li>Retry exhaustion: measured separately (see Retry Analysis)</li>
             </ul>
-            <div class="caveat" style="color:var(--text-faint);font-size:.78rem;margin-top:10px">Only 0–53% of actual packet loss is attributable to any single logged counter even at the most saturated cell — the bottleneck's location is well supported, not every lost packet has a known individual cause.</div>
+            <div class="callout warn" style="margin-top:14px;padding:10px 12px"><strong style="display:block;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Evidence Limitation</strong><span style="font-size:.8rem">Only a subset of observed packet loss (0–53% at the most saturated cell) can be directly attributed to a single logged counter. The bottleneck's location is well supported; not every lost packet has a known individual cause.</span></div>
           </div>
         </div>
 
@@ -662,13 +772,19 @@
         <h2>Is retransmission failure the main cause?</h2>
         <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
 <div class="key-finding"><span class="kf-label">Key Finding</span>Retry exhaustion is real but secondary — MAC-queue overflow dominates loss in 10 of the 12 measured cells.</div>
+        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:18px">
+          <div class="kpi"><div class="num">12</div><div class="label">Cells Analyzed</div></div>
+          <div class="kpi"><div class="num" style="color:var(--warn)">17.1<span class="unit">%</span></div><div class="label">Avg. MAC Queue Overflow Share</div></div>
+          <div class="kpi"><div class="num" style="color:var(--v4)">6.0<span class="unit">%</span></div><div class="label">Avg. Retry Exhaustion Share</div></div>
+        </div>
         <div class="grid cols-2">
           <div class="panel"><h3>Average share of loss</h3><div class="chart-wrap" id="chart-retry-vs-macq"></div></div>
           <div class="panel">
-            <div class="insight-card primary"><div class="k">Primary measurable bottleneck</div>MAC queue / gateway congestion — average <strong>≈17.1%</strong> share of loss across the 12 measured cells.</div>
+            <div class="insight-card primary"><div class="k">Primary measurable bottleneck</div>MAC queue / gateway congestion — average <strong>≈17.1%</strong> share of loss across the 12 measured cells, dominant in 10 / 12 cells.</div>
             <div class="insight-card secondary" style="margin-top:10px"><div class="k">Secondary mechanism</div>Retry exhaustion — real but secondary, average <strong>≈6.0%</strong> share of loss; concentrated farther from the gateway, the opposite spatial pattern from queue overflow.</div>
           </div>
         </div>
+        <div class="callout" style="margin-top:16px">MAC queue overflow is the dominant measured contributor across most evaluated cells, while retry exhaustion represents a smaller but non-negligible contribution.</div>
         <div class="panel" style="margin-top:16px">
           <table class="data">
             <thead><tr><th>Protocol</th><th>N</th><th>Traffic</th><th>Retry share of loss</th><th>MAC-queue share of loss</th></tr></thead>
@@ -679,12 +795,22 @@
 
       <!-- ============================================================ INTERVENTION -->
       <section class="view major" id="view-intervention">
-        <div class="section-eyebrow">Intervention</div>
+        <div class="section-eyebrow">Congestion Intervention</div>
         <div class="badge-row"><span class="tag intervention">Offered-Rate Intervention</span></div>
         <h2>Can traffic reduction mitigate congestion?</h2>
         <div class="callout" style="margin-bottom:10px"><strong>Research Question —</strong> Can reducing offered traffic relieve congestion?</div>
         <p class="lede">72-run rate sweep (16 → 12 → 8 → 4 kbps) testing whether reducing offered traffic rate relieves the identified bottleneck.</p>
 <div class="key-finding"><span class="kf-label">Key Finding</span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load.</div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <h3 style="font-size:.85rem">Controlled rate-reduction experiment</h3>
+          <div class="flowchart horizontal" style="margin:14px 0 0">
+            <div class="flow-node bad">16 kbps</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">12 kbps</div><div class="flow-arrow">↓</div>
+            <div class="flow-node hot">8 kbps</div><div class="flow-arrow">↓</div>
+            <div class="flow-node good">4 kbps</div>
+          </div>
+        </div>
 
         <div class="grid cols-2" style="margin-bottom:22px">
           <div class="flowchart">
@@ -710,7 +836,8 @@
           <div class="num" style="font-size:2.2rem;font-weight:800;color:var(--ok)" id="int-delta">—</div>
           <div style="color:var(--text-dim);font-size:.85rem" id="int-delta-label"></div>
         </div>
-        <div class="callout ok" style="margin-top:16px">At the deepest reduction: <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, monotonic across every tested seed. At N=100, delivered throughput <em>rises</em> at a reduced offered rate (+25.5% at 12 kbps) — the signature of recovering from congestion collapse, not simply sending less.</div>
+        <div class="callout ok" style="margin-top:16px"><span class="tag measured" style="margin-right:8px">Measured</span>At the deepest reduction: <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, monotonic across every tested seed. At N=100, delivered throughput <em>rises</em> at a reduced offered rate (+25.5% at 12 kbps) — the signature of recovering from congestion collapse, not simply sending less.</div>
+        <div class="key-finding" style="margin-top:16px;margin-bottom:0"><span class="kf-label">Interpretation</span>Reducing offered traffic can improve performance under overloaded conditions, supporting congestion as a measurable contributor to degradation. This finding is protocol- and load-dependent — see OLSR vs. Static, next — and should not be overgeneralized to every condition.</div>
       </section>
 
       <!-- ============================================================ STATIC CONTROL -->
@@ -735,15 +862,15 @@
       <!-- ============================================================ REPRODUCIBILITY -->
       <section class="view" id="view-reproducibility">
         <div class="section-eyebrow">Research Progress</div>
-        <div class="badge-row"><span class="tag repro">Reproducibility</span></div>
+        <div class="badge-row"><span class="tag repro">Reproducibility</span><span class="status-badge validated"><span class="sb-dot"></span>Reproducibility Status: Validated</span></div>
         <h2>Research Reproducibility</h2>
         <p class="lede">The frozen research was independently re-executed using a 51-run validation matrix.</p>
 <div class="key-finding"><span class="kf-label">Key Finding</span>681 of 687 applicable metric comparisons reproduced exactly, 0 failures, 0 numerical drift.</div>
         <div class="kpi-grid">
-          <div class="kpi"><div class="num">51 / 51</div><div class="label">Successful Runs</div></div>
           <div class="kpi"><div class="num">687</div><div class="label">Comparisons</div></div>
           <div class="kpi"><div class="num" style="color:var(--ok)">681</div><div class="label">PASS</div></div>
-          <div class="kpi"><div class="num" style="color:var(--text-dim)">0 / 0</div><div class="label">FAIL / DRIFT</div></div>
+          <div class="kpi"><div class="num" style="color:var(--text-dim)">0</div><div class="label">FAIL</div></div>
+          <div class="kpi"><div class="num" style="color:var(--text-dim)">6</div><div class="label">N/A</div></div>
         </div>
         <div class="panel" style="margin-top:16px">
           <div class="health-row"><div class="health-label">Configuration</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Exact match</div></div>
@@ -759,9 +886,9 @@
       <section class="view major" id="view-risk-experiment">
         <div class="section-eyebrow">Next Research Stage</div>
         <div class="badge-row">
-          <span class="tag" style="background:var(--bad-soft);color:var(--bad)">WITH RISK</span>
-          <span class="tag" style="background:var(--bad-soft);color:var(--bad)">PLANNED EXPERIMENT</span>
-          <span class="tag" style="background:var(--bad-soft);color:var(--bad)">NOT YET MEASURED</span>
+          <span class="tag risk">WITH RISK</span>
+          <span class="tag planned">PLANNED EXPERIMENT</span>
+          <span class="tag planned">NOT YET MEASURED</span>
         </div>
         <h2>Risk Experiment</h2>
         <p class="lede">Evaluate how network performance changes when the defined risk condition is introduced and compare it with the Without-Risk baseline.</p>
@@ -770,8 +897,26 @@
           <p style="margin:0">The precise definition of the risk condition has not yet been finalized as part of the research methodology. No experiment in this design has been run, and no experimental values are presented.</p>
         </div>
 
+        <div class="panel" style="margin-bottom:20px;border-color:rgba(213,85,90,.3)">
+          <div class="panel-head"><h3 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint)">Current Status</h3></div>
+          <p style="margin:0;font-size:.88rem;color:var(--text)">The risk condition is not yet experimentally defined or measured. Results will be added only after the risk model is established.</p>
+        </div>
+
         <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>Experimental sequence</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">Planned — not yet run</span></div>
+          <h3 style="font-size:.85rem">Planned research pipeline</h3>
+          <div class="flowchart" style="margin:14px 0 0">
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Risk Definition</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Risk Modeling</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Controlled NS-3 Experiment</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Without-Risk vs. With-Risk</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Performance Impact</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Adaptive Routing</div>
+          </div>
+          <p class="panel-sub" style="margin-top:10px">Conceptual only — no risk model, attack behavior, or numerical outcome has been defined or invented anywhere in this dashboard.</p>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-head"><h3>Experimental sequence</h3><span class="tag planned">Planned — not yet run</span></div>
           <p class="panel-sub">Without Risk → Baseline → With Risk</p>
           <div class="flowchart" style="margin:14px 0">
             <div class="flow-node" style="border-style:dashed;color:var(--text-faint);text-align:left;padding:14px 18px;max-width:420px">
@@ -810,7 +955,7 @@
             </ul>
           </div>
           <div class="panel">
-            <div class="panel-head"><h3>With Risk — Adaptive Routing</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">Planned</span></div>
+            <div class="panel-head"><h3>With Risk — Adaptive Routing</h3><span class="tag planned">Planned</span></div>
             <p class="panel-sub">Introduce the risk condition and evaluate how Sigmoid-based adaptive routing responds to the changed network condition.</p>
             <div class="flowchart" style="margin:14px 0">
               <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Introduce risk condition</div><div class="flow-arrow">↓</div>
@@ -822,7 +967,7 @@
         </div>
 
         <div class="panel">
-          <div class="panel-head"><h3>Step 3 — Final Comparison</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">Planned</span></div>
+          <div class="panel-head"><h3>Step 3 — Final Comparison</h3><span class="tag planned">Planned</span></div>
           <p class="panel-sub">Evaluate whether the adaptive routing mechanism can maintain or improve network performance under the risk condition.</p>
           <div class="grid cols-2" style="margin-top:12px">
             <div class="panel" style="background:var(--panel-2)">
@@ -879,15 +1024,15 @@
             <tbody id="v4-table-body"></tbody>
           </table>
         </div>
-        <div class="callout warn" style="margin-top:16px">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, not statistically credible (sign-test p=1.0), while delay worsened 21.6% and link utilisation worsened 42.8%.</div>
+        <div class="callout warn" style="margin-top:16px">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, not statistically credible (sign-test p=1.0), while delay worsened 21.6% and link utilisation worsened 42.8%. This evidence motivates further study of the routing metric (part B, below) — it is not itself a validated result of the Sigmoid routing metric proposed there.</div>
 
         <!-- ============================ B. RESEARCH DIRECTION ============================ -->
-        <div class="badge-row" style="margin-top:40px"><span class="tag" style="background:var(--purple-soft);color:var(--v4)">B · V3 Research Direction — Sigmoid Routing Metric</span><span class="tag" style="background:var(--bad-soft);color:var(--bad)">→ FUTURE ADAPTIVE ROUTING RESEARCH</span></div>
+        <div class="badge-row" style="margin-top:40px"><span class="tag" style="background:var(--purple-soft);color:var(--v4)">B · V3 Research Direction — Sigmoid Routing Metric</span><span class="tag direction">→ FUTURE ADAPTIVE ROUTING RESEARCH</span></div>
         <h3>Why an adaptive routing metric?</h3>
         <div class="callout" style="margin-bottom:20px">Current routing decisions may not sufficiently account for changing network conditions. Therefore, the next research step is to investigate whether a continuous routing metric can translate network conditions into an adaptive routing decision.</div>
 
         <div class="panel" style="margin-bottom:20px">
-          <h3>Sigmoid Routing Metric — conceptual pipeline</h3>
+          <div class="panel-head"><h3>Sigmoid Routing Metric — conceptual pipeline</h3><span class="tag direction">Conceptual / Future Validation</span></div>
           <p class="panel-sub">Conceptual only — no formula or parameter values are fixed yet; this is the pipeline shape the next research phase will investigate.</p>
           <div class="flowchart" style="margin:14px 0">
             <div class="flow-node">Network Conditions</div><div class="flow-arrow">↓</div>
@@ -896,7 +1041,15 @@
             <div class="flow-node hot">Sigmoid Transformation</div><div class="flow-arrow">↓</div>
             <div class="flow-node">Routing Score / Decision</div><div class="flow-arrow">↓</div>
             <div class="flow-node">Adaptive Route Selection</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Network Performance Evaluation</div>
+            <div class="flow-node good">Performance Evaluation</div>
+          </div>
+          <p class="panel-sub" style="margin:12px 0 4px">Potential inputs (not yet finalized):</p>
+          <div class="badge-row" style="margin-bottom:0">
+            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">PDR</span>
+            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Delay</span>
+            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Link Utilization</span>
+            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Hop Count</span>
+            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Routing Cost</span>
           </div>
         </div>
 
@@ -912,7 +1065,7 @@
         </div>
 
         <div class="panel">
-          <div class="panel-head"><h3>Future validation</h3><span class="tag" style="background:var(--bad-soft);color:var(--bad)">FUTURE WORK — not yet performed</span></div>
+          <div class="panel-head"><h3>Future validation</h3><span class="tag planned">FUTURE WORK — not yet performed</span></div>
           <p class="panel-sub">No experiments in this pipeline have been run. This is the proposed path for the next research phase, not a result.</p>
           <div class="flowchart horizontal" style="margin:14px 0">
             <div class="flow-node">Metric Design</div><div class="flow-arrow">→</div>
@@ -929,9 +1082,11 @@
       <!-- ============================================================ DATA EXPLORER (live SQLite) -->
       <section class="view" id="view-data-explorer">
         <div class="section-eyebrow">Research Data Layer</div>
-        <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>Live SQLite Database</span></div>
+        <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>Live SQLite Database</span><span class="tag measured">Measured Data</span><span class="tag v3">Baseline Dataset</span></div>
         <h2>Data Explorer</h2>
         <p class="lede">A structured, auditable research-data layer generated from the frozen source CSVs. Queried live in your browser via SQLite compiled to WebAssembly — no server involved.</p>
+        <div class="source-note"><span class="sn-label">Source</span> NS-3 Experiments — <code>research.db</code>, generated from frozen source CSVs (unmodified by this dashboard)</div>
+        <div style="height:16px"></div>
 
         <div class="flowchart horizontal" style="margin-bottom:20px">
           <div class="flow-node">NS-3</div><div class="flow-arrow">→</div>
@@ -979,14 +1134,15 @@
       <!-- ============================================================ CONCLUSIONS -->
       <section class="view" id="view-conclusions">
         <div class="section-eyebrow">Key Findings</div>
-        <h2>Research Conclusion</h2>
+        <h2>Evidence-Based Findings</h2>
+        <p class="lede">Exactly five findings, each grounded in the measured data presented above.</p>
         <div class="panel" style="margin:16px 0 24px">
           <ol style="color:var(--text-dim);font-size:.92rem;margin:0;padding-left:0;list-style:none;line-height:1.5">
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 26px">01</span><span>Increasing network scale and traffic increase congestion pressure across the three routing protocols in the Without-Risk baseline.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 26px">02</span><span>Gateway and first-hop regions are supported as major measurable bottlenecks, with gateway airtime reaching 0.86–0.89 at N≥75 under high traffic.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 26px">03</span><span>Traffic reduction can improve performance under overloaded conditions, with OLSR PDR improving by +14.7 percentage points at N=75 and +25.2 percentage points at N=100 at the deepest cut.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 26px">04</span><span>Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0"><span style="font-weight:800;color:var(--accent);flex:0 0 26px">05</span><span>The next research step is to evaluate the With-Risk condition once the risk definition is established, followed by controlled evaluation of Sigmoid-based adaptive routing.</span></li>
+            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">01 — SCALE</span><span>Increasing network scale and traffic increase congestion pressure across the three routing protocols in the Without-Risk baseline.</span></li>
+            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">02 — BOTTLENECK</span><span>Gateway and first-hop regions are supported as major measurable bottlenecks, with gateway airtime reaching 0.86–0.89 at N≥75 under high traffic.</span></li>
+            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">03 — INTERVENTION</span><span>Traffic reduction can improve performance under overloaded conditions, with OLSR PDR improving by +14.7 percentage points at N=75 and +25.2 percentage points at N=100 at the deepest cut.</span></li>
+            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">04 — ROUTING</span><span>Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</span></li>
+            <li style="display:flex;gap:14px;padding:12px 0"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">05 — NEXT PHASE</span><span>The next research step is to evaluate the With-Risk condition once the risk definition is established, followed by controlled evaluation of Sigmoid-based adaptive routing.</span></li>
           </ol>
         </div>
 
@@ -1011,6 +1167,52 @@
           <div class="limitation-item"><div class="who">V4</div><div class="desc">Routing adaptation did not produce measurable overall improvement, even at 100% activation.</div></div>
         </div>
         <p style="font-size:.8rem;color:var(--text-faint);margin-top:16px">Data source of truth: <a href="../analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md">analysis/final-report-data/</a>. Historical V2.7 results are shown separately in <a href="../README.md">Research History</a> and are not mixed into the charts above.</p>
+      </section>
+
+      <!-- ============================================================ RESEARCH ROADMAP -->
+      <section class="view" id="view-roadmap">
+        <div class="section-eyebrow">What's Next</div>
+        <h2>Research Roadmap</h2>
+        <p class="lede">Where this research stands today, and the path from the completed Without-Risk baseline to a fully evaluated adaptive-routing system.</p>
+        <div class="roadmap panel" style="padding:0">
+          <div class="roadmap-col completed">
+            <div class="rc-title">Completed</div>
+            <div class="rc-rule"></div>
+            <ul>
+              <li>Baseline</li>
+              <li>Protocol Comparison</li>
+              <li>Bottleneck Analysis</li>
+              <li>Retry Validation</li>
+              <li>Traffic Intervention</li>
+              <li>Reproducibility</li>
+            </ul>
+          </div>
+          <div class="roadmap-col current">
+            <div class="rc-title">Current</div>
+            <div class="rc-rule"></div>
+            <ul>
+              <li>Risk Definition</li>
+            </ul>
+          </div>
+          <div class="roadmap-col next">
+            <div class="rc-title">Next</div>
+            <div class="rc-rule"></div>
+            <ul>
+              <li>With-Risk Experiment</li>
+              <li>Risk Impact Analysis</li>
+            </ul>
+          </div>
+          <div class="roadmap-col future">
+            <div class="rc-title">Future</div>
+            <div class="rc-rule"></div>
+            <ul>
+              <li>Sigmoid Adaptive Routing</li>
+              <li>Statistical Validation</li>
+              <li>Route Selection Optimization</li>
+            </ul>
+          </div>
+        </div>
+        <div class="callout" style="margin-top:16px">This roadmap reflects research status, not a completed timeline — dates are not implied. Completed items are measured and frozen; Current/Next/Future items remain planned or conceptual and carry no numerical results.</div>
       </section>
 
     </div>
