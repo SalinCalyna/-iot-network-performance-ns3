@@ -20,6 +20,7 @@
     <div class="navgroup">
       <div class="glabel">Research</div>
       <div class="navlink" data-target="view-overview"><span class="dot"></span>Overview</div>
+      <div class="navlink" data-target="view-risk-summary"><span class="dot"></span>Risk Summary</div>
       <div class="navlink" data-target="view-realworld"><span class="dot"></span>Real-World Problem</div>
       <div class="navlink" data-target="view-research-questions"><span class="dot"></span>Research Questions</div>
       <div class="navlink" data-target="view-topology"><span class="dot"></span>Experimental Design</div>
@@ -170,6 +171,33 @@
           <div id="health-panel"></div>
           <div class="callout" style="margin-top:14px;font-size:.78rem" id="health-note"></div>
         </div>
+      </section>
+
+      <!-- ============================================================ RISK SUMMARY -->
+      <section class="view" style="padding-top:0" id="view-risk-summary">
+        <div class="section-eyebrow">Performance Risk Classification</div>
+        <div class="badge-row"><span class="tag measured">Without-Risk Baseline — Measured</span></div>
+        <h2 style="font-size:1.1rem">Risk Summary</h2>
+        <p class="lede" style="margin-bottom:14px">A metric-level health check of the completed Without-Risk baseline — which measured conditions look healthy, and which look strained. <strong>This is unrelated to the separate planned With-Risk experiment</strong> (see Risk Experiment) — no risk condition is applied or implied here.</p>
+
+        <div class="filters">
+          <div class="filter-group"><span class="fl">Protocol</span><div id="risk-protocol" style="display:flex;gap:2px"></div></div>
+          <div class="filter-group"><span class="fl">N</span><div id="risk-n" style="display:flex"></div></div>
+        </div>
+        <p class="panel-sub" id="risk-context" style="margin:-6px 0 14px"></p>
+
+        <div class="grid cols-2">
+          <div class="panel risk-card risk-card-high">
+            <div class="panel-head"><h3 style="margin:0">High Risks</h3><span class="tag risk">Needs attention</span></div>
+            <div id="risk-high-list"></div>
+          </div>
+          <div class="panel risk-card risk-card-low">
+            <div class="panel-head"><h3 style="margin:0">Low Risks</h3><span class="tag measured">Healthy</span></div>
+            <div id="risk-low-list"></div>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:14px;font-size:.8rem">Risk levels are derived from the observed simulation performance. PDR and Gateway Airtime reuse this dashboard's existing Network Health thresholds (PDR ≥45% = normal; gateway airtime ≥85%/≥60%/≥35% = critical/congested/degraded). Throughput, Delay, Packet Loss, Routing Overhead, and Path Changes have no predefined thresholds in the research methodology, so each is classified relative to its own median value across all measured baseline conditions (AODV/OLSR/Static × N=10–100) — at or worse than the median is flagged High Risk.</div>
       </section>
 
       <!-- ============================================================ REAL-WORLD APPLICATION -->

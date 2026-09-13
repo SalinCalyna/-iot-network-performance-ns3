@@ -74,6 +74,126 @@ function renderHealth() {
     `Representative near-saturated condition: OLSR, N=100, high traffic (§10 bottleneck characterisation, 11 seeds). Thresholds: gateway airtime ≥85% = critical, ≥60% = congested, ≥35% = degraded, else normal.`;
 }
 
+// ---------------------------------------------------------------- 2b. risk summary
+// Classification method (documented in the UI callout too):
+//  - PDR and Gateway Airtime reuse the existing statusFromPdr/statusFromAirtime
+//    thresholds already used by the Network Health panel above.
+//  - Throughput/Delay/Packet Loss/Routing Overhead/Path Changes have no predefined
+//    threshold in the research methodology, so each is classified relative to its
+//    own median across the full measured Without-Risk baseline (all protocols x
+//    all node counts) -- a transparent, data-derived relative comparison, not an
+//    invented cutoff.
+let riskMedians = null;
+let riskState = { protocol: "olsr", n: 100 };
+
+function median(arr) {
+  const s = [...arr].sort((a, b) => a - b);
+  const mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+}
+function computeRiskMedians() {
+  const fields = ["throughput", "delay", "loss", "routing_overhead", "path_changes"];
+  const all = {}; fields.forEach(f => all[f] = []);
+  ["aodv", "olsr", "static"].forEach(p => {
+    DATA.baseline[p].forEach(d => fields.forEach(f => all[f].push(d[f])));
+  });
+  riskMedians = {};
+  fields.forEach(f => riskMedians[f] = median(all[f]));
+}
+
+function riskItemHtml(item) {
+  const cls = item.level === "HIGH" ? "risk-high" : "risk-low";
+  const icon = item.level === "HIGH" ? "🔴" : "🟢";
+  const levelText = item.level === "HIGH" ? "High — " : "Low Risk — ";
+  return `<div class="risk-item ${cls}">
+    <div class="ri-icon">${icon}</div>
+    <div class="ri-body">
+      <div class="ri-name">${item.label}</div>
+      <div class="ri-value">${item.valueText}</div>
+      <div class="ri-why">${levelText}${item.why}</div>
+    </div>
+  </div>`;
+}
+
+function renderRiskSummary() {
+  if (!riskMedians) computeRiskMedians();
+  const pOpts = ["aodv", "olsr", "static"];
+  const nOpts = [10, 20, 30, 50, 75, 100];
+  pillGroup(document.getElementById("risk-protocol"), pOpts.map(s => s.toUpperCase()), pOpts.indexOf(riskState.protocol),
+    i => { riskState.protocol = pOpts[i]; drawRiskSummary(); });
+  pillGroup(document.getElementById("risk-n"), nOpts.map(String), nOpts.indexOf(riskState.n),
+    i => { riskState.n = nOpts[i]; drawRiskSummary(); });
+  drawRiskSummary();
+}
+
+function drawRiskSummary() {
+  const { protocol, n } = riskState;
+  const cell = DATA.baseline[protocol].find(d => d.n === n);
+  const highEl = document.getElementById("risk-high-list");
+  const lowEl = document.getElementById("risk-low-list");
+  const ctxEl = document.getElementById("risk-context");
+  if (!cell) { // defensive only -- the full baseline grid always covers every protocol x N combination
+    highEl.innerHTML = lowEl.innerHTML = '<p class="panel-sub" style="margin:0">No baseline data for this configuration.</p>';
+    ctxEl.textContent = "";
+    return;
+  }
+
+  const items = [];
+
+  const pdrStatus = statusFromPdr(cell.pdr);
+  items.push({ label: "PDR (Packet Delivery Ratio)", valueText: cell.pdr.toFixed(1) + "%",
+    level: pdrStatus === "normal" ? "LOW" : "HIGH",
+    why: pdrStatus === "normal" ? "reliable packet delivery" : "packet delivery is degraded relative to the healthy-network threshold" });
+
+  items.push({ label: "Throughput", valueText: cell.throughput.toFixed(0) + " kbps",
+    level: cell.throughput <= riskMedians.throughput ? "HIGH" : "LOW",
+    why: cell.throughput <= riskMedians.throughput ? "delivered data rate is at or below the median across measured conditions" : "delivered data rate is above the median across measured conditions" });
+
+  items.push({ label: "Average Delay", valueText: cell.delay.toFixed(0) + " ms",
+    level: cell.delay >= riskMedians.delay ? "HIGH" : "LOW",
+    why: cell.delay >= riskMedians.delay ? "may affect latency-sensitive IoT applications" : "latency is below the median across measured conditions" });
+
+  items.push({ label: "Packet Loss", valueText: cell.loss.toFixed(0) + " pkts",
+    level: cell.loss >= riskMedians.loss ? "HIGH" : "LOW",
+    why: cell.loss >= riskMedians.loss ? "significant packet delivery degradation" : "packet loss is below the median across measured conditions" });
+
+  if (protocol === "olsr") {
+    items.push({ label: "Routing Overhead", valueText: cell.routing_overhead.toFixed(0) + " pkts", level: "LOW",
+      why: "measured as 0 — known instrumentation coverage limitation, not confirmed zero overhead (see Performance Analysis)" });
+  } else {
+    items.push({ label: "Routing Overhead", valueText: cell.routing_overhead.toFixed(0) + " pkts",
+      level: cell.routing_overhead >= riskMedians.routing_overhead ? "HIGH" : "LOW",
+      why: cell.routing_overhead >= riskMedians.routing_overhead ? "control traffic is elevated relative to the median across measured conditions" : "relatively efficient routing overhead" });
+  }
+
+  if (protocol === "static") {
+    items.push({ label: "Path Changes / Routing Stability", valueText: cell.path_changes.toFixed(1), level: "LOW",
+      why: "0 by design — fixed shortest-path tree, routes never change (not a coverage gap)" });
+  } else {
+    items.push({ label: "Path Changes / Routing Stability", valueText: cell.path_changes.toFixed(1),
+      level: cell.path_changes >= riskMedians.path_changes ? "HIGH" : "LOW",
+      why: cell.path_changes >= riskMedians.path_changes ? "frequent route changes indicate routing instability" : "stable routing with few route changes" });
+  }
+
+  if (protocol === "olsr" || protocol === "static") {
+    const bnCell = (DATA.bottleneck[protocol + "-high"] || []).find(d => d.n === n);
+    if (bnCell) {
+      const airStatus = statusFromAirtime(bnCell.gw_airtime);
+      items.push({ label: "Gateway Airtime / Congestion", valueText: (bnCell.gw_airtime * 100).toFixed(0) + "% (high traffic)",
+        level: airStatus === "normal" ? "LOW" : "HIGH",
+        why: airStatus === "normal" ? "gateway channel is not congested" : "gateway channel congestion — primary measurable bottleneck mechanism" });
+    }
+  }
+
+  const high = items.filter(it => it.level === "HIGH");
+  const low = items.filter(it => it.level === "LOW");
+  highEl.innerHTML = high.length ? high.map(riskItemHtml).join("")
+    : '<p class="panel-sub" style="margin:0">No metrics currently flagged as high risk for this configuration.</p>';
+  lowEl.innerHTML = low.length ? low.map(riskItemHtml).join("")
+    : '<p class="panel-sub" style="margin:0">No metrics currently flagged as low risk for this configuration.</p>';
+  ctxEl.textContent = `Showing: ${protocol.toUpperCase()}, N=${n} (Without-Risk baseline, pooled across traffic level and mobility mode).`;
+}
+
 // ---------------------------------------------------------------- 3. topology (main Network Topology section)
 let topoState = { n: 75, protocol: "olsr", traffic: "high", mobility: "static", seed: 20 };
 let topoAnim = { path: [], step: 0, timer: null, playing: false };
@@ -366,6 +486,8 @@ async function main() {
   DATA = await fetch("data/final_research.json").then(r => r.json());
   renderHero();
   renderHealth();
+  computeRiskMedians();
+  renderRiskSummary();
   renderTopoSection();
   renderPerformance();
   renderTrafficLoad();
