@@ -400,9 +400,9 @@ function renderBottleneck() {
   const c1 = document.getElementById("chart-gw-airtime");
   legend(document.getElementById("bn-legend"), [["OLSR / high", "var(--olsr)"], ["Static / high", "var(--static)"]]);
   groupedBar(c1, {
-    olsr: DATA.bottleneck["olsr-high"].map(d => ({ x: d.n, y: d.gw_airtime })),
-    static: DATA.bottleneck["static-high"].map(d => ({ x: d.n, y: d.gw_airtime }))
-  }, { colors: COLORS, yfmt: 2, xlabel: x => `N=${x}` });
+    olsr: DATA.bottleneck["olsr-high"].map(d => ({ x: d.n, y: d.gw_airtime * 100 })),
+    static: DATA.bottleneck["static-high"].map(d => ({ x: d.n, y: d.gw_airtime * 100 }))
+  }, { colors: COLORS, unit: "%", yfmt: 0, xlabel: x => `N=${x}` });
 }
 
 // ---------------------------------------------------------------- 7. hop-based MAC queue chart
@@ -438,6 +438,12 @@ function renderRetry() {
 
 // ---------------------------------------------------------------- 9. V4
 function renderV4() {
+  legend(document.getElementById("v4-tier1-legend"), [["V4 (Sigmoid-weighted)", "var(--v4)"], ["Static", "var(--static)"]]);
+  groupedBar(document.getElementById("chart-v4-tier1-pdr"), {
+    v4: DATA.v4_tier1.map((r, i) => ({ x: `Config${i + 1}`, y: r.pdr_v4 })),
+    static: DATA.v4_tier1.map((r, i) => ({ x: `Config${i + 1}`, y: r.pdr_static }))
+  }, { colors: { v4: "var(--v4)", static: "var(--static)" }, unit: "%", yfmt: 0, xlabel: x => x });
+
   const tbody = document.getElementById("v4-table-body"); tbody.innerHTML = "";
   DATA.v4_tier1.forEach(r => {
     const tr = document.createElement("tr");
@@ -467,7 +473,7 @@ function drawIntervention() {
   const rows = DATA.ratesweep[key];
   legend(document.getElementById("int-legend"), [["PDR", "var(--olsr)"]]);
   lineChart(document.getElementById("chart-int-pdr"), { pdr: rows.map(d => ({ x: d.rate + "k", y: d.pdr })) }, { colors: { pdr: "var(--olsr)" }, unit: "%", yfmt: 0 });
-  lineChart(document.getElementById("chart-int-airtime"), { air: rows.map(d => ({ x: d.rate + "k", y: d.gw_airtime })) }, { colors: { air: "var(--warn)" }, yfmt: 2 });
+  lineChart(document.getElementById("chart-int-airtime"), { air: rows.map(d => ({ x: d.rate + "k", y: d.gw_airtime * 100 })) }, { colors: { air: "var(--warn)" }, unit: "%", yfmt: 0 });
   const delta = rows[rows.length - 1].delta_pdr_pp;
   document.getElementById("int-delta").textContent = `${delta > 0 ? "+" : ""}${delta.toFixed(1)} pp`;
   document.getElementById("int-delta-label").textContent = `PDR change, N=${intN}, 16→4 kbps`;
@@ -475,12 +481,12 @@ function drawIntervention() {
 
 // ---------------------------------------------------------------- 11. static control
 function renderStaticControl() {
-  legend(document.getElementById("sc-legend"), [["OLSR N=75", "var(--olsr)"], ["OLSR N=100", "#2f6fb0"], ["Static N=50", "var(--static)"]]);
+  legend(document.getElementById("sc-legend"), [["OLSR N=75", "var(--olsr)"], ["OLSR N=100", "var(--olsr-2)"], ["Static N=50", "var(--static)"]]);
   lineChart(document.getElementById("chart-static-control"), {
     "OLSR N=75": DATA.ratesweep["olsr-75"].map(d => ({ x: d.rate + "k", y: d.pdr })),
     "OLSR N=100": DATA.ratesweep["olsr-100"].map(d => ({ x: d.rate + "k", y: d.pdr })),
     "Static N=50": DATA.ratesweep["static-50"].map(d => ({ x: d.rate + "k", y: d.pdr }))
-  }, { colors: { "OLSR N=75": "var(--olsr)", "OLSR N=100": "#2f6fb0", "Static N=50": "var(--static)" }, unit: "%", yfmt: 0 });
+  }, { colors: { "OLSR N=75": "var(--olsr)", "OLSR N=100": "var(--olsr-2)", "Static N=50": "var(--static)" }, unit: "%", yfmt: 0 });
 
   const tbody = document.getElementById("diag-table-body"); tbody.innerHTML = "";
   DATA.diagnostic.forEach(r => {

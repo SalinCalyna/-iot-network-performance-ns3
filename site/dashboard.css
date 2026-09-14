@@ -8,7 +8,7 @@
   --planned:#f0a94e; --planned-soft:rgba(240,169,78,.14);
   --bad:#d5555a; --bad-soft:rgba(213,85,90,.14);
   --purple:#7c9cff; --purple-soft:rgba(124,156,255,.13);
-  --olsr:#4d9fff; --static:#2ecc71; --aodv:#f0a94e; --v4:#7c9cff;
+  --olsr:#4d9fff; --olsr-2:#2f6fb0; --static:#2ecc71; --aodv:#f0a94e; --v4:#7c9cff;
   --radius-sm:5px; --radius:8px; --radius-lg:10px;
   --shadow: 0 1px 2px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.35);
   --sidebar-w: 252px;

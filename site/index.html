@@ -197,7 +197,7 @@
           </div>
         </div>
 
-        <div class="callout" style="margin-top:14px;font-size:.8rem">Risk levels are derived from the observed simulation performance. PDR and Gateway Airtime reuse this dashboard's existing Network Health thresholds (PDR ≥45% = normal; gateway airtime ≥85%/≥60%/≥35% = critical/congested/degraded). Throughput, Delay, Packet Loss, Routing Overhead, and Path Changes have no predefined thresholds in the research methodology, so each is classified relative to its own median value across all measured baseline conditions (AODV/OLSR/Static × N=10–100) — at or worse than the median is flagged High Risk.</div>
+        <div class="callout" style="margin-top:14px;font-size:.8rem">Risk levels are derived from the observed simulation performance. PDR and Gateway Airtime reuse this dashboard's existing Network Health thresholds (PDR ≥45% = normal; gateway airtime ≥85%/≥60%/≥35% = critical/congested/degraded). Throughput, Delay, Packet Loss, Routing Overhead, and Path Changes have no predefined thresholds in the research methodology, so each is classified relative to its own median value across all measured baseline conditions (AODV/OLSR/Static × N=10–100) — at or worse than the median is flagged High Risk. V4/Sigmoid is not offered as a Protocol option here because its datasets don't yet have the full per-protocol metric set (Throughput, Delay, Packet Loss, Routing Overhead, Path Changes) needed for consistent risk classification, unlike AODV/OLSR/Static.</div>
       </section>
 
       <!-- ============================================================ REAL-WORLD APPLICATION -->
@@ -306,6 +306,13 @@
         <div class="panel rw-why">
           <h3>Why this matters</h3>
           <p style="color:var(--text-dim);font-size:.85rem;margin:0">The geographic scenario provides a realistic application context for the network model. The actual performance results presented in this dashboard are generated from NS-3 simulations and should be interpreted as simulation evidence rather than physical measurements.</p>
+        </div>
+
+        <div class="panel" style="margin-top:18px">
+          <h3 style="font-size:.85rem">Wireless network infrastructure — illustrative context</h3>
+          <img src="images/wireless-infrastructure-context.jpg" alt="Rooftop telecommunication antennas — generic wireless network infrastructure, illustrative context only" style="width:100%;border-radius:var(--radius-sm);border:1px solid var(--border);margin:10px 0;display:block">
+          <div class="callout warn" style="margin-top:0">Illustrative context — generic wireless network infrastructure. <strong>Not a photo of the simulated network studied in this research</strong>, which is a pure NS-3 simulation with no physical deployment.</div>
+          <p style="font-size:.72rem;color:var(--text-faint);margin:10px 0 0">Photo by Seyfettin Geçit, via <a href="https://www.pexels.com/photo/antennas-in-city-17869674/" target="_blank" rel="noopener">Pexels</a> (Pexels License — free to use).</p>
         </div>
 
         <div class="panel" style="margin-top:18px">
@@ -700,7 +707,7 @@
           <div class="flow-node bad">High traffic → Near-saturation</div>
         </div>
         <div id="traffic-legend"></div>
-        <div class="panel"><div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div><h3>PDR by Traffic Level</h3><div class="chart-wrap" id="chart-traffic-load"></div></div>
+        <div class="panel"><div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div><h3>PDR by Traffic Level</h3><p class="panel-sub">% of packets delivered, Low/Medium/High offered traffic, pooled across node count and mobility</p><div class="chart-wrap" id="chart-traffic-load"></div></div>
       </section>
 
       <!-- ============================================================ BOTTLENECK -->
@@ -857,8 +864,8 @@
 
         <div class="filters"><div class="filter-group"><span class="fl">OLSR, N=</span><div id="int-n" style="display:flex"></div></div></div>
         <div class="grid cols-2">
-          <div class="panel"><div id="int-legend"></div><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-pdr"></div></div>
-          <div class="panel"><h3>Gateway Airtime vs. Offered Rate</h3><div class="chart-wrap" id="chart-int-airtime"></div></div>
+          <div class="panel"><div id="int-legend"></div><h3>PDR vs. Offered Rate</h3><p class="panel-sub">% of packets delivered as offered rate is reduced, OLSR</p><div class="chart-wrap" id="chart-int-pdr"></div></div>
+          <div class="panel"><h3>Gateway Airtime vs. Offered Rate</h3><p class="panel-sub">% channel-busy time at the gateway, OLSR</p><div class="chart-wrap" id="chart-int-airtime"></div></div>
         </div>
         <div class="panel" style="margin-top:16px;text-align:center">
           <div class="num" style="font-size:2.2rem;font-weight:800;color:var(--ok)" id="int-delta">—</div>
@@ -876,7 +883,7 @@
         <p class="lede">OLSR improves at high node densities. Static at N=50 shows a flat-to-negative response.</p>
 <div class="key-finding"><span class="kf-label">Key Finding</span>The intervention is protocol- and load-dependent — Static/N=50 shows no comparable PDR improvement despite the same congestion relief.</div>
         <div id="sc-legend"></div>
-        <div class="panel"><h3>PDR vs. Offered Rate</h3><div class="chart-wrap" id="chart-static-control"></div></div>
+        <div class="panel"><h3>PDR vs. Offered Rate</h3><p class="panel-sub">% of packets delivered as offered rate is reduced — OLSR (2 node counts) vs. Static</p><div class="chart-wrap" id="chart-static-control"></div></div>
         <div class="callout warn" style="margin:16px 0">Intervention effectiveness is protocol- and load-dependent. Static/N=50 PDR does not improve with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>−7.6 percentage points</strong>). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss.</div>
         <div class="panel">
           <h3>Residual-loss diagnostic — all 12 runs</h3>
@@ -1045,6 +1052,12 @@
         <div class="insight-card secondary" style="margin-bottom:18px">
           <div class="k">Research result</div>
           Routing activation ≠ performance improvement. The adaptive routing mechanism changed routing behaviour under selected conditions, but did not produce credible overall performance improvement relative to Static. This is treated as a valid scientific negative result, not a failed implementation.
+        </div>
+        <div class="panel" style="margin-bottom:16px">
+          <h3 style="font-size:.85rem">PDR by Configuration — V4 vs. Static</h3>
+          <p class="panel-sub">% of packets delivered, 6 activation-screen configurations, N=50 medium traffic (11 seeds each)</p>
+          <div id="v4-tier1-legend"></div>
+          <div class="chart-wrap" id="chart-v4-tier1-pdr"></div>
         </div>
         <div class="panel">
           <table class="data">
