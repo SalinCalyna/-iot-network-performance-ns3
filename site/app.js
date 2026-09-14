@@ -447,6 +447,15 @@ function renderV4() {
   });
 }
 
+// ---------------------------------------------------------------- 9b. V4 matched-condition comparison
+function renderV4Matched() {
+  legend(document.getElementById("v4-matched-legend"), [["V4 (Sigmoid-weighted)", "var(--v4)"], ["Static", "var(--static)"]]);
+  groupedBar(document.getElementById("chart-v4-matched-pdr"), {
+    v4: DATA.v4_matched.map(d => ({ x: d.n, y: d.pdr_v4 })),
+    static: DATA.v4_matched.map(d => ({ x: d.n, y: d.pdr_static }))
+  }, { colors: { v4: "var(--v4)", static: "var(--static)" }, unit: "%", yfmt: 0, xlabel: x => `N=${x}` });
+}
+
 // ---------------------------------------------------------------- 10. intervention
 let intN = 100;
 function renderIntervention() {
@@ -495,6 +504,7 @@ async function main() {
   renderHopChart();
   renderRetry();
   renderV4();
+  renderV4Matched();
   renderIntervention();
   renderStaticControl();
   if (typeof initRealWorldSection === "function") initRealWorldSection(DATA);

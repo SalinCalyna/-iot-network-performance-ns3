@@ -59,6 +59,19 @@ const PRESETS = [
           GROUP BY v.sigmoid_x0_risk, v.sigmoid_x0_load ORDER BY mean_hop_count DESC;`
   },
   {
+    label: "V4 sensitivity: k_risk × k_load × weight vs. path changes",
+    sql: `SELECT v.sigmoid_k_risk, v.sigmoid_k_load, v.weight_risk, v.weight_load, COUNT(*) AS seeds,
+                 ROUND(AVG(v.path_changes),2) AS path_changes_mean,
+                 ROUND(AVG(v.max_link_utilization),3) AS mlu_mean,
+                 ROUND(AVG(pm.pdr),2) AS pdr_mean_pct
+          FROM experiments e
+          JOIN v4_routing_metrics v ON e.experiment_id = v.experiment_id
+          JOIN performance_metrics pm ON e.experiment_id = pm.experiment_id
+          WHERE e.phase = 'v4_sensitivity'
+          GROUP BY v.sigmoid_k_risk, v.sigmoid_k_load, v.weight_risk, v.weight_load
+          ORDER BY path_changes_mean DESC;`
+  },
+  {
     label: "Reproducibility: pass/fail summary by dataset",
     sql: `SELECT dataset, status, COUNT(*) AS n FROM reproducibility_checks
           GROUP BY dataset, status ORDER BY dataset, status;`

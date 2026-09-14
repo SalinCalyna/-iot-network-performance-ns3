@@ -556,7 +556,7 @@
           </table>
           <div class="grid cols-3" style="margin-top:16px">
             <div class="insight-card"><div class="k">Official V3 configuration</div>AODV / OLSR / Static, all 6 node counts, all 3 traffic levels, all 3 mobility modes, Seed 20–30, 300s — 1,782 completed runs.</div>
-            <div class="insight-card secondary"><div class="k">Existing V4 / Sigmoid evidence</div>Fixed sigmoid config vs. Static (594 runs) plus a 6-configuration activation screen (66 runs) at N=50, medium traffic, static mobility only.</div>
+            <div class="insight-card secondary"><div class="k">Existing V4 / Sigmoid evidence</div>Sigmoid-weighted adaptive routing (V4) vs. Static — 957 completed runs total: 594 matched-condition runs across the full 6 node-count × 3 traffic × 3 mobility grid (11 seeds each, same condition space as the V3 baseline), a 27-configuration parameter sensitivity sweep (297 runs), and a 6-configuration activation screen (66 runs) — the latter two at N=50, medium traffic, static mobility only.</div>
             <div class="insight-card" style="border-color:var(--v4)"><div class="k" style="color:var(--v4)">Future Sigmoid metric direction</div>No experiments completed yet — see Adaptive Routing section for the proposed research pipeline.</div>
           </div>
         </div>
@@ -1053,6 +1053,14 @@
           </table>
         </div>
         <div class="callout warn" style="margin-top:16px">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, not statistically credible (sign-test p=1.0), while delay worsened 21.6% and link utilisation worsened 42.8%. This evidence motivates further study of the routing metric (part B, below) — it is not itself a validated result of the Sigmoid routing metric proposed there.</div>
+
+        <div class="panel" style="margin-top:20px">
+          <div class="panel-head"><h3>Matched-Condition Comparison — V4 vs. Static</h3><span class="metric-status measured">✓ Measured</span></div>
+          <p class="panel-sub">594 runs across the full 6 node-count × 3 traffic × 3 mobility grid, 11 seeds per cell — the same condition space as the V3 baseline (pooled across traffic level and mobility mode, matching that chart's convention), not limited to N=50.</p>
+          <div id="v4-matched-legend"></div>
+          <div class="chart-wrap" id="chart-v4-matched-pdr"></div>
+          <p class="panel-sub" style="margin-top:10px;margin-bottom:0">Throughput was not captured for this dataset (recorded as empty in the source export) — PDR is the only metric available here.</p>
+        </div>
 
         <!-- ============================ B. RESEARCH DIRECTION ============================ -->
         <div class="badge-row" style="margin-top:40px"><span class="tag" style="background:var(--purple-soft);color:var(--v4)">B · V3 Research Direction — Sigmoid Routing Metric</span><span class="tag direction">→ FUTURE ADAPTIVE ROUTING RESEARCH</span></div>
