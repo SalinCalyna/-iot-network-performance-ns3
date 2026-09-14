@@ -224,6 +224,7 @@ svg.chart text{fill:var(--text-faint);font-size:10px}
 .flow-node.good{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
 .flow-arrow{color:var(--text-faint);font-size:1.1rem;padding:4px 0}
 .flowchart.horizontal .flow-arrow{padding:0 10px}
+.flow-marker{position:absolute;top:0;left:0;width:11px;height:11px;border-radius:50%;background:#ffe066;border:1.5px solid #0d1117;box-shadow:0 0 0 3px rgba(255,224,102,.22);transform:translate(-50%,-50%);transition:left .4s ease,top .4s ease;pointer-events:none;z-index:5;display:none}
 
 /* ---------- tables ---------- */
 table.data{width:100%;border-collapse:collapse;font-size:.82rem}

@@ -341,6 +341,85 @@ function stepTraversal() {
   renderTraversalFrame();
 }
 
+// ---------------------------------------------------------------- 3b. "How the network works" pipeline animation
+// Illustrative only -- entirely separate from Route Traversal above (own state, own DOM ids,
+// no shared variables). Positions two markers along the existing flow-node rows using their
+// live DOM layout (getBoundingClientRect), not topology/coordinate data. Same play/pause/step/
+// reset pattern as Route Traversal, but motion comes from a CSS transition on left/top rather
+// than manual per-frame interpolation, since these are discrete flex boxes, not SVG coordinates.
+let pipelineAnim = { step: 0, maxStep: 4, timer: null, playing: false, started: false };
+
+function positionMarkerAlongRow(markerEl, nodeEls, progress) {
+  if (!markerEl || !nodeEls.length) return;
+  const n = nodeEls.length;
+  const clamped = Math.max(0, Math.min(progress, 1)) * (n - 1);
+  const i0 = Math.floor(clamped), i1 = Math.min(i0 + 1, n - 1), frac = clamped - i0;
+  const containerRect = markerEl.parentElement.getBoundingClientRect();
+  const r0 = nodeEls[i0].getBoundingClientRect(), r1 = nodeEls[i1].getBoundingClientRect();
+  const x0 = r0.left + r0.width / 2 - containerRect.left, y0 = r0.top + r0.height / 2 - containerRect.top;
+  const x1 = r1.left + r1.width / 2 - containerRect.left, y1 = r1.top + r1.height / 2 - containerRect.top;
+  markerEl.style.left = (x0 + (x1 - x0) * frac) + "px";
+  markerEl.style.top = (y0 + (y1 - y0) * frac) + "px";
+}
+
+function renderPipelineFrame() {
+  const row1 = [...document.querySelectorAll("#flow-row-1 .flow-node")];
+  const row2 = [...document.querySelectorAll("#flow-row-2 .flow-node")];
+  const m1 = document.getElementById("flow-marker-1"), m2 = document.getElementById("flow-marker-2");
+  const visible = pipelineAnim.started && (pipelineAnim.playing || pipelineAnim.step > 0);
+  if (m1) m1.style.display = visible ? "block" : "none";
+  if (m2) m2.style.display = visible ? "block" : "none";
+  if (visible) {
+    const progress = pipelineAnim.step / pipelineAnim.maxStep;
+    positionMarkerAlongRow(m1, row1, progress);
+    positionMarkerAlongRow(m2, row2, progress);
+  }
+  const caption = document.getElementById("pipeline-caption");
+  if (caption) {
+    if (!pipelineAnim.started) caption.textContent = "Press Play to begin.";
+    else if (pipelineAnim.step >= pipelineAnim.maxStep) caption.textContent = "Illustrative animation — reached the sink / server.";
+    else caption.textContent = "Illustrative animation — stage " + (pipelineAnim.step + 1) + " of " + (pipelineAnim.maxStep + 1) + ".";
+  }
+}
+function playPipeline() {
+  pipelineAnim.started = true;
+  if (pipelineAnim.playing) return;
+  pipelineAnim.playing = true;
+  pipelineAnim.timer = setInterval(function () {
+    pipelineAnim.step += 1;
+    if (pipelineAnim.step >= pipelineAnim.maxStep) { pipelineAnim.step = pipelineAnim.maxStep; pausePipeline(); }
+    renderPipelineFrame();
+  }, 900);
+  renderPipelineFrame();
+}
+function pausePipeline() {
+  pipelineAnim.playing = false;
+  if (pipelineAnim.timer) { clearInterval(pipelineAnim.timer); pipelineAnim.timer = null; }
+}
+function stepPipeline() {
+  pausePipeline();
+  pipelineAnim.started = true;
+  pipelineAnim.step = Math.min(pipelineAnim.step + 1, pipelineAnim.maxStep);
+  renderPipelineFrame();
+}
+function resetPipeline() {
+  pausePipeline();
+  pipelineAnim.step = 0;
+  pipelineAnim.started = false;
+  renderPipelineFrame();
+}
+function initPipelineAnimation() {
+  const playBtn = document.getElementById("pipeline-play");
+  const pauseBtn = document.getElementById("pipeline-pause");
+  const stepBtn = document.getElementById("pipeline-step");
+  const resetBtn = document.getElementById("pipeline-reset");
+  if (playBtn) playBtn.addEventListener("click", playPipeline);
+  if (pauseBtn) pauseBtn.addEventListener("click", pausePipeline);
+  if (stepBtn) stepBtn.addEventListener("click", stepPipeline);
+  if (resetBtn) resetBtn.addEventListener("click", resetPipeline);
+  renderPipelineFrame();
+}
+
 // ---------------------------------------------------------------- 4. performance charts
 let perfProtocols = { aodv: true, olsr: true, static: true };
 function renderPerformance() {
@@ -504,6 +583,7 @@ async function main() {
   computeRiskMedians();
   renderRiskSummary();
   renderTopoSection();
+  initPipelineAnimation();
   renderPerformance();
   renderTrafficLoad();
   renderBottleneck();

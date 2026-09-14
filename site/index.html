@@ -532,19 +532,29 @@
 
         <div class="panel" style="margin-top:20px">
           <h3>How the network works</h3>
-          <div class="flowchart horizontal" style="margin:14px 0">
+          <p class="panel-sub" style="margin:4px 0 12px">Illustrative animation — shows the conceptual data flow through the pipeline stages. Not a real-time capture of network activity or an NS-3 simulation replay.</p>
+          <div class="flowchart horizontal" style="margin:14px 0;position:relative" id="flow-row-1">
             <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
             <div class="flow-node">Intermediate Node</div><div class="flow-arrow">→</div>
             <div class="flow-node">Intermediate Node</div><div class="flow-arrow">→</div>
             <div class="flow-node">Gateway</div><div class="flow-arrow">→</div>
             <div class="flow-node good">Sink / Server</div>
+            <div class="flow-marker" id="flow-marker-1"></div>
           </div>
-          <div class="flowchart horizontal" style="margin:14px 0">
+          <div class="flowchart horizontal" style="margin:14px 0;position:relative" id="flow-row-2">
             <div class="flow-node">Data Generation</div><div class="flow-arrow">→</div>
             <div class="flow-node">Multi-hop Forwarding</div><div class="flow-arrow">→</div>
             <div class="flow-node">Gateway Aggregation</div><div class="flow-arrow">→</div>
             <div class="flow-node good">Performance Measurement</div>
+            <div class="flow-marker" id="flow-marker-2"></div>
           </div>
+          <div class="filters" style="margin:14px 0 4px">
+            <button class="pill" id="pipeline-play">▶ Play</button>
+            <button class="pill" id="pipeline-pause">⏸ Pause</button>
+            <button class="pill" id="pipeline-step">Step Forward</button>
+            <button class="pill" id="pipeline-reset">↻ Reset</button>
+          </div>
+          <div style="font-size:.78rem;color:var(--text-dim)" id="pipeline-caption">Press Play to begin.</div>
         </div>
 
         <div class="panel" style="margin-top:20px">
