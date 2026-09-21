@@ -80,6 +80,57 @@ def load_all_csv():
     return combined, problems
 
 
+# Some per-run metrics are UNDEFINED -- not zero -- for a run in which no data
+# packet was received: average delay and jitter are (sum over received
+# packets) / (received packets), and the approximate hop count is
+# 1 + timesForwarded / received. With PacketsReceived == 0 the simulator writes
+# the placeholder 0.0 into the CSV (scratch/iot-network-v3-ext.cc: the
+# `totalRx > 0 ? ... : 0.0` guards). That 0 is not a measurement, so it must not
+# enter a mean/SD/CI. The raw CSVs and research.db keep the stored 0 untouched;
+# the exclusion happens here, at aggregation time, per metric, and the valid n
+# is always reported next to the total. PDR, throughput and packet loss are
+# genuinely 0 for such a run and are never excluded.
+#
+# Hop count is exempt when HopCountMethod == "exact" (Static routing): that value
+# is computed from the fixed route tree, independent of deliveries, so it stays
+# defined even when nothing was received.
+_UNDEFINED_WHEN_NO_RX = ("AverageDelaySec", "AverageJitterSec", "AverageHopCount")
+
+
+def _undefined_mask(df, col):
+    """Boolean Series, True where metric `col` is undefined for that run."""
+    no_rx = pd.to_numeric(df["PacketsReceived"], errors="coerce") == 0
+    if col in ("AverageDelaySec", "AverageJitterSec"):
+        return no_rx
+    if col == "AverageHopCount" and "HopCountMethod" in df.columns:
+        return no_rx & (df["HopCountMethod"] != "exact")
+    return pd.Series(False, index=df.index)
+
+
+def _valid_values(df, col):
+    """The DEFINED observations of `col` as floats. A metric that can never be
+    undefined (PDR, throughput, loss, ...) is returned untouched -- exactly the
+    pre-existing computation, with no mask built."""
+    if col not in _UNDEFINED_WHEN_NO_RX:
+        return df[col].astype(float)
+    return df.loc[~_undefined_mask(df, col), col].astype(float)
+
+
+def _mean_sd_ci95(values):
+    """(n, mean, sd, ci95, df, t) over the valid observations only. n<2 has no CI
+    (never fabricated as 0); n==0 has no mean either."""
+    n = int(len(values))
+    if n == 0:
+        return n, None, None, None, None, None
+    mean = float(values.mean())
+    std = float(values.std(ddof=1)) if n > 1 else 0.0
+    if pd.isna(std):
+        std = 0.0
+    tcrit = _t_critical_95(n)
+    ci95 = (tcrit * std / (n ** 0.5)) if (tcrit is not None and n > 1) else None
+    return n, mean, std, ci95, (n - 1 if n > 1 else None), tcrit
+
+
 def apply_filters(df, protocol, nodes, trial):
     if protocol and protocol != "all":
         df = df[df["RoutingProtocol"].str.lower() == protocol.lower()]
@@ -208,6 +259,10 @@ def api_rows():
 
 @app.route("/api/summary")
 def api_summary():
+    """Groups V2 baseline rows by (protocol, nodes) and reports mean/std/95%
+    CI across the PosSeed trials present for that cell (5 per cell in this
+    track, not the V3-ext 20-30 seed range -- see api_v3ext_summary). Same
+    Student's-t method as V3-ext (_t_critical_95), just a different n."""
     df, _ = load_all_csv()
     df = apply_filters(
         df, request.args.get("protocol"), request.args.get("nodes"), request.args.get("trial")
@@ -217,34 +272,27 @@ def api_summary():
 
     out = []
     for (protocol, nodes), g in df.groupby(["RoutingProtocol", "NumberOfNodes"]):
-
-        def mean_std(col):
-            mean = float(g[col].mean())
-            std = float(g[col].std(ddof=1)) if len(g) > 1 else 0.0
-            if pd.isna(std):
-                std = 0.0
-            return mean, std
-
-        pdr_mean, pdr_std = mean_std("PDR")
-        thr_mean, thr_std = mean_std("ThroughputKbps")
-        delay_mean, delay_std = mean_std("AverageDelaySec")
-        loss_mean, loss_std = mean_std("PacketLoss")
-
-        out.append(
-            {
-                "protocol": protocol,
-                "nodes": int(nodes),
-                "trials": int(len(g)),
-                "pdrMean": pdr_mean,
-                "pdrStd": pdr_std,
-                "throughputMean": thr_mean,
-                "throughputStd": thr_std,
-                "delayMean": delay_mean,
-                "delayStd": delay_std,
-                "lossMean": loss_mean,
-                "lossStd": loss_std,
-            }
-        )
+        n = int(len(g))
+        row = {"protocol": protocol, "nodes": int(nodes), "trials": n}
+        # Each metric on its own valid observations. Only delay is undefined
+        # for a no-packets-received trial (V2 has no jitter/hop columns); PDR,
+        # throughput and loss keep every trial (n stays = trials).
+        for col, key in (
+            ("PDR", "pdr"),
+            ("ThroughputKbps", "throughput"),
+            ("AverageDelaySec", "delay"),
+            ("PacketLoss", "loss"),
+        ):
+            valid = _valid_values(g, col)
+            n_valid, mean, std, ci95, df_, tcrit = _mean_sd_ci95(valid)
+            row[f"{key}Mean"] = mean
+            row[f"{key}Std"] = std
+            row[f"{key}Ci95"] = ci95
+            row[f"{key}N"] = n_valid
+            row[f"{key}Excluded"] = n - n_valid
+            row[f"{key}Df"] = df_
+            row[f"{key}TCritical"] = tcrit
+        out.append(row)
 
     out.sort(key=lambda r: (r["nodes"], r["protocol"]))
     return jsonify(out)
@@ -302,12 +350,18 @@ def api_file_detail(filename):
     numeric_cols = ["PacketsSent", "PacketsReceived", "PacketLoss", "PDR", "ThroughputKbps", "AverageDelaySec"]
     stats = {}
     for col in numeric_cols:
-        series = df[col]
+        # Undefined observations (delay of a no-packets-received trial) are left
+        # out of that metric's statistics; `n` says how many were used.
+        series = df.loc[~_undefined_mask(df, col), col]
+        if series.empty:
+            stats[col] = {"mean": None, "std": None, "min": None, "max": None, "n": 0}
+            continue
         stats[col] = {
             "mean": float(series.mean()),
             "std": float(series.std(ddof=1)) if len(series) > 1 else 0.0,
             "min": float(series.min()),
             "max": float(series.max()),
+            "n": int(len(series)),
         }
         if pd.isna(stats[col]["std"]):
             stats[col]["std"] = 0.0
@@ -468,6 +522,38 @@ def apply_v3ext_filters(df, nodes, traffic, mobility, routing, duration=None):
     return df
 
 
+# Official V3 Baseline runs are defined strictly as Seed 20-30 inclusive
+# (advisor-specified 2026-08-26 -- see docs/v3-experiment-framework.md and
+# experiments/run_v3_experiments.py). Every other row in results/v3-ext/*.csv
+# -- Seed 1/2 validation runs, Seed 99, and short-duration smoke tests -- is
+# legacy/non-official data. It stays on disk untouched and remains reachable
+# through the "all" and "legacy" seed ranges below, but the DEFAULT aggregation
+# counts only Seed 20-30 so every official cell aggregates exactly its 11 seeds
+# and nothing else (this is what fixed the six aodv/medium/static cells that
+# otherwise picked up a stray Seed 1 run sharing Duration 300 s).
+V3EXT_OFFICIAL_SEED_LOW = 20
+V3EXT_OFFICIAL_SEED_HIGH = 30
+
+
+def _v3ext_official_mask(df):
+    seeds = pd.to_numeric(df["Seed"], errors="coerce")
+    return seeds.between(V3EXT_OFFICIAL_SEED_LOW, V3EXT_OFFICIAL_SEED_HIGH)
+
+
+def apply_v3ext_seed_range(df, seed_range):
+    """seed_range: 'official' (default) keeps only Seed 20-30; 'legacy' keeps
+    only rows outside that range; 'all' keeps everything. An unrecognised value
+    falls back to 'official' -- the safe default -- rather than silently
+    returning the full mixed set. Never mutates or drops the underlying CSVs;
+    this is a per-request view filter only."""
+    if df.empty or seed_range == "all":
+        return df
+    mask = _v3ext_official_mask(df)
+    if seed_range == "legacy":
+        return df[~mask]
+    return df[mask]
+
+
 @app.route("/api/v3ext/meta")
 def api_v3ext_meta():
     df, problems = load_v3ext_csv()
@@ -514,6 +600,10 @@ def api_v3ext_rows():
         request.args.get("routing"),
         request.args.get("duration"),
     )
+    # Per-run rows honour the same seed-range view as the summary (default
+    # 'official' = Seed 20-30). 'all' or 'legacy' surface the legacy/smoke
+    # rows individually -- they are never removed from results/v3-ext/*.csv.
+    df = apply_v3ext_seed_range(df, request.args.get("seedRange", "official"))
     if df.empty:
         return jsonify([])
     view = df.rename(
@@ -570,12 +660,14 @@ V3EXT_METRICS = [
 
 @app.route("/api/v3ext/summary")
 def api_v3ext_summary():
-    """Groups filtered rows by (protocol, nodes, traffic, mobility) and
-    computes mean/std/95% CI across whatever seeds are actually present for
-    that group. n (seed count) is always reported alongside -- a CI computed
-    from n=1-2 seeds (all this project has run as of the last validation
-    pass) is statistically weak, and the frontend is expected to display n
-    so nobody mistakes a low-n CI for a settled result."""
+    """Groups filtered rows by (protocol, nodes, traffic, mobility, duration)
+    and computes mean/std/95% CI across the seeds present for that group. n
+    (seed count) is always reported alongside.
+
+    The `seedRange` query param controls which seeds are in scope and
+    defaults to 'official' -- Seed 20-30 only -- so every official cell
+    aggregates exactly its 11 seeds. 'all' includes legacy/smoke rows;
+    'legacy' isolates them. The underlying CSVs are never changed."""
     df, _ = load_v3ext_csv()
     df = apply_v3ext_filters(
         df,
@@ -585,6 +677,7 @@ def api_v3ext_summary():
         request.args.get("routing"),
         request.args.get("duration"),
     )
+    df = apply_v3ext_seed_range(df, request.args.get("seedRange", "official"))
     if df.empty:
         return jsonify([])
 
@@ -611,19 +704,120 @@ def api_v3ext_summary():
             "hopCountMethod": g["HopCountMethod"].iloc[0] if not g.empty else None,
         }
         for col, key in V3EXT_METRICS:
-            series = g[col].astype(float)
-            mean = float(series.mean())
-            std = float(series.std(ddof=1)) if n > 1 else 0.0
-            if pd.isna(std):
-                std = 0.0
-            tcrit = _t_critical_95(n)
-            ci95 = (tcrit * std / (n ** 0.5)) if (tcrit is not None and n > 1) else None
+            # Each metric on its own valid observations (see _undefined_mask):
+            # n_valid, df = n_valid - 1 and t(0.975, df) are per metric. `n`
+            # above stays the number of seeds in the cell; `<key>N` is how many
+            # of them this metric could use, `<key>Excluded` the difference.
+            series = _valid_values(g, col)
+            n_valid, mean, std, ci95, df_, tcrit = _mean_sd_ci95(series)
             row[f"{key}Mean"] = mean
             row[f"{key}Std"] = std
             row[f"{key}Ci95"] = ci95
+            row[f"{key}N"] = n_valid
+            row[f"{key}Excluded"] = n - n_valid
+            row[f"{key}Df"] = df_
+            row[f"{key}TCritical"] = tcrit
         out.append(row)
 
     out.sort(key=lambda r: (r["nodes"], r["protocol"], r["traffic"], r["mobility"], r["duration"]))
+    return jsonify(out)
+
+
+@app.route("/api/v3ext/marginal")
+def api_v3ext_marginal():
+    """Seed-level 95% CI for a line-chart point that spans several
+    traffic x mobility cells.
+
+    /api/v3ext/summary gives one CI per (protocol, nodes, traffic, mobility,
+    duration) cell. A chart point that averages several such cells has no valid
+    CI if it is built from those cell means (or from their pooled runs, which
+    mixes between-condition variance into the spread). The valid seed-level
+    observation for such a point is: for each seed, the mean of that seed's runs
+    across the selected cells -- one number per seed. The CI is then the usual
+    two-sided Student's t interval across those per-seed numbers:
+
+        mean = average of the n seed values          (n = 11 official seeds)
+        SE   = sample SD (ddof=1) / sqrt(n)
+        CI95 = t(0.975, df = n-1) * SE                (df = 10, t = 2.228)
+
+    Groups by (protocol, nodes, duration) -- the same grain the line chart
+    plots. Only *balanced* groups get statistics: every seed must contribute
+    exactly the same set of (traffic, mobility) cells, which is what makes the
+    mean of the per-seed values equal the chart's mean-of-cell-means line. An
+    unbalanced group (e.g. the legacy Seed 1/2/99 rows under seedRange=all)
+    is returned with balanced=false and no statistics rather than a fabricated
+    interval. Raw CIs are returned unclamped; any physical-bound clamping is a
+    display-only concern handled by the front end.
+
+    Undefined metrics (delay / jitter / approximate hop count of a run that
+    received no packets -- see _undefined_mask) are handled per metric by
+    complete-case exclusion of the affected seed: `<key>N` is the number of valid
+    seeds, `<key>ExcludedSeeds` lists the dropped ones, `<key>Df` / `<key>TCritical`
+    follow from n_valid. The row-level n/df/tCritical describe the design's seeds.
+    Read-only.
+    """
+    df, _ = load_v3ext_csv()
+    df = apply_v3ext_filters(
+        df,
+        request.args.get("nodes"),
+        request.args.get("traffic"),
+        request.args.get("mobility"),
+        request.args.get("routing"),
+        request.args.get("duration"),
+    )
+    df = apply_v3ext_seed_range(df, request.args.get("seedRange", "official"))
+    if df.empty:
+        return jsonify([])
+
+    out = []
+    for (protocol, nodes, duration), g in df.groupby(["RoutingProtocol", "NumberOfNodes", "Duration"]):
+        cells_by_seed = {}
+        for seed, traffic, mobility in zip(g["Seed"], g["TrafficLevel"], g["MobilityMode"]):
+            cells_by_seed.setdefault(int(seed), []).append((traffic, mobility))
+        cell_sets = {tuple(sorted(cells)) for cells in cells_by_seed.values()}
+        # Balanced: one shared cell set, and no seed contributes a cell twice.
+        balanced = len(cell_sets) == 1 and all(
+            len(cells) == len(set(cells)) for cells in cells_by_seed.values()
+        )
+        n = len(cells_by_seed)
+        row = {
+            "protocol": protocol,
+            "nodes": int(nodes),
+            "duration": float(duration),
+            "n": n,
+            "df": n - 1 if n > 1 else None,
+            "cells": len(next(iter(cell_sets))) if balanced else None,
+            "balanced": bool(balanced),
+            "tCritical": _t_critical_95(n),
+        }
+        if balanced:
+            for col, key in V3EXT_METRICS:
+                # Complete-case by seed, per metric: a seed in which ANY of the
+                # averaged runs has this metric undefined (no packets received)
+                # is left out of this metric entirely, so every remaining
+                # per-seed value is an average over the same full set of cells
+                # (the seed blocking is kept). Nothing is imputed and n is not
+                # restored: n_valid, df = n_valid - 1 and t(0.975, df) are per
+                # metric. Metrics with no undefined runs are unchanged.
+                bad_seeds = (
+                    sorted({int(s) for s in g.loc[_undefined_mask(g, col), "Seed"]})
+                    if col in _UNDEFINED_WHEN_NO_RX
+                    else []
+                )
+                gv = g[~g["Seed"].isin(bad_seeds)] if bad_seeds else g
+                per_seed = gv.groupby("Seed")[col].mean().astype(float)  # one value per valid seed
+                n_valid, mean, std, ci95, df_, tcrit = _mean_sd_ci95(per_seed)
+                row[f"{key}Mean"] = mean
+                row[f"{key}Std"] = std
+                row[f"{key}Ci95"] = ci95
+                row[f"{key}N"] = n_valid
+                row[f"{key}Excluded"] = n - n_valid
+                row[f"{key}ExcludedSeeds"] = bad_seeds
+                row[f"{key}Df"] = df_
+                row[f"{key}TCritical"] = tcrit
+        out.append(row)
+
+    out.sort(key=lambda r: (r["nodes"], r["protocol"], r["duration"]))
     return jsonify(out)
 
 

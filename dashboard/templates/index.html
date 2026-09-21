@@ -207,6 +207,11 @@
           <code>results/*.csv</code> data as the interactive chart above &mdash; regenerate with
           <code>./experiments/run_and_analyze.sh</code>. These are the pipeline's saved output, distinct
           from the live Chart.js chart (which recomputes on every filter change).
+          <strong>Error bars in these static plots are &plusmn;1 sample standard deviation across the
+          V2.7 trials (n&nbsp;=&nbsp;5), not 95% confidence intervals</strong> &mdash; the live chart above shows 95% CI.
+          These images (and <code>statistics.csv</code>) were generated before undefined delays were excluded and still
+          count two no-packets-received trials (OLSR 50 nodes, trial 4; Static 30 nodes, trial 4) as a delay of 0;
+          the live chart and tables above exclude them.
         </p>
         <div class="research-graphs-grid" id="research-graphs-grid"></div>
         <p class="small-note" id="research-graphs-note"></p>
@@ -471,6 +476,29 @@
       <div class="panel glass">
         <dl class="methodology-grid" id="methodology-grid"></dl>
         <p class="small-note">Values above are read from <code>experiments/run_experiments.sh</code> and <code>scratch/iot-network.cc</code> as they exist in the project &mdash; not hardcoded from a template.</p>
+        <p class="small-note" id="statistical-analysis-note"><strong>Statistical analysis:</strong> Results are
+          aggregated across independent simulation seeds. Values are reported as the mean with a 95% confidence
+          interval calculated using the Student&rsquo;s t-distribution (CI = mean &plusmn; t<sub>0.975,&nbsp;n&minus;1</sub>
+          &times; sample_std&nbsp;/&nbsp;&radic;n), computed directly from the per-seed rows in
+          <code>results/*.csv</code> and <code>results/v3-ext/*.csv</code> &mdash; never from already-aggregated
+          means. Line charts show this as a shaded 95% confidence band around the mean line; bar charts show it as
+          error bars. A cell is only shown a CI when it has n&ge;2 seed observations; the sample size <code>n</code>
+          is always reported alongside (chart tooltips, table cells) so a CI is never mistaken for one built on more
+          seeds than actually ran. For the V3 official baseline n&nbsp;=&nbsp;11 seeds (20&ndash;30), so df&nbsp;=&nbsp;10 and
+          t<sub>0.975,&nbsp;10</sub>&nbsp;&asymp;&nbsp;2.228. When a V3 line-chart point averages several
+          traffic&nbsp;&times;&nbsp;mobility cells, each seed&rsquo;s value is first averaged across those cells (one value
+          per seed) and the CI is computed across the 11 per-seed values &mdash; not from the cell means. Where a
+          metric has a physical lower bound of zero, only the <em>drawn</em> lower limit is clamped at zero; the
+          mean, SD, standard error and interval are unchanged, and the tooltip discloses the raw lower limit.
+          <br><strong>Undefined metrics:</strong> when a run receives no data packets, its Delay, Jitter and
+          (approximate) Hop Count are undefined &mdash; the simulator writes a placeholder 0 that is not a
+          measurement &mdash; while PDR, Throughput and Packet Loss are genuinely 0 and are always kept. Such runs
+          are excluded from those three metrics only. Each metric uses its own valid <em>n</em>, df&nbsp;=&nbsp;n&minus;1
+          and t<sub>0.975,&nbsp;df</sub> (e.g. n&nbsp;=&nbsp;10 &rarr; df&nbsp;=&nbsp;9, t&nbsp;&asymp;&nbsp;2.262), and the
+          exclusion is shown wherever the metric appears (&ldquo;n&nbsp;=&nbsp;10 of 11; 1 run excluded&rdquo;). In a
+          seed-level line-chart point, a seed with an undefined run is excluded for that metric as a whole so every
+          remaining per-seed value averages the same cells. Nothing is imputed, and the raw CSV / database values are
+          unchanged. Delay is measured only for delivered packets, so read it together with PDR.</p>
       </div>
     </section>
 
@@ -553,6 +581,14 @@
             <option value="all">All (compare protocols)</option>
           </select>
           <span class="small-note-inline" id="v3ext-sigmoid-hint"></span>
+        </div>
+        <div class="filter-group">
+          <label for="v3ext-filter-seedrange" title="Official = advisor-specified Seed 20-30 (11 seeds). Legacy/Smoke = earlier Seed 1/2/99 and short-duration validation runs, kept on disk but excluded from the official aggregation.">Seed range</label>
+          <select id="v3ext-filter-seedrange">
+            <option value="official">Official (Seeds 20&ndash;30)</option>
+            <option value="all">All runs</option>
+            <option value="legacy">Legacy / Smoke</option>
+          </select>
         </div>
         <div class="filter-group">
           <label for="v3ext-filter-duration" title="Some scenarios have both short smoke-test runs and the real validation duration mixed in the same CSV -- pick one to avoid comparing across them.">Duration (s)</label>

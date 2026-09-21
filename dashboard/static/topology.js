@@ -178,7 +178,7 @@ const TopologyEngine = (function () {
         <dt>PDR</dt><dd>${fmt(row.pdr, 2)} %</dd>
         <dt>Throughput</dt><dd>${fmt(row.throughputKbps, 2)} kbps</dd>
         <dt>Packet Loss</dt><dd>${row.packetLoss} packets</dd>
-        <dt>Average Delay</dt><dd>${fmt(row.delaySec, 4)} s</dd>
+        <dt>Average Delay</dt><dd>${row.packetsReceived === 0 ? "undefined (no packets received)" : fmt(row.delaySec, 4) + " s"}</dd>
       </dl>
       <p class="data-source-note"><strong>Source:</strong> <code>${row.sourceFile || (row.protocol + "_" + row.nodes + ".csv")}</code></p>
     `;
