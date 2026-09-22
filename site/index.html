@@ -605,6 +605,45 @@
         </div>
 
         <div class="panel" style="margin-top:20px">
+          <div class="section-eyebrow" style="margin:0 0 8px">System / Pipeline Architecture</div>
+          <h3 style="margin:0 0 4px">How the research system is built, end to end</h3>
+          <p class="panel-sub" style="margin:4px 0 16px">Network Architecture (above) is the simulated IoT network's own topology and node roles. This is a different diagram: the research project's <strong>data and software pipeline</strong> — how already-completed NS-3 output becomes this dashboard. Every step is a one-way, read-only derivation over the frozen results; <strong>the dashboard only reads and analyzes finished simulation output — it never runs, reruns, or modifies the NS-3 simulation itself</strong>, and nothing here writes back to <code>results/v3-ext/*.csv</code>.</p>
+
+          <div class="flowchart horizontal" style="margin:0 0 16px;justify-content:flex-start">
+            <div class="flow-node hot">NS-3 Simulator</div><div class="flow-arrow">→</div>
+            <div class="flow-node">Raw CSV Results</div>
+          </div>
+          <p class="panel-sub" style="margin:-10px 0 16px 2px"><code>scratch/iot-network-v3-ext.cc</code> → <code>results/v3-ext/*.csv</code> — the official V3 baseline: <strong>1,782 runs</strong> across <strong>162 experimental conditions</strong> (3 routing protocols × 6 network scales × 3 traffic levels × 3 mobility modes), <strong>11 seeds each</strong> (20–30).</p>
+
+          <div class="flowchart" style="margin:0 0 6px"><div class="flow-arrow">↓</div></div>
+          <p class="panel-sub" style="margin:0 0 8px 2px">Derived data layer — three read-only products built independently from the same frozen CSVs above; none of the three is generated from another.</p>
+          <div class="grid cols-3" style="margin-bottom:6px">
+            <div class="flow-node" style="text-align:left;padding:14px 16px">
+              <div style="font-size:.66rem;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:4px">FROZEN ANALYSIS</div>
+              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">final_research.json</div>
+              <div style="font-size:.78rem;color:var(--text-dim);font-weight:400">From <code>analysis/final-report-data/*.csv</code> — baseline, bottleneck, retry, rate-sweep and V4 results.</div>
+            </div>
+            <div class="flow-node" style="text-align:left;padding:14px 16px">
+              <div style="font-size:.66rem;font-weight:800;letter-spacing:.05em;color:var(--accent-2);margin-bottom:4px">STATISTICAL LAYER</div>
+              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">v3ext-stats.json</div>
+              <div style="font-size:.78rem;color:var(--text-dim);font-weight:400">Derived analysis of the raw simulation results — built by <code>experiments/build_v3_site_stats.py</code>: mean / SD / 95% CI and undefined-run exclusion, per condition. No new measurements.</div>
+            </div>
+            <div class="flow-node" style="text-align:left;padding:14px 16px">
+              <div style="font-size:.66rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">QUERYABLE DATABASE</div>
+              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">research.db</div>
+              <div style="font-size:.78rem;color:var(--text-dim);font-weight:400">SQLite, generated once from the frozen CSVs; queried live in the browser (see Data Explorer, below).</div>
+            </div>
+          </div>
+          <div class="flowchart" style="margin:0 0 16px"><div class="flow-arrow">↓</div></div>
+
+          <div class="flowchart horizontal" style="margin:0;justify-content:flex-start">
+            <div class="flow-node">Public Dashboard (site/)</div><div class="flow-arrow">→</div>
+            <div class="flow-node good">GitHub Pages</div>
+          </div>
+          <p class="panel-sub" style="margin:-10px 0 0 2px"><code>app.js</code> and <code>charts.js</code> render <code>final_research.json</code> and <code>v3ext-stats.json</code> directly; <code>data-explorer.js</code> queries <code>research.db</code> live via SQLite compiled to WebAssembly. <code>.github/workflows/deploy-pages.yml</code> publishes <code>site/</code> automatically on every push to <code>main</code> — this is that published page.</p>
+        </div>
+
+        <div class="panel" style="margin-top:20px">
           <div class="panel-head"><h3>Simulation Parameter Space</h3></div>
           <p class="panel-sub">Documented experimental configuration — not every combination below has been experimentally completed. Official V3 baseline, existing V4/Sigmoid evidence, and the future Sigmoid metric research direction each cover different subsets (see below).</p>
           <table class="data">
