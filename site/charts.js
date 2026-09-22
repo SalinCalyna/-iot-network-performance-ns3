@@ -213,10 +213,13 @@ function ciCaption(container, kind, extraHtml) {
 // ---------------------------------------------------------------- horizontal stacked comparison (two-value bar)
 function twoBar(container, a, b, opts) {
   container.innerHTML = "";
-  const W = opts.width || 320, H = opts.height || 90;
+  const W = opts.width || 380, H = opts.height || 90;
   const max = Math.max(a.value, b.value) * 1.1 || 1;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart" });
-  const barH = 22, gap = 14, labelW = 74;
+  // labelW must fit the longer of the two labels (was a fixed 74, which clipped e.g. "MAC queue
+  // overflow" under the bar rect painted after it) -- approximate at ~6.3 viewBox-units/char for
+  // the 11px label font, with a sensible floor/ceiling so a short label doesn't waste space.
+  const barH = 22, gap = 14, labelW = Math.max(74, Math.min(160, Math.max(a.label.length, b.label.length) * 6.3 + 6));
   [a, b].forEach((d, i) => {
     const y = i * (barH + gap) + 6;
     const t = el("text", { x: 0, y: y + barH / 2 + 3, "font-size": 11, fill: resolveColor("var(--text-dim)") }); t.textContent = d.label; svg.appendChild(t);

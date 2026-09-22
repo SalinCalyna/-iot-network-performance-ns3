@@ -125,7 +125,7 @@ section.view:last-child{border-bottom:none}
 .kpi .note{color:var(--text-faint);font-size:.7rem;margin-top:6px;padding-top:6px;border-top:1px solid var(--border-soft)}
 
 /* ---------- grid / panel ---------- */
-.grid{display:grid;gap:16px}
+.grid{display:grid;gap:16px;align-items:start}   /* siblings size to their own content; only ever visibly differs from stretch when heights already mismatch, which was leaving dead whitespace under shorter cards (Risk Summary, Real-World, Risk Experiment, ...) */
 .grid.cols-2{grid-template-columns:1fr 1fr}
 .grid.cols-3{grid-template-columns:repeat(3,1fr)}
 .grid.cols-1-2{grid-template-columns:1fr 1.4fr}
@@ -363,7 +363,7 @@ footer.appfoot{padding:30px 28px 60px;color:var(--text-faint);font-size:.78rem;m
 .mp-row .mp-text{font-size:.82rem;color:var(--text-dim)}
 
 /* ---------- research roadmap ---------- */
-.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;align-items:stretch}
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:0;align-items:start}
 @media(max-width:900px){.roadmap{grid-template-columns:1fr}}
 .roadmap-col{padding:16px 18px;border-right:1px solid var(--border-soft)}
 .roadmap-col:last-child{border-right:none}
