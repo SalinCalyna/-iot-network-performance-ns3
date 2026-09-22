@@ -4,6 +4,24 @@
 
 const COLORS = { olsr: "var(--olsr)", static: "var(--static)", aodv: "var(--aodv)", v4: "var(--v4)" };
 let DATA = null;
+// Derived statistical layer (data/v3ext-stats.json, built by experiments/build_v3_site_stats.py from the raw
+// results/v3-ext/*.csv). final_research.json / research.db are read as before and never modified. If the file
+// cannot be loaded the charts fall back to means only -- a confidence interval is never invented.
+let STATS = null;
+const UNDEFINED_METRICS = ["delay", "jitter", "hop"];   // undefined when PacketsReceived == 0 (hop: unless exact method)
+function nodeBlock(p, n, mk) {
+  const m = STATS && STATS.marginalNodes.find(r => r.protocol === p && r.nodes === n);
+  return m ? m.metrics[mk] : null;
+}
+// Baseline value for (protocol, N, field). Delay / Jitter / Hop Count come from the exclusion-aware statistics layer
+// (frozen final_research.json still averages the simulator's placeholder 0 of an undefined run into them);
+// every other field is the frozen value, unchanged.
+function bval(p, n, field) {
+  const blk = UNDEFINED_METRICS.includes(field) ? nodeBlock(p, n, field) : null;
+  if (blk && blk.mean != null) return blk.mean;
+  const row = DATA.baseline[p].find(d => d.n === n);
+  return row ? row[field] : undefined;
+}
 
 // ---------------------------------------------------------------- navigation
 function initNav() {
@@ -95,7 +113,7 @@ function computeRiskMedians() {
   const fields = ["throughput", "delay", "loss", "routing_overhead", "path_changes"];
   const all = {}; fields.forEach(f => all[f] = []);
   ["aodv", "olsr", "static"].forEach(p => {
-    DATA.baseline[p].forEach(d => fields.forEach(f => all[f].push(d[f])));
+    DATA.baseline[p].forEach(d => fields.forEach(f => all[f].push(bval(p, d.n, f))));
   });
   riskMedians = {};
   fields.forEach(f => riskMedians[f] = median(all[f]));
@@ -128,7 +146,8 @@ function renderRiskSummary() {
 
 function drawRiskSummary() {
   const { protocol, n } = riskState;
-  const cell = DATA.baseline[protocol].find(d => d.n === n);
+  const baseRow = DATA.baseline[protocol].find(d => d.n === n);
+  const cell = baseRow && { ...baseRow, delay: bval(protocol, n, "delay") };   // delay: exclusion-aware
   const highEl = document.getElementById("risk-high-list");
   const lowEl = document.getElementById("risk-low-list");
   const ctxEl = document.getElementById("risk-context");
@@ -191,7 +210,9 @@ function drawRiskSummary() {
     : '<p class="panel-sub" style="margin:0">No metrics currently flagged as high risk for this configuration.</p>';
   lowEl.innerHTML = low.length ? low.map(riskItemHtml).join("")
     : '<p class="panel-sub" style="margin:0">No metrics currently flagged as low risk for this configuration.</p>';
-  ctxEl.textContent = `Showing: ${protocol.toUpperCase()}, N=${n} (Without-Risk baseline, pooled across traffic level and mobility mode).`;
+  const dBlk = nodeBlock(protocol, n, "delay");
+  const dNote = dBlk && dBlk.excluded > 0 ? ` Average Delay uses n = ${dBlk.n} of ${dBlk.nTotal} seeds (${dBlk.excluded} seed excluded: undefined because no packets were received).` : "";
+  ctxEl.textContent = `Showing: ${protocol.toUpperCase()}, N=${n} (Without-Risk baseline, pooled across traffic level and mobility mode).${dNote}`;
 }
 
 // ---------------------------------------------------------------- 3. topology (main Network Topology section)
@@ -239,7 +260,7 @@ function lookupMeasured(protocol, n, traffic, mobility) {
   if (protocol === "aodv" || protocol === "olsr" || protocol === "static") {
     const arr = DATA.baseline[protocol];
     const cell = arr && arr.find(d => d.n === n);
-    if (cell) return { source: "V3 baseline (pooled across traffic & mobility, 99 seeds) — not this exact condition", pdr: cell.pdr, throughput: cell.throughput, delay: cell.delay, pooled: true };
+    if (cell) return { source: "V3 baseline (pooled across traffic & mobility: 99 runs = 11 seeds × 9 conditions) — not this exact condition", pdr: cell.pdr, throughput: cell.throughput, delay: bval(protocol, n, "delay"), pooled: true };
   }
   return null;
 }
@@ -435,29 +456,64 @@ function renderPerformance() {
   });
   drawPerfCharts();
 }
+// OLSR RoutingOverhead is stored as 0 because of a documented instrumentation-coverage limitation (see the chart's own note),
+// so a "0 ± 0" interval would falsely suggest a precisely measured zero -- no CI is drawn for it.
+const noCi = (p, metric) => metric === "routing_overhead" && p === "olsr";
 function activeSeries(metric, scale) {
   const out = {};
   Object.keys(perfProtocols).forEach(p => {
     if (!perfProtocols[p]) return;
-    out[p] = DATA.baseline[p].map(d => ({ x: d.n, y: scale ? d[metric] * scale : d[metric] }));
+    out[p] = DATA.baseline[p].map(d => {
+      const blk = nodeBlock(p, d.n, metric);
+      if (!blk || blk.mean == null) return { x: d.n, y: scale ? d[metric] * scale : d[metric] };   // no statistics available: plain point
+      const k = scale || 1;
+      const pt = { x: d.n, y: blk.mean * k, n: blk.n, nTotal: blk.nTotal };
+      if (blk.ci95 != null && !noCi(p, metric)) pt.ci = blk.ci95 * k;
+      return pt;
+    });
   });
   return out;
 }
+// Per-chart disclosure of any chart point whose metric is undefined for some seed(s).
+function undefinedNoteFor(metric) {
+  if (!STATS || !UNDEFINED_METRICS.includes(metric)) return "";
+  const parts = [];
+  STATS.marginalNodes.forEach(m => {
+    const b = m.metrics[metric];
+    if (b.excluded > 0 && perfProtocols[m.protocol]) {
+      parts.push(`${m.protocol.toUpperCase()} @ N=${m.nodes}: n = ${b.n} of ${b.nTotal} seeds &mdash; seed ${b.excludedSeeds.join(", ")} excluded (undefined: no packets were received in at least one of its runs; df = ${b.df}, t = ${b.t}).`);
+    }
+  });
+  return parts.join("<br>");
+}
+const PERF_CHARTS = [
+  ["chart-pdr", "line", "pdr", null, { unit: "%", yfmt: 0 }],
+  ["chart-throughput", "line", "throughput", null, { unit: " kbps", yfmt: 0 }],
+  ["chart-delay", "line", "delay", null, { unit: " ms", yfmt: 0 }],
+  ["chart-loss", "line", "loss", null, { unit: " pkts", yfmt: 0 }],
+  ["chart-jitter", "line", "jitter", null, { unit: " ms", yfmt: 1 }],
+  ["chart-pdr-compare", "bar", "pdr", null, { unit: "%", yfmt: 0 }],
+  ["chart-throughput-compare", "bar", "throughput", null, { unit: " kbps", yfmt: 0 }],
+  ["chart-delay-compare", "bar", "delay", null, { unit: " ms", yfmt: 0 }],
+  ["chart-loss-compare", "bar", "loss", null, { unit: " pkts", yfmt: 0 }],
+  ["chart-routing-overhead", "bar", "routing_overhead", null, { unit: " pkts", yfmt: 0 }],
+  ["chart-hopcount-v3", "line", "hop", null, { unit: " hops", yfmt: 2 }],
+  ["chart-path-changes", "bar", "path_changes", null, { unit: "", yfmt: 0 }],
+  ["chart-mlu", "bar", "link_util_max", 100, { unit: "%", yfmt: 1 }],
+];
 function drawPerfCharts() {
   legendOnce("perf-legend");
-  lineChart(document.getElementById("chart-pdr"), activeSeries("pdr"), { colors: COLORS, unit: "%", yfmt: 0 });
-  lineChart(document.getElementById("chart-throughput"), activeSeries("throughput"), { colors: COLORS, unit: " kbps", yfmt: 0 });
-  lineChart(document.getElementById("chart-delay"), activeSeries("delay"), { colors: COLORS, unit: " ms", yfmt: 0 });
-  lineChart(document.getElementById("chart-loss"), activeSeries("loss"), { colors: COLORS, unit: " pkts", yfmt: 0 });
-  lineChart(document.getElementById("chart-jitter"), activeSeries("jitter"), { colors: COLORS, unit: " ms", yfmt: 1 });
-  groupedBar(document.getElementById("chart-pdr-compare"), activeSeries("pdr"), { colors: COLORS, unit: "%", yfmt: 0, xlabel: x => `N=${x}` });
-  groupedBar(document.getElementById("chart-throughput-compare"), activeSeries("throughput"), { colors: COLORS, unit: " kbps", yfmt: 0, xlabel: x => `N=${x}` });
-  groupedBar(document.getElementById("chart-delay-compare"), activeSeries("delay"), { colors: COLORS, unit: " ms", yfmt: 0, xlabel: x => `N=${x}` });
-  groupedBar(document.getElementById("chart-loss-compare"), activeSeries("loss"), { colors: COLORS, unit: " pkts", yfmt: 0, xlabel: x => `N=${x}` });
-  groupedBar(document.getElementById("chart-routing-overhead"), activeSeries("routing_overhead"), { colors: COLORS, unit: " pkts", yfmt: 0, xlabel: x => `N=${x}` });
-  lineChart(document.getElementById("chart-hopcount-v3"), activeSeries("hop"), { colors: COLORS, unit: " hops", yfmt: 2 });
-  groupedBar(document.getElementById("chart-path-changes"), activeSeries("path_changes"), { colors: COLORS, unit: "", yfmt: 0, xlabel: x => `N=${x}` });
-  groupedBar(document.getElementById("chart-mlu"), activeSeries("link_util_max", 100), { colors: COLORS, unit: "%", yfmt: 1, xlabel: x => `N=${x}` });
+  PERF_CHARTS.forEach(([id, kind, metric, scale, o]) => {
+    const c = document.getElementById(id);
+    const series = activeSeries(metric, scale);
+    if (kind === "line") lineChart(c, series, { colors: COLORS, ...o });
+    else groupedBar(c, series, { colors: COLORS, ...o, xlabel: x => `N=${x}` });
+    if (STATS) {
+      let extra = undefinedNoteFor(metric);
+      if (metric === "routing_overhead" && perfProtocols.olsr) extra += (extra ? "<br>" : "") + "OLSR: stored 0 reflects a documented instrumentation-coverage limitation &mdash; no interval is drawn for it.";
+      ciCaption(c, kind === "line" ? "band" : "bar", extra);
+    }
+  });
 }
 function legendOnce(id) {
   const c = document.getElementById(id); c.innerHTML = "";
@@ -470,8 +526,16 @@ function renderTrafficLoad() {
   legendOnce("traffic-legend");
   const levels = ["low", "medium", "high"];
   const series = {};
-  ["aodv", "olsr", "static"].forEach(p => { series[p] = levels.map(l => ({ x: l.toUpperCase(), y: DATA.traffic_level[p][l] })); });
+  ["aodv", "olsr", "static"].forEach(p => {
+    series[p] = levels.map(l => {
+      const m = STATS && STATS.marginalTraffic.find(r => r.protocol === p && r.traffic === l);
+      const b = m && m.metrics.pdr;
+      return b && b.mean != null ? { x: l.toUpperCase(), y: b.mean, ci: b.ci95 == null ? undefined : b.ci95, n: b.n, nTotal: b.nTotal }
+                                 : { x: l.toUpperCase(), y: DATA.traffic_level[p][l] };
+    });
+  });
   groupedBar(c, series, { colors: COLORS, unit: "%", yfmt: 0, xlabel: x => x });
+  if (STATS) ciCaption(c, "bar", "Each bar: every seed&rsquo;s mean PDR over the 18 conditions (6 node counts &times; 3 mobility modes); the CI is taken across those 11 per-seed values.");
 }
 
 // ---------------------------------------------------------------- 6. bottleneck
@@ -575,9 +639,84 @@ function renderStaticControl() {
   });
 }
 
+// ---------------------------------------------------------------- statistics layer: method note + undefined-metric detail
+function renderStatMethod() {
+  const set = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+  if (!STATS) {
+    const e = document.getElementById("sm-load-error");
+    if (e) { e.style.display = "block"; e.textContent = "The statistics file data/v3ext-stats.json could not be loaded, so charts show means only. No confidence interval is drawn or estimated."; }
+    return;
+  }
+  const d = STATS.meta.design, st = STATS.meta.statistics;
+  set("sm-reps", `${d.replicationsPerCell} seeds (${d.seeds[0]}–${d.seeds[d.seeds.length - 1]})`);
+  set("sm-df", String(d.replicationsPerCell - 1));
+  set("sm-t", "≈ " + st.t_n11.toFixed(3));
+  set("sm-cells", `${d.cells} / ${STATS.meta.source.officialRuns.toLocaleString()}`);
+}
+const UNDEF_ROWS = [["pdr", "PDR", "%", 2], ["throughput", "Throughput", " kbps", 2], ["loss", "Packet Loss", " pkts", 0],
+                    ["delay", "Average Delay", " ms", 3], ["jitter", "Average Jitter", " ms", 3], ["hop", "Average Hop Count", " hops", 4]];
+function renderUndefinedDetail() {
+  const host = document.getElementById("undef-detail"); if (!host) return;
+  if (!STATS) { host.innerHTML = ""; return; }
+  const runs = STATS.meta.undefinedMetrics.runs;
+  if (!runs.length) { host.innerHTML = '<p style="margin:8px 0 0">No run in the official baseline received zero packets, so no observation is excluded.</p>'; return; }
+  host.innerHTML = runs.map(r => {
+    const cell = STATS.cells.find(c => c.protocol === r.protocol && c.nodes === r.nodes && c.traffic === r.traffic && c.mobility === r.mobility);
+    const rows = UNDEF_ROWS.map(([k, label, u, dp]) => {
+      const b = cell.metrics[k], ex = b.excluded > 0;
+      return `<tr><td>${label}</td><td>${ex ? `${b.n} of ${b.nTotal}` : b.n}</td><td>${b.df}</td><td>${b.mean.toFixed(dp)}${u}</td><td>&plusmn; ${b.ci95.toFixed(dp)}${u}</td><td>${ex ? "1 run excluded: undefined because no packets were received" : "all runs kept (real measurement)"}</td></tr>`;
+    }).join("");
+    const base = DATA.baseline[r.protocol].find(d => d.n === r.nodes);
+    const fz = base ? `${base.delay.toFixed(2)} ms / ${base.jitter.toFixed(2)} ms / ${base.hop.toFixed(3)}` : "";
+    const ex = ["delay", "jitter", "hop"].map(k => nodeBlock(r.protocol, r.nodes, k)).filter(Boolean);
+    const ux = ex.length === 3 ? `${ex[0].mean.toFixed(2)} ms / ${ex[1].mean.toFixed(2)} ms / ${ex[2].mean.toFixed(3)}` : "";
+    return `<div style="margin-top:10px"><strong>${r.protocol.toUpperCase()} &middot; ${r.nodes} nodes &middot; ${r.traffic} traffic &middot; ${r.mobility} mobility</strong> &mdash; seed ${r.seed} delivered ${r.packetsReceived} of ${r.packetsSent.toLocaleString()} packets. Its raw result is unchanged (stored delay / jitter / hop count = ${r.storedRawValue.delaySec}).
+      <table><thead><tr><th>Metric</th><th>n</th><th>df</th><th>Mean</th><th>95% CI</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
+      <p style="margin:8px 0 0;color:var(--text-dim)">In the ${r.protocol.toUpperCase()} @ N=${r.nodes} chart points (seed-level, 9 conditions) Delay, Jitter and Hop Count exclude seed ${r.seed} whole (n = 10 of 11, df = 9, t = 2.262). The frozen <code>final_research.json</code> summary averages the placeholder 0 into those points (Delay / Jitter / Hop = ${fz}); the charts use the exclusion-aware values ${ux}.</p></div>`;
+  }).join("");
+}
+
+const V3S_DEC = { pdr: 2, throughput: 2, delay: 2, jitter: 2, loss: 1, routing_overhead: 1, hop: 4, path_changes: 2, link_util_avg: 5, link_util_max: 5 };
+const V3S_LABEL = { pdr: "PDR", throughput: "Throughput", delay: "Average Delay", jitter: "Average Jitter", loss: "Packet Loss", routing_overhead: "Routing Overhead",
+                    hop: "Average Hop Count", path_changes: "Path Changes", link_util_avg: "Avg Link Utilization", link_util_max: "Max Link Utilization" };
+function initV3StatsExplorer() {
+  const root = document.getElementById("v3stats-explorer"); if (!root) return;
+  const note = document.getElementById("v3s-note");
+  if (!STATS) { note.textContent = "Statistics unavailable: data/v3ext-stats.json could not be loaded."; return; }
+  const $ = id => document.getElementById(id);
+  const mSel = $("v3s-metric"), nSel = $("v3s-nodes");
+  Object.keys(STATS.meta.units).forEach(k => { const o = document.createElement("option"); o.value = k; o.textContent = `${V3S_LABEL[k]} (${STATS.meta.units[k]})`; mSel.appendChild(o); });
+  STATS.meta.design.nodes.forEach(n => { const o = document.createElement("option"); o.value = String(n); o.textContent = String(n); nSel.appendChild(o); });
+  const draw = () => {
+    const level = $("v3s-level").value, mk = mSel.value, pf = $("v3s-protocol").value, nf = nSel.value, tf = $("v3s-traffic").value, mf = $("v3s-mobility").value, onlyEx = $("v3s-only-excl").value === "yes";
+    // Nodes filter applies to condition- and node-level rows, Traffic to condition- and traffic-level rows, Mobility to condition rows only.
+    const visible = { nodes: level !== "traffic", traffic: level !== "nodes", mobility: level === "cells" };
+    root.querySelectorAll(".filter-group[data-for]").forEach(g => { g.style.display = visible[g.dataset.for] ? "" : "none"; });
+    let rows;
+    if (level === "cells") rows = STATS.cells.map(c => ({ p: c.protocol, n: c.nodes, t: c.traffic, m: c.mobility, b: c.metrics[mk] }));
+    else if (level === "nodes") rows = STATS.marginalNodes.map(r => ({ p: r.protocol, n: r.nodes, t: "all (9 conditions)", m: "", b: r.metrics[mk] }));
+    else rows = STATS.marginalTraffic.map(r => ({ p: r.protocol, n: "all (18 conditions)", t: r.traffic, m: "", b: r.metrics[mk] }));
+    rows = rows.filter(r => (pf === "all" || r.p === pf) && (nf === "all" || String(r.n) === nf || level === "traffic") && (tf === "all" || r.t === tf || level === "nodes") && (mf === "all" || r.m === mf || level !== "cells") && (!onlyEx || r.b.excluded > 0));
+    const dp = V3S_DEC[mk], u = STATS.meta.units[mk] === "fraction" ? "" : " " + STATS.meta.units[mk];
+    $("v3s-table").querySelector("thead").innerHTML = `<tr><th>Protocol</th><th>Nodes</th><th>Traffic</th><th>Mobility</th><th>n</th><th>Mean</th><th>SD</th><th>SE</th><th>95% CI (lower – upper)</th><th>df</th><th>t</th><th>Excluded</th></tr>`;
+    $("v3s-table").querySelector("tbody").innerHTML = rows.map(r => {
+      const b = r.b, ex = b.excluded > 0;
+      const exTxt = ex ? (level === "cells" ? `${b.excluded} run excluded: undefined because no packets were received` : `seed ${b.excludedSeeds.join(", ")} excluded (undefined: no packets received in at least one of its runs)`) : "—";
+      const ci = b.ci95 == null ? "n/a" : `${(b.mean - b.ci95).toFixed(dp)} – ${(b.mean + b.ci95).toFixed(dp)}`;
+      return `<tr><td>${r.p.toUpperCase()}</td><td class="num">${r.n}</td><td>${r.t}</td><td>${r.m}</td><td class="num">${b.n}${ex ? ` of ${b.nTotal}` : ""}</td><td class="num">${b.mean.toFixed(dp)}</td><td class="num">${b.sd.toFixed(dp)}</td><td class="num">${b.se.toFixed(dp)}</td><td class="num">${ci}</td><td class="num">${b.df}</td><td class="num">${b.t}</td><td class="${ex ? "excl" : ""}">${exTxt}</td></tr>`;
+    }).join("") || `<tr><td colspan="12" style="text-align:center;color:var(--text-faint)">No rows match the current filters.</td></tr>`;
+    note.textContent = `${rows.length} row${rows.length === 1 ? "" : "s"} · values in${u || " fraction (0–1)"} · n = valid observations (of 11 seeds) · SD = sample SD (n−1) · SE = SD/√n · CI = mean ± t·SE with df = n−1 · the lower CI limit is shown raw (never clamped) in this table.`;
+  };
+  ["v3s-level", "v3s-metric", "v3s-protocol", "v3s-nodes", "v3s-traffic", "v3s-mobility", "v3s-only-excl"].forEach(id => $(id).addEventListener("change", draw));
+  draw();
+}
+
 // ---------------------------------------------------------------- init
 async function main() {
   DATA = await fetch("data/final_research.json").then(r => r.json());
+  try { STATS = await fetch("data/v3ext-stats.json").then(r => { if (!r.ok) throw new Error(r.status); return r.json(); }); } catch (e) { STATS = null; console.warn("v3ext-stats.json unavailable:", e); }
+  renderStatMethod();
+  renderUndefinedDetail();
   renderHero();
   renderHealth();
   computeRiskMedians();
@@ -595,6 +734,7 @@ async function main() {
   renderStaticControl();
   if (typeof initRealWorldSection === "function") initRealWorldSection(DATA);
   if (typeof initDataExplorer === "function") initDataExplorer();
+  initV3StatsExplorer();
   initNav();
 }
 document.addEventListener("DOMContentLoaded", main);

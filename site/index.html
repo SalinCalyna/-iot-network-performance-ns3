@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IoT Network Performance — NS-3 Research Platform</title>
 <meta name="description" content="Analysis of IoT Network Performance Using NS-3 — congestion bottleneck identification and traffic-rate mitigation in multi-hop IoT wireless networks.">
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
@@ -603,9 +604,28 @@
         <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>V3 — Validated Baseline</span></div>
         <h2>Network Performance</h2>
         <p class="lede">How routing protocols behave as network scale and traffic load increase. Validated NS-3 evidence across network scale, traffic load, mobility and routing strategy — 1,782 official runs (Seed 20–30), pooled over traffic level and mobility mode.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Performance degrades monotonically with node count and traffic load across all three routing protocols — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
+<div class="key-finding"><span class="kf-label">Key Finding</span>Performance becomes increasingly constrained as network scale and traffic load increase, with bottleneck effects becoming more pronounced at larger scales — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
         <div class="filters"><div class="filter-group"><span class="fl">Protocol</span><div id="perf-protocol-toggle" style="display:flex;gap:2px"></div></div></div>
         <div id="perf-legend"></div>
+
+        <div class="stat-method" id="stat-method">
+          <h3>Reading the error bands &mdash; the 11 seeds are statistical replications</h3>
+          <p>Every experimental condition was simulated with <strong>11 independent random seeds (20&ndash;30)</strong> for 300&nbsp;s. The seeds are <strong>replications of the same condition</strong>, so each plotted value is a <strong>mean over 11 replications</strong> and its uncertainty is a <strong>two-sided 95% confidence interval</strong> from the Student <em>t</em>-distribution with df&nbsp;=&nbsp;n&nbsp;&minus;&nbsp;1.</p>
+          <p><span class="formula">CI<sub>95%</sub> = mean &plusmn; t<sub>0.975, n&minus;1</sub> &times; SD / &radic;n</span>&nbsp; SD is the sample standard deviation (n&nbsp;&minus;&nbsp;1); standard error SE&nbsp;=&nbsp;SD&nbsp;/&nbsp;&radic;n.</p>
+          <div class="stat-grid">
+            <div class="stat-cell"><div class="k">Replications / condition</div><div class="v" id="sm-reps">&mdash;</div></div>
+            <div class="stat-cell"><div class="k">Degrees of freedom (n = 11)</div><div class="v" id="sm-df">&mdash;</div></div>
+            <div class="stat-cell"><div class="k">t critical (df = 10)</div><div class="v" id="sm-t">&mdash;</div></div>
+            <div class="stat-cell"><div class="k">Conditions / official runs</div><div class="v" id="sm-cells">&mdash;</div></div>
+          </div>
+          <p><strong>Line charts</strong> draw the 95% CI as a shaded band around the mean line; <strong>bar charts</strong> draw mean &plusmn; 95% CI whiskers &mdash; never a standard deviation. A chart point that pools several traffic &times; mobility conditions is computed <em>per seed first</em> (each seed&rsquo;s mean across those conditions) and the CI is taken across the per-seed values, not from condition means or pooled runs. The interval is a descriptive measure of replication uncertainty: no p-values, significance tests or multiplicity corrections are used, and nothing here is a claim of statistical significance.</p>
+          <p id="sm-load-error" style="display:none;color:var(--bad);font-weight:600"></p>
+        </div>
+        <div class="undef-callout" id="undef-callout">
+          <strong>Undefined metrics are excluded &mdash; never turned into zero.</strong>
+          When a run receives no data packets (<code>PacketsReceived = 0</code>), <strong>PDR, Throughput and Packet Loss are genuinely 0</strong> and stay in the statistics, whereas <strong>Average Delay, Average Jitter and Average Hop Count</strong> (when the hop-count method is not exact) are <strong>undefined</strong>: the simulator&rsquo;s stored 0 is a placeholder, not a measurement. Such a run is left out of those three metrics only, at the aggregation layer; each metric uses its own valid n (df&nbsp;=&nbsp;n&nbsp;&minus;&nbsp;1, its own t). The raw CSVs, <code>research.db</code> and <code>final_research.json</code> are not modified.
+          <div id="undef-detail"></div>
+        </div>
 
         <div class="section-eyebrow" id="view-protocol-comparison">RQ3 — How Do Routing Protocols Differ?</div>
         <div class="evidence-role primary" style="font-size:.75rem">Protocol Comparison — AODV vs. OLSR vs. Static</div>
@@ -1178,6 +1198,7 @@
         <div class="panel" style="margin-bottom:16px">
           <div class="panel-head"><h3>SQL query (read-only)</h3><span id="de-run-status" style="font-size:.76rem;color:var(--text-faint)"></span></div>
           <p class="panel-sub">Single <code>SELECT</code> statements only — no write access exists in this browser-side database.</p>
+          <p class="panel-sub" style="margin-top:-6px"><strong>Undefined values:</strong> for a run with <code>rx_packets = 0</code> the stored <code>delay_sec</code>, <code>jitter_sec</code> (and, for non-exact hop counts, <code>average_hop_count</code>) are the simulator&rsquo;s placeholder 0, not measurements. Add <code>WHERE rx_packets &gt; 0</code> when averaging them &mdash; the charts and the statistics table below already exclude them.</p>
           <textarea id="de-sql" rows="5" style="width:100%;font-family:var(--mono);font-size:.8rem;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel-2);color:var(--text);resize:vertical"></textarea>
           <div style="margin-top:10px"><button class="pill active" id="de-run">▶ Run Query</button></div>
         </div>
@@ -1185,6 +1206,22 @@
         <div class="panel">
           <h3>Result</h3>
           <div id="de-result"></div>
+        </div>
+
+        <div class="panel stats-explorer" id="v3stats-explorer" style="margin-top:16px">
+          <div class="panel-head"><h3>Condition statistics &mdash; V3 official baseline</h3><span class="metric-status measured">&#10003; Measured &middot; derived from 1,782 runs</span></div>
+          <p class="panel-sub">Mean, sample SD, standard error and two-sided 95% CI (Student t, df&nbsp;=&nbsp;n&nbsp;&minus;&nbsp;1) for every experimental condition, computed from the per-seed runs by <code>experiments/build_v3_site_stats.py</code> into <code>data/v3ext-stats.json</code>. Undefined Delay / Jitter / Hop Count runs are excluded and disclosed in the <em>Excluded</em> column.</p>
+          <div class="filters" id="v3s-filters">
+            <div class="filter-group"><span class="fl">Level</span><select id="v3s-level"><option value="cells">Condition (162 cells, 11 seeds each)</option><option value="nodes">Chart point by node count (seed-level)</option><option value="traffic">Chart point by traffic level (seed-level)</option></select></div>
+            <div class="filter-group"><span class="fl">Metric</span><select id="v3s-metric"></select></div>
+            <div class="filter-group"><span class="fl">Protocol</span><select id="v3s-protocol"><option value="all">All</option><option value="aodv">AODV</option><option value="olsr">OLSR</option><option value="static">Static</option></select></div>
+            <div class="filter-group" data-for="nodes"><span class="fl">Nodes</span><select id="v3s-nodes"><option value="all">All</option></select></div>
+            <div class="filter-group" data-for="traffic"><span class="fl">Traffic</span><select id="v3s-traffic"><option value="all">All</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></div>
+            <div class="filter-group" data-for="mobility"><span class="fl">Mobility</span><select id="v3s-mobility"><option value="all">All</option><option value="static">Static</option><option value="low">Low</option><option value="medium">Medium</option></select></div>
+            <div class="filter-group"><span class="fl">Only exclusions</span><select id="v3s-only-excl"><option value="no">No</option><option value="yes">Yes</option></select></div>
+          </div>
+          <div class="table-scroll"><table class="data" id="v3s-table"><thead></thead><tbody></tbody></table></div>
+          <div class="row-note" id="v3s-note"></div>
         </div>
 
         <div class="caveat" style="color:var(--text-faint);font-size:.78rem;margin-top:14px">Two derived columns exist in <code>intervention_results</code> (<code>attributed_loss</code>, <code>residual_loss</code>) — computed from already-verbatim columns using the same accounting established in the Static/N=50 diagnostic, disclosed in <code>db_metadata</code>. Every other column is copied unmodified from its source CSV. Historical V2.7 data is not included in this database.</div>

@@ -44,19 +44,70 @@ function showTip(container, tip, x, y, html) {
 }
 function hideTip(tip) { tip.style.opacity = 0; }
 
-// ---------------------------------------------------------------- grouped bars
+// ---------------------------------------------------------------- 95% CI helpers
+// A data point may carry {ci, n, nTotal, excludedSeeds}: ci is the two-sided 95% CI HALF-WIDTH
+// (Student t, computed in experiments/build_v3_site_stats.py) around the mean y.  Points without
+// `ci` render exactly as before -- a missing interval is never drawn as zero-width.
+function toRgba(color, alpha) {
+  const c = resolveColor(color);
+  let m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(c);
+  if (m) {
+    let h = m[1]; if (h.length === 3) h = h.split("").map(x => x + x).join("");
+    return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${alpha})`;
+  }
+  m = /^rgba?\((\d+)[ ,]+(\d+)[ ,]+(\d+)/.exec(c);
+  return m ? `rgba(${m[1]},${m[2]},${m[3]},${alpha})` : c;
+}
+const hasCi = d => d && typeof d.ci === "number" && isFinite(d.ci);
+// Displayed interval. The physical lower bound (default 0: every plotted metric is non-negative) clamps only the
+// DRAWN lower limit; mean, CI half-width and upper limit are never altered and the raw limit is disclosed in the tooltip.
+function ciLimits(d, opts) {
+  if (!hasCi(d)) return null;
+  const bound = opts.lowerBound === undefined ? 0 : opts.lowerBound;
+  const rawLo = d.y - d.ci, hi = d.y + d.ci;
+  const lo = bound == null ? rawLo : Math.max(bound, rawLo);
+  return { lo, hi, rawLo, clamped: bound != null && rawLo < bound };
+}
+function pointTipHtml(title, seriesName, d, opts) {
+  const tf = opts.tipfmt != null ? opts.tipfmt : Math.max(opts.yfmt || 0, 2), u = opts.unit || "";
+  let h = `<div class="t-title">${title}</div><div class="t-row"><span>${seriesName}</span><span></span></div>`;
+  h += `<div class="t-row"><span>Mean</span><span>${fmt(d.y, tf)}${u}</span></div>`;
+  const L = ciLimits(d, opts);
+  if (L) {
+    h += `<div class="t-row"><span>95% CI</span><span>${fmt(L.lo, tf)} – ${fmt(L.hi, tf)}${u}</span></div>`;
+    if (L.clamped) h += `<div class="t-note">Raw lower limit ${fmt(L.rawLo, tf)}${u}; drawn at 0 (physical lower bound). Mean and CI unchanged.</div>`;
+  } else if (d.n != null && d.n < 2) {
+    h += `<div class="t-row"><span>95% CI</span><span>n/a (n = ${d.n})</span></div>`;
+  }
+  if (d.n != null) {
+    const of = d.nTotal != null && d.n < d.nTotal ? ` of ${d.nTotal}` : "";
+    h += `<div class="t-row"><span>n</span><span>${d.n}${of}</span></div>`;
+    if (d.nTotal != null && d.n < d.nTotal) {
+      const k = d.nTotal - d.n;
+      h += `<div class="t-note">${k} ${k === 1 ? "seed" : "seeds"} excluded: undefined because no packets were received (in at least one of ${k === 1 ? "its" : "their"} runs). Not counted as 0.</div>`;
+    }
+  }
+  return h;
+}
+function ciYMax(names, series, opts) {
+  const tops = names.flatMap(n => series[n].map(d => (ciLimits(d, opts) ? ciLimits(d, opts).hi : d.y)));
+  return Math.max(...tops) * 1.12 || 1;
+}
+
+// ---------------------------------------------------------------- grouped bars (optional Mean +/- 95% CI whiskers)
 function groupedBar(container, series, opts) {
   container.innerHTML = "";
   const tip = ensureTooltip(container);
   const W = opts.width || 520, H = opts.height || 240, pad = { l: 40, r: 10, t: 10, b: 28 };
   const names = Object.keys(series);
   const xs = series[names[0]].map(d => d.x);
-  const allY = names.flatMap(n => series[n].map(d => d.y));
-  const yMax = Math.max(...allY) * 1.15 || 1;
+  const anyCi = names.some(n => series[n].some(hasCi));
+  const yMax = anyCi ? ciYMax(names, series, opts) : (Math.max(...names.flatMap(n => series[n].map(d => d.y))) * 1.15 || 1);
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart" });
   const plotW = W - pad.l - pad.r, plotH = H - pad.t - pad.b;
   const groupW = plotW / xs.length;
   const barW = (groupW * 0.72) / names.length;
+  const yScale = v => pad.t + plotH - (v / yMax) * plotH;
   for (let i = 0; i <= 4; i++) {
     const y = pad.t + plotH - (i / 4) * plotH;
     svg.appendChild(el("line", { x1: pad.l, x2: W - pad.r, y1: y, y2: y, class: "gridline" }));
@@ -69,13 +120,26 @@ function groupedBar(container, series, opts) {
       const bx = pad.l + xi * groupW + groupW * 0.14 + ni * barW;
       const by = pad.t + plotH - h;
       const rect = el("rect", { x: bx, y: by, width: barW * 0.82, height: Math.max(h, 1), fill: resolveColor(opts.colors[n]), rx: 2 });
-      rect.addEventListener("mousemove", ev => {
+      const title = opts.xlabel ? opts.xlabel(x) : x;
+      const onMove = ev => {
         const r = container.getBoundingClientRect();
         showTip(container, tip, ev.clientX - r.left, ev.clientY - r.top,
-          `<div class="t-title">${opts.xlabel ? opts.xlabel(x) : x}</div><div class="t-row"><span>${n.toUpperCase()}</span><span>${fmt(d.y, opts.yfmt)}${opts.unit || ""}</span></div>`);
-      });
+          hasCi(d) || d.n != null ? pointTipHtml(title, n.toUpperCase(), d, opts)
+            : `<div class="t-title">${title}</div><div class="t-row"><span>${n.toUpperCase()}</span><span>${fmt(d.y, opts.yfmt)}${opts.unit || ""}</span></div>`);
+      };
+      rect.addEventListener("mousemove", onMove);
       rect.addEventListener("mouseleave", () => hideTip(tip));
       svg.appendChild(rect);
+      const L = ciLimits(d, opts);
+      if (L) {   // whisker: mean +/- 95% CI half-width (never SD)
+        const cx = bx + (barW * 0.82) / 2, cap = Math.min(barW * 0.3, 5);
+        const g = el("g", { class: "ci-whisker", stroke: resolveColor("var(--text)"), "stroke-width": 1.4, "stroke-linecap": "round", opacity: 0.85 });
+        g.appendChild(el("line", { x1: cx, x2: cx, y1: yScale(L.lo), y2: yScale(L.hi) }));
+        g.appendChild(el("line", { x1: cx - cap, x2: cx + cap, y1: yScale(L.hi), y2: yScale(L.hi) }));
+        if (!L.clamped) g.appendChild(el("line", { x1: cx - cap, x2: cx + cap, y1: yScale(L.lo), y2: yScale(L.lo) }));
+        g.addEventListener("mousemove", onMove); g.addEventListener("mouseleave", () => hideTip(tip));
+        svg.appendChild(g);
+      }
     });
     const t = el("text", { x: pad.l + xi * groupW + groupW / 2, y: H - 8, "text-anchor": "middle" });
     t.textContent = opts.xlabel ? opts.xlabel(x) : x; svg.appendChild(t);
@@ -83,15 +147,16 @@ function groupedBar(container, series, opts) {
   container.appendChild(svg);
 }
 
-// ---------------------------------------------------------------- line chart
+// ---------------------------------------------------------------- line chart (optional shaded 95% CI band)
 function lineChart(container, series, opts) {
   container.innerHTML = "";
   const tip = ensureTooltip(container);
   const W = opts.width || 520, H = opts.height || 240, pad = { l: 40, r: 14, t: 10, b: 28 };
   const names = Object.keys(series);
   const xs = series[names[0]].map(d => d.x);
+  const anyCi = names.some(n => series[n].some(hasCi));
   const allY = names.flatMap(n => series[n].map(d => d.y));
-  const yMax = Math.max(...allY) * 1.15 || 1;
+  const yMax = anyCi ? ciYMax(names, series, opts) : (Math.max(...allY) * 1.15 || 1);
   const yMin = opts.yMinZero === false ? Math.min(...allY) * 0.9 : 0;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart" });
   const plotW = W - pad.l - pad.r, plotH = H - pad.t - pad.b;
@@ -103,21 +168,46 @@ function lineChart(container, series, opts) {
     const t = el("text", { x: 2, y: y + 3 }); t.textContent = fmt(yMin + (yMax - yMin) * i / 4, opts.yfmt); svg.appendChild(t);
   }
   xs.forEach((x, i) => { const t = el("text", { x: xScale(i), y: H - 8, "text-anchor": "middle" }); t.textContent = x; svg.appendChild(t); });
+  // bands first (under every line), one closed polygon per series over its contiguous points that have a CI
+  names.forEach(n => {
+    const col = opts.colors[n];
+    let run = [];
+    const flush = () => {
+      if (run.length > 1) {
+        const up = run.map(r => `${xScale(r.i)},${yScale(r.L.hi)}`);
+        const lo = run.slice().reverse().map(r => `${xScale(r.i)},${yScale(r.L.lo)}`);
+        svg.appendChild(el("polygon", { points: up.concat(lo).join(" "), fill: toRgba(col, 0.16), stroke: "none", class: "ci-band" }));
+      }
+      run = [];
+    };
+    series[n].forEach((d, i) => { const L = ciLimits(d, opts); if (L) run.push({ i, L }); else flush(); });
+    flush();
+  });
   names.forEach(n => {
     const pts = series[n].map((d, i) => `${xScale(i)},${yScale(d.y)}`).join(" ");
     svg.appendChild(el("polyline", { points: pts, fill: "none", stroke: resolveColor(opts.colors[n]), "stroke-width": 2.5 }));
     series[n].forEach((d, i) => {
-      const c = el("circle", { cx: xScale(i), cy: yScale(d.y), r: 4, fill: resolveColor(opts.colors[n]), stroke: "#0d1117", "stroke-width": 1.5 });
+      const c = el("circle", { cx: xScale(i), cy: yScale(d.y), r: 4, fill: resolveColor(opts.colors[n]), stroke: resolveColor("var(--panel)"), "stroke-width": 1.5 });
       c.addEventListener("mousemove", ev => {
         const r = container.getBoundingClientRect();
         showTip(container, tip, ev.clientX - r.left, ev.clientY - r.top,
-          `<div class="t-title">${n} @ ${d.x}</div><div class="t-row"><span>value</span><span>${fmt(d.y, opts.yfmt)}${opts.unit || ""}</span></div>`);
+          hasCi(d) || d.n != null ? pointTipHtml(`${n.toUpperCase()} @ ${d.x}`, "", d, opts)
+            : `<div class="t-title">${n} @ ${d.x}</div><div class="t-row"><span>value</span><span>${fmt(d.y, opts.yfmt)}${opts.unit || ""}</span></div>`);
       });
       c.addEventListener("mouseleave", () => hideTip(tip));
       svg.appendChild(c);
     });
   });
   container.appendChild(svg);
+}
+
+// Caption under a CI chart: what the band / whiskers are, and the per-chart undefined-metric disclosure.
+function ciCaption(container, kind, extraHtml) {
+  let cap = container.parentNode.querySelector(":scope > .ci-caption");
+  if (!cap) { cap = document.createElement("div"); cap.className = "ci-caption"; container.insertAdjacentElement("afterend", cap); }
+  const what = kind === "band" ? `<span class="ci-key band"></span>shaded band = 95% CI of the mean`
+                               : `<span class="ci-key whisker"></span>whiskers = mean ± 95% CI`;
+  cap.innerHTML = `${what} · Student t, n = 11 seeds, df = 10${extraHtml ? `<div class="ci-caption-extra">${extraHtml}</div>` : ""}`;
 }
 
 // ---------------------------------------------------------------- horizontal stacked comparison (two-value bar)
