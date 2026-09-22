@@ -315,6 +315,19 @@ footer.appfoot{padding:30px 28px 60px;color:var(--text-faint);font-size:.78rem;m
 
 /* ---------- status strip (hero) ---------- */
 .status-strip{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+/* Hero redesign: one bordered row per group instead of several individually-boxed chips.
+   Reuses .status-chip/.sc-label/.sc-val as-is (same classes, same color tokens) so nothing
+   else that relies on them changes -- only the outer container merges them into a single
+   row and strips each chip's own border/background down to a divider. */
+.hero-status-row{display:flex;flex-wrap:wrap;border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);overflow:hidden;margin:14px 0 0}
+.hero-status-row .status-chip{border:none;border-radius:0;background:transparent;padding:10px 20px;border-right:1px solid var(--border-soft);flex:1 1 auto}
+.hero-status-row .status-chip:last-child{border-right:none}
+.hero-coverage-row{margin-top:10px;background:var(--panel-2)}
+@media(max-width:760px){
+  .hero-status-row{flex-direction:column}
+  .hero-status-row .status-chip{border-right:none;border-bottom:1px solid var(--border-soft);justify-content:space-between}
+  .hero-status-row .status-chip:last-child{border-bottom:none}
+}
 .status-chip{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--panel-2);font-size:.72rem}
 .status-chip .sc-label{font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.03em}
 .status-chip .sc-val{font-weight:800;padding:2px 8px;border-radius:3px;font-size:.66rem;text-transform:uppercase;letter-spacing:.03em}
