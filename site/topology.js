@@ -124,7 +124,7 @@ function renderTopology(container, nodes, opts) {
     const onPath = pathIds.has(nd.id);
     c.setAttribute("r", nd.is_gw ? 8 : (onPath ? 5.6 : 4.2));
     c.setAttribute("fill", nd.is_gw ? "#fff" : hopColor(nd.hop));
-    c.setAttribute("stroke", nd.is_gw ? resolveColor("var(--accent)") : (onPath ? "#3ecf8e" : "#0d1117"));
+    c.setAttribute("stroke", nd.is_gw ? resolveColor("var(--accent)") : (onPath ? "#3ecf8e" : "#1a2332"));
     c.setAttribute("stroke-width", nd.is_gw ? 2.5 : (onPath ? 2 : 1));
     if (nd.is_gw) {
       const pulse = document.createElementNS(svg.namespaceURI, "circle");
@@ -147,7 +147,7 @@ function renderTopology(container, nodes, opts) {
     const my = px(a.y) + (px(b.y) - px(a.y)) * frac;
     const marker = document.createElementNS(svg.namespaceURI, "circle");
     marker.setAttribute("cx", mx); marker.setAttribute("cy", my); marker.setAttribute("r", 4.5);
-    marker.setAttribute("fill", "#ffe066"); marker.setAttribute("stroke", "#0d1117"); marker.setAttribute("stroke-width", 1.2);
+    marker.setAttribute("fill", "#ffd43b"); marker.setAttribute("stroke", "#1a2332"); marker.setAttribute("stroke-width", 1.2);
     marker.setAttribute("class", "rw-traversal-marker");
     svg.appendChild(marker);
   }

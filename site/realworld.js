@@ -40,7 +40,7 @@ function circleDivIcon(color, shape, size) {
     : "border-radius:50%;";
   return L.divIcon({
     className: "",
-    html: `<div style="width:${size}px;height:${size}px;background:${color};${shapeCss}border:2px solid #0d1117;box-shadow:0 0 0 2px ${color}55"></div>`,
+    html: `<div style="width:${size}px;height:${size}px;background:${color};${shapeCss}border:2px solid #1a2332;box-shadow:0 0 0 2px ${color}55"></div>`,
     iconSize: [size, size], iconAnchor: [size / 2, size / 2]
   });
 }
