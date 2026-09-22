@@ -121,10 +121,9 @@ function computeRiskMedians() {
 
 function riskItemHtml(item) {
   const cls = item.level === "HIGH" ? "risk-high" : "risk-low";
-  const icon = item.level === "HIGH" ? "🔴" : "🟢";
   const levelText = item.level === "HIGH" ? "High — " : "Low Risk — ";
   return `<div class="risk-item ${cls}">
-    <div class="ri-icon">${icon}</div>
+    <div class="ri-icon"><span class="ri-dot"></span></div>
     <div class="ri-body">
       <div class="ri-name">${item.label}</div>
       <div class="ri-value">${item.valueText}</div>
