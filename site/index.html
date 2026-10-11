@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IoT Network Performance — NS-3 Research Platform</title>
-<meta name="description" content="Analysis of IoT Network Performance Using NS-3 — congestion bottleneck identification and traffic-rate mitigation in multi-hop IoT wireless networks.">
+<title>Gateway-Centric IoT Mesh — NS-3 Research Platform</title>
+<meta name="description" content="Analysis of Gateway-Centric IoT Wireless Mesh Networks Using NS-3 — congestion bottleneck identification and traffic-rate mitigation in multi-hop IoT wireless networks, plus the proposed BA topology / risky-node routing extension.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23154394%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%229%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2225%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M16%209%20L7%2023%20M16%209%20L25%2023%20M7%2023%20L25%2023%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,10 +41,14 @@
       <div class="navlink" data-target="view-reproducibility"><span class="dot"></span>Reproducibility</div>
     </div>
 
+    <div class="navgroup phase-measured">
+      <div class="glabel">Adaptive Routing — Closed</div>
+      <div class="navlink" data-target="view-routing"><span class="dot"></span>V4 Adaptive Routing</div>
+    </div>
+
     <div class="navgroup phase-planned">
-      <div class="glabel">With Risk — Planned</div>
-      <div class="navlink" data-target="view-risk-experiment"><span class="dot"></span>Risk Experiment</div>
-      <div class="navlink" data-target="view-routing"><span class="dot"></span>Adaptive Routing</div>
+      <div class="glabel">Phase 8 — Proposed</div>
+      <div class="navlink" data-target="view-risk-experiment"><span class="dot"></span>BA Risky Nodes</div>
     </div>
 
     <div class="navgroup">
@@ -56,7 +60,7 @@
 
     <div class="sidebar-foot">
       NS-3 Research &middot; 802.11b Multi-hop Mesh
-      <div class="status"><span class="pulse"></span>Baseline Complete · Risk Planned</div>
+      <div class="status"><span class="pulse"></span>Baseline Complete · V4 Closed · Phase 8 Proposed</div>
     </div>
   </aside>
 
@@ -67,13 +71,14 @@
       <div style="display:flex;align-items:center;gap:12px">
         <button class="menu-btn" id="menu-btn">☰</button>
         <div>
-          <h1>Analysis of IoT Network Performance Using NS-3</h1>
+          <h1>Analysis of Gateway-Centric IoT Wireless Mesh Networks Using NS-3</h1>
           <div class="sub">NS-3 Multi-hop Wireless IoT Network — Research Operations View</div>
         </div>
       </div>
       <div class="meta">
         <span class="chip ok">● BASELINE MEASURED</span>
-        <span class="chip" style="color:var(--planned);border-color:rgba(240,169,78,.3);background:var(--planned-soft)">◐ RISK PLANNED</span>
+        <span class="chip ok">● V4 CLOSED — NO BENEFIT</span>
+        <span class="chip" style="color:var(--planned);border-color:rgba(240,169,78,.3);background:var(--planned-soft)">◐ PHASE 8 PROPOSED</span>
         <span class="chip">NS-3</span>
         <span class="chip">802.11b</span>
         <span class="chip">Multi-hop Mesh</span>
@@ -84,15 +89,16 @@
 
       <!-- ============================================================ OVERVIEW -->
       <section class="view hero" id="view-overview">
-        <div class="eyebrow">V3 · NS-3 IoT Multi-Hop Research</div>
-        <div class="hero-title">Analysis of IoT Network Performance Using NS-3</div>
-        <p class="hero-subtitle">Evaluating network scale, traffic load, routing behavior, bottlenecks, and adaptive routing strategies in IoT networks.</p>
+        <div class="eyebrow">Gateway-Centric IoT Mesh · NS-3 Research Platform</div>
+        <div class="hero-title">Analysis of Gateway-Centric IoT Wireless Mesh Networks Using NS-3</div>
+        <p class="hero-subtitle">Evaluating network scale, traffic load, routing behavior, bottlenecks, and (proposed) risk-aware routing strategies in IoT networks.</p>
 
         <div class="hero-status-row">
           <div class="status-chip"><span class="sc-label">Baseline</span><span class="sc-val measured">✓ Measured</span></div>
           <div class="status-chip"><span class="sc-label">Bottleneck</span><span class="sc-val measured">✓ Measured</span></div>
           <div class="status-chip"><span class="sc-label">Intervention</span><span class="sc-val measured">✓ Measured</span></div>
-          <div class="status-chip"><span class="sc-label">Next</span><span class="sc-val direction">→ Sigmoid Adaptive Routing</span></div>
+          <div class="status-chip"><span class="sc-label">Adaptive Routing (V4)</span><span class="sc-val measured">✓ Closed — no benefit</span></div>
+          <div class="status-chip"><span class="sc-label">Next</span><span class="sc-val direction">→ BA Risky-Node Study (Proposed)</span></div>
         </div>
         <div class="hero-status-row hero-coverage-row">
           <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">1,782</span><span class="sc-label">Baseline Runs</span></div>
@@ -120,10 +126,10 @@
             <div class="evidence-role">Research Status</div>
             <div style="display:flex;flex-direction:column;gap:8px">
               <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Baseline</div><span class="tag measured">Measured</span></div>
-              <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Risk Condition</div><span class="tag planned">Planned</span></div>
-              <div class="health-row" style="padding:0"><div class="health-label" style="flex:0 0 110px">Adaptive Routing</div><span class="tag direction">Research Direction</span></div>
+              <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Adaptive Routing (V4)</div><span class="tag measured">Closed — no benefit</span></div>
+              <div class="health-row" style="padding:0"><div class="health-label" style="flex:0 0 110px">BA Risky-Node (Phase 8)</div><span class="tag planned">Proposed</span></div>
             </div>
-            <p style="font-size:.74rem;color:var(--text-faint);margin:10px 0 0">Condition: Without Risk → With Risk</p>
+            <p style="font-size:.74rem;color:var(--text-faint);margin:10px 0 0">Phase 8: Without Risk-State → With Risk-State (0/1/2/3 high-risk nodes)</p>
           </div>
         </div>
 
@@ -156,7 +162,8 @@
           <a href="#view-bottleneck" class="story-node done"><span class="story-num">3</span>Bottleneck Identification</a>
           <a href="#view-intervention" class="story-node done"><span class="story-num">4</span>Traffic Intervention</a>
           <a href="#view-conclusions" class="story-node done"><span class="story-num">5</span>Research Interpretation</a>
-          <a href="#view-routing" class="story-node direction"><span class="story-num">6</span>V4 Adaptive Routing Direction</a>
+          <a href="#view-routing" class="story-node done"><span class="story-num">6</span>V4 Adaptive Routing (Closed)</a>
+          <a href="#view-risk-experiment" class="story-node direction"><span class="story-num">7</span>BA Risky-Node Study (Proposed)</a>
         </div>
       </section>
 
@@ -174,7 +181,7 @@
         <div class="section-eyebrow">Performance Risk Classification</div>
         <div class="badge-row"><span class="tag measured">Without-Risk Baseline — Measured</span></div>
         <h2 style="font-size:1.1rem">Risk Summary</h2>
-        <p class="lede" style="margin-bottom:14px">A metric-level health check of the completed Without-Risk baseline — which measured conditions look healthy, and which look strained. <strong>This is unrelated to the separate planned With-Risk experiment</strong> (see Risk Experiment) — no risk condition is applied or implied here.</p>
+        <p class="lede" style="margin-bottom:14px">A metric-level health check of the completed Without-Risk baseline — which measured conditions look healthy, and which look strained. <strong>This is unrelated to the separate, proposed BA Risky Nodes study</strong> (see BA Risky Nodes, Phase 8) — no risk condition is applied or implied here.</p>
 
         <div class="filters">
           <div class="filter-group"><span class="fl">Protocol</span><div id="risk-protocol" style="display:flex;gap:2px"></div></div>
@@ -451,7 +458,7 @@
           <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Seeds: 20–30</span>
           <span class="metric-status measured" style="font-size:.68rem">✓ MEASURED — 1,782 runs</span>
         </div>
-        <div class="callout" style="margin-bottom:20px">The simulation models a multi-hop wireless IoT network in which sensor nodes communicate through intermediate nodes toward a gateway/sink. Network performance is evaluated as network size, traffic load, mobility, and routing strategy change. <strong>The completed baseline experiment (below) is the Without-Risk condition</strong> — a risk condition has not yet been defined or run (see Risk Experiment).</div>
+        <div class="callout" style="margin-bottom:20px">The simulation models a multi-hop wireless IoT network in which sensor nodes communicate through intermediate nodes toward a gateway/sink. Network performance is evaluated as network size, traffic load, mobility, and routing strategy change. <strong>The completed baseline experiment (below) is the Without-Risk condition</strong> — the proposed risk condition (explicit per-node low/high-risk states, BA topology) has not yet been run (see BA Risky Nodes, Phase 8).</div>
 
         <div class="grid" id="topo-main-grid">
           <div class="topo-panels-grid">
@@ -1028,123 +1035,103 @@
           <div class="health-row"><div class="health-label">Numerical comparison</div><div style="flex:1;color:var(--ok);font-weight:700">✓ No drift (681/681 applicable)</div></div>
           <div class="health-row"><div class="health-label">Research status</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Reproducible</div></div>
         </div>
-        <p style="font-size:.8rem;color:var(--text-faint);margin-top:12px">6 comparisons not applicable — <code>MaxRetryDrops</code> was not instrumented in the original §10 dataset. Full detail: <a href="../analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md">FINAL_REPRODUCIBILITY_CHECK.md</a>.</p>
+        <p style="font-size:.8rem;color:var(--text-faint);margin-top:12px">6 comparisons not applicable — <code>MaxRetryDrops</code> was not instrumented in the original §10 dataset. Full detail: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md" target="_blank" rel="noopener">FINAL_REPRODUCIBILITY_CHECK.md</a>.</p>
         <div class="callout" style="margin-top:16px">Reproducibility is established for the completed Without-Risk baseline and its follow-on studies above. It says nothing about the not-yet-run With-Risk condition, next.</div>
       </section>
 
       <!-- ============================================================ RISK EXPERIMENT (planned) -->
       <section class="view major" id="view-risk-experiment">
-        <div class="section-eyebrow">Next Research Stage</div>
+        <div class="section-eyebrow">Phase 8 — Opened 2026-10, Per Advisor Direction</div>
         <div class="badge-row">
-          <span class="tag risk">WITH RISK</span>
-          <span class="tag planned">PLANNED EXPERIMENT</span>
-          <span class="tag planned">NOT YET MEASURED</span>
+          <span class="tag risk">BA TOPOLOGY</span>
+          <span class="tag planned">PROPOSED DESIGN</span>
+          <span class="tag planned">NOT YET RUN</span>
         </div>
-        <h2>Risk Experiment</h2>
-        <p class="lede">Evaluate how network performance changes when the defined risk condition is introduced and compare it with the Without-Risk baseline.</p>
+        <h2>BA Risky Nodes</h2>
+        <p class="lede">A new research phase, opened 2026-10 per advisor direction: add explicit low-risk / high-risk states to individual nodes on a Barabasi-Albert (BA) topology, and study how 0, 1, 2, and 3 high-risk nodes affect route selection and performance.</p>
         <div class="callout" style="margin-bottom:20px">
-          <p style="margin:0 0 8px">Per advisor direction, the experiment follows a two-stage sequence: <strong>without risk first, for baseline, then with risk.</strong></p>
-          <p style="margin:0">The precise definition of the risk condition has not yet been finalized as part of the research methodology. No experiment in this design has been run, and no experimental values are presented.</p>
+          <p style="margin:0 0 8px">Advisor's request, verbatim in substance: explain why/how the routing mechanism works; add explicit low-risk and high-risk node states; assign 1–3 high-risk nodes and study routing behaviour; prepare a V1–V4 methodology/results report first (see <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/v1-v4-methodology-results.md" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">docs/v1-v4-methodology-results.md</a>).</p>
+          <p style="margin:0"><strong>Filename warning:</strong> the BA/risky-node simulator shares the filename <code>iot-network-v3.cc</code> with this repository's unrelated, already-closed 15-node sigmoid pilot (see Research History). They are different programs. The BA program is not committed to this repository yet.</p>
         </div>
 
         <div class="panel" style="margin-bottom:20px;border-color:rgba(213,85,90,.3)">
           <div class="panel-head"><h3 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint)">Current Status</h3></div>
-          <p style="margin:0;font-size:.88rem;color:var(--text)">The risk condition is not yet experimentally defined or measured. Results will be added only after the risk model is established.</p>
+          <p style="margin:0;font-size:.88rem;color:var(--text)">The BA-topology simulator exists (26-node Barabasi-Albert graph, degree-based structural risk, three routing-cost variants) but has <strong>never been run</strong> — its output directory does not exist on disk. No low/high-risk node state exists in that code today; risk is currently a continuous, degree-derived number only. Everything below is a proposed design, not a result.</p>
         </div>
 
         <div class="panel" style="margin-bottom:20px">
-          <h3 style="font-size:.85rem">Planned research pipeline</h3>
+          <div class="panel-head"><h3>Low-risk / high-risk node state</h3><span class="tag planned">Pending verification</span></div>
+          <p class="panel-sub">Proposed, not implemented. A new modeling extension — neither cited paper defines a per-node risk label; the existing code's own "low-risk"/"high-risk" wording is a network-wide cost-bound choice (50/200 vs. 100/400), not a per-node attribute.</p>
+          <pre style="background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-size:.78rem;color:var(--text-dim);overflow-x:auto;margin:10px 0 0">RiskState(i) ∈ {low, high}          — new, explicit, via --highRiskNodes=&lt;ids&gt;
+R_i' = max(R_i, 1[RiskState(i)=high])  — superset: 0 flagged nodes ⇒ identical to today</pre>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-head"><h3>How risk would affect route selection</h3><span class="tag planned">Pending results</span></div>
+          <p class="panel-sub">Explained explicitly so a null result is read correctly rather than mistaken for broken code.</p>
+          <div class="grid cols-2" style="margin-top:10px">
+            <div class="panel" style="background:var(--panel-2)">
+              <h3 style="font-size:.82rem">standard mode</h3>
+              <p class="panel-sub" style="margin:0">Flat cost per hop — <strong>zero effect, always</strong>, by construction. Required negative control.</p>
+            </div>
+            <div class="panel" style="background:var(--panel-2)">
+              <h3 style="font-size:.82rem">linear / sigmoid mode</h3>
+              <p class="panel-sub" style="margin:0">A flagged node raises cost on every edge touching it. Reroutes <strong>only if</strong> a cheaper alternate path exists — many low-degree "host" nodes have none, so no change there is expected, not a bug.</p>
+            </div>
+          </div>
+          <p class="panel-sub" style="margin-top:10px">Do not assume assigning a risk label automatically changes routing — this is checked, not assumed, by the pilot below.</p>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-head"><h3>0 / 1 / 2 / 3 high-risk-node experiment matrix</h3><span class="tag planned">Proposed until executed</span></div>
+          <p class="panel-sub">Fixed topology/seed per matched set; nodes flagged deterministically (top-k by degree) so each count's set is a subset of the next — not cherry-picked.</p>
+          <table class="data" style="margin-top:10px">
+            <thead><tr><th>Routing mode</th><th>0 high-risk</th><th>1 high-risk</th><th>2 high-risk</th><th>3 high-risk</th></tr></thead>
+            <tbody>
+              <tr><td>standard</td><td colspan="4">Negative control — no reroute expected at any count</td></tr>
+              <tr><td>linear</td><td colspan="4">Depends on alternate-path availability — not yet run</td></tr>
+              <tr><td>sigmoid</td><td colspan="4">Depends on alternate-path availability — not yet run</td></tr>
+            </tbody>
+          </table>
+          <p class="panel-sub" style="margin-top:10px">3 modes × 4 counts = 12 runs per seed/traffic level. Eventual official matrix (pending pilot): seeds 20–30, matching the V3 Phase 1 convention — not proposed to run yet.</p>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px">
+          <div class="panel-head"><h3>Pilot (proposed next step)</h3><span class="tag planned">Not yet run</span></div>
           <div class="flowchart" style="margin:14px 0 0">
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Risk Definition</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Risk Modeling</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Controlled NS-3 Experiment</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Without-Risk vs. With-Risk</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Performance Impact</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Adaptive Routing</div>
-          </div>
-          <p class="panel-sub" style="margin-top:10px">Conceptual only — no risk model, attack behavior, or numerical outcome has been defined or invented anywhere in this dashboard.</p>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>Experimental sequence</h3><span class="tag planned">Planned — not yet run</span></div>
-          <p class="panel-sub">Without Risk → Baseline → With Risk</p>
-          <div class="flowchart" style="margin:14px 0">
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint);text-align:left;padding:14px 18px;max-width:420px">
-              <div style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">01 — WITHOUT RISK</div>
-              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">Baseline Condition</div>
-              <div style="font-size:.8rem;color:var(--text-dim);font-weight:400">Establish the normal network performance baseline before introducing the risk condition.</div>
-            </div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint);text-align:left;padding:14px 18px;max-width:420px">
-              <div style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">02 — WITH RISK</div>
-              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">Risk Condition</div>
-              <div style="font-size:.8rem;color:var(--text-dim);font-weight:400">Introduce the risk condition and evaluate how Sigmoid-based adaptive routing responds.</div>
-            </div>
-            <div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint);text-align:left;padding:14px 18px;max-width:420px">
-              <div style="font-size:.68rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">03 — COMPARISON</div>
-              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">Baseline vs. Risk Condition</div>
-              <div style="font-size:.8rem;color:var(--text-dim);font-weight:400">Compare network performance between the baseline condition and the risk condition.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="grid cols-2" style="margin-bottom:20px">
-          <div class="panel">
-            <div class="panel-head"><h3>Without Risk — Baseline</h3><span class="metric-status measured" style="font-size:.72rem">✓ Measured</span></div>
-            <p class="panel-sub">Establish baseline network behavior under a normal condition without risk. Already complete — see Baseline — Without Risk, above.</p>
-            <div class="flowchart" style="margin:14px 0">
-              <div class="flow-node">Normal network condition</div><div class="flow-arrow">↓</div>
-              <div class="flow-node">Measure network performance</div><div class="flow-arrow">↓</div>
-              <div class="flow-node good">Baseline established (1,782 runs)</div>
-            </div>
-            <p class="panel-sub" style="margin:10px 0 4px">Metrics:</p>
-            <ul style="color:var(--text-dim);font-size:.85rem;margin:0;padding-left:20px">
-              <li>PDR</li><li>Throughput</li><li>Delay</li><li>Jitter</li>
-              <li>Packet Loss</li><li>Hop Count</li><li>MLU</li>
-            </ul>
-          </div>
-          <div class="panel">
-            <div class="panel-head"><h3>With Risk — Adaptive Routing</h3><span class="tag planned">Planned</span></div>
-            <p class="panel-sub">Introduce the risk condition and evaluate how Sigmoid-based adaptive routing responds to the changed network condition.</p>
-            <div class="flowchart" style="margin:14px 0">
-              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Introduce risk condition</div><div class="flow-arrow">↓</div>
-              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Evaluate Sigmoid-based adaptive routing</div><div class="flow-arrow">↓</div>
-              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Measure network performance</div><div class="flow-arrow">↓</div>
-              <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Compare with baseline</div>
-            </div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Step 0: structural pre-check (no simulator)</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Step 1: 12-run pilot (1 seed × 3 modes × 4 counts)</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">3 pass/fail checks: wiring, negative control, mechanism live</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Full 11-seed matrix (only if pilot passes)</div>
           </div>
         </div>
 
         <div class="panel">
-          <div class="panel-head"><h3>Step 3 — Final Comparison</h3><span class="tag planned">Planned</span></div>
-          <p class="panel-sub">Evaluate whether the adaptive routing mechanism can maintain or improve network performance under the risk condition.</p>
-          <div class="grid cols-2" style="margin-top:12px">
+          <div class="panel-head"><h3>Metrics</h3><span class="tag planned">Display only when supported by actual data</span></div>
+          <div class="grid cols-2" style="margin-top:10px">
             <div class="panel" style="background:var(--panel-2)">
-              <h3 style="font-size:.82rem">Without Risk</h3>
-              <p class="panel-sub" style="margin:0 0 4px">Measured Baseline</p>
-              <p class="panel-sub" style="margin:0">1,782 runs — see Baseline and Protocol Comparison, above.</p>
+              <h3 style="font-size:.82rem">Existing (unchanged)</h3>
+              <p class="panel-sub" style="margin:0">PDR, throughput, delay, packet loss, hop count — <strong>No data — not yet run.</strong> No chart is shown for this phase; one will be added only once real rows exist.</p>
             </div>
             <div class="panel" style="background:var(--panel-2)">
-              <h3 style="font-size:.82rem">With Risk</h3>
-              <p class="panel-sub" style="margin:0 0 4px">Planned Condition</p>
-              <p class="panel-sub" style="margin:0">No experimental values yet — planned condition.</p>
+              <h3 style="font-size:.82rem">New (proposed logging)</h3>
+              <p class="panel-sub" style="margin:0">Routes-changed count, risk-exposure rate, hop-count inflation (%) — require new per-flow path logging that does not exist in today's schema.</p>
             </div>
           </div>
         </div>
-        <div class="callout" style="margin-top:16px">This planned baseline/risk design is separate from — and must not be confused with — the completed V3 official baseline (1,782 runs; see Baseline — Without Risk, above) or the completed V4 activation-screen results (see Adaptive Routing, next). It is a future experiment on the V4 track only; V3 results are unaffected and unchanged. The risk mechanism itself is not defined here or anywhere else in this dashboard — it will only be described once it exists in the research methodology.</div>
+        <div class="callout" style="margin-top:16px">This proposed design is separate from — and must not be confused with — the completed V3 Phase 1 official baseline (1,782 runs) or the completed, closed V4 activation-screen/matched results (see V4 Adaptive Routing, next). Its designated output directory (<code>results/v3/</code> in the researcher's working environment) does not collide with either. No chart, statistic, route, or performance number for this phase appears anywhere in this dashboard until it has actually been run.</div>
       </section>
 
       <!-- ============================================================ ROUTING / V4 -->
       <section class="view" id="view-routing">
-        <div class="section-eyebrow">V4 — Future Research Direction</div>
+        <div class="section-eyebrow">V4 — Closed, Decision B</div>
         <div class="badge-row">
-          <span class="status-badge direction"><span class="sb-dot"></span>V4 — Research Direction</span>
+          <span class="status-badge direction"><span class="sb-dot"></span>V4 — Closed Investigation</span>
           <span class="tag v4">V4 Investigation — Existing Evidence</span>
-          <span class="tag" style="background:var(--purple-soft);color:var(--v4)">V3 Research Direction — Sigmoid Routing Metric</span>
+          <span class="tag measured" style="background:var(--purple-soft);color:var(--v4)">Closed — No Tier-2 Experiment Justified</span>
         </div>
-        <h2>Sigmoid Routing Metric — V3 Research Direction</h2>
-        <p class="lede">Following advisor guidance, the next research focus is the adaptive routing metric itself. This section separates what has already been simulated and measured (A) from what is proposed as the next research direction (B) — no new experiment has been run yet. The planned Without-Risk/With-Risk experimental design that motivates this work is covered in Risk Experiment, above.</p>
+        <h2>Sigmoid Routing Metric — V4, Closed</h2>
+        <p class="lede">Sigmoid-based adaptive routing (V4) was fully evaluated across 957 runs and closed with Decision B: the mechanism demonstrably works and changes routing behaviour, but no activated configuration produced a credible performance benefit over Static. No further tuning of this metric is planned. The active next research direction is the BA Risky Nodes phase (Phase 8), covered above — not a continuation of this sigmoid metric.</p>
 
         <div class="panel" style="margin-bottom:20px">
           <h3>Research progression</h3>
@@ -1154,8 +1141,8 @@
             <div class="flow-node hot">Bottleneck Investigation</div><div class="flow-arrow">↓</div>
             <div class="flow-node hot">Need for Adaptive Routing</div><div class="flow-arrow">↓</div>
             <div class="flow-node">Adaptive Routing Metric</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Sigmoid Routing Metric</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Future metric development and validation</div>
+            <div class="flow-node good">Sigmoid Routing Metric — Closed (Decision B)</div><div class="flow-arrow">↓</div>
+            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Phase 8: BA Risky-Node Study (proposed)</div>
           </div>
         </div>
 
@@ -1191,54 +1178,18 @@
         </div>
 
         <!-- ============================ B. RESEARCH DIRECTION ============================ -->
-        <div class="badge-row" style="margin-top:40px"><span class="tag" style="background:var(--purple-soft);color:var(--v4)">B · V3 Research Direction — Sigmoid Routing Metric</span><span class="tag direction">→ FUTURE ADAPTIVE ROUTING RESEARCH</span></div>
-        <h3>Why an adaptive routing metric?</h3>
-        <div class="callout" style="margin-bottom:20px">Current routing decisions may not sufficiently account for changing network conditions. Therefore, the next research step is to investigate whether a continuous routing metric can translate network conditions into an adaptive routing decision.</div>
+        <div class="badge-row" style="margin-top:40px"><span class="tag measured" style="background:var(--purple-soft);color:var(--v4)">B · Closed — Full Metric Pipeline Completed</span><span class="tag measured">✓ COMPLETED, NEGATIVE RESULT</span></div>
+        <h3>Was a full adaptive routing metric evaluated? — yes, and it is closed</h3>
+        <div class="callout" style="margin-bottom:20px">The metric-design pipeline once planned here (design → parameter sensitivity → route selection → controlled experiments → baseline comparison → statistical validation) has been <strong>fully carried out</strong>: 297 Stage-1 sensitivity runs, 594 Stage-2 matched-comparison runs, 66 Tier-1 activation-screen runs (957 total). Closed with Decision B: the mechanism activates and measurably restructures routes, but no configuration produced a statistically credible delivery benefit over Static. No Tier-2 experiment is scientifically justified, and none is planned.</div>
 
         <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>Sigmoid Routing Metric — conceptual pipeline</h3><span class="tag direction">Conceptual / Future Validation</span></div>
-          <p class="panel-sub">Conceptual only — no formula or parameter values are fixed yet; this is the pipeline shape the next research phase will investigate.</p>
-          <div class="flowchart" style="margin:14px 0">
-            <div class="flow-node">Network Conditions</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Routing-related Metrics</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Metric Normalization</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">Sigmoid Transformation</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Routing Score / Decision</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Adaptive Route Selection</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Performance Evaluation</div>
-          </div>
-          <p class="panel-sub" style="margin:12px 0 4px">Potential inputs (not yet finalized):</p>
-          <div class="badge-row" style="margin-bottom:0">
-            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">PDR</span>
-            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Delay</span>
-            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Link Utilization</span>
-            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Hop Count</span>
-            <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Routing Cost</span>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <h3>Research questions</h3>
-          <ul style="color:var(--text-dim);font-size:.85rem;margin:0;padding-left:20px">
-            <li>Which network conditions should contribute to the adaptive routing metric?</li>
-            <li>How should these conditions be normalized?</li>
-            <li>How can a sigmoid function transform the metric into a meaningful routing score?</li>
-            <li>Can the resulting metric improve route selection under congestion?</li>
-            <li>Does the metric improve PDR, delay, utilization, or packet loss?</li>
-          </ul>
+          <div class="panel-head"><h3>Why it didn't help — the structural explanation</h3><span class="tag measured">Verified finding</span></div>
+          <p class="panel-sub" style="margin:0">RiskScore (node degree) reflects topology, not where traffic concentrates — in this single-gateway mesh, load falls on the gateway's one-hop neighbourhood regardless of degree, a location a degree-based metric cannot target. The two-pass offline design also measures load under baseline routing, never under the mechanism's own routing.</p>
         </div>
 
         <div class="panel">
-          <div class="panel-head"><h3>Future validation</h3><span class="tag planned">FUTURE WORK — not yet performed</span></div>
-          <p class="panel-sub">No experiments in this pipeline have been run. This is the proposed path for the next research phase, not a result.</p>
-          <div class="flowchart horizontal" style="margin:14px 0">
-            <div class="flow-node">Metric Design</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Parameter Sensitivity</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Route Selection</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Controlled NS-3 Experiments</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Baseline Comparison</div><div class="flow-arrow">→</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Statistical Validation</div>
-          </div>
+          <div class="panel-head"><h3>What's next</h3><span class="tag planned">→ Phase 8</span></div>
+          <p class="panel-sub" style="margin:0">This closes the sigmoid-metric line of investigation. The active next research direction is <a href="#view-risk-experiment" style="color:inherit;text-decoration:underline">BA Risky Nodes (Phase 8)</a> — a different mechanism (explicit per-node risk state, not a tuned cost function) on a different topology (Barabasi-Albert, not the wireless mesh), proposed per the advisor's 2026-10 feedback.</p>
         </div>
 
       </section>
@@ -1323,7 +1274,7 @@
             <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">02 — BOTTLENECK</span><span>Gateway and first-hop regions are supported as major measurable bottlenecks, with gateway airtime reaching 0.86–0.89 at N≥75 under high traffic.</span></li>
             <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">03 — INTERVENTION</span><span>Traffic reduction can improve performance under overloaded conditions, with OLSR PDR improving by +14.7 percentage points at N=75 and +25.2 percentage points at N=100 at the deepest cut.</span></li>
             <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">04 — ROUTING</span><span>Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">05 — NEXT PHASE</span><span>The next research step is to evaluate the With-Risk condition once the risk definition is established, followed by controlled evaluation of Sigmoid-based adaptive routing.</span></li>
+            <li style="display:flex;gap:14px;padding:12px 0"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">05 — NEXT PHASE</span><span>Sigmoid adaptive routing (V4) is closed, with no benefit demonstrated (Finding 04). Per advisor direction (2026-10), the next research step is a proposed BA topology / risky-node study: explicit low/high-risk node states and a 0/1/2/3-high-risk-node experiment matrix — design proposed, nothing executed yet.</span></li>
           </ol>
         </div>
 
@@ -1347,17 +1298,17 @@
           <div class="limitation-item"><div class="who">Instrumentation</div><div class="desc">Not all packet-loss mechanisms are directly observable using the current counters. PHY RX drops are not directly equivalent to permanent packet loss.</div></div>
           <div class="limitation-item"><div class="who">V4</div><div class="desc">Routing adaptation did not produce measurable overall improvement, even at 100% activation.</div></div>
         </div>
-        <p style="font-size:.8rem;color:var(--text-faint);margin-top:16px">Data source of truth: <a href="../analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md">analysis/final-report-data/</a>. Historical V2.7 results are shown separately in <a href="../README.md">Research History</a> and are not mixed into the charts above.</p>
+        <p style="font-size:.8rem;color:var(--text-faint);margin-top:16px">Data source of truth: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md" target="_blank" rel="noopener">analysis/final-report-data/</a> (data dictionary: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/REPORT_DATA_DICTIONARY.md" target="_blank" rel="noopener">REPORT_DATA_DICTIONARY.md</a>). Historical V2.7 results are shown separately in <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md" target="_blank" rel="noopener">Research History</a> and are not mixed into the charts above. For the advisor's "V1–V4" framing and the Phase 8 BA risky-node proposal specifically: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/v1-v4-methodology-results.md" target="_blank" rel="noopener">docs/v1-v4-methodology-results.md</a>.</p>
       </section>
 
       <!-- ============================================================ RESEARCH ROADMAP -->
       <section class="view" id="view-roadmap">
         <div class="section-eyebrow">What's Next</div>
         <h2>Research Roadmap</h2>
-        <p class="lede">Where this research stands today, and the path from the completed Without-Risk baseline to a fully evaluated adaptive-routing system.</p>
+        <p class="lede">Where this research stands today: Phases 1–7 frozen and verified, V4 closed with a negative result, and Phase 8 (BA risky-node study) proposed per advisor direction (2026-10).</p>
         <div class="roadmap panel" style="padding:0">
           <div class="roadmap-col completed">
-            <div class="rc-title">Completed</div>
+            <div class="rc-title">Completed (Frozen)</div>
             <div class="rc-rule"></div>
             <ul>
               <li>Baseline</li>
@@ -1366,30 +1317,30 @@
               <li>Retry Validation</li>
               <li>Traffic Intervention</li>
               <li>Reproducibility</li>
+              <li>Sigmoid Adaptive Routing (V4 — closed, no benefit)</li>
             </ul>
           </div>
           <div class="roadmap-col current">
             <div class="rc-title">Current</div>
             <div class="rc-rule"></div>
             <ul>
-              <li>Risk Definition</li>
+              <li>BA Risky-Node Design (audit + proposal)</li>
             </ul>
           </div>
           <div class="roadmap-col next">
             <div class="rc-title">Next</div>
             <div class="rc-rule"></div>
             <ul>
-              <li>With-Risk Experiment</li>
-              <li>Risk Impact Analysis</li>
+              <li>Structural pre-check + 12-run pilot</li>
+              <li>Full 11-seed matrix (if pilot passes)</li>
             </ul>
           </div>
           <div class="roadmap-col future">
             <div class="rc-title">Future</div>
             <div class="rc-rule"></div>
             <ul>
-              <li>Sigmoid Adaptive Routing</li>
-              <li>Statistical Validation</li>
-              <li>Route Selection Optimization</li>
+              <li>Risk-Impact Statistical Analysis</li>
+              <li>Route-Selection Refinement (if a signal is found)</li>
             </ul>
           </div>
         </div>

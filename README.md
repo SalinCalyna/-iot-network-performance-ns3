@@ -1,9 +1,15 @@
-# Analysis of IoT Network Performance Using NS-3
+# Analysis of Gateway-Centric IoT Wireless Mesh Networks Using NS-3
 
 Identifying congestion bottlenecks and evaluating traffic-rate mitigation in multi-hop IoT
 wireless networks, using the [ns-3](https://www.nsnam.org/) network simulator.
 
-**Status:** Research Complete — the research described below is **frozen**.
+**Status:** Phases 1–7 (below) are complete and **frozen** — independently verified reproducible
+(51/51 validation runs, 681/681 applicable metric comparisons). **A new Phase 8 opened 2026-10**
+per advisor direction (BA topology / risky-node routing) — this is a proposed experimental
+design only; nothing has been executed yet. See
+[Advisor feedback (2026-10)](#advisor-feedback-2026-10--ba-topologyrisky-node-routing) below and
+[`docs/v1-v4-methodology-results.md`](docs/v1-v4-methodology-results.md) for the full,
+verification-labelled status of every track.
 
 | | |
 |---|---|
@@ -12,7 +18,8 @@ wireless networks, using the [ns-3](https://www.nsnam.org/) network simulator.
 | Protocols | AODV / OLSR / Static / V4 Sigmoid-Based Adaptive Routing (investigation) |
 | Official V3 baseline | 1,782 runs |
 | Reproducibility | 51/51 validation runs PASS |
-| Research status | **FROZEN** |
+| Phases 1–7 status | **FROZEN** |
+| Phase 8 (BA risky-node) status | **Proposed — not yet executed** (opened 2026-10) |
 | Dashboard | [GitHub Pages](https://salincalyna.github.io/-iot-network-performance-ns3/) |
 
 ## Researcher
@@ -105,6 +112,29 @@ about a specific unmeasured physical cause.
   does not improve delivery performance under the tested conditions. This is not a failed
   implementation.
 
+## Advisor feedback (2026-10) — BA topology/risky-node routing
+
+Komsan Kanjanasit requested, in 2026-10 feedback, that the frozen research above (Phases 1–7) be
+followed by a new investigation on the Barabasi-Albert (BA) topology / risk-aware routing study:
+
+1. Explain why and how the routing mechanism works.
+2. Add explicit low-risk and high-risk node states.
+3. Assign 1–3 high-risk nodes and study routing behaviour.
+4. Prepare a methodology and results report for V1–V4 before proceeding further.
+
+**Status: proposed design only — no code change, no simulation run, no existing data touched.**
+The full audit and design (topology/algorithm as it exists today, the proposed low/high-risk
+node-state model and its supporting references, exactly how — and when it would *not* — affect
+route selection, the matched 0/1/2/3-high-risk-node experiment matrix, a 12-run pilot, and the
+required logging additions) is in
+[`docs/v1-v4-methodology-results.md`](docs/v1-v4-methodology-results.md). **Important scope note
+on the filename:** `scratch/iot-network-v3.cc` in *this* repository is still the legacy 15-node
+sigmoid pilot (see "Early V3 sigmoid prototype" below) — the 26-node Barabasi-Albert risk-aware
+simulator this new phase targets is a separate, same-named program that exists only as an
+uncommitted file in the researcher's local working environment and is **not yet part of this
+repository**. The two must not be confused; this is exactly the kind of V3-vs-V3 mislabeling this
+audit was asked to guard against.
+
 ## Reproducibility
 
 The frozen research was independently re-executed using a 51-run validation matrix covering the
@@ -143,7 +173,10 @@ The project progressed through seven phases before being frozen: V3 baseline →
 investigation → bottleneck characterisation → retry-exhaustion validation → offered-rate
 intervention → Static/N=50 diagnostic → final reproducibility validation. Earlier project
 iterations (V1/V2.7) and their results are preserved for context, not as current findings — see
-[`docs/research-history.md`](docs/research-history.md).
+[`docs/research-history.md`](docs/research-history.md), which also now documents the proposed
+Phase 8 (BA risky-node study). For the advisor's own "V1–V4" framing specifically, cross-walked to
+these phases and labelled Implemented / Experiment completed / Proposed / Not yet verified, see
+[`docs/v1-v4-methodology-results.md`](docs/v1-v4-methodology-results.md).
 
 ## Final research source code
 
@@ -181,6 +214,9 @@ analysis/
   final-github-release/          This release's audit trail
 docs/
   research-history.md             V1 -> V2 -> V3 -> V4 -> bottleneck -> intervention -> frozen
+                                  -> Phase 8 BA risky-node (proposed, 2026-10)
+  v1-v4-methodology-results.md    Advisor's "V1-V4" framing, cross-walked to real tracks/files,
+                                  each item labelled Implemented/Completed/Proposed/Not verified
   methodology.md, experiment-design.md, sigmoid-metric.md, v3-experiment-framework.md
                                   Design rationale (historical + V3 framework)
 dashboard/
@@ -256,4 +292,10 @@ superseded by the V4 Sigmoid-Based Adaptive Routing study on the official V3 top
 Findings, Finding 2), which is the frozen, authoritative result for adaptive routing in this
 project. Design rationale for the prototype remains in `docs/sigmoid-metric.md`,
 `docs/methodology.md`, and `docs/experiment-design.md` for historical reference.
+
+**Filename collision, flagged 2026-10:** a *different* program, also named `iot-network-v3.cc`,
+was later written for the new Phase 8 BA/risky-node study (see "Advisor feedback (2026-10)"
+above) — a 26-node Barabasi-Albert topology with degree-based structural risk, unrelated to this
+15-node pilot. That program is not in this repository yet (local, uncommitted). Do not assume any
+result or description here applies to it.
 </details>

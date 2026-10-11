@@ -1,8 +1,9 @@
 # Research History
 
-This document traces the project's progression from its first prototype to the frozen final
-research, so that earlier code and results remain understandable without being confused with the
-current findings. See the main [README](../README.md) for the current, authoritative results.
+This document traces the project's progression from its first prototype through the frozen
+Phases 1–7 research, and now into the proposed Phase 8, so that earlier code and results remain
+understandable without being confused with current or newer findings. See the main
+[README](../README.md) for the current, authoritative status of every phase.
 
 ## V1 — `scratch-simulator.cc`
 
@@ -23,6 +24,11 @@ routing mode computing shortest paths over sigmoid-weighted edge costs. Only a 4
 was ever executed. This prototype was **superseded** by the V4 Sigmoid-Based Adaptive Routing
 study (see below), which is the project's authoritative, statistically-evaluated adaptive-routing
 result.
+
+**Filename note (2026-10):** a different, later program is also named `iot-network-v3.cc` — a
+26-node Barabasi-Albert topology with degree-based structural risk, written for the Phase 8
+BA/risky-node study below. It is unrelated to this 15-node pilot and is not committed to this
+repository yet. Do not treat the two as the same experiment.
 
 ## Phase 1 — V3 Official Baseline — `scratch/iot-network-v3-ext.cc`
 
@@ -76,12 +82,29 @@ explaining the null result without inventing a cause for the large residual (una
 A 51-run validation matrix independently re-executed representative conditions from every prior
 phase and compared 687 metrics against the frozen datasets: 681 applicable comparisons passed
 exactly, 0 failed, 0 numerical drift. This confirmed the frozen results are reproducible from the
-current source code and configuration, closing the research.
+current source code and configuration, closing Phases 1–7 of the research.
+
+## Phase 8 — BA Topology / Risky-Node Routing (proposed, opened 2026-10)
+
+Per advisor direction (2026-10), a new phase on top of the frozen Phases 1–7: explicit low-risk /
+high-risk per-node states on a Barabasi-Albert (BA) scale-free topology, studying how 0, 1, 2, and
+3 high-risk nodes affect route selection and performance. **Status: proposed design only — no
+code written for this phase, no simulation run, no data collected.** This reuses the filename
+`scratch/iot-network-v3.cc` for a program distinct from the 15-node pilot above (see that
+section's 2026-10 note); the BA program itself is not yet part of this repository.
+
+Full audit of the existing BA-topology code (a related but different, already-written 26-node
+risk-*scoring* simulator that has never been run), the proposed risk-state definition and its
+references, how risk would and would not affect routing, the matched 0/1/2/3-node experiment
+matrix, a 12-run pilot design, and the logging additions required: see
+[`docs/v1-v4-methodology-results.md`](v1-v4-methodology-results.md), §BA topology / risky-node
+routing.
 
 ## Summary
 
 ```
 V1 -> V2/V2.7 -> early V3 sigmoid prototype -> V3 Official Baseline -> V4 Sigmoid Adaptive Routing
    -> Bottleneck Characterisation -> Retry-Exhaustion Validation -> Offered-Rate Intervention
-   -> Static/N=50 Diagnostic -> Final Reproducibility Validation (FROZEN)
+   -> Static/N=50 Diagnostic -> Final Reproducibility Validation (FROZEN, Phases 1-7)
+   -> BA Topology / Risky-Node Routing (Phase 8, PROPOSED 2026-10, not yet executed)
 ```
