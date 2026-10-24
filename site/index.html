@@ -51,6 +51,16 @@
       <div class="navlink" data-target="view-risk-experiment"><span class="dot"></span>BA Risky Nodes</div>
     </div>
 
+    <div class="navgroup phase-measured">
+      <div class="glabel">Wi-Fi 6 Risk-Aware Routing — Measured</div>
+      <div class="navlink" data-target="view-w6-overview"><span class="dot"></span>Risk Study Overview</div>
+      <div class="navlink" data-target="view-w6-results"><span class="dot"></span>Results (N=30 / N=100)</div>
+      <div class="navlink" data-target="view-w6-paired"><span class="dot"></span>Paired vs Static</div>
+      <div class="navlink" data-target="view-w6-cost"><span class="dot"></span>Cost of Avoidance</div>
+      <div class="navlink" data-target="view-w6-aodv"><span class="dot"></span>AODV Diagnostic</div>
+      <div class="navlink" data-target="view-w6-validity"><span class="dot"></span>Validity &amp; Limitations</div>
+    </div>
+
     <div class="navgroup">
       <div class="glabel">Evidence</div>
       <div class="navlink" data-target="view-data-explorer"><span class="dot"></span>Data Explorer</div>
@@ -79,6 +89,7 @@
         <span class="chip ok">● BASELINE MEASURED</span>
         <span class="chip ok">● V4 CLOSED — NO BENEFIT</span>
         <span class="chip" style="color:var(--planned);border-color:rgba(240,169,78,.3);background:var(--planned-soft)">◐ PHASE 8 PROPOSED</span>
+        <span class="chip ok">● WI-FI 6 RISK STUDY MEASURED</span>
         <span class="chip">NS-3</span>
         <span class="chip">802.11b</span>
         <span class="chip">Multi-hop Mesh</span>
@@ -164,6 +175,7 @@
           <a href="#view-conclusions" class="story-node done"><span class="story-num">5</span>Research Interpretation</a>
           <a href="#view-routing" class="story-node done"><span class="story-num">6</span>V4 Adaptive Routing (Closed)</a>
           <a href="#view-risk-experiment" class="story-node direction"><span class="story-num">7</span>BA Risky-Node Study (Proposed)</a>
+          <a href="#view-w6-overview" class="story-node done"><span class="story-num">8</span>Wi-Fi 6 Risk-Aware Routing (Measured)</a>
         </div>
       </section>
 
@@ -1195,6 +1207,179 @@ R_i' = max(R_i, 1[RiskState(i)=high])  — superset: 0 flagged nodes ⇒ identic
       </section>
 
       <!-- ============================================================ DATA EXPLORER (live SQLite) -->
+      <!-- ============================================================ WI-FI 6 RISK-AWARE ROUTING (measured 2026-10) -->
+      <!-- All numbers in these sections are rendered by wifi6.js from data/wifi6-risk.json, which is built by
+           experiments/wifi6-risk/build_site_wifi6.py from the validated analysis outputs (sources + sha256 listed in
+           the JSON). Static text below carries no result numbers. -->
+      <section class="view major" id="view-w6-overview">
+        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Measured 2026-10</div>
+        <div class="badge-row">
+          <span class="tag measured">MEASURED</span>
+          <span class="tag v3">802.11AX (WI-FI 6)</span>
+          <span class="tag intervention">N=30 · 10 SEEDS · INFERENTIAL</span>
+          <span class="tag planned">N=100 · 3 SEEDS · DESCRIPTIVE ONLY</span>
+        </div>
+        <h2>Wi-Fi 6 Risk-Aware Routing</h2>
+        <p class="lede">Does routing around high-risk relay nodes reduce risk exposure and packet loss in a gateway-centric 802.11ax mesh, and what does it cost? Each sensor is LOW_RISK or HIGH_RISK; a high-risk relay loses each transit data packet with probability 0.5. Static (BFS shortest path), Risk-Aware (risk-weighted Dijkstra), OLSR and AODV are compared with k = 0–3 high-risk relays.</p>
+        <div class="key-finding" id="w6-kf-main"><span class="kf-label">Key Finding</span><span>—</span></div>
+
+        <div class="kpi-grid" id="w6-kpis"></div>
+
+        <div class="grid cols-2" style="margin-top:16px">
+          <div class="panel">
+            <h3>How the experiment works</h3>
+            <p class="panel-sub">Same seed ⇒ same positions, traffic schedule and high-risk set for every protocol (matched design)</p>
+            <div class="flowchart">
+              <div class="flow-node">Seeded topology (250 m × 250 m, gateway at centre)</div><div class="flow-arrow">↓</div>
+              <div class="flow-node hot">k = 0–3 high-risk relays chosen from Static's BFS tree (most descendants)</div><div class="flow-arrow">↓</div>
+              <div class="flow-node">Same packets, same deterministic risk-drop decisions under every protocol</div><div class="flow-arrow">↓</div>
+              <div class="flow-node good">Per-packet path, fate and delay recorded → nominal PDR, exposure, delay, hops</div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Statistical approach</h3>
+            <div class="insight-card primary"><div class="k">N = 30 · seeds 20–29 · n = 10 — inferential</div>Student-t 95 % confidence intervals; paired Risk-Aware − Static differences with exact Wilcoxon signed-rank tests, Holm-adjusted over the six primary tests (PDR and exposure at k = 1–3).</div>
+            <div class="insight-card secondary" style="margin-top:10px"><div class="k">N = 100 · seeds 20–22 · n = 3 — descriptive only</div>Mean, SD and the Student-t 95 % interval shown as a <em>descriptive range</em>, with every per-seed difference listed. No hypothesis test is reported and no statistical significance is claimed.</div>
+            <div class="callout" style="margin-top:10px;font-size:.8rem"><strong>PDR definition —</strong> all main comparisons use <strong>nominal PDR</strong> = delivered ÷ scheduled packets. <span id="w6-denominators">—</span></div>
+          </div>
+        </div>
+
+        <div class="callout warn" style="margin-top:16px;font-size:.82rem"><strong>Scope —</strong> this study uses the wireless mesh (802.11ax, Tier A) with explicit per-node risk states. It is separate from the proposed BA-topology study (<a href="#view-risk-experiment" style="color:inherit;text-decoration:underline">Phase 8 — BA Risky Nodes</a>), which remains proposed and unrun. Risk-Aware routing uses oracle knowledge of node risk, so its benefit is an upper bound.</div>
+
+        <details class="panel w6-details" style="margin-top:16px">
+          <summary><h3 style="display:inline">Simulation parameters (T-W1)</h3> <span class="panel-sub">— verified against the Wi-Fi read-back of every device in every run</span></summary>
+          <div class="w6-table-wrap"><table class="data" id="w6-t-params"></table></div>
+        </details>
+      </section>
+
+      <section class="view" id="view-w6-results">
+        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Results</div>
+        <div class="badge-row"><span class="tag measured">Measured</span><span class="tag v3">8 kbps per sensor</span></div>
+        <h2>PDR, exposure, throughput, delay, hops and airtime</h2>
+        <p class="lede">Mean ± SD with the Student-t 95 % interval for every protocol and number of high-risk relays. Select the network size and metric.</p>
+        <div class="filters">
+          <div class="filter-group"><span class="fl">Network</span><div id="w6-res-n" style="display:flex;flex-wrap:wrap"></div></div>
+          <div class="filter-group"><span class="fl">Metric</span><div id="w6-res-m" style="display:flex;flex-wrap:wrap"></div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><h3 id="w6-res-title">—</h3></div>
+          <p class="panel-sub" id="w6-res-sub">—</p>
+          <div class="w6-table-wrap"><table class="data" id="w6-res-table"></table></div>
+        </div>
+        <div class="grid cols-2" style="margin-top:16px">
+          <figure class="panel w6-fig" data-fig="F-W1_pdr_vs_k"></figure>
+          <figure class="panel w6-fig" data-fig="F-W2_exposure_vs_k"></figure>
+        </div>
+      </section>
+
+      <section class="view" id="view-w6-paired">
+        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Matched Comparison</div>
+        <div class="badge-row"><span class="tag measured">Measured</span><span class="tag intervention">Paired by seed</span></div>
+        <h2>Paired Risk-Aware vs Static</h2>
+        <p class="lede">Differences Risk-Aware − Static on the same seed (same positions, traffic and high-risk set). Positive PDR and negative exposure differences favour Risk-Aware.</p>
+        <div class="key-finding" id="w6-kf-paired"><span class="kf-label">Measured</span><span>—</span></div>
+        <div class="filters"><div class="filter-group"><span class="fl">Network</span><div id="w6-pair-n" style="display:flex;flex-wrap:wrap"></div></div></div>
+        <div class="panel">
+          <div class="panel-head"><h3 id="w6-pair-title">—</h3></div>
+          <p class="panel-sub" id="w6-pair-sub">—</p>
+          <div class="w6-table-wrap"><table class="data" id="w6-pair-table"></table></div>
+        </div>
+        <figure class="panel w6-fig wide" style="margin-top:16px" data-fig="F-W3_paired_differences"></figure>
+      </section>
+
+      <section class="view" id="view-w6-cost">
+        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Trade-off</div>
+        <div class="badge-row"><span class="tag measured">Measured</span><span class="tag bottleneck">Survivorship-aware</span></div>
+        <h2>Cost of risk avoidance: delay and path length</h2>
+        <p class="lede">Delay and hop count are computed over delivered packets. Static loses packets routed through risky relays, so its delivered-packet delay and hops fall with k (survivorship). Path length over <em>all sent</em> packets separates real lengthening from survivorship.</p>
+        <div class="panel" style="margin-bottom:16px">
+          <h3>Mean path length in links — delivered vs all sent (seed means)</h3>
+          <p class="panel-sub">From the per-packet traces of every Static and Risk-Aware run</p>
+          <div class="w6-table-wrap"><table class="data" id="w6-hop-table"></table></div>
+          <div class="callout" style="margin-top:12px;font-size:.82rem" id="w6-hop-note">—</div>
+        </div>
+        <div class="grid cols-2">
+          <figure class="panel w6-fig" data-fig="F-W4_cost_delay_hops"></figure>
+          <figure class="panel w6-fig" data-fig="F-W8_delay_cdf_n100"></figure>
+        </div>
+      </section>
+
+      <section class="view major" id="view-w6-aodv">
+        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Secondary Finding</div>
+        <div class="badge-row"><span class="tag diagnostic">AODV Diagnostic</span><span class="tag planned">N=100 · 3 seeds descriptive</span><span class="tag planned">Diagnostic · seed 20 only</span></div>
+        <h2>AODV degradation at N = 100</h2>
+        <p class="lede">AODV delivers far less than OLSR at N = 100 under the same topology, traffic and PHY/MAC settings, at every k — so the risk model is not the cause. AODV results are reported as measured: no AODV parameter was tuned and no run was replaced.</p>
+        <div class="key-finding" id="w6-kf-aodv"><span class="kf-label">Measured</span><span>—</span></div>
+        <div class="panel" style="margin-bottom:16px">
+          <h3>AODV vs OLSR, N = 100, 8 kbps, k = 0 (T-W6a)</h3>
+          <p class="panel-sub">Seeds 20–22: mean ± SD [descriptive 95 % t interval] or min–max over seeds</p>
+          <div class="w6-table-wrap"><table class="data" id="w6-t-aodv-a"></table></div>
+        </div>
+        <div class="grid cols-2" style="margin-bottom:16px">
+          <figure class="panel w6-fig" data-fig="F-W5_aodv_olsr_pdr_time"></figure>
+          <figure class="panel w6-fig" data-fig="F-W7_frame_composition"></figure>
+        </div>
+        <div class="grid cols-2" style="margin-bottom:16px">
+          <div class="panel">
+            <h3>Diagnostic run: Block Ack modification off vs on (T-W6b)</h3>
+            <p class="panel-sub">Seed 20 only. AODV events counted from the ns-3 log; the fix-on rerun is byte-identical to the original run, so logging did not change the simulation.</p>
+            <div class="w6-table-wrap"><table class="data" id="w6-t-aodv-b"></table></div>
+          </div>
+          <div>
+            <figure class="panel w6-fig" data-fig="F-W6_aodv_link_failures_phase"></figure>
+            <div class="panel" style="margin-top:16px">
+              <h3>Suspected routing-repair feedback loop <span class="tag planned" style="margin-left:6px">Hypothesis</span></h3>
+              <p class="panel-sub">Each step is supported by an observation; the causal chain as a whole was not isolated experimentally.</p>
+              <div class="flowchart">
+                <div class="flow-node hot">Contention delays a queued unicast frame beyond the 500 ms MAC queue lifetime</div><div class="flow-arrow">↓</div>
+                <div class="flow-node bad">ns-3 AODV treats the drop as a broken link (any drop reason)<br><span class="tag measured" style="margin-top:4px;display:inline-block">confirmed in ns-3 source</span></div><div class="flow-arrow">↓</div>
+                <div class="flow-node hot">RERR to precursors, routes invalidated, network-wide RREQ re-discovery</div><div class="flow-arrow">↓</div>
+                <div class="flow-node bad">More control traffic and retransmissions → higher airtime → more expiry</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Confirmed findings vs hypotheses (T-W6c)</h3>
+          <div class="w6-table-wrap"><table class="data" id="w6-t-aodv-c"></table></div>
+        </div>
+        <div class="callout warn" style="margin-top:16px;font-size:.82rem"><strong>Implication —</strong> under these conditions AODV is not a competitive baseline at N = 100. Risk-Aware's N = 100 comparison should be read against Static (matched) and OLSR; AODV is reported for completeness. The finding concerns the unmodified ns-3 AODV implementation under synchronized periodic traffic in a dense 802.11ax ad-hoc network and should not be generalized to AODV as a protocol.</div>
+      </section>
+
+      <section class="view" id="view-w6-validity">
+        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Validity</div>
+        <div class="badge-row"><span class="tag repro">Simulator validation</span><span class="tag bottleneck">Load calibration</span><span class="tag risk">Limitations</span></div>
+        <h2>Block Ack fix, load calibration and limitations</h2>
+        <p class="lede">The risk study runs on risk-v2, which fixes one confirmed ns-3 Block Ack defect. Why 8 kbps per sensor was chosen, and every limitation that bounds the conclusions.</p>
+        <div class="grid cols-2" style="margin-bottom:16px">
+          <div class="panel">
+            <h3>(a) Block Ack defect and the risk-v2 fix (T-W2a)</h3>
+            <p class="panel-sub">OLSR, N = 30, 16 kbps, seed 20, 100 s — one seed, deterministic defect</p>
+            <div class="w6-table-wrap"><table class="data" id="w6-t-ba-a"></table></div>
+          </div>
+          <div class="panel">
+            <h3>(d) Validation of simulator variants (T-W2d)</h3>
+            <div class="w6-table-wrap"><table class="data" id="w6-t-ba-d"></table></div>
+          </div>
+        </div>
+        <details class="panel w6-details" style="margin-bottom:16px">
+          <summary><h3 style="display:inline">(b) Residual Block Ack tail at saturation and (c) its mechanisms (T-W2b, T-W2c)</h3></summary>
+          <p class="panel-sub" style="margin-top:8px">OLSR, N = 100, 64 kbps, k = 0, seeds 20–22 — saturated load, outside the main experiments. <strong>PDR is not shown</strong>: these earlier runs used an app-tx denominator, not nominal PDR.</p>
+          <div class="w6-table-wrap"><table class="data" id="w6-t-ba-b"></table></div>
+          <div class="w6-table-wrap" style="margin-top:12px"><table class="data" id="w6-t-ba-c"></table></div>
+        </details>
+        <div class="panel" style="margin-bottom:16px">
+          <h3>Load calibration — why 8 kbps per sensor (T-W3)</h3>
+          <p class="panel-sub">k = 0, seeds 20–22 (n = 3 per row, descriptive). Nominal PDR uses the full send schedule as denominator.</p>
+          <div class="w6-table-wrap"><table class="data" id="w6-t-load"></table></div>
+        </div>
+        <div class="panel">
+          <h3>Limitations (T-W7)</h3>
+          <div class="w6-table-wrap"><table class="data" id="w6-t-lim"></table></div>
+        </div>
+        <p class="panel-sub" style="margin-top:14px" id="w6-provenance">—</p>
+      </section>
+
       <section class="view" id="view-data-explorer">
         <div class="section-eyebrow">Research Data Layer</div>
         <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>Live SQLite Database</span><span class="tag measured">Measured Data</span><span class="tag v3">Baseline Dataset</span></div>
@@ -1363,5 +1548,6 @@ R_i' = max(R_i, 1[RiskState(i)=high])  — superset: 0 flagged nodes ⇒ identic
 <script src="realworld.js"></script>
 <script src="data-explorer.js"></script>
 <script src="app.js"></script>
+<script src="wifi6.js"></script>
 </body>
 </html>

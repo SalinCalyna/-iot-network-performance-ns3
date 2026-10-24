@@ -470,3 +470,20 @@ footer.appfoot{padding:30px 28px 60px;color:var(--text-faint);font-size:.78rem;m
 .iot-mini-legend .sw-chain{border-top-color:var(--accent-2)}
 .iot-mini-legend .sw-direct{border-top-style:dashed;border-top-color:var(--text-faint)}
 .iot-mini-legend .sw-uplink{border-top-color:var(--accent)}
+
+/* ---------- Wi-Fi 6 risk study (wifi6.js) ---------- */
+.w6-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.w6-table-wrap table.data{min-width:520px}
+.w6-table-wrap table.data td{vertical-align:top}
+figure.w6-fig{margin:0}
+figure.w6-fig img{display:block;width:100%;height:auto;border:1px solid var(--border-soft);border-radius:var(--radius-sm);background:#fff}
+figure.w6-fig figcaption{font-size:.76rem;color:var(--text-dim);margin-top:10px;line-height:1.5}
+figure.w6-fig .w6-src{display:block;color:var(--text-faint);font-family:var(--mono);font-size:.66rem;margin-top:4px;word-break:break-word}
+details.w6-details summary{cursor:pointer;list-style:revert}
+details.w6-details summary .panel-sub{display:inline;margin:0}
+details.w6-details[open] summary{margin-bottom:10px}
+[id^="view-w6"] .grid>*,[id^="view-w6"] .kpi-grid>*{min-width:0}
+[id^="view-w6"] .filter-group{flex-wrap:wrap;max-width:100%}
+[id^="view-w6"] .kpi-grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+[id^="view-w6"] figure.w6-fig.wide img{max-width:920px;margin:0 auto}
+@media(max-width:760px){[id^="view-w6"] .kpi-grid{grid-template-columns:1fr}[id^="view-w6"] .key-finding{flex-direction:column;gap:4px}}
