@@ -438,13 +438,18 @@ Dijkstra shortest paths over sigmoid-weighted edge costs. Only a 4-run smoke tes
   data.
 - GitHub Pages serves the `main` branch, so the dashboard lives under `/site/` (the site root shows
   this README). `.github/workflows/deploy-pages.yml` also runs on every push to `main`.
-- The 802.11b sections are Overview, Baseline Performance, V4 Routing Investigation, Bottleneck,
-  Retry Exhaustion, Offered-Rate Intervention, Static Control, Reproducibility, and Conclusions &
-  Limitations.
-- The Wi-Fi 6 group has six sections: Risk Study Overview, Results (N = 30 / N = 100), Paired vs
-  Static, Cost of Avoidance, AODV Diagnostic, and Validity & Limitations.
-- Earlier (V2.7 / V3-prototype) results appear under a separate, clearly labelled "Research
-  History" section, not mixed into the final-research charts.
+- The dashboard shows completed, validated work only, in five areas:
+  1. V3 Baseline (IEEE 802.11b);
+  2. Bottleneck Analysis & Traffic-Rate Intervention, including the retry evidence and the Static control;
+  3. V4 Sigmoid Routing (negative result);
+  4. Wi-Fi 6 Risk-Aware Routing (N = 30 inferential, N = 100 descriptive, routing cost, a short AODV secondary
+     finding);
+  5. Conclusions, Limitations & Reproducibility.
+- Legacy iterations (V1/V2.7, the early V3 prototype) and the unexecuted BA-topology design are documented in
+  [`docs/research-history.md`](docs/research-history.md) and
+  [`docs/v1-v4-methodology-results.md`](docs/v1-v4-methodology-results.md), not on the dashboard.
+- The section inventory is in
+  [`analysis/dashboard-audit/REFOCUS_INVENTORY.md`](analysis/dashboard-audit/REFOCUS_INVENTORY.md).
 - `dashboard/app.py` is a separate, local-only Flask tool for the legacy V2.7 `results/*.csv`. It
   is not the public dashboard.
 

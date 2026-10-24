@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """End-to-end verification of the public dashboard (read-only on data).
 
-    python3 -I -B experiments/dashboard/verify_dashboard.py <rendered DOM html> <browser_check out dir> [base ref]
+    python3 -I -B experiments/dashboard/verify_dashboard.py <rendered DOM html> <browser_check out dir> [base ref] [--manifest=<json>]
+
+With --manifest (a reviewed removal manifest, e.g. analysis/dashboard-audit/refocus_removed.json) D5 and D10 compare only
+the KEPT content of the base page (removed sections cut out) and accept only the listed removals; D11 checks that every
+removed section is really gone from the page (removed, not hidden).
 
 base ref (default github/main): the previously published site, used to check that its numbers are preserved.
 Checks
@@ -56,8 +60,11 @@ nums = lambda t: {norm(x) for x in re.findall(r"\d[\d,]*\.?\d*", t)}
 
 
 def main():
-    dom_p, qa_dir = Path(sys.argv[1]), Path(sys.argv[2])
-    base_ref = sys.argv[3] if len(sys.argv) > 3 else "github/main"
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    opts = dict(a[2:].split("=", 1) for a in sys.argv[1:] if a.startswith("--") and "=" in a)
+    dom_p, qa_dir = Path(args[0]), Path(args[1])
+    base_ref = args[2] if len(args) > 2 else "github/main"
+    man = json.loads((ROOT / opts["manifest"]).read_text()) if "manifest" in opts else None
     dom = dom_p.read_text()
     # D1-D3
     rc, last = run([sys.executable, "-I", "-B", "experiments/dashboard/audit_final_research_json.py"])
@@ -107,12 +114,22 @@ def main():
     check("D4 every displayed number traceable to authoritative sources", not untraced,
           f"{len(page_n)} numeric tokens ({rounded} as rounded data values)" + (f"; untraced {untraced}" if untraced else ""))
     # D5 preservation
-    base = subprocess.run(["git", "show", f"{base_ref}:site/index.html"], cwd=ROOT, capture_output=True, text=True).stdout
+    base_full = subprocess.run(["git", "show", f"{base_ref}:site/index.html"], cwd=ROOT, capture_output=True, text=True).stdout
     cur = (ROOT / "site/index.html").read_text()
-    corrected = {"1.2"}   # audit F2: "1.2–2.4×" replaced by "1.4–2.4× in 11 of 16 cells"
-    lost = sorted(nums(visible_text(base)) - nums(visible_text(cur)) - corrected)
-    check("D5 numbers of the published page preserved (except audited corrections)", not lost,
-          f"base {base_ref}" + (f"; missing {lost}" if lost else ""))
+    base = base_full
+    if man:
+        for sid in [x for x in man["removed_sections"] if x.startswith("view-")]:
+            base = re.sub(r'<section[^>]*id="%s"[^>]*>.*?</section>' % sid, "", base, flags=re.S)
+        base = re.sub(r'<section class="view" style="padding-top:0">\s*<div class="panel">\s*<h3>Network Health</h3>.*?</section>', "", base, flags=re.S)
+        base = re.sub(r'<aside class="sidebar".*?</aside>', "", base, flags=re.S)
+        allowed = set(man["removed_number_labels"])
+        lost = sorted(nums(visible_text(base)) - nums(visible_text(dom)) - allowed)
+        check("D5 numbers of the kept content preserved (manifest)", not lost, f"base {base_ref}, kept sections only" + (f"; missing {lost}" if lost else ""))
+    else:
+        corrected = {"1.2"}   # audit F2: "1.2–2.4×" replaced by "1.4–2.4× in 11 of 16 cells"
+        lost = sorted(nums(visible_text(base)) - nums(visible_text(cur)) - corrected)
+        check("D5 numbers of the published page preserved (except audited corrections)", not lost,
+              f"base {base_ref}" + (f"; missing {lost}" if lost else ""))
     # D6 corrected / stale claims
     gone = ["10 of the 12", "dominant in 10 / 12", "1.2–2.4", "Exactly five findings", "(proposed) risk-aware",
             "Next</span><span class=\"sc-val direction\">→ BA", "RQ6–RQ7 define the planned", ">High Risks<", ">Low Risks<"]
@@ -145,12 +162,22 @@ def main():
     tg = lambda h: set(re.findall(r'data-target="([^"]+)"', h))
     ext = lambda h: set(re.findall(r'href="(https?://[^"]+)"', h))
     heads = lambda h: {html.unescape(re.sub(r"<[^>]+>", "", m)).strip() for m in re.findall(r"<h[23][^>]*>(.*?)</h[23]>", h, re.S)}
-    miss = [f"id {i}" for i in sorted(ids(base) - ids(cur))] + [f"target {t}" for t in sorted(tg(base) - tg(cur))] \
-        + [f"link {u}" for u in sorted(ext(base) - ext(cur))] \
-        + [f"heading {h}" for h in sorted(heads(base) - heads(cur)) if RENAMES.get(h) not in heads(cur)]
+    if man:
+        miss = [f"id {i}" for i in sorted(ids(base) - ids(cur)) if i not in man["removed_ids_in_kept_sections"]] \
+            + [f"link {u}" for u in sorted(ext(base) - ext(cur)) if u not in man["removed_links"]] \
+            + [f"heading {h}" for h in sorted(heads(base) - heads(cur)) if h not in man["retitled_or_removed_headings_in_kept_sections"]]
+        tgt_bad = [t for t in tg(cur) if t not in ids(dom)]
+        miss += [f"nav target {t} unresolved" for t in tgt_bad]
+    else:
+        miss = [f"id {i}" for i in sorted(ids(base) - ids(cur))] + [f"target {t}" for t in sorted(tg(base) - tg(cur))] \
+            + [f"link {u}" for u in sorted(ext(base) - ext(cur))] \
+            + [f"heading {h}" for h in sorted(heads(base) - heads(cur)) if RENAMES.get(h) not in heads(cur)]
     check("D10 structure of the published page preserved", not miss,
           f"{len(ids(base))} ids, {len(tg(base))} nav targets, {len(ext(base))} external links, {len(heads(base))} headings"
           + (f"; missing {miss[:8]}" if miss else ""))
+    if man:   # D11: removed sections are gone from the page, not hidden
+        present = [sid for sid in man["removed_sections"] if sid.startswith("view-") and f'id="{sid}"' in cur]
+        check("D11 removed sections absent from the page (removed, not hidden)", not present, ", ".join(present) or f"{len(man['removed_sections'])} sections removed")
     sent = lambda t: {x.strip() for x in re.split(r"(?<=[.!?])\s+", t) if len(x.strip()) > 25}
     changed = sorted(sent(visible_text(base)) - sent(visible_text(cur)))
     (qa_dir / "changed_sentences.txt").write_text("\n".join(changed) + "\n")

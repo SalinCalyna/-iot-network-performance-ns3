@@ -6,12 +6,9 @@
 <title>Gateway-Centric IoT Mesh — NS-3 Research Platform</title>
 <meta name="description" content="NS-3 research dashboard: gateway-centric IoT wireless mesh networks. Frozen IEEE 802.11b study (baseline, bottleneck, retry, rate intervention, V4 sigmoid routing) and a completed Wi-Fi 6 (802.11ax) risk-aware routing study with paired statistics.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23154394%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%229%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2225%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M16%209%20L7%2023%20M16%209%20L25%2023%20M7%2023%20L25%2023%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="design.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -20,72 +17,38 @@
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="mark">NS3</div>
-      <div class="name">IoT Network<br>Performance<small>NS-3 Research Platform</small></div>
+      <div class="name">IoT Network<br>Performance<small>NS-3 Research</small></div>
     </div>
-
     <nav aria-label="Dashboard sections">
     <div class="navgroup">
-      <div class="glabel">Overview</div>
       <a class="navlink" href="#view-overview" data-target="view-overview"><span class="dot" aria-hidden="true"></span>Overview</a>
-      <a class="navlink" href="#view-glance" data-target="view-glance"><span class="dot" aria-hidden="true"></span>Research at a Glance</a>
-      <a class="navlink" href="#view-research-questions" data-target="view-research-questions"><span class="dot" aria-hidden="true"></span>Research Questions</a>
-      <a class="navlink" href="#view-topology" data-target="view-topology"><span class="dot" aria-hidden="true"></span>Experimental Design</a>
-      <a class="navlink" href="#view-realworld" data-target="view-realworld"><span class="dot" aria-hidden="true"></span>Real-World Problem</a>
+      <a class="navlink" href="#view-performance" data-target="view-performance"><span class="dot" aria-hidden="true"></span>1 · V3 Baseline</a>
+      <a class="navlink" href="#view-bottleneck" data-target="view-bottleneck"><span class="dot" aria-hidden="true"></span>2 · Bottleneck &amp; Intervention</a>
+      <a class="navlink" href="#view-routing" data-target="view-routing"><span class="dot" aria-hidden="true"></span>3 · V4 Sigmoid Routing</a>
     </div>
-
-    <div class="navgroup phase-measured">
-      <div class="glabel">IEEE 802.11b study — frozen</div>
-      <a class="navlink" href="#view-baseline" data-target="view-baseline"><span class="dot" aria-hidden="true"></span>Baseline</a>
-      <a class="navlink" href="#view-protocol-comparison" data-target="view-protocol-comparison"><span class="dot" aria-hidden="true"></span>Protocol Comparison</a>
-      <a class="navlink" href="#view-performance" data-target="view-performance"><span class="dot" aria-hidden="true"></span>Performance Analysis</a>
-      <a class="navlink" href="#view-risk-summary" data-target="view-risk-summary"><span class="dot" aria-hidden="true"></span>Performance Health Check</a>
-      <a class="navlink" href="#view-bottleneck" data-target="view-bottleneck"><span class="dot" aria-hidden="true"></span>Bottleneck Analysis</a>
-      <a class="navlink" href="#view-retry" data-target="view-retry"><span class="dot" aria-hidden="true"></span>Retry Validation</a>
-      <a class="navlink" href="#view-intervention" data-target="view-intervention"><span class="dot" aria-hidden="true"></span>Rate Intervention</a>
-      <a class="navlink" href="#view-static-control" data-target="view-static-control"><span class="dot" aria-hidden="true"></span>Static Negative Control</a>
-      <a class="navlink" href="#view-reproducibility" data-target="view-reproducibility"><span class="dot" aria-hidden="true"></span>Reproducibility</a>
-    </div>
-
-    <div class="navgroup phase-closed">
-      <div class="glabel">V4 adaptive routing — closed (negative)</div>
-      <a class="navlink" href="#view-routing" data-target="view-routing"><span class="dot" aria-hidden="true"></span>V4 Sigmoid Routing</a>
-    </div>
-
     <div class="navgroup phase-wifi6">
-      <div class="glabel">Wi-Fi 6 risk-aware routing — completed</div>
-      <a class="navlink" href="#view-w6-overview" data-target="view-w6-overview"><span class="dot" aria-hidden="true"></span>Risk Study Overview</a>
-      <a class="navlink" href="#view-w6-results" data-target="view-w6-results"><span class="dot" aria-hidden="true"></span>Results (N=30 / N=100)</a>
-      <a class="navlink" href="#view-w6-paired" data-target="view-w6-paired"><span class="dot" aria-hidden="true"></span>Paired vs Static</a>
-      <a class="navlink" href="#view-w6-cost" data-target="view-w6-cost"><span class="dot" aria-hidden="true"></span>Cost of Avoidance</a>
-      <a class="navlink" href="#view-w6-aodv" data-target="view-w6-aodv"><span class="dot" aria-hidden="true"></span>AODV Diagnostic</a>
-      <a class="navlink" href="#view-w6-validity" data-target="view-w6-validity"><span class="dot" aria-hidden="true"></span>Validity &amp; Limitations</a>
+      <div class="glabel">4 · Wi-Fi 6 Risk-Aware Routing</div>
+      <a class="navlink" href="#view-w6-overview" data-target="view-w6-overview"><span class="dot" aria-hidden="true"></span>Study &amp; key result</a>
+      <a class="navlink sub" href="#view-w6-results" data-target="view-w6-results"><span class="dot" aria-hidden="true"></span>Results N=30 / N=100</a>
+      <a class="navlink sub" href="#view-w6-paired" data-target="view-w6-paired"><span class="dot" aria-hidden="true"></span>Paired vs Static</a>
+      <a class="navlink sub" href="#view-w6-cost" data-target="view-w6-cost"><span class="dot" aria-hidden="true"></span>Routing cost</a>
+      <a class="navlink sub" href="#view-w6-aodv" data-target="view-w6-aodv"><span class="dot" aria-hidden="true"></span>AODV at N=100</a>
     </div>
-
-    <div class="navgroup phase-planned">
-      <div class="glabel">Proposed — not executed</div>
-      <a class="navlink" href="#view-risk-experiment" data-target="view-risk-experiment"><span class="dot" aria-hidden="true"></span>BA Topology (Phase 8)</a>
-    </div>
-
     <div class="navgroup">
-      <div class="glabel">Evidence</div>
-      <a class="navlink" href="#view-data-explorer" data-target="view-data-explorer"><span class="dot" aria-hidden="true"></span>Data Explorer</a>
-      <a class="navlink" href="#view-conclusions" data-target="view-conclusions"><span class="dot" aria-hidden="true"></span>Findings</a>
-      <a class="navlink" href="#view-roadmap" data-target="view-roadmap"><span class="dot" aria-hidden="true"></span>Research Roadmap</a>
+      <a class="navlink" href="#view-conclusions" data-target="view-conclusions"><span class="dot" aria-hidden="true"></span>5 · Conclusions &amp; Reproducibility</a>
     </div>
     </nav>
-
     <div class="navgroup navlinks-ext">
       <div class="glabel">Source &amp; documentation</div>
       <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3" target="_blank" rel="noopener">GitHub repository</a>
-      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3#readme" target="_blank" rel="noopener">README</a>
-      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/wifi6-risk-reproducibility.md" target="_blank" rel="noopener">Wi-Fi 6 reproducibility guide</a>
-      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/tree/main/analysis/final-report-data" target="_blank" rel="noopener">Frozen 802.11b data package</a>
+      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/wifi6-risk-reproducibility.md" target="_blank" rel="noopener">Wi-Fi 6 reproducibility</a>
+      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/tree/main/analysis/final-report-data" target="_blank" rel="noopener">802.11b data package</a>
+      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md" target="_blank" rel="noopener">Research history</a>
       <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/dashboard-audit/DASHBOARD_AUDIT.md" target="_blank" rel="noopener">Dashboard audit</a>
     </div>
-
     <div class="sidebar-foot">
-      NS-3 · IEEE 802.11b (frozen) · IEEE 802.11ax (Wi-Fi 6)
-      <div class="status"><span class="pulse"></span>802.11b frozen · V4 closed · Wi-Fi 6 completed · BA proposed</div>
+      NS-3 · IEEE 802.11b · IEEE 802.11ax
+      <div class="status"><span class="pulse"></span>Completed, validated work only</div>
     </div>
   </aside>
 
@@ -97,16 +60,14 @@
         <button class="menu-btn" id="menu-btn" type="button" aria-label="Open section navigation">☰</button>
         <div>
           <h1>Analysis of Gateway-Centric IoT Wireless Mesh Networks Using NS-3</h1>
-          <div class="sub">NS-3 multi-hop wireless IoT mesh · IEEE 802.11b study (frozen) and Wi-Fi 6 risk-aware routing study (completed)</div>
+          <div class="sub">Completed and validated NS-3 research · IEEE 802.11b and Wi-Fi 6 (802.11ax)</div>
         </div>
       </div>
       <div class="meta">
         <span class="chip ok">● 802.11B STUDY FROZEN</span>
-        <span class="chip" style="color:var(--purple)">● V4 CLOSED — NO BENEFIT</span>
+        <span class="chip" style="color:var(--purple)">● V4 NEGATIVE RESULT</span>
         <span class="chip ok">● WI-FI 6 STUDY COMPLETED</span>
-        <span class="chip" style="color:var(--warn)">◐ BA TOPOLOGY PROPOSED</span>
         <a class="ext-link" href="https://github.com/SalinCalyna/-iot-network-performance-ns3" target="_blank" rel="noopener">GitHub source ↗</a>
-        <a class="ext-link" href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/wifi6-risk-reproducibility.md" target="_blank" rel="noopener">Reproducibility ↗</a>
       </div>
     </div>
 
@@ -114,1184 +75,119 @@
 
       <!-- ============================================================ OVERVIEW -->
       <section class="view hero" id="view-overview">
-        <div class="eyebrow">Gateway-Centric IoT Mesh · NS-3 Research Platform</div>
+        <div class="eyebrow">NS-3 Research · completed, validated work</div>
         <div class="hero-title">Analysis of Gateway-Centric IoT Wireless Mesh Networks Using NS-3</div>
-        <p class="hero-subtitle">Evaluating network scale, traffic load, routing behaviour and bottlenecks in an IEEE 802.11b mesh (frozen study), and risk-aware routing around high-risk relays in a Wi-Fi 6 (802.11ax) mesh (completed study).</p>
-
-        <div class="hero-status-row">
-          <div class="status-chip"><span class="sc-label">Baseline</span><span class="sc-val measured">✓ Measured</span></div>
-          <div class="status-chip"><span class="sc-label">Bottleneck</span><span class="sc-val measured">✓ Measured</span></div>
-          <div class="status-chip"><span class="sc-label">Intervention</span><span class="sc-val measured">✓ Measured</span></div>
-          <div class="status-chip"><span class="sc-label">Adaptive Routing (V4)</span><span class="sc-val direction">✓ Closed — no benefit</span></div>
-          <div class="status-chip"><span class="sc-label">Wi-Fi 6 Risk-Aware Routing</span><span class="sc-val measured">✓ Completed</span></div>
-          <div class="status-chip"><span class="sc-label">N=100 saturated risk run</span><span class="sc-val planned">○ Not run</span></div>
-          <div class="status-chip"><span class="sc-label">BA Topology (Phase 8)</span><span class="sc-val planned">→ Proposed</span></div>
-        </div>
-        <div class="hero-status-row hero-coverage-row">
-          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">1,782</span><span class="sc-label">Baseline Runs</span></div>
-          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">3</span><span class="sc-label">Routing Protocols</span></div>
-          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">6</span><span class="sc-label">Network Scales</span></div>
-          <div class="status-chip"><span class="sc-val measured" style="margin-right:2px">11</span><span class="sc-label">Seeds (20–30)</span></div>
-        </div>
-
-        <div class="grid cols-3" style="margin:20px 0 18px">
-          <div class="panel">
-            <div class="evidence-role">Research Objective</div>
-            <p style="font-size:.86rem;color:var(--text-dim);margin:0">Evaluate how network scale and traffic load affect IoT network performance, and determine how routing strategies respond to congestion and changing network conditions.</p>
-            <div class="callout" style="margin-top:12px;padding:10px 12px;font-size:.78rem"><strong>Research Question —</strong> How do network scale, traffic load, and routing strategy affect IoT network performance? <a href="#view-research-questions" style="color:inherit;text-decoration:underline">All 7 RQs →</a></div>
-          </div>
-          <div class="panel">
-            <div class="evidence-role">Experimental Scope</div>
-            <div class="scope-grid" style="grid-template-columns:1fr 1fr">
-              <div class="scope-card"><div class="sc-k">Network Scale</div><div class="sc-v">10 → 100 nodes</div></div>
-              <div class="scope-card"><div class="sc-k">Traffic</div><div class="sc-v">Low / Medium / High</div></div>
-              <div class="scope-card"><div class="sc-k">Mobility</div><div class="sc-v">Static / Low / Medium</div></div>
-              <div class="scope-card"><div class="sc-k">Routing</div><div class="sc-v">AODV / OLSR / Static</div></div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="evidence-role">Research Status</div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Baseline</div><span class="tag measured">Measured</span></div>
-              <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Adaptive Routing (V4)</div><span class="tag measured">Closed — no benefit</span></div>
-              <div class="health-row" style="padding:0 0 8px"><div class="health-label" style="flex:0 0 110px">Wi-Fi 6 Risk-Aware</div><span class="tag measured">Completed</span></div>
-              <div class="health-row" style="padding:0"><div class="health-label" style="flex:0 0 110px">BA Risky-Node (Phase 8)</div><span class="tag planned">Proposed</span></div>
-            </div>
-            <p style="font-size:.8rem;color:var(--text-faint);margin:10px 0 0">Phase 8 (BA topology): Without Risk-State → With Risk-State (0/1/2/3 high-risk nodes). Explicit low/high-risk relay states have already been measured on the 802.11ax mesh in the Wi-Fi 6 study.</p>
-          </div>
-        </div>
-
-        <p>This study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions, and evaluates whether reducing offered traffic rate can improve network reliability.</p>
-
-        <div class="flowchart horizontal" style="justify-content:flex-start;margin:4px 0 16px">
-          <div class="flow-node">Network Scale + Traffic Load + Routing Protocol</div><div class="flow-arrow">→</div>
-          <div class="flow-node hot">Network Performance</div><div class="flow-arrow">→</div>
-          <div class="flow-node">PDR / Throughput / Delay / Packet Loss</div><div class="flow-arrow">→</div>
-          <div class="flow-node bad">Bottleneck Analysis</div>
-        </div>
-
-        <div class="badge-row" style="margin-bottom:22px">
-          <span class="metric-status measured" style="font-size:.72rem">✓ MEASURED</span>
-          <span class="metric-status limited" style="font-size:.72rem">△ LIMITED COVERAGE</span>
-          <span class="metric-status planned" style="font-size:.72rem">→ PLANNED</span>
-          <span class="metric-status direction" style="font-size:.72rem">◇ RESEARCH DIRECTION / CONCEPTUAL</span>
-        </div>
-
-        <div class="kpi-grid">
-          <div class="kpi"><div class="num"><span id="kpi-v3">—</span><span class="unit">runs</span></div><div class="label">Official V3 Runs</div><div class="note">AODV / OLSR / Static, Seed 20–30</div></div>
-          <div class="kpi"><div class="num"><span id="kpi-v4">—</span><span class="unit">runs</span></div><div class="label">V4 Matched Conditions</div><div class="note">Sigmoid adaptive routing vs. Static</div></div>
-          <div class="kpi"><div class="num"><span id="kpi-bottleneck">—</span><span class="unit">runs</span></div><div class="label">Bottleneck Runs</div><div class="note">Per-node airtime / queue instrumentation</div></div>
-          <div class="kpi"><div class="num"><span id="kpi-repro">—</span><span class="unit">checks</span></div><div class="label">Reproducibility</div><div class="note">Independent re-execution, applicable metrics</div></div>
-        </div>
-
-        <div class="story-rail">
-          <a href="#view-overview" class="story-node done"><span class="story-num">1</span>V3 Baseline</a>
-          <a href="#view-performance" class="story-node done"><span class="story-num">2</span>Performance Degradation</a>
-          <a href="#view-bottleneck" class="story-node done"><span class="story-num">3</span>Bottleneck Identification</a>
-          <a href="#view-intervention" class="story-node done"><span class="story-num">4</span>Traffic Intervention</a>
-          <a href="#view-conclusions" class="story-node done"><span class="story-num">5</span>Research Interpretation</a>
-          <a href="#view-routing" class="story-node done"><span class="story-num">6</span>V4 Adaptive Routing (Closed)</a>
-          <a href="#view-risk-experiment" class="story-node direction"><span class="story-num">7</span>BA Risky-Node Study (Proposed)</a>
-          <a href="#view-w6-overview" class="story-node done"><span class="story-num">8</span>Wi-Fi 6 Risk-Aware Routing (Measured)</a>
+        <p class="hero-subtitle">Two simulation studies of a multi-hop IoT mesh in which every sensor reports to one gateway. The frozen IEEE 802.11b study locates where packets are lost as the network grows, and tests traffic-rate reduction and an adaptive (sigmoid) routing metric. The Wi-Fi 6 study adds high-risk relay nodes to an 802.11ax mesh and measures how much risk-aware routing reduces exposure and loss.</p>
+        <div class="area-cards">
+          <a class="area-card" href="#view-performance"><span class="ac-num">1</span><span class="ac-title">V3 Baseline</span><span class="ac-meta"><span id="kpi-v3">1,782</span> runs · AODV / OLSR / Static · N = 10–100 · 11 seeds</span><span class="ac-res">Delivery degrades as network size and traffic load grow, for all three protocols.</span></a>
+          <a class="area-card" href="#view-bottleneck"><span class="ac-num">2</span><span class="ac-title">Bottleneck &amp; Rate Intervention</span><span class="ac-meta"><span id="kpi-bottleneck">176</span> + 36 + 72 + 12 runs</span><span class="ac-res">OLSR gateway airtime reaches 0.86–0.89 at N ≥ 75 (high traffic); cutting the rate 16 → 4 kbps raises OLSR PDR by +25.2 pp at N = 100.</span></a>
+          <a class="area-card" href="#view-routing"><span class="ac-num">3</span><span class="ac-title">V4 Sigmoid Routing</span><span class="ac-meta">957 runs</span><span class="ac-res">Re-routes up to 11/11 seeds without a credible PDR gain over Static: a valid negative result.</span></a>
+          <a class="area-card highlight" href="#view-w6-overview"><span class="ac-num">4</span><span class="ac-title">Wi-Fi 6 Risk-Aware Routing</span><span class="ac-meta">208 runs · N = 30 (160 runs, 10 seeds) · N = 100 (48 runs, 3 seeds)</span><span class="ac-res">At N = 30, k = 3: PDR <strong>+23.18 pp</strong> [95 % CI +19.81, +26.54] and risk exposure <strong>−46.33 pp</strong> [95 % CI −53.21, −39.46] vs Static, 10/10 pairs; an upper bound (oracle risk knowledge). N = 100 descriptive only.</span></a>
+          <a class="area-card" href="#view-conclusions"><span class="ac-num">5</span><span class="ac-title">Conclusions &amp; Reproducibility</span><span class="ac-meta">51-run reproducibility check</span><span class="ac-res"><span id="kpi-repro">681/681</span> applicable comparisons reproduced exactly; Wi-Fi 6 package published.</span></a>
         </div>
       </section>
 
-
-      <!-- ============================================================ RESEARCH AT A GLANCE (2026-10-25) -->
-      <section class="view glance" id="view-glance" style="padding-top:8px">
-        <div class="section-eyebrow">Research at a Glance</div>
-        <h2>Experiments, key findings and limitations</h2>
-        <p class="lede">Every count below is taken from the authoritative datasets: the frozen <code>analysis/final-report-data/</code> package for IEEE 802.11b and the validated Wi-Fi 6 analysis outputs. Details are in each section.</p>
-        <div class="panel">
-          <h3>Research phases</h3>
-          <div class="table-scroll" tabindex="0" role="region" aria-label="Research phases table">
-          <table class="data phase-table">
-            <thead><tr><th>Phase</th><th>Network</th><th>Runs and design</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>V3 baseline</td><td>IEEE 802.11b</td><td class="num">1,782 runs · AODV / OLSR / Static · N = 10–100 · 11 seeds (20–30)</td><td><span class="status frozen">Frozen</span></td></tr>
-              <tr><td>V4 sigmoid adaptive routing</td><td>IEEE 802.11b</td><td class="num">957 runs: 594 matched, 297 sensitivity, 66 Tier-1 activation screen (N = 50)</td><td><span class="status closed">Closed — negative result</span></td></tr>
-              <tr><td>Bottleneck characterisation</td><td>IEEE 802.11b</td><td class="num">176 runs (16 cells × 11 seeds)</td><td><span class="status frozen">Frozen</span></td></tr>
-              <tr><td>Retry-exhaustion validation</td><td>IEEE 802.11b</td><td class="num">36 runs (12 cells × 3 seeds)</td><td><span class="status frozen">Frozen</span></td></tr>
-              <tr><td>Offered-rate intervention</td><td>IEEE 802.11b</td><td class="num">72 runs (OLSR and Static × N = 50/75/100 × 4 rates × 3 seeds)</td><td><span class="status frozen">Frozen</span></td></tr>
-              <tr><td>Static/N = 50 negative control</td><td>IEEE 802.11b</td><td class="num">12 runs (4 rates × 3 seeds)</td><td><span class="status frozen">Frozen</span></td></tr>
-              <tr><td>Reproducibility check</td><td>IEEE 802.11b</td><td class="num">51 runs · 681/681 applicable comparisons passed</td><td><span class="status frozen">Passed</span></td></tr>
-              <tr><td>Wi-Fi 6 risk-aware routing</td><td>IEEE 802.11ax</td><td class="num">208 runs: N = 30 (160 runs, 10 seeds, inferential) and N = 100 (48 runs, 3 seeds, descriptive)</td><td><span class="status done">Completed</span></td></tr>
-              <tr><td>AODV diagnostic</td><td>IEEE 802.11ax</td><td class="num">2 runs (N = 100, seed 20, Block Ack fix off / on)</td><td><span class="status done">Completed — mechanism is a hypothesis</span></td></tr>
-              <tr><td>N = 100 saturated-load risk experiment</td><td>IEEE 802.11ax</td><td>—</td><td><span class="status notrun">Not run</span></td></tr>
-              <tr><td>BA topology risky-node study (Phase 8)</td><td>Barabasi-Albert graph</td><td>—</td><td><span class="status proposed">Proposed — not executed</span></td></tr>
-            </tbody>
-          </table>
-          </div>
-        </div>
-        <div class="two-col">
-          <div class="panel">
-            <h3>Key findings</h3>
-            <ul class="tight">
-              <li><strong>802.11b bottleneck.</strong> Gateway and first-hop congestion is the dominant measurable bottleneck: OLSR gateway airtime reaches 0.86–0.89 at N ≥ 75 under high traffic, and NO_ROUTE / ROUTE_ERROR account for &lt; 2 % of loss in every cell.</li>
-              <li><strong>Rate intervention.</strong> Cutting the offered rate from 16 to 4 kbps raises OLSR PDR by +14.7 pp (N = 75) and +25.2 pp (N = 100). Static/N = 50 does not improve (−7.6 pp).</li>
-              <li><strong>V4 sigmoid routing — negative.</strong> The mechanism re-routed up to 11/11 seeds, with no statistically credible PDR gain over Static.</li>
-              <li><strong>Wi-Fi 6, N = 30 (10 seeds, inferential).</strong> Risk-Aware vs Static at k = 3: PDR +23.18 pp [95 % CI +19.81, +26.54]; risk exposure −46.33 pp [95 % CI −53.21, −39.46]; 10/10 matched pairs; exact Wilcoxon p = 0.00195, Holm-adjusted 0.0117.</li>
-              <li><strong>Wi-Fi 6, N = 100 (3 seeds, descriptive only).</strong> Same direction in 3/3 seeds (+19.70 pp PDR, −39.33 pp exposure). No significance is claimed.</li>
-              <li><strong>AODV at N = 100.</strong> 56.60 % against OLSR's 99.62 % (k = 0). The Block Ack fix was excluded as the cause (seed 20). A route-maintenance feedback loop is a hypothesis, specific to this ns-3 configuration.</li>
-            </ul>
-            <div class="callout" style="margin-top:12px;font-size:.84rem"><strong>V4 and Wi-Fi 6 are different mechanisms.</strong> The Wi-Fi 6 improvement comes from a risk-weighted Dijkstra cost with oracle knowledge of node risk. It is not produced by the V4 sigmoid metric, whose result remains negative.</div>
-          </div>
-          <div class="panel">
-            <h3>Main limitations</h3>
-            <ul class="tight">
-              <li><strong>Oracle risk knowledge:</strong> Risk-Aware knows each node's risk exactly, so its benefit is an upper bound.</li>
-              <li><strong>Selection bias:</strong> high-risk relays are chosen from Static's BFS tree, which is Static's worst case.</li>
-              <li><strong>Synchronized CBR traffic:</strong> all sensors send at the same instants.</li>
-              <li><strong>Different link discovery:</strong> Static and Risk-Aware use a 90 m disk graph; OLSR and AODV discover links over the real radio range.</li>
-              <li><strong>Light load:</strong> 8 kbps per sensor. The N = 100 saturated risk experiment was not run.</li>
-              <li><strong>Delay survivorship:</strong> delay is over delivered packets only.</li>
-              <li><strong>Seeds:</strong> 3 seeds at N = 100, so those results are descriptive.</li>
-              <li><strong>802.11b:</strong> AODV PDR is affected by a FlowMonitor denominator artifact, and part of the loss remains unattributed by the instrumentation.</li>
-              <li><strong>BA topology:</strong> the study is proposed only; no BA run exists.</li>
-            </ul>
-            <p class="heuristic-note">Full lists: <a href="#view-w6-validity">Wi-Fi 6 validity &amp; limitations</a> · <a href="#view-conclusions">Findings &amp; 802.11b limitations</a>.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="view" style="padding-top:0">
-        <div class="panel">
-          <h3>Network Health</h3>
-          <p class="panel-sub">Representative near-saturated condition (OLSR, N=100, high traffic). Status labels are a dashboard heuristic, not research results — thresholds in the note below.</p>
-          <div id="health-panel"></div>
-          <div class="callout" style="margin-top:14px;font-size:.78rem" id="health-note"></div>
-        </div>
-      </section>
-
-      <!-- ============================================================ RISK SUMMARY -->
-      <section class="view" style="padding-top:0" id="view-risk-summary">
-        <div class="section-eyebrow">Performance Health Check · Dashboard Heuristic</div>
-        <div class="badge-row"><span class="tag measured">IEEE 802.11b Without-Risk Baseline — Measured</span></div>
-        <h2 style="font-size:1.1rem">Performance Health Check</h2>
-        <p class="lede" style="margin-bottom:14px">A metric-level health check of the completed Without-Risk baseline: which measured conditions look strained, and which are within the typical range. This section was formerly titled "Risk Summary". Here "strained" describes <em>network performance</em>. It is unrelated to the high-risk <em>relay nodes</em> of the <a href="#view-w6-overview">Wi-Fi 6 study</a> and the proposed <a href="#view-risk-experiment">BA study</a>; no node-risk condition is applied here.</p>
-
-        <div class="filters">
-          <div class="filter-group"><span class="fl">Protocol</span><div id="risk-protocol" style="display:flex;gap:2px"></div></div>
-          <div class="filter-group"><span class="fl">N</span><div id="risk-n" style="display:flex"></div></div>
-        </div>
-        <p class="panel-sub" id="risk-context" style="margin:-6px 0 14px"></p>
-
-        <div class="grid cols-2">
-          <div class="panel risk-card risk-card-high">
-            <div class="panel-head"><h3 style="margin:0">Strained metrics</h3><span class="tag risk">Needs attention</span></div>
-            <div id="risk-high-list"></div>
-          </div>
-          <div class="panel risk-card risk-card-low">
-            <div class="panel-head"><h3 style="margin:0">Within typical range</h3><span class="tag measured">Typical</span></div>
-            <div id="risk-low-list"></div>
-          </div>
-        </div>
-        <div class="panel risk-card risk-card-na" style="margin-top:14px">
-          <div class="panel-head"><h3 style="margin:0">Not classified</h3><span class="tag repro">No valid measurement / by design</span></div>
-          <div id="risk-na-list"></div>
-        </div>
-
-        <div class="callout" style="margin-top:14px;font-size:.8rem">Status levels are a dashboard heuristic derived from the observed simulation performance; they are not research results. PDR and Gateway Airtime reuse this dashboard's existing Network Health thresholds (PDR ≥45% = normal; gateway airtime ≥85%/≥60%/≥35% = critical/congested/degraded). Throughput, Delay, Packet Loss, Routing Overhead, and Path Changes have no predefined thresholds in the research methodology, so each is classified relative to its own median value across all measured baseline conditions (AODV/OLSR/Static × N=10–100) — at or worse than the median is flagged as strained. V4/Sigmoid is not offered as a Protocol option here because its datasets don't yet have the full per-protocol metric set (Throughput, Delay, Packet Loss, Routing Overhead, Path Changes) needed for consistent classification, unlike AODV/OLSR/Static.</div>
-      </section>
-
-      <!-- ============================================================ REAL-WORLD APPLICATION -->
-      <section class="view" id="view-realworld">
-        <div class="badge-row">
-          <span class="tag" style="background:var(--purple-soft);color:var(--v4)">CONCEPTUAL DEPLOYMENT</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Simulation-based research context — not physical network measurements</span>
-        </div>
-        <h2>Real-World IoT Application Scenario</h2>
-        <p class="lede">Why does this network model matter in the real world? A conceptual application context for the NS-3 research model — not a claim of physical deployment.</p>
-        <div class="callout warn" style="margin-bottom:18px">Conceptual deployment scenario. No physical network measurements are claimed. This visualization demonstrates how the routing protocols studied in NS-3 could be applied to a real-world IoT environment.</div>
-
-        <div class="panel" style="margin-bottom:18px">
-          <h3 style="font-size:.85rem">Simplified IoT network architecture</h3>
-          <div class="flowchart" style="margin:14px 0 0">
-            <div class="flow-node">Sensors</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Wireless Network</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Routing</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">Gateway</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Application / Cloud</div>
-          </div>
-        </div>
-
-        <div class="grid cols-2" style="margin-bottom:18px">
-          <div class="panel">
-            <h3 style="font-size:.85rem">The real-world problem</h3>
-            <div class="flowchart" style="margin:14px 0 0">
-              <div class="flow-node">Network Scale + Traffic Load + Mobility</div><div class="flow-arrow">↓</div>
-              <div class="flow-node hot">Congestion</div><div class="flow-arrow">↓</div>
-              <div class="flow-node bad">Packet Loss / Delay / Throughput Degradation</div>
-            </div>
-          </div>
-          <div class="panel" style="border-color:var(--accent-line)">
-            <div class="evidence-role primary">Research Gap</div>
-            <p style="font-size:.84rem;color:var(--text-dim);margin:0">Performance degradation should not only be measured; its measurable network bottlenecks and routing behavior should also be investigated.</p>
-          </div>
-        </div>
-
-        <div class="rw-scenario">
-          <p style="margin:0 0 4px;font-weight:700;color:var(--text)">Smart Campus + Urban IoT Environment — Phuket, Thailand</p>
-          <p style="margin:0 0 14px;color:var(--text-dim)">Imagine a smart campus and surrounding urban environment in Phuket, Thailand, where environmental, parking, security, lighting, and emergency sensors communicate through a wireless IoT mesh network.</p>
-          <div class="flowchart horizontal" style="margin:0 0 10px">
-            <div class="flow-node">Environmental Sensors</div>
-            <div class="flow-node">Parking Sensors</div>
-            <div class="flow-node">Security Sensors</div>
-            <div class="flow-node">Smart Lighting</div>
-            <div class="flow-node">Emergency Sensors</div>
-          </div>
-          <div class="flowchart horizontal" style="margin:0">
-            <div class="flow-node hot">Wireless IoT Mesh</div><div class="flow-arrow">→</div>
-            <div class="flow-node">IoT Gateway</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Edge / Network Server</div><div class="flow-arrow">→</div>
-            <div class="flow-node good">Monitoring Dashboard</div>
-          </div>
-        </div>
-
-        <div class="rw-split">
-          <div class="rw-panel">
-            <div class="rw-panel-title"><span class="tagdot" style="background:var(--accent)"></span>Phuket Real-World Context</div>
-            <div id="rw-map"></div>
-            <div class="rw-legend">
-              <div class="grp">Real-world context</div>
-              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Study / application anchor</div>
-              <div class="grp">Conceptual deployment</div>
-              <div class="row"><span class="mk diamond" style="background:#f0a94e"></span>Proposed IoT gateway</div>
-              <div class="row"><span class="mk square" style="background:#a78bfa"></span>Proposed server / monitoring</div>
-              <div class="row"><span class="mk circle" style="background:#3ecf8e"></span>Proposed sensor sites</div>
-            </div>
-            <button class="pill" id="rw-study-toggle" style="margin-top:12px;align-self:flex-start;border:1px solid var(--border)">Showing: Conceptual Deployment</button>
-          </div>
-          <div class="rw-connector"><span class="arrow">→</span>Application context → simulation abstraction</div>
-          <div class="rw-panel">
-            <div class="rw-panel-title"><span class="tagdot" style="background:var(--olsr)"></span>NS-3 Simulation Model</div>
-            <div class="rw-mini-topo" id="rw-mini-topo"></div>
-            <div class="rw-legend">
-              <div class="grp">Simulation</div>
-              <div class="row"><span class="mk circle" style="background:#fff;border:2px solid var(--accent)"></span>Gateway (simulated)</div>
-              <div class="row"><span class="mk circle" style="background:#4da3ff"></span>Hop 1 / Hop 2 / Hop 3+ (simulated nodes)</div>
-            </div>
-            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px">Captured node positions and hop distances from a real §10 bottleneck-characterisation run — an abstraction of the mesh above, not a rendering of the map's physical geography.</p>
-          </div>
-        </div>
-
-        <div class="grid cols-2" style="margin-top:18px">
-          <div class="context-card">
-            <div class="loc">Phuket, Thailand</div>
-            <h4>Application Context</h4>
-            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 8px">Potential IoT domains:</p>
-            <ul>
-              <li>Environmental Monitoring</li>
-              <li>Parking</li>
-              <li>Security</li>
-              <li>Smart Lighting</li>
-              <li>Emergency Monitoring</li>
-            </ul>
-            <p style="font-size:.76rem;color:var(--text-faint);margin-top:10px">Geographic context only — the NS-3 results represent simulation-based network performance, not physical measurements from these locations.</p>
-          </div>
-          <div class="context-card">
-            <div class="loc">Presentation Mode</div>
-            <h4>Explain this section in 30–60 seconds</h4>
-            <p style="color:var(--text-dim);font-size:.82rem;margin:0 0 12px">Shows the real-world → simulation → evidence chain as a single large-format diagram for live presentation.</p>
-            <button class="pill active" id="rw-present-btn" style="padding:8px 16px">▶ Enter Presentation Mode</button>
-          </div>
-        </div>
-
-        <div class="panel rw-why">
-          <h3>Why this matters</h3>
-          <p style="color:var(--text-dim);font-size:.85rem;margin:0">The geographic scenario provides a realistic application context for the network model. The actual performance results presented in this dashboard are generated from NS-3 simulations and should be interpreted as simulation evidence rather than physical measurements.</p>
-        </div>
-
-        <div class="panel" style="margin-top:18px">
-          <h3 style="font-size:.85rem">Wireless network infrastructure — illustrative context</h3>
-          <img src="images/wireless-infrastructure-context.jpg" alt="Rooftop telecommunication antennas — generic wireless network infrastructure, illustrative context only" style="width:100%;border-radius:var(--radius-sm);border:1px solid var(--border);margin:10px 0;display:block">
-          <div class="callout warn" style="margin-top:0">Illustrative context — generic wireless network infrastructure. <strong>Not a photo of the simulated network studied in this research</strong>, which is a pure NS-3 simulation with no physical deployment.</div>
-          <p style="font-size:.72rem;color:var(--text-faint);margin:10px 0 0">Photo by Seyfettin Geçit, via <a href="https://www.pexels.com/photo/antennas-in-city-17869674/" target="_blank" rel="noopener">Pexels</a> (Pexels License — free to use).</p>
-        </div>
-
-        <div class="panel" style="margin-top:18px">
-          <h3 style="font-size:.85rem">From problem to research question</h3>
-          <div class="flowchart horizontal" style="margin:12px 0 0">
-            <div class="flow-node">Real-world IoT networks</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Increasing nodes</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Increasing traffic</div><div class="flow-arrow">→</div>
-            <div class="flow-node hot">Congestion</div><div class="flow-arrow">→</div>
-            <div class="flow-node bad">Packet loss</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Changing network conditions</div><div class="flow-arrow">→</div>
-            <div class="flow-node good">Need for adaptive routing</div>
-          </div>
-        </div>
-      </section>
-
-      <div class="present-overlay" id="rw-present-overlay">
-        <button class="close">✕ Close</button>
-        <div class="present-chain">
-          <div class="pnode">Real-World Application</div><div class="parrow">↓</div>
-          <div class="pnode">Phuket Geographic Context</div><div class="parrow">↓</div>
-          <div class="pnode">IoT Sensor Network</div><div class="parrow">↓</div>
-          <div class="pnode">NS-3 Simulation Model</div><div class="parrow">↓</div>
-          <div class="pnode" style="color:var(--ok);border-color:var(--ok)">Performance Analysis</div>
-        </div>
-      </div>
-
-      <!-- ============================================================ REAL-WORLD -> SIMULATION BRIDGE -->
-      <section class="view" id="view-bridge">
-        <div class="section-eyebrow">Research Method</div>
-        <div class="badge-row"><span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Method Bridge</span></div>
-        <h2>From Real-World Scenario to Research Evidence</h2>
-        <p class="lede">The real-world scenario provides application context; NS-3 provides controlled simulation evidence. This distinction stays explicit throughout the dashboard.</p>
-        <div class="grid cols-3" style="margin-top:8px">
-          <div class="panel">
-            <div class="evidence-role">Real World</div>
-            <h3 style="font-size:.9rem">Application Context</h3>
-            <ul style="color:var(--text-dim);font-size:.84rem;margin:10px 0 0;padding-left:20px">
-              <li>IoT sensors</li>
-              <li>Smart campus</li>
-              <li>Urban monitoring</li>
-              <li>Phuket context</li>
-            </ul>
-          </div>
-          <div class="panel">
-            <div class="evidence-role" style="color:var(--v4)">Simulation Abstraction</div>
-            <h3 style="font-size:.9rem">NS-3 Model</h3>
-            <ul style="color:var(--text-dim);font-size:.84rem;margin:10px 0 0;padding-left:20px">
-              <li>802.11b</li>
-              <li>Multi-hop wireless mesh</li>
-              <li>Gateway / sink</li>
-              <li>Routing protocols</li>
-              <li>Traffic generation</li>
-            </ul>
-          </div>
-          <div class="panel primary-evidence">
-            <div class="evidence-role primary">Research Evidence</div>
-            <h3 style="font-size:.9rem">Measured Results</h3>
-            <ul style="color:var(--text-dim);font-size:.84rem;margin:10px 0 0;padding-left:20px">
-              <li>PDR</li>
-              <li>Throughput</li>
-              <li>Delay</li>
-              <li>Packet Loss</li>
-              <li>Bottleneck</li>
-              <li>Routing behavior</li>
-            </ul>
-          </div>
-        </div>
-        <div class="flowchart" style="margin:20px 0 4px">
-          <div class="flow-node"><strong>Real World</strong><br><span style="font-weight:400;font-size:.78rem">IoT devices / sensors</span></div><div class="flow-arrow">↓</div>
-          <div class="flow-node hot"><strong>Simulation Abstraction</strong><br><span style="font-weight:400;font-size:.78rem">NS-3 wireless nodes</span></div><div class="flow-arrow">↓</div>
-          <div class="flow-node"><strong>Controlled Experiment</strong><br><span style="font-weight:400;font-size:.78rem">Nodes × Traffic × Mobility × Routing</span></div><div class="flow-arrow">↓</div>
-          <div class="flow-node good"><strong>Measured Evidence</strong><br><span style="font-weight:400;font-size:.78rem">PDR / Throughput / Delay / Loss</span></div><div class="flow-arrow">↓</div>
-          <div class="flow-node" style="border-style:dashed;color:var(--text-faint)"><strong>Research Interpretation</strong></div>
-        </div>
-        <div class="callout" style="margin-top:16px">The real-world scenario provides application context; NS-3 provides controlled simulation evidence.</div>
-      </section>
-
-      <!-- ============================================================ RESEARCH QUESTIONS -->
-      <section class="view" id="view-research-questions">
-        <div class="section-eyebrow">Research Method</div>
-        <div class="badge-row"><span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Research Questions</span></div>
-        <h2>Research Questions</h2>
-        <p class="lede">The seven questions this research program addresses, spanning the completed Without-Risk baseline and the planned With-Risk / adaptive-routing extension.</p>
-        <div class="grid cols-2">
-          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ1</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How does network scale affect IoT network performance?</p></div>
-          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ2</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How does traffic load affect performance under different network scales?</p></div>
-          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ3</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How do AODV, OLSR, and Static routing differ in performance?</p></div>
-          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ4</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">What measurable network conditions contribute to performance degradation?</p></div>
-          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ5</span><span class="tag measured">Answered · Baseline Evidence</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">Can reducing offered traffic mitigate congestion and improve performance?</p></div>
-          <div class="panel" style="border-color:rgba(213,85,90,.3)"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ6</span><span class="tag measured">Partly answered · Wi-Fi 6 mesh</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">How does performance change between Without-Risk and With-Risk conditions?</p><p style="margin:6px 0 0;font-size:.8rem;color:var(--text-faint)">Answered for the 802.11ax mesh by the <a href="#view-w6-overview">Wi-Fi 6 study</a> (k = 0 vs 1–3 high-risk relays). The BA-topology version remains planned.</p></div>
-          <div class="panel" style="border-color:rgba(124,156,255,.3)"><div class="badge-row" style="margin-bottom:8px"><span class="tag" style="background:var(--panel-2);color:var(--accent)">RQ7</span><span class="tag direction">Future Research</span></div><p style="margin:0;font-size:.86rem;color:var(--text-dim)">Can Sigmoid-based adaptive routing improve route selection under changing or risky network conditions?</p><p style="margin:6px 0 0;font-size:.8rem;color:var(--text-faint)">Not answered by the Wi-Fi 6 study, which used a risk-weighted Dijkstra cost, not the V4 sigmoid metric. V4 itself was tested without risk states (negative result).</p></div>
-        </div>
-        <div class="callout" style="margin-top:16px">RQ1–RQ5 are addressed by the completed Without-Risk V3 baseline and its follow-on bottleneck, retry, and intervention studies. RQ6 is answered for the 802.11ax mesh by the completed Wi-Fi 6 study; its BA-topology version and RQ7 (sigmoid routing under risk) are not yet answered by any completed experiment.</div>
-      </section>
-
-      <!-- ============================================================ NETWORK TOPOLOGY (main visual) -->
-      <section class="view" id="view-topology">
-        <div class="section-eyebrow">Experimental Design</div>
-        <div class="badge-row"><span class="tag v3">Interactive</span></div>
-        <h2>Experimental Design</h2>
-        <p class="lede">The research-design matrix and simulation pipeline behind every measured result in this dashboard.</p>
-
-        <div class="panel" style="margin-bottom:20px">
-          <h3 style="font-size:.85rem">Simulation pipeline</h3>
-          <div class="flowchart" style="margin:14px 0 0">
-            <div class="flow-node">Network Conditions</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">NS-3 Simulation</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">FlowMonitor / Network Metrics</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Performance Analysis</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Bottleneck Analysis</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Validation</div>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <h3 style="font-size:.85rem">Research-design matrix</h3>
-          <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table (topology)"><table class="data">
-            <thead><tr><th>Variable</th><th>Values</th></tr></thead>
-            <tbody>
-              <tr><td>Network Scale</td><td>10 / 20 / 30 / 50 / 75 / 100</td></tr>
-              <tr><td>Traffic</td><td>Low / Medium / High</td></tr>
-              <tr><td>Mobility</td><td>Static / Low / Medium</td></tr>
-              <tr><td>Routing</td><td>AODV / OLSR / Static</td></tr>
-              <tr><td>Seeds</td><td>20–30</td></tr>
-              <tr><td>Primary Metrics</td><td>PDR / Throughput / Delay / Packet Loss</td></tr>
-            </tbody>
-          </table></div>
-        </div>
-
-        <div class="section-eyebrow" style="margin-top:32px">Network Architecture</div>
-        <h3 style="margin:0 0 4px">Interactive Network Model</h3>
-        <p class="lede">Interactive multi-hop IoT network visualization — how the simulated network is structured</p>
-        <div class="badge-row" style="margin-bottom:12px">
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Topology: Multi-hop wireless mesh</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Nodes: 10 / 20 / 30 / 50 / 75 / 100</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Traffic: Low / Medium / High</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Mobility: Static / Low / Medium</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Routing: AODV / OLSR / Static</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Seeds: 20–30</span>
-          <span class="metric-status measured" style="font-size:.68rem">✓ MEASURED — 1,782 runs</span>
-        </div>
-        <div class="callout" style="margin-bottom:20px">The simulation models a multi-hop wireless IoT network in which sensor nodes communicate through intermediate nodes toward a gateway/sink. Network performance is evaluated as network size, traffic load, mobility, and routing strategy change. <strong>The completed baseline experiment (below) is the Without-Risk condition</strong> — the proposed risk condition on the BA topology has not yet been run (see BA Risky Nodes, Phase 8). Explicit per-node low/high-risk relay states have since been measured on the 802.11ax wireless mesh in the separate <a href="#view-w6-overview">Wi-Fi 6 study</a>.</div>
-
-        <div class="grid" id="topo-main-grid">
-          <div class="topo-panels-grid">
-          <div class="panel">
-            <div class="panel-head">
-              <h3>Multi-hop IoT Mesh</h3>
-              <span class="tag" style="background:var(--panel-2);color:var(--text-dim)" id="topo-source-badge">Conceptual / Simulation Topology View</span>
-            </div>
-            <div class="topo-canvas" id="topo-canvas" style="aspect-ratio:4/3"><div style="text-align:center;padding-top:40%;color:var(--text-faint);font-size:.8rem">Loading topology…</div></div>
-            <p style="font-size:.76rem;color:var(--text-faint);margin-top:12px" id="topo-note"></p>
-
-            <div class="panel" style="margin-top:16px;background:var(--panel-2)">
-              <div class="panel-head"><h3 style="margin:0">Route Traversal</h3></div>
-              <p class="panel-sub">Illustrative route traversal — highlights one hop-chain from an outer sensor to the gateway. This is a topology visualization aid, not a packet-level replay.</p>
-              <div class="filters" style="margin:8px 0">
-                <button class="pill" id="topo-play">▶ Play Route</button>
-                <button class="pill" id="topo-pause">⏸ Pause</button>
-                <button class="pill" id="topo-step">Step Forward</button>
-                <button class="pill" id="topo-reset">↻ Reset</button>
-              </div>
-              <div style="font-size:.78rem;color:var(--text-dim)" id="topo-traversal-caption">Select a configuration, then press Play Route.</div>
-            </div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-head">
-              <h3>Real-world IoT Mesh Illustration</h3>
-              <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Illustrative</span>
-            </div>
-            <div class="topo-canvas iot-illustration-canvas" style="aspect-ratio:4/3">
-              <svg viewBox="0 0 400 300" class="iot-illustration-svg" role="img" aria-label="Illustrative diagram of a real-world IoT mesh: temperature, environmental and humidity sensors relaying through each other to a gateway, plus a motion sensor and smart meter connecting directly to the gateway, which uplinks to the network/cloud.">
-                <defs>
-                  <marker id="iot-arrow" markerWidth="7" markerHeight="7" refX="5.5" refY="3" orient="auto">
-                    <path d="M0,0 L6,3 L0,6 Z" class="iot-arrowhead"></path>
-                  </marker>
-                  <g id="ic-thermo"><rect x="-2.4" y="-9" width="4.8" height="11" rx="2.2"></rect><circle cx="0" cy="5" r="4.2"></circle><line x1="0" y1="-6" x2="0" y2="3"></line></g>
-                  <g id="ic-drop"><path d="M0,-9 C4.5,-2.5 7,2 7,5.5 A7,7 0 1 1 -7,5.5 C-7,2 -4.5,-2.5 0,-9 Z"></path></g>
-                  <g id="ic-motion"><circle cx="0" cy="5" r="1.4" class="iot-icon-fill"></circle><path d="M-7,4.5 A8,8 0 0 1 7,4.5"></path><path d="M-4,4.5 A4.5,4.5 0 0 1 4,4.5"></path></g>
-                  <g id="ic-leaf"><path d="M-7,7 C-7,-4 4,-9 9,-9 C9,-2 4,7 -7,7 Z"></path><path d="M-6,6 L8,-8"></path></g>
-                  <g id="ic-meter"><path d="M-8,5 A8,8 0 0 1 8,5"></path><circle cx="0" cy="5" r="1.3" class="iot-icon-fill"></circle><line x1="0" y1="5" x2="4.2" y2="-2.2"></line><path d="M-8,5 L8,5" class="iot-icon-baseline"></path></g>
-                  <g id="ic-hub"><circle cx="0" cy="2" r="1.4" class="iot-icon-fill"></circle><path d="M-8,-1 A10,10 0 0 1 8,-1"></path><path d="M-4.6,1.3 A5.2,5.2 0 0 1 4.6,1.3"></path></g>
-                  <g id="ic-cloud"><path d="M-13,4 A7,7 0 0 1 -11,-9.5 A9,9 0 0 1 6,-11 A8,8 0 0 1 15,-2 A6.5,6.5 0 0 1 13,11 L-9,11 A7,7 0 0 1 -13,4 Z"></path></g>
-                </defs>
-
-                <!-- multi-hop chain: Temperature -> Environmental -> Humidity -> Gateway -> Network/Cloud -->
-                <line x1="30" y1="160" x2="70" y2="70" class="iot-link-chain" marker-end="url(#iot-arrow)"></line>
-                <line x1="70" y1="70" x2="160" y2="100" class="iot-link-chain" marker-end="url(#iot-arrow)"></line>
-                <line x1="160" y1="100" x2="255" y2="150" class="iot-link-chain" marker-end="url(#iot-arrow)"></line>
-                <line x1="255" y1="150" x2="350" y2="55" class="iot-link-uplink" marker-end="url(#iot-arrow)"></line>
-                <!-- direct-to-gateway links (no intermediate hop) -->
-                <line x1="140" y1="250" x2="255" y2="150" class="iot-link-direct"></line>
-                <line x1="280" y1="265" x2="255" y2="150" class="iot-link-direct"></line>
-
-                <!-- sensor nodes -->
-                <g transform="translate(30,160)"><circle r="15" class="iot-node-bg"></circle><use href="#ic-thermo" class="iot-icon"></use><text y="28" class="iot-label">Temperature</text></g>
-                <g transform="translate(70,70)"><circle r="15" class="iot-node-bg"></circle><use href="#ic-leaf" class="iot-icon"></use><text y="28" class="iot-label">Environmental</text></g>
-                <g transform="translate(160,100)"><circle r="15" class="iot-node-bg"></circle><use href="#ic-drop" class="iot-icon"></use><text y="28" class="iot-label">Humidity</text></g>
-                <g transform="translate(140,250)"><circle r="15" class="iot-node-bg"></circle><use href="#ic-motion" class="iot-icon"></use><text y="28" class="iot-label">Motion</text></g>
-                <g transform="translate(280,265)"><circle r="15" class="iot-node-bg"></circle><use href="#ic-meter" class="iot-icon"></use><text y="28" class="iot-label">Smart Meter</text></g>
-
-                <!-- gateway + cloud -->
-                <g transform="translate(255,150)"><circle r="19" class="iot-gateway-bg"></circle><use href="#ic-hub" class="iot-gateway-icon"></use><text y="34" class="iot-label iot-label-strong">IoT Gateway</text></g>
-                <g transform="translate(350,55)"><use href="#ic-cloud" class="iot-cloud"></use><text y="24" class="iot-label iot-label-strong">Network / Cloud</text></g>
-              </svg>
-            </div>
-            <div class="iot-mini-legend">
-              <span><span class="sw sw-chain"></span>Multi-hop sensor relay</span>
-              <span><span class="sw sw-direct"></span>Direct to gateway</span>
-              <span><span class="sw sw-uplink"></span>Gateway uplink</span>
-            </div>
-            <p style="font-size:.76rem;color:var(--text-faint);margin-top:10px">Real-world IoT illustration — conceptual representation of sensor devices, multi-hop communication, and gateway connectivity. Not a captured simulation topology.</p>
-          </div>
-          </div>
-
-          <div style="display:flex;flex-direction:column;gap:14px">
-            <div class="panel">
-              <h3>Configuration</h3>
-              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
-                <span class="fl" style="padding-left:2px;margin-bottom:4px">Node count</span>
-                <div id="topo-n" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-              </div>
-              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
-                <span class="fl" style="padding-left:2px;margin-bottom:4px">Routing</span>
-                <div id="topo-p" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-              </div>
-              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
-                <span class="fl" style="padding-left:2px;margin-bottom:4px">Traffic</span>
-                <div id="topo-t" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-              </div>
-              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px;margin-bottom:8px">
-                <span class="fl" style="padding-left:2px;margin-bottom:4px">Mobility</span>
-                <div id="topo-m" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-              </div>
-              <div class="filter-group" style="flex-direction:column;align-items:stretch;padding:10px">
-                <span class="fl" style="padding-left:2px;margin-bottom:4px">Seed</span>
-                <div id="topo-s" style="display:flex;flex-wrap:wrap;gap:4px"></div>
-              </div>
-            </div>
-
-            <div class="panel">
-              <h3>Current View</h3>
-              <div id="topo-current-view"><p class="panel-sub" style="margin:0">Loading…</p></div>
-            </div>
-
-            <div class="panel">
-              <h3>Measured Results</h3>
-              <div id="topo-measured-card"><p class="panel-sub" style="margin:0">Loading…</p></div>
-            </div>
-
-            <div class="panel">
-              <h3>Legend</h3>
-              <div class="topo-legend">
-                <div class="row"><span class="dotc" style="background:#fff;border:2px solid var(--accent)"></span>Gateway</div>
-                <div class="row"><span class="dotc" style="background:#4da3ff"></span>Hop 1 sensor</div>
-                <div class="row"><span class="dotc" style="background:#3ecf8e"></span>Hop 2 sensor / active route</div>
-                <div class="row"><span class="dotc" style="background:#f0a94e"></span>Hop 3 sensor</div>
-                <div class="row"><span class="dotc" style="background:#ef5f6f"></span>Hop 4+ sensor</div>
-                <div class="row"><span style="width:14px;height:2px;background:#3ecf8e;display:inline-block"></span>Active route (highlighted)</div>
-                <div class="row"><span style="width:14px;height:2px;background:rgba(77,163,255,.5);display:inline-block"></span>Wireless link</div>
-                <div class="row"><span class="dotc" style="background:#ffe066"></span>Traversal marker (packet/traffic)</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-top:20px">
-          <h3>How the network works</h3>
-          <p class="panel-sub" style="margin:4px 0 12px">Illustrative animation — shows the conceptual data flow through the pipeline stages. Not a real-time capture of network activity or an NS-3 simulation replay.</p>
-          <div class="flowchart horizontal" style="margin:14px 0;position:relative" id="flow-row-1">
-            <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Intermediate Node</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Intermediate Node</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Gateway</div><div class="flow-arrow">→</div>
-            <div class="flow-node good">Sink / Server</div>
-            <div class="flow-marker" id="flow-marker-1"></div>
-          </div>
-          <div class="flowchart horizontal" style="margin:14px 0;position:relative" id="flow-row-2">
-            <div class="flow-node">Data Generation</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Multi-hop Forwarding</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Gateway Aggregation</div><div class="flow-arrow">→</div>
-            <div class="flow-node good">Performance Measurement</div>
-            <div class="flow-marker" id="flow-marker-2"></div>
-          </div>
-          <div class="filters" style="margin:14px 0 4px">
-            <button class="pill" id="pipeline-play">▶ Play</button>
-            <button class="pill" id="pipeline-pause">⏸ Pause</button>
-            <button class="pill" id="pipeline-step">Step Forward</button>
-            <button class="pill" id="pipeline-reset">↻ Reset</button>
-          </div>
-          <div style="font-size:.78rem;color:var(--text-dim)" id="pipeline-caption">Press Play to begin.</div>
-        </div>
-
-        <div class="panel" style="margin-top:20px">
-          <div class="section-eyebrow" style="margin:0 0 8px">System / Pipeline Architecture</div>
-          <h3 style="margin:0 0 4px">How the research system is built, end to end</h3>
-          <p class="panel-sub" style="margin:4px 0 16px">Network Architecture (above) is the simulated IoT network's own topology and node roles. This is a different diagram: the research project's <strong>data and software pipeline</strong> — how already-completed NS-3 output becomes this dashboard. Every step is a one-way, read-only derivation over the frozen results; <strong>the dashboard only reads and analyzes finished simulation output — it never runs, reruns, or modifies the NS-3 simulation itself</strong>, and nothing here writes back to <code>results/v3-ext/*.csv</code>.</p>
-
-          <div class="flowchart horizontal" style="margin:0 0 16px;justify-content:flex-start">
-            <div class="flow-node hot">NS-3 Simulator</div><div class="flow-arrow">→</div>
-            <div class="flow-node">Raw CSV Results</div>
-          </div>
-          <p class="panel-sub" style="margin:-10px 0 16px 2px"><code>scratch/iot-network-v3-ext.cc</code> → <code>results/v3-ext/*.csv</code> — the official V3 baseline: <strong>1,782 runs</strong> across <strong>162 experimental conditions</strong> (3 routing protocols × 6 network scales × 3 traffic levels × 3 mobility modes), <strong>11 seeds each</strong> (20–30).</p>
-
-          <div class="flowchart" style="margin:0 0 6px"><div class="flow-arrow">↓</div></div>
-          <p class="panel-sub" style="margin:0 0 8px 2px">Derived data layer — three read-only products built independently from the same frozen CSVs above; none of the three is generated from another.</p>
-          <div class="grid cols-3" style="margin-bottom:6px">
-            <div class="flow-node" style="text-align:left;padding:14px 16px">
-              <div style="font-size:.66rem;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:4px">FROZEN ANALYSIS</div>
-              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">final_research.json</div>
-              <div style="font-size:.78rem;color:var(--text-dim);font-weight:400">From <code>analysis/final-report-data/*.csv</code> — baseline, bottleneck, retry, rate-sweep and V4 results.</div>
-            </div>
-            <div class="flow-node" style="text-align:left;padding:14px 16px">
-              <div style="font-size:.66rem;font-weight:800;letter-spacing:.05em;color:var(--accent-2);margin-bottom:4px">STATISTICAL LAYER</div>
-              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">v3ext-stats.json</div>
-              <div style="font-size:.78rem;color:var(--text-dim);font-weight:400">Derived analysis of the raw simulation results — built by <code>experiments/build_v3_site_stats.py</code>: mean / SD / 95% CI and undefined-run exclusion, per condition. No new measurements.</div>
-            </div>
-            <div class="flow-node" style="text-align:left;padding:14px 16px">
-              <div style="font-size:.66rem;font-weight:800;letter-spacing:.05em;color:var(--v4);margin-bottom:4px">QUERYABLE DATABASE</div>
-              <div style="font-weight:700;margin-bottom:4px;color:var(--text)">research.db</div>
-              <div style="font-size:.78rem;color:var(--text-dim);font-weight:400">SQLite, generated once from the frozen CSVs; queried live in the browser (see Data Explorer, below).</div>
-            </div>
-          </div>
-          <div class="flowchart" style="margin:0 0 16px"><div class="flow-arrow">↓</div></div>
-
-          <div class="flowchart horizontal" style="margin:0;justify-content:flex-start">
-            <div class="flow-node">Public Dashboard (site/)</div><div class="flow-arrow">→</div>
-            <div class="flow-node good">GitHub Pages</div>
-          </div>
-          <p class="panel-sub" style="margin:-10px 0 0 2px"><code>app.js</code> and <code>charts.js</code> render <code>final_research.json</code> and <code>v3ext-stats.json</code> directly; <code>data-explorer.js</code> queries <code>research.db</code> live via SQLite compiled to WebAssembly. GitHub Pages serves the <code>main</code> branch, so this page lives under <code>/site/</code>; <code>.github/workflows/deploy-pages.yml</code> also runs on every push to <code>main</code>. The site is static: no backend</p>
-        </div>
-
-        <div class="panel" style="margin-top:20px">
-          <div class="panel-head"><h3>Simulation Parameter Space</h3></div>
-          <p class="panel-sub">Documented experimental configuration — not every combination below has been experimentally completed. Official V3 baseline, existing V4/Sigmoid evidence, and the future Sigmoid metric research direction each cover different subsets (see below).</p>
-          <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table (topology)"><table class="data">
-            <thead><tr><th>Parameter</th><th>Suggested values</th></tr></thead>
-            <tbody>
-              <tr><td>Nodes</td><td>10, 20, 30, 50, 75, 100</td></tr>
-              <tr><td>Traffic</td><td>Low, Medium, High</td></tr>
-              <tr><td>Mobility</td><td>Static, Low, Medium</td></tr>
-              <tr><td>Routing</td><td>AODV, OLSR, Static, Sigmoid</td></tr>
-              <tr><td>Seeds</td><td>20–30</td></tr>
-              <tr><td>Duration</td><td>300–600 s</td></tr>
-            </tbody>
-          </table></div>
-          <div class="grid cols-3" style="margin-top:16px">
-            <div class="insight-card"><div class="k">Official V3 configuration</div>AODV / OLSR / Static, all 6 node counts, all 3 traffic levels, all 3 mobility modes, Seed 20–30, 300s — 1,782 completed runs.</div>
-            <div class="insight-card secondary"><div class="k">Existing V4 / Sigmoid evidence</div>Sigmoid-weighted adaptive routing (V4) vs. Static — 957 completed runs total: 594 matched-condition runs across the full 6 node-count × 3 traffic × 3 mobility grid (11 seeds each, same condition space as the V3 baseline), a 27-configuration parameter sensitivity sweep (297 runs), and a 6-configuration activation screen (66 runs) — the latter two at N=50, medium traffic, static mobility only.</div>
-            <div class="insight-card" style="border-color:var(--v4)"><div class="k" style="color:var(--v4)">Future Sigmoid metric direction</div>No experiments completed yet — see Adaptive Routing section for the proposed research pipeline.</div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================ BASELINE — WITHOUT RISK -->
-      <section class="view major" id="view-baseline">
-        <div class="section-eyebrow">Foundation of the Completed Research</div>
-        <div class="badge-row">
-          <span class="metric-status measured" style="font-size:.78rem">✓ MEASURED</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">WITHOUT RISK</span>
-          <span class="tag v3">BASELINE</span>
-        </div>
-        <h2>Baseline — Without Risk</h2>
-        <p class="lede">Every result in the Protocol Comparison, Performance Analysis, Bottleneck, Retry, and Traffic Intervention sections below is drawn from this completed, Without-Risk baseline. It is the foundation the rest of this research — including the planned With-Risk extension — is built on.</p>
-        <div class="kpi-grid">
-          <div class="kpi"><div class="num"><span id="kpi-baseline-runs">1,782</span><span class="unit">runs</span></div><div class="label">V3 Official Baseline</div><div class="note">AODV / OLSR / Static, Seeds 20–30</div></div>
-          <div class="kpi"><div class="num">3</div><div class="label">Routing Protocols</div><div class="note">AODV, OLSR, Static</div></div>
-          <div class="kpi"><div class="num">6 × 3 × 3</div><div class="label">Condition Space</div><div class="note">Node counts × traffic levels × mobility modes</div></div>
-        </div>
-        <div class="callout" style="margin-top:16px">Dataset: <strong>1,782 V3 runs</strong>, Seeds 20–30, condition normal / without risk (no risk condition defined or applied). This is completed, frozen research — not a projection.</div>
-      </section>
-
-      <!-- ============================================================ PERFORMANCE -->
+      <!-- ============================================================ 1. V3 BASELINE -->
       <section class="view" id="view-performance">
-        <div class="section-eyebrow">Performance Results</div>
-        <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>V3 — Validated Baseline</span></div>
-        <h2>Network Performance</h2>
-        <p class="lede">How routing protocols behave as network scale and traffic load increase. Validated NS-3 evidence across network scale, traffic load, mobility and routing strategy — 1,782 official runs (Seed 20–30), pooled over traffic level and mobility mode.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Performance becomes increasingly constrained as network scale and traffic load increase, with bottleneck effects becoming more pronounced at larger scales — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
+        <div class="section-eyebrow">1 · V3 Baseline — IEEE 802.11b</div>
+        <h2>Network performance vs network size and traffic</h2>
+        <p class="lede">1,782 runs: 3 protocols × 6 node counts × 3 traffic levels × 3 mobility modes (162 conditions) × 11 seeds (20–30), 300 s each. Values are pooled over traffic and mobility unless stated.</p>
+        <div class="key-finding"><span class="kf-label">Key Finding</span>Performance becomes increasingly constrained as network scale and traffic load increase, with bottleneck effects becoming more pronounced at larger scales — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
+        <details class="panel setup" style="margin-bottom:16px">
+          <summary><h3 style="display:inline">Experimental setup</h3></summary>
+          <div class="table-scroll" tabindex="0" role="region" aria-label="V3 experimental setup"><table class="data">
+            <tbody>
+              <tr><td>Radio</td><td>IEEE 802.11b ad-hoc, constant rate DSSS 1 Mbps, 20 dBm, LogDistance propagation (exponent 3.0)</td></tr>
+              <tr><td>Topology</td><td>250 m × 250 m, gateway at the centre, uniform random sensor placement per seed, 90 m nominal range</td></tr>
+              <tr><td>Traffic</td><td>UDP CBR to the gateway, 512 B packets; low / medium / high = 4 / 8 / 16 kbps per sensor</td></tr>
+              <tr><td>Conditions</td><td>N = 10, 20, 30, 50, 75, 100; mobility static / low / medium; AODV, OLSR, Static (BFS shortest-path tree)</td></tr>
+              <tr><td>Statistics</td><td>Mean ± Student-t 95 % CI over 11 seeds (df = 10). A pooled point is computed per seed first, and its CI is taken across the per-seed values. The interval is a descriptive measure of replication uncertainty: no significance tests are used here. Runs with no received packets are excluded from delay only, never counted as 0</td></tr>
+            </tbody>
+          </table></div>
+        </details>
         <div class="filters"><div class="filter-group"><span class="fl">Protocol</span><div id="perf-protocol-toggle" style="display:flex;gap:2px"></div></div></div>
         <div id="perf-legend"></div>
-
-        <div class="stat-method" id="stat-method">
-          <h3>Reading the error bands &mdash; the 11 seeds are statistical replications</h3>
-          <p>Every experimental condition was simulated with <strong>11 independent random seeds (20&ndash;30)</strong> for 300&nbsp;s. The seeds are <strong>replications of the same condition</strong>, so each plotted value is a <strong>mean over 11 replications</strong> and its uncertainty is a <strong>two-sided 95% confidence interval</strong> from the Student <em>t</em>-distribution with df&nbsp;=&nbsp;n&nbsp;&minus;&nbsp;1.</p>
-          <p><span class="formula">CI<sub>95%</sub> = mean &plusmn; t<sub>0.975, n&minus;1</sub> &times; SD / &radic;n</span>&nbsp; SD is the sample standard deviation (n&nbsp;&minus;&nbsp;1); standard error SE&nbsp;=&nbsp;SD&nbsp;/&nbsp;&radic;n.</p>
-          <div class="stat-grid">
-            <div class="stat-cell"><div class="k">Replications / condition</div><div class="v" id="sm-reps">&mdash;</div></div>
-            <div class="stat-cell"><div class="k">Degrees of freedom (n = 11)</div><div class="v" id="sm-df">&mdash;</div></div>
-            <div class="stat-cell"><div class="k">t critical (df = 10)</div><div class="v" id="sm-t">&mdash;</div></div>
-            <div class="stat-cell"><div class="k">Conditions / official runs</div><div class="v" id="sm-cells">&mdash;</div></div>
-          </div>
-          <p><strong>Line charts</strong> draw the 95% CI as a shaded band around the mean line; <strong>bar charts</strong> draw mean &plusmn; 95% CI whiskers &mdash; never a standard deviation. A chart point that pools several traffic &times; mobility conditions is computed <em>per seed first</em> (each seed&rsquo;s mean across those conditions) and the CI is taken across the per-seed values, not from condition means or pooled runs. The interval is a descriptive measure of replication uncertainty: no p-values, significance tests or multiplicity corrections are used, and nothing here is a claim of statistical significance.</p>
-          <p id="sm-load-error" style="display:none;color:var(--bad);font-weight:600"></p>
-        </div>
-        <div class="undef-callout" id="undef-callout">
-          <strong>Undefined metrics are excluded &mdash; never turned into zero.</strong>
-          When a run receives no data packets (<code>PacketsReceived = 0</code>), <strong>PDR, Throughput and Packet Loss are genuinely 0</strong> and stay in the statistics, whereas <strong>Average Delay, Average Jitter and Average Hop Count</strong> (when the hop-count method is not exact) are <strong>undefined</strong>: the simulator&rsquo;s stored 0 is a placeholder, not a measurement. Such a run is left out of those three metrics only, at the aggregation layer; each metric uses its own valid n (df&nbsp;=&nbsp;n&nbsp;&minus;&nbsp;1, its own t). The raw CSVs, <code>research.db</code> and <code>final_research.json</code> are not modified.
-          <div id="undef-detail"></div>
-        </div>
-
-        <div class="section-eyebrow" id="view-protocol-comparison">RQ3 — How Do Routing Protocols Differ?</div>
-        <div class="evidence-role primary" style="font-size:.75rem">Protocol Comparison — AODV vs. OLSR vs. Static</div>
-        <p class="panel-sub" style="margin:-4px 0 12px">Direct side-by-side comparison per node count. These four charts are the primary research comparison for this study. <strong>All results below are from the completed Without-Risk baseline</strong> (see Baseline — Without Risk, above) — no risk condition is applied.</p>
-        <div class="grid cols-2" style="margin-bottom:20px">
-          <div class="panel primary-evidence">
-            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3>PDR: AODV vs. OLSR vs. Static</h3><p class="panel-sub">% of packets delivered, by network size</p><div class="chart-wrap" id="chart-pdr-compare" style="min-height:260px"></div>
-          </div>
-          <div class="panel primary-evidence">
-            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3>Throughput: AODV vs. OLSR vs. Static</h3><p class="panel-sub">kbps delivered, by network size</p><div class="chart-wrap" id="chart-throughput-compare" style="min-height:260px"></div>
-          </div>
-          <div class="panel primary-evidence">
-            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3>Delay: AODV vs. OLSR vs. Static</h3><p class="panel-sub">ms, by network size</p><div class="chart-wrap" id="chart-delay-compare" style="min-height:260px"></div>
-          </div>
-          <div class="panel primary-evidence">
-            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3>Packet Loss: AODV vs. OLSR vs. Static</h3><p class="panel-sub">packets, by network size</p><div class="chart-wrap" id="chart-loss-compare" style="min-height:260px"></div>
-          </div>
-        </div>
-        <div class="callout" style="margin-top:-4px;margin-bottom:16px">AODV PDR/Packet Loss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and delay trends are unaffected.</div>
-        <div class="key-finding"><span class="kf-label">Key Observation</span>Performance differences become more pronounced as network scale and traffic load increase.</div>
-
-        <div class="panel" style="margin-bottom:28px;background:var(--accent-soft);border-color:var(--accent-line)">
-          <h3>What the comparison shows</h3>
-          <p style="color:var(--text-dim);font-size:.88rem;margin:0">As node density and offered traffic increase, network performance degrades across all three evaluated routing strategies — this is not unique to any single protocol. Protocol behavior must be interpreted together with network load and congestion, not in isolation: no protocol is universally best under every tested condition. AODV's PDR/Packet Loss numbers should additionally be read with the FlowMonitor caveat above in mind.</p>
-        </div>
-
-        <div class="evidence-role">Performance Profile</div>
-        <div class="metric-profile" style="margin-bottom:24px">
-          <div class="mp-row">
-            <div class="mp-metric">PDR</div>
-            <div><div class="mp-label">Observation</div><div class="mp-text">Packet delivery decreases under heavier network pressure.</div></div>
-            <div><div class="mp-label">Interpretation</div><div class="mp-text">Consistent with rising channel contention as node count and traffic load increase.</div></div>
-          </div>
-          <div class="mp-row">
-            <div class="mp-metric">Throughput</div>
-            <div><div class="mp-label">Observation</div><div class="mp-text">Effective delivery becomes constrained under congestion.</div></div>
-            <div><div class="mp-label">Interpretation</div><div class="mp-text">Delivered throughput tracks the same capacity limits driving the PDR trend.</div></div>
-          </div>
-          <div class="mp-row">
-            <div class="mp-metric">Delay</div>
-            <div><div class="mp-label">Observation</div><div class="mp-text">Queueing and routing effects become more visible under load.</div></div>
-            <div><div class="mp-label">Interpretation</div><div class="mp-text">Supporting evidence for gateway/first-hop queue pressure — see Bottleneck Analysis.</div></div>
-          </div>
-          <div class="mp-row">
-            <div class="mp-metric">Packet Loss</div>
-            <div><div class="mp-label">Observation</div><div class="mp-text">Loss increases as network conditions approach saturation.</div></div>
-            <div><div class="mp-label">Interpretation</div><div class="mp-text">Read the AODV FlowMonitor caveat above alongside this trend.</div></div>
-          </div>
-        </div>
-
-        <div class="evidence-role">Primary Trend — PDR &amp; Throughput vs. Network Size</div>
-        <div class="grid cols-2" style="margin-bottom:18px">
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3>Packet Delivery Ratio vs. Network Size</h3><p class="panel-sub">% of packets delivered</p><div class="chart-wrap" id="chart-pdr"></div></div>
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3>Throughput vs. Network Size</h3><p class="panel-sub">kbps delivered</p><div class="chart-wrap" id="chart-throughput"></div></div>
-        </div>
-        <div class="evidence-role">Supporting Evidence</div>
-        <div class="grid cols-3">
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag supporting">Supporting Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3 style="font-size:.78rem">End-to-End Delay vs. Network Size</h3><p class="panel-sub">ms</p><div class="chart-wrap" id="chart-delay"></div></div>
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag supporting">Supporting Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3 style="font-size:.78rem">Packet Loss vs. Network Size</h3><p class="panel-sub">packets</p><div class="chart-wrap" id="chart-loss"></div></div>
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag supporting">Supporting Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3 style="font-size:.78rem">Jitter vs. Network Size</h3><p class="panel-sub">ms, mean inter-packet delay variation</p><div class="chart-wrap" id="chart-jitter"></div></div>
-        </div>
-        <div class="callout" style="margin-top:16px">AODV PDR/PacketLoss carry a known FlowMonitor <code>PacketsSent</code>-denominator artifact and should be read as indicative/directional, not an exact cross-protocol comparison. Throughput and qualitative trends are unaffected.</div>
-
-        <div class="evidence-role" style="margin-top:32px">Routing &amp; Path Behavior Evidence</div>
-        <div class="grid cols-3">
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag routing">Routing Evidence</span><span class="metric-status limited">△ Limited coverage</span></div>
-            <h3 style="font-size:.78rem">Routing Overhead — Metric Coverage Limitation</h3><p class="panel-sub">control packets, mean per run</p><div class="chart-wrap" id="chart-routing-overhead"></div>
-            <p class="panel-sub" style="margin-top:10px;line-height:1.5">AODV: ✓ Measured (substantial, rising with N). OLSR: △ <code>RoutingOverheadPackets = 0</code> in the current dataset reflects metric coverage/instrumentation limitations and should not be interpreted as proof of zero routing control overhead. Static: ✓ Measured (genuine zero — no routing protocol runs, so there is no control traffic by design).</p>
-          </div>
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag routing">Routing Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3 style="font-size:.78rem">Hop Count vs. Network Size</h3><p class="panel-sub">mean hops to gateway</p><div class="chart-wrap" id="chart-hopcount-v3"></div>
-            <p class="panel-sub" style="margin-top:10px;line-height:1.5">AODV/OLSR hop count is approximated via times-forwarded; Static hop count is exact (computed from topology). Do not compare the exact Static value against the approximate AODV/OLSR values as if measured identically.</p>
-          </div>
-          <div class="panel">
-            <div class="metric-meta"><span class="metric-tag routing">Routing Evidence</span><span class="metric-status measured">✓ Measured</span></div>
-            <h3 style="font-size:.78rem">Path Changes vs. Network Size</h3><p class="panel-sub">mean route changes per run</p><div class="chart-wrap" id="chart-path-changes"></div>
-            <p class="panel-sub" style="margin-top:10px;line-height:1.5">Static = 0 by design (fixed shortest-path tree, routes never change) — not a coverage gap.</p>
-          </div>
-        </div>
-
-        <div class="evidence-role" style="margin-top:32px">Network Utilization / Bottleneck Evidence</div>
-        <div class="panel">
-          <div class="metric-meta"><span class="metric-tag mechanism">Mechanism Evidence</span><span class="metric-status measured">✓ Measured (proxy)</span></div>
-          <h3>Maximum Link Utilization vs. Network Size</h3><p class="panel-sub">busiest single link, % of nominal PHY rate</p><div class="chart-wrap" id="chart-mlu"></div>
-        </div>
-        <div class="callout" style="margin-top:16px">Maximum Link Utilization is distinct from Gateway Airtime (see Bottleneck Analysis, below) — MLU is a per-neighbour-pair delivered-load ratio against nominal PHY rate, computed for the single busiest link in each topology; Gateway Airtime measures the sensor-facing gateway's own channel-busy fraction specifically. MLU excludes retries, backoff, ACKs, headers, and other nodes' airtime, and per-link load spreads out as N grows — so a low MLU value is <strong>not</strong> evidence of an uncongested channel; taken at face value it would understate congestion. Treat it as a relative hot-link indicator, not a measured airtime fraction.</div>
-
-        <h2 style="margin-top:40px" id="view-traffic-effect">Traffic Effect — how does offered load affect the network?</h2>
-        <p class="lede">Low → Medium → High offered rate, pooled over node count and mobility. PDR is the metric with a dedicated per-traffic-level breakdown in the current dataset; the same degradation direction is visible in throughput/delay/loss via the node-size charts above at each traffic condition.</p>
-        <div class="flowchart horizontal" style="margin-bottom:20px">
-          <div class="flow-node good">Low traffic → Stable</div><div class="flow-arrow">→</div>
-          <div class="flow-node hot">Medium traffic → Increasing congestion</div><div class="flow-arrow">→</div>
-          <div class="flow-node bad">High traffic → Near-saturation</div>
-        </div>
-        <div id="traffic-legend"></div>
-        <div class="panel"><div class="metric-meta"><span class="metric-tag primary">Primary Evidence</span><span class="metric-status measured">✓ Measured</span></div><h3>PDR by Traffic Level</h3><p class="panel-sub">% of packets delivered, Low/Medium/High offered traffic, pooled across node count and mobility</p><div class="chart-wrap" id="chart-traffic-load"></div></div>
-      </section>
-
-      <!-- ============================================================ BOTTLENECK -->
-      <section class="view major" id="view-bottleneck">
-        <div class="section-eyebrow">Network Bottleneck Monitor</div>
-        <div class="badge-row"><span class="status-badge evidence"><span class="sb-dot"></span>Bottleneck Study — Evidence</span></div>
-        <h2>Where does packet loss occur?</h2>
-        <p class="lede">176 runs instrumented per-node airtime, MAC-queue drops, and PHY RX drops to localise the loss mechanism.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — OLSR gateway airtime reaches 0.86–0.89 at N≥75 under high traffic (Static: 0.62–0.66).</div>
-
-        <div class="op-console" style="margin-bottom:20px">
-          <div class="op-row"><div class="op-name">Gateway</div><div class="op-desc">OLSR channel-busy fraction reaches 0.86–0.89 at N≥75 under high traffic (Static 0.62–0.66)</div><div class="op-level high">High Utilization</div></div>
-          <div class="op-row"><div class="op-name">First-hop Region</div><div class="op-desc">MAC-queue drops 1.4–2.4× over-represented at hop ≤1 in 11 of 16 cells</div><div class="op-level high">High Congestion Pressure</div></div>
-          <div class="op-row"><div class="op-name">MAC Queue Drops</div><div class="op-desc">Major measurable contributor to loss (see Retry Validation)</div><div class="op-level high">Major Contributor</div></div>
-          <div class="op-row"><div class="op-name">Retry Exhaustion</div><div class="op-desc">Real but secondary mechanism (see Retry Validation)</div><div class="op-level mid">Secondary Contributor</div></div>
-          <div class="op-row"><div class="op-name">NO_ROUTE / ROUTE_ERROR</div><div class="op-desc">Routing failure — not the driver of measured loss</div><div class="op-level low">Low (&lt;2%)</div></div>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <h3>Why does performance degrade? — observed mechanism chain</h3>
-          <p class="panel-sub">Relationships indicated by the measured data below — not asserted beyond what the metrics support.</p>
-          <div class="flowchart horizontal" style="margin:14px 0 0">
-            <div class="flow-node">More Nodes</div><div class="flow-arrow">→</div>
-            <div class="flow-node hot">Higher Gateway / First-Hop Load</div><div class="flow-arrow">→</div>
-            <div class="flow-node hot">Higher Channel Contention</div><div class="flow-arrow">→</div>
-            <div class="flow-node hot">Queue / Retry Effects</div><div class="flow-arrow">→</div>
-            <div class="flow-node bad">Packet Loss</div><div class="flow-arrow">→</div>
-            <div class="flow-node bad">PDR Degradation</div>
-          </div>
-        </div>
-
-        <div class="oei">
-          <div class="oei-col observation">
-            <div class="oei-label">Observation</div>
-            <p>PDR falls and gateway airtime rises together as node count and traffic increase, most sharply at N≥75 under high traffic.</p>
-          </div>
-          <div class="oei-col evidence">
-            <div class="oei-label">Evidence</div>
-            <ul>
-              <li>OLSR gateway airtime 0.86–0.89 at N≥75/high</li>
-              <li>MAC-queue drops 1.4–2.4× over-represented at hop≤1 (11 of 16 cells)</li>
-              <li>NO_ROUTE/ROUTE_ERROR &lt;2% of loss (routing failure excluded)</li>
-            </ul>
-          </div>
-          <div class="oei-col interpretation">
-            <div class="oei-label">Interpretation</div>
-            <p>The pattern is consistent with gateway/first-hop channel contention as the dominant measurable mechanism under these conditions, rather than routing failure. This does not establish a cause for every lost packet — see the residual-loss caveat below.</p>
-          </div>
-        </div>
-
-        <div class="flowchart horizontal" style="margin-bottom:24px">
-          <div class="flow-node">Sensor</div><div class="flow-arrow">→</div>
-          <div class="flow-node">Hop 3</div><div class="flow-arrow">→</div>
-          <div class="flow-node">Hop 2</div><div class="flow-arrow">→</div>
-          <div class="flow-node hot">Hop 1</div><div class="flow-arrow">→</div>
-          <div class="flow-node bad">Gateway</div>
-        </div>
-
-        <div class="evidence-grid">
-          <div class="panel primary-evidence">
-            <div class="evidence-role primary">Primary Evidence</div>
-            <h3>Gateway Airtime vs. Network Size</h3>
-            <p class="panel-sub">High traffic condition</p>
-            <div id="bn-legend"></div>
-            <div class="chart-wrap" id="chart-gw-airtime"></div>
-          </div>
-          <div class="panel">
-            <div class="insight-card primary">
-              <div class="k">Primary measurable bottleneck</div>
-              Gateway and first-hop congestion becomes dominant under near-saturated conditions. OLSR gateway airtime reaches <strong>0.86–0.89</strong> at N≥75 under high traffic (Static 0.62–0.66), and MAC-queue drops are <strong>1.4–2.4×</strong> over-represented in the first-hop neighbourhood. <span class="heuristic-note" style="display:inline">(11 of 16 cells; the ratio is below 1 in OLSR N=30 high and OLSR N=50 medium, and three medium-traffic cells have no MAC-queue drops — <code>bottleneck_results.csv</code>)</span>
-            </div>
-            <ul style="margin-top:14px;font-size:.84rem;color:var(--text-dim)">
-              <li>NO_ROUTE / ROUTE_ERROR: &lt;2% of loss in every tested condition</li>
-              <li>Retry exhaustion: measured separately (see Retry Analysis)</li>
-            </ul>
-            <div class="callout warn" style="margin-top:14px;padding:10px 12px"><strong style="display:block;font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px">Evidence Limitation</strong><span style="font-size:.8rem">Only a subset of observed packet loss (0–53% at the most saturated cell) can be directly attributed to a single logged counter. The bottleneck's location is well supported; not every lost packet has a known individual cause.</span></div>
-          </div>
-        </div>
-
-        <div class="panel" style="margin-top:16px">
-          <div class="panel-head">
-            <h3>MAC Queue Drops by Hop Distance</h3>
-            <div class="filters" style="margin:0">
-              <div class="filter-group"><span class="fl">N</span><div id="hop-n" style="display:flex"></div></div>
-              <div class="filter-group"><span class="fl">Protocol</span><div id="hop-p" style="display:flex"></div></div>
-            </div>
-          </div>
-          <p class="panel-sub">High traffic. MAC queue drops are disproportionately concentrated around the first-hop gateway region.</p>
-          <div class="chart-wrap" id="chart-hop-macq"></div>
-        </div>
-      </section>
-
-      <!-- ============================================================ RETRY -->
-      <section class="view" id="view-retry">
-        <div class="section-eyebrow">Mechanism Evidence</div>
-        <div class="badge-row"><span class="tag retry">Retry-Exhaustion Validation</span></div>
-        <h2>Is retransmission failure the main cause?</h2>
-        <p class="lede">36-run validation directly measuring MAC-layer retry exhaustion (packets dropped after exceeding the retry limit).</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Retry exhaustion is real but secondary — MAC-queue overflow is the larger of the two in 7 of the 12 measured cells (all six high-traffic cells and OLSR N=100 medium); in the other five (medium-traffic, low-stress) cells retry exhaustion is the larger but still minor of the two.</div>
-        <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:18px">
-          <div class="kpi"><div class="num">12</div><div class="label">Cells Analyzed</div></div>
-          <div class="kpi"><div class="num" style="color:var(--warn)">17.1<span class="unit">%</span></div><div class="label">Avg. MAC Queue Overflow Share</div></div>
-          <div class="kpi"><div class="num" style="color:var(--v4)">6.0<span class="unit">%</span></div><div class="label">Avg. Retry Exhaustion Share</div></div>
-        </div>
         <div class="grid cols-2">
-          <div class="panel"><h3>Average share of loss</h3><div class="chart-wrap" id="chart-retry-vs-macq"></div></div>
+          <div class="panel"><h3>PDR vs network size</h3><p class="panel-sub">% of packets delivered</p><div class="chart-wrap" id="chart-pdr"></div></div>
+          <div class="panel"><h3>Throughput vs network size</h3><p class="panel-sub">kbps delivered at the gateway</p><div class="chart-wrap" id="chart-throughput"></div></div>
+          <div class="panel"><h3>End-to-end delay vs network size</h3><p class="panel-sub">ms, delivered packets</p><div class="chart-wrap" id="chart-delay"></div></div>
+          <div class="panel"><div id="traffic-legend"></div><h3>PDR by traffic level</h3><p class="panel-sub">pooled over node count and mobility</p><div class="chart-wrap" id="chart-traffic-load"></div></div>
+        </div>
+        <div class="callout" style="margin-top:14px;font-size:.84rem">AODV's PDR and packet loss are affected by a known ns-3 FlowMonitor <code>PacketsSent</code>-denominator artifact: read them as indicative, not as exact cross-protocol values. Throughput and trends are unaffected.</div>
+      </section>
+
+      <!-- ============================================================ 2. BOTTLENECK & INTERVENTION -->
+      <section class="view" id="view-bottleneck">
+        <div class="section-eyebrow">2 · Bottleneck Analysis &amp; Traffic-Rate Intervention — IEEE 802.11b</div>
+        <h2>Where packets are lost, and whether less traffic helps</h2>
+        <p class="lede">Per-node instrumentation (176 runs: OLSR and Static, N = 30/50/75/100, medium and high traffic, 11 seeds), retry-exhaustion validation (36 runs), offered-rate sweep (72 runs) and a Static N = 50 negative control (12 runs).</p>
+        <div class="key-finding"><span class="kf-label">Key Finding</span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — OLSR gateway airtime reaches 0.86–0.89 at N≥75 under high traffic (Static: 0.62–0.66).</div>
+        <div class="grid cols-2">
+          <div class="panel"><div id="bn-legend"></div><h3>Gateway airtime vs network size</h3><p class="panel-sub">% channel-busy time at the gateway, high traffic</p><div class="chart-wrap" id="chart-gw-airtime"></div></div>
           <div class="panel">
-            <div class="insight-card primary"><div class="k">Primary measurable bottleneck</div>MAC queue / gateway congestion — average <strong>≈17.1%</strong> share of loss across the 12 measured cells (unweighted mean), larger than retry exhaustion in 7 / 12 cells — every high-traffic cell.</div>
-            <div class="insight-card secondary" style="margin-top:10px"><div class="k">Secondary mechanism</div>Retry exhaustion — real but secondary, average <strong>≈6.0%</strong> share of loss; concentrated farther from the gateway, the opposite spatial pattern from queue overflow.</div>
+            <div class="panel-head"><h3>MAC-queue drops by hop distance</h3>
+              <div class="filters" style="margin:0">
+                <div class="filter-group"><span class="fl">N</span><div id="hop-n" style="display:flex"></div></div>
+                <div class="filter-group"><span class="fl">Protocol</span><div id="hop-p" style="display:flex"></div></div>
+              </div></div>
+            <p class="panel-sub">High traffic, mean drops per node</p>
+            <div class="chart-wrap" id="chart-hop-macq"></div>
           </div>
         </div>
-        <div class="callout" style="margin-top:16px">MAC queue overflow is the dominant measured contributor across most evaluated cells, while retry exhaustion represents a smaller but non-negligible contribution.</div>
-        <div class="panel" style="margin-top:16px">
-          <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table (retry)"><table class="data">
+        <ul class="evidence-list">
+          <li>MAC-queue drops are 1.4–2.4× over-represented at hop ≤ 1 in 11 of 16 cells (below 1 in OLSR N=30 high and OLSR N=50 medium; three medium-traffic cells have no MAC-queue drops) — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/bottleneck_results.csv" target="_blank" rel="noopener">bottleneck_results.csv</a>.</li>
+          <li>Routing failures are not the driver: NO_ROUTE / ROUTE_ERROR account for &lt;2% of loss in every tested condition.</li>
+          <li>Only a subset of observed packet loss (0–53% at the most saturated cell) can be directly attributed to a single logged counter. The bottleneck's location is well supported; not every lost packet has a known individual cause.</li>
+        </ul>
+
+        <h3 class="sub-h">Retry exhaustion is real but secondary</h3>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Average share of loss (12 cells)</h3><p class="panel-sub">unweighted mean over the retry-validation cells (36 runs): MAC-queue overflow ≈17.1%, retry exhaustion ≈6.0%</p><div class="chart-wrap" id="chart-retry-vs-macq"></div>
+            <p class="panel-sub" style="margin:10px 0 0">MAC-queue overflow is the larger of the two in 7 of the 12 measured cells (all six high-traffic cells and OLSR N=100 medium); in the other five (medium-traffic, low-stress) cells retry exhaustion is the larger but still minor of the two.</p></div>
+          <div class="panel"><div class="table-scroll" tabindex="0" role="region" aria-label="Retry versus MAC-queue share of loss"><table class="data">
             <thead><tr><th>Protocol</th><th>N</th><th>Traffic</th><th>Retry share of loss</th><th>MAC-queue share of loss</th></tr></thead>
             <tbody id="retry-table-body"></tbody>
-          </table></div>
-        </div>
-      </section>
-
-      <!-- ============================================================ INTERVENTION -->
-      <section class="view major" id="view-intervention">
-        <div class="section-eyebrow">Congestion Intervention</div>
-        <div class="badge-row"><span class="tag intervention">Offered-Rate Intervention</span></div>
-        <h2>Can traffic reduction mitigate congestion?</h2>
-        <div class="callout" style="margin-bottom:10px"><strong>Research Question —</strong> Can reducing offered traffic relieve congestion?</div>
-        <p class="lede">72-run rate sweep (16 → 12 → 8 → 4 kbps) testing whether reducing offered traffic rate relieves the identified bottleneck.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load.</div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <h3 style="font-size:.85rem">Controlled rate-reduction experiment</h3>
-          <div class="flowchart horizontal" style="margin:14px 0 0">
-            <div class="flow-node bad">16 kbps</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">12 kbps</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">8 kbps</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">4 kbps</div>
-          </div>
+          </table></div></div>
         </div>
 
-        <div class="grid cols-2" style="margin-bottom:22px">
-          <div class="flowchart">
-            <div class="flow-node bad">High offered rate</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">High gateway airtime</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">Queue overflow</div><div class="flow-arrow">↓</div>
-            <div class="flow-node bad">Packet loss</div>
-          </div>
-          <div class="flowchart">
-            <div class="flow-node good">Reduce offered rate</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Lower airtime</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Fewer queue drops</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Higher OLSR PDR</div>
-          </div>
-        </div>
-
-        <div class="filters"><div class="filter-group"><span class="fl">OLSR, N=</span><div id="int-n" style="display:flex"></div></div></div>
+        <h3 class="sub-h" id="view-intervention">Traffic-rate intervention, with Static as negative control</h3>
+        <div class="key-finding"><span class="kf-label">Key Finding</span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load.</div>
         <div class="grid cols-2">
-          <div class="panel"><div id="int-legend"></div><h3>PDR vs. Offered Rate</h3><p class="panel-sub">% of packets delivered as offered rate is reduced, OLSR</p><div class="chart-wrap" id="chart-int-pdr"></div></div>
-          <div class="panel"><h3>Gateway Airtime vs. Offered Rate</h3><p class="panel-sub">% channel-busy time at the gateway, OLSR</p><div class="chart-wrap" id="chart-int-airtime"></div></div>
-        </div>
-        <div class="panel" style="margin-top:16px;text-align:center">
-          <div class="num" style="font-size:2.2rem;font-weight:800;color:var(--ok)" id="int-delta">—</div>
-          <div style="color:var(--text-dim);font-size:.85rem" id="int-delta-label"></div>
-        </div>
-        <div class="callout ok" style="margin-top:16px"><span class="tag measured" style="margin-right:8px">Measured</span>At the deepest reduction: <strong>N=75 PDR +14.7 percentage points</strong>, <strong>N=100 PDR +25.2 percentage points</strong>, monotonic across every tested seed. At N=100, delivered throughput <em>rises</em> at a reduced offered rate (12 kbps: +24.3% in seed-mean throughput; +25.5% as the mean of the three per-seed changes) — the signature of recovering from congestion collapse, not simply sending less.</div>
-        <div class="key-finding" style="margin-top:16px;margin-bottom:0"><span class="kf-label">Interpretation</span>Reducing offered traffic can improve performance under overloaded conditions, supporting congestion as a measurable contributor to degradation. This finding is protocol- and load-dependent — see OLSR vs. Static, next — and should not be overgeneralized to every condition.</div>
-      </section>
-
-      <!-- ============================================================ STATIC CONTROL -->
-      <section class="view" id="view-static-control">
-        <div class="section-eyebrow">Intervention</div>
-        <div class="badge-row"><span class="tag diagnostic">Static/N=50 Diagnostic</span></div>
-        <h2>OLSR vs. Static under the same intervention</h2>
-        <p class="lede">OLSR improves at high node densities. Static at N=50 shows a flat-to-negative response.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>The intervention is protocol- and load-dependent — Static/N=50 shows no comparable PDR improvement despite the same congestion relief.</div>
-        <div id="sc-legend"></div>
-        <div class="panel"><h3>PDR vs. Offered Rate</h3><p class="panel-sub">% of packets delivered as offered rate is reduced — OLSR (2 node counts) vs. Static</p><div class="chart-wrap" id="chart-static-control"></div></div>
-        <div class="callout warn" style="margin:16px 0">Intervention effectiveness is protocol- and load-dependent. Static/N=50 PDR does not improve with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is <strong>−7.6 percentage points</strong>). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss.</div>
-        <div class="panel">
-          <h3>Residual-loss diagnostic — all 12 runs</h3>
-          <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table (static-control)"><table class="data">
-            <thead><tr><th>Rate</th><th>Seed</th><th>Attributable loss</th><th>Residual loss</th></tr></thead>
-            <tbody id="diag-table-body"></tbody>
-          </table></div>
-        </div>
-      </section>
-
-      <!-- ============================================================ REPRODUCIBILITY -->
-      <section class="view" id="view-reproducibility">
-        <div class="section-eyebrow">Research Progress</div>
-        <div class="badge-row"><span class="tag repro">Reproducibility</span><span class="status-badge validated"><span class="sb-dot"></span>Reproducibility Status: Validated</span></div>
-        <h2>Research Reproducibility</h2>
-        <p class="lede">The frozen research was independently re-executed using a 51-run validation matrix.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>681 of 687 applicable metric comparisons reproduced exactly, 0 failures, 0 numerical drift.</div>
-        <div class="kpi-grid">
-          <div class="kpi"><div class="num">687</div><div class="label">Comparisons</div></div>
-          <div class="kpi"><div class="num" style="color:var(--ok)">681</div><div class="label">PASS</div></div>
-          <div class="kpi"><div class="num" style="color:var(--text-dim)">0</div><div class="label">FAIL</div></div>
-          <div class="kpi"><div class="num" style="color:var(--text-dim)">6</div><div class="label">N/A</div></div>
-        </div>
-        <div class="panel" style="margin-top:16px">
-          <div class="health-row"><div class="health-label">Configuration</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Exact match</div></div>
-          <div class="health-row"><div class="health-label">Simulation</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Successful (51/51)</div></div>
-          <div class="health-row"><div class="health-label">Numerical comparison</div><div style="flex:1;color:var(--ok);font-weight:700">✓ No drift (681/681 applicable)</div></div>
-          <div class="health-row"><div class="health-label">Research status</div><div style="flex:1;color:var(--ok);font-weight:700">✓ Reproducible</div></div>
-        </div>
-        <p style="font-size:.8rem;color:var(--text-faint);margin-top:12px">6 comparisons not applicable — <code>MaxRetryDrops</code> was not instrumented in the original §10 dataset. Full detail: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md" target="_blank" rel="noopener">FINAL_REPRODUCIBILITY_CHECK.md</a>.</p>
-        <div class="callout" style="margin-top:16px">Reproducibility is established for the completed Without-Risk baseline and its follow-on studies above. It says nothing about the not-yet-run With-Risk condition, next.</div>
-      </section>
-
-      <!-- ============================================================ RISK EXPERIMENT (planned) -->
-      <section class="view major" id="view-risk-experiment">
-        <div class="section-eyebrow">Phase 8 — Opened 2026-10, Per Advisor Direction</div>
-        <div class="badge-row">
-          <span class="tag risk">BA TOPOLOGY</span>
-          <span class="tag planned">PROPOSED DESIGN</span>
-          <span class="tag planned">NOT YET RUN</span>
-        </div>
-        <h2>BA Risky Nodes</h2>
-        <p class="lede">A new research phase, opened 2026-10 per advisor direction: add explicit low-risk / high-risk states to individual nodes on a Barabasi-Albert (BA) topology, and study how 0, 1, 2, and 3 high-risk nodes affect route selection and performance.</p>
-        <div class="callout" style="margin-bottom:20px">
-          <p style="margin:0 0 8px">Advisor's request, verbatim in substance: explain why/how the routing mechanism works; add explicit low-risk and high-risk node states; assign 1–3 high-risk nodes and study routing behaviour; prepare a V1–V4 methodology/results report first (see <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/v1-v4-methodology-results.md" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline">docs/v1-v4-methodology-results.md</a>).</p>
-          <p style="margin:0"><strong>Filename warning:</strong> the BA/risky-node simulator shares the filename <code>iot-network-v3.cc</code> with this repository's unrelated, already-closed 15-node sigmoid pilot (see Research History). They are different programs. The BA program is not committed to this repository yet.</p>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px;border-color:rgba(213,85,90,.3)">
-          <div class="panel-head"><h3 style="font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint)">Current Status</h3></div>
-          <p style="margin:0;font-size:.88rem;color:var(--text)">The BA-topology simulator exists (26-node Barabasi-Albert graph, degree-based structural risk, three routing-cost variants) but has <strong>never been run</strong> — its output directory does not exist on disk. No low/high-risk node state exists in that code today; risk is currently a continuous, degree-derived number only. Everything below is a proposed design, not a result.</p>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>Low-risk / high-risk node state</h3><span class="tag planned">Pending verification</span></div>
-          <p class="panel-sub">Proposed, not implemented. A new modeling extension — neither cited paper defines a per-node risk label; the existing code's own "low-risk"/"high-risk" wording is a network-wide cost-bound choice (50/200 vs. 100/400), not a per-node attribute.</p>
-          <pre tabindex="0" aria-label="Query result" style="background:var(--panel-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;font-size:.78rem;color:var(--text-dim);overflow-x:auto;margin:10px 0 0">RiskState(i) ∈ {low, high}          — new, explicit, via --highRiskNodes=&lt;ids&gt;
-R_i' = max(R_i, 1[RiskState(i)=high])  — superset: 0 flagged nodes ⇒ identical to today</pre>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>How risk would affect route selection</h3><span class="tag planned">Pending results</span></div>
-          <p class="panel-sub">Explained explicitly so a null result is read correctly rather than mistaken for broken code.</p>
-          <div class="grid cols-2" style="margin-top:10px">
-            <div class="panel" style="background:var(--panel-2)">
-              <h3 style="font-size:.82rem">standard mode</h3>
-              <p class="panel-sub" style="margin:0">Flat cost per hop — <strong>zero effect, always</strong>, by construction. Required negative control.</p>
-            </div>
-            <div class="panel" style="background:var(--panel-2)">
-              <h3 style="font-size:.82rem">linear / sigmoid mode</h3>
-              <p class="panel-sub" style="margin:0">A flagged node raises cost on every edge touching it. Reroutes <strong>only if</strong> a cheaper alternate path exists — many low-degree "host" nodes have none, so no change there is expected, not a bug.</p>
-            </div>
-          </div>
-          <p class="panel-sub" style="margin-top:10px">Do not assume assigning a risk label automatically changes routing — this is checked, not assumed, by the pilot below.</p>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>0 / 1 / 2 / 3 high-risk-node experiment matrix</h3><span class="tag planned">Proposed until executed</span></div>
-          <p class="panel-sub">Fixed topology/seed per matched set; nodes flagged deterministically (top-k by degree) so each count's set is a subset of the next — not cherry-picked.</p>
-          <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table (risk-experiment)"><table class="data" style="margin-top:10px">
-            <thead><tr><th>Routing mode</th><th>0 high-risk</th><th>1 high-risk</th><th>2 high-risk</th><th>3 high-risk</th></tr></thead>
-            <tbody>
-              <tr><td>standard</td><td colspan="4">Negative control — no reroute expected at any count</td></tr>
-              <tr><td>linear</td><td colspan="4">Depends on alternate-path availability — not yet run</td></tr>
-              <tr><td>sigmoid</td><td colspan="4">Depends on alternate-path availability — not yet run</td></tr>
-            </tbody>
-          </table></div>
-          <p class="panel-sub" style="margin-top:10px">3 modes × 4 counts = 12 runs per seed/traffic level. Eventual official matrix (pending pilot): seeds 20–30, matching the V3 Phase 1 convention — not proposed to run yet.</p>
-        </div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>Pilot (proposed next step)</h3><span class="tag planned">Not yet run</span></div>
-          <div class="flowchart" style="margin:14px 0 0">
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Step 0: structural pre-check (no simulator)</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Step 1: 12-run pilot (1 seed × 3 modes × 4 counts)</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">3 pass/fail checks: wiring, negative control, mechanism live</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Full 11-seed matrix (only if pilot passes)</div>
+          <div class="panel"><div id="sc-legend"></div><h3>PDR vs offered rate</h3><p class="panel-sub">OLSR (N = 75, 100) and Static (N = 50), 3 seeds per point</p><div class="chart-wrap" id="chart-static-control"></div></div>
+          <div class="panel">
+            <div class="panel-head"><h3>Gateway airtime vs offered rate</h3><div class="filters" style="margin:0"><div class="filter-group"><span class="fl">OLSR, N</span><div id="int-n" style="display:flex"></div></div></div></div>
+            <p class="panel-sub">% channel-busy time at the gateway</p>
+            <div class="chart-wrap" id="chart-int-airtime"></div>
+            <p class="delta-kpi"><strong id="int-delta">—</strong> <span id="int-delta-label"></span></p>
           </div>
         </div>
-
-        <div class="panel">
-          <div class="panel-head"><h3>Metrics</h3><span class="tag planned">Display only when supported by actual data</span></div>
-          <div class="grid cols-2" style="margin-top:10px">
-            <div class="panel" style="background:var(--panel-2)">
-              <h3 style="font-size:.82rem">Existing (unchanged)</h3>
-              <p class="panel-sub" style="margin:0">PDR, throughput, delay, packet loss, hop count — <strong>No data — not yet run.</strong> No chart is shown for this phase; one will be added only once real rows exist.</p>
-            </div>
-            <div class="panel" style="background:var(--panel-2)">
-              <h3 style="font-size:.82rem">New (proposed logging)</h3>
-              <p class="panel-sub" style="margin:0">Routes-changed count, risk-exposure rate, hop-count inflation (%) — require new per-flow path logging that does not exist in today's schema.</p>
-            </div>
-          </div>
-        </div>
-        <div class="callout" style="margin-top:16px">This proposed design is separate from — and must not be confused with — the completed V3 Phase 1 official baseline (1,782 runs) or the completed, closed V4 activation-screen/matched results (see V4 Adaptive Routing, next). Its designated output directory (<code>results/v3/</code> in the researcher's working environment) does not collide with either. No chart, statistic, route, or performance number for this phase appears anywhere in this dashboard until it has actually been run.</div>
+        <ul class="evidence-list">
+          <li>The PDR gain is monotonic across every tested seed. At N=100, delivered throughput rises at a reduced offered rate (12 kbps: +24.3% in seed-mean throughput; +25.5% as the mean of the three per-seed changes) — the signature of recovering from congestion collapse, not simply sending less.</li>
+          <li><strong>Static/N=50 PDR does not improve</strong> with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is −7.6 percentage points). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss; most of it remains unattributed (64.65%–99.57%, typically ≥92%) — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/static_n50_diagnostic.csv" target="_blank" rel="noopener">static_n50_diagnostic.csv</a>.</li>
+          <li>Intervention effectiveness is protocol- and load-dependent and should not be overgeneralized to every condition.</li>
+        </ul>
       </section>
 
-      <!-- ============================================================ ROUTING / V4 -->
+      <!-- ============================================================ 3. V4 -->
       <section class="view" id="view-routing">
-        <div class="section-eyebrow">V4 — Closed, Decision B</div>
-        <div class="badge-row">
-          <span class="status-badge direction"><span class="sb-dot"></span>V4 — Closed Investigation</span>
-          <span class="tag v4">V4 Investigation — Existing Evidence</span>
-          <span class="tag measured" style="background:var(--purple-soft);color:var(--v4)">Closed — No Tier-2 Experiment Justified</span>
+        <div class="section-eyebrow">3 · V4 Sigmoid Routing — IEEE 802.11b · valid negative result</div>
+        <h2>Adaptive sigmoid routing changed routes, not performance</h2>
+        <p class="lede">957 runs: 594 matched-condition runs over the full V3 condition grid, a 297-run parameter-sensitivity sweep and a 66-run Tier-1 activation screen (N = 50, medium traffic, 11 seeds per configuration).</p>
+        <div class="key-finding"><span class="kf-label">Key Finding</span>Routing activation ≠ performance improvement — the strongest-activation V4 configuration re-routes 100% of seeds but does not produce a statistically credible PDR gain.</div>
+        <div class="grid">
+          <div class="panel"><div id="v4-matched-legend"></div><h3>Matched conditions — V4 vs Static</h3><p class="panel-sub">PDR, 594 runs pooled over traffic and mobility (throughput was not captured for this dataset)</p><div class="chart-wrap" id="chart-v4-matched-pdr"></div></div>
+          <div class="panel"><h3>Tier-1 activation screen</h3><p class="panel-sub">route-tree change vs Static and PDR, 11 seeds per configuration</p>
+            <div class="table-scroll" tabindex="0" role="region" aria-label="V4 Tier-1 activation screen"><table class="data">
+              <thead><tr><th>Configuration</th><th>Route-tree change vs. Static</th><th>Activated?</th><th>PDR (V4)</th><th>PDR (Static)</th></tr></thead>
+              <tbody id="v4-table-body"></tbody>
+            </table></div></div>
         </div>
-        <h2>Sigmoid Routing Metric — V4, Closed</h2>
-        <p class="lede">Sigmoid-based adaptive routing (V4) was fully evaluated across 957 runs and closed with Decision B: the mechanism demonstrably works and changes routing behaviour, but no activated configuration produced a credible performance benefit over Static. No further tuning of this metric is planned. The active next research direction is the BA Risky Nodes phase (Phase 8), covered above — not a continuation of this sigmoid metric.</p>
-
-        <div class="panel" style="margin-bottom:20px">
-          <h3>Research progression</h3>
-          <div class="flowchart" style="margin:14px 0">
-            <div class="flow-node">V3 Baseline</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Network Performance Degradation</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">Bottleneck Investigation</div><div class="flow-arrow">↓</div>
-            <div class="flow-node hot">Need for Adaptive Routing</div><div class="flow-arrow">↓</div>
-            <div class="flow-node">Adaptive Routing Metric</div><div class="flow-arrow">↓</div>
-            <div class="flow-node good">Sigmoid Routing Metric — Closed (Decision B)</div><div class="flow-arrow">↓</div>
-            <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Phase 8: BA Risky-Node Study (proposed)</div>
-          </div>
-        </div>
-
-        <!-- ============================ A. EXISTING EVIDENCE ============================ -->
-        <div class="badge-row"><span class="tag v4">A · Existing Evidence</span><span class="metric-status limited" style="font-size:.7rem">△ LIMITED COVERAGE — V4 Activation Screen</span><span class="metric-status measured" style="font-size:.7rem">✓ MEASURED V4 ACTIVATION EVIDENCE</span></div>
-        <h3>Does adaptive routing solve the problem? — what has already been measured</h3>
-        <p class="lede">Sigmoid-based adaptive routing (V4) vs. Static, across 6 activation-screen configurations (N=50, medium traffic, 11 seeds each). This is completed, frozen research — presented here as the evidence that motivates investigating the routing metric further, not as a validated solution.</p>
-<div class="key-finding"><span class="kf-label">Key Finding</span>Routing activation ≠ performance improvement — the strongest-activation V4 configuration re-routes 100% of seeds but does not produce a statistically credible PDR gain.</div>
-        <div class="insight-card secondary" style="margin-bottom:18px">
-          <div class="k">Research result</div>
-          Routing activation ≠ performance improvement. The adaptive routing mechanism changed routing behaviour under selected conditions, but did not produce credible overall performance improvement relative to Static. This is treated as a valid scientific negative result, not a failed implementation.
-        </div>
-        <div class="panel" style="margin-bottom:16px">
-          <h3 style="font-size:.85rem">PDR by Configuration — V4 vs. Static</h3>
-          <p class="panel-sub">% of packets delivered, 6 activation-screen configurations, N=50 medium traffic (11 seeds each)</p>
-          <div id="v4-tier1-legend"></div>
-          <div class="chart-wrap" id="chart-v4-tier1-pdr"></div>
-        </div>
-        <div class="panel">
-          <div class="table-scroll" tabindex="0" role="region" aria-label="Scrollable data table (routing)"><table class="data">
-            <thead><tr><th>Configuration</th><th>Route-tree change vs. Static</th><th>Activated?</th><th>PDR (V4)</th><th>PDR (Static)</th></tr></thead>
-            <tbody id="v4-table-body"></tbody>
-          </table></div>
-        </div>
-        <div class="callout warn" style="margin-top:16px">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, not statistically credible (sign-test p=1.0), while delay worsened 21.6% and link utilisation worsened 42.8%. This evidence motivates further study of the routing metric (part B, below) — it is not itself a validated result of the Sigmoid routing metric proposed there.</div>
-
-        <div class="panel" style="margin-top:20px">
-          <div class="panel-head"><h3>Matched-Condition Comparison — V4 vs. Static</h3><span class="metric-status measured">✓ Measured</span></div>
-          <p class="panel-sub">594 runs across the full 6 node-count × 3 traffic × 3 mobility grid, 11 seeds per cell — the same condition space as the V3 baseline (pooled across traffic level and mobility mode, matching that chart's convention), not limited to N=50.</p>
-          <div id="v4-matched-legend"></div>
-          <div class="chart-wrap" id="chart-v4-matched-pdr"></div>
-          <p class="panel-sub" style="margin-top:10px;margin-bottom:0">Throughput was not captured for this dataset (recorded as empty in the source export) — PDR is the only metric available here.</p>
-        </div>
-
-        <!-- ============================ B. RESEARCH DIRECTION ============================ -->
-        <div class="badge-row" style="margin-top:40px"><span class="tag measured" style="background:var(--purple-soft);color:var(--v4)">B · Closed — Full Metric Pipeline Completed</span><span class="tag measured">✓ COMPLETED, NEGATIVE RESULT</span></div>
-        <h3>Was a full adaptive routing metric evaluated? — yes, and it is closed</h3>
-        <div class="callout" style="margin-bottom:20px">The metric-design pipeline once planned here (design → parameter sensitivity → route selection → controlled experiments → baseline comparison → statistical validation) has been <strong>fully carried out</strong>: 297 Stage-1 sensitivity runs, 594 Stage-2 matched-comparison runs, 66 Tier-1 activation-screen runs (957 total). Closed with Decision B: the mechanism activates and measurably restructures routes, but no configuration produced a statistically credible delivery benefit over Static. No Tier-2 experiment is scientifically justified, and none is planned.</div>
-
-        <div class="panel" style="margin-bottom:20px">
-          <div class="panel-head"><h3>Why it didn't help — the structural explanation</h3><span class="tag measured">Verified finding</span></div>
-          <p class="panel-sub" style="margin:0">RiskScore (node degree) reflects topology, not where traffic concentrates — in this single-gateway mesh, load falls on the gateway's one-hop neighbourhood regardless of degree, a location a degree-based metric cannot target. The two-pass offline design also measures load under baseline routing, never under the mechanism's own routing.</p>
-        </div>
-
-        <div class="panel">
-          <div class="panel-head"><h3>What's next</h3><span class="tag planned">→ Phase 8</span></div>
-          <p class="panel-sub" style="margin:0">This closes the sigmoid-metric line of investigation. Two later directions use a different mechanism (an explicit per-node risk state, not a tuned cost function): the completed <a href="#view-w6-overview" style="color:inherit;text-decoration:underline">Wi-Fi 6 Risk-Aware Routing study</a> on the wireless mesh, and the proposed <a href="#view-risk-experiment" style="color:inherit;text-decoration:underline">BA Risky Nodes study (Phase 8)</a> on a Barabasi-Albert topology. The Wi-Fi 6 improvement does not come from the V4 sigmoid metric.</p>
-        </div>
-
+        <div class="callout warn" style="margin-top:14px;font-size:.86rem">The strongest-activation configuration (100% of seeds re-routed, mean hop count +27.9%) produced a PDR change of only +3.5%, not statistically credible (sign-test p=1.0), while delay worsened 21.6% and maximum link utilisation 42.8%. The mechanism works; it does not improve delivery under the tested conditions. Structural reason: the risk score reflects node degree (topology), whereas load concentrates on the gateway's one-hop neighbourhood regardless of degree. The two-pass offline design also measures load under baseline routing, never under the mechanism's own routing. The Wi-Fi 6 result below uses a different mechanism and is not a V4 result.</div>
       </section>
 
-      <!-- ============================================================ DATA EXPLORER (live SQLite) -->
-      <!-- ============================================================ WI-FI 6 RISK-AWARE ROUTING (measured 2026-10) -->
-      <!-- All numbers in these sections are rendered by wifi6.js from data/wifi6-risk.json, which is built by
-           experiments/wifi6-risk/build_site_wifi6.py from the validated analysis outputs (sources + sha256 listed in
-           the JSON). Static text below carries no result numbers. -->
-      <section class="view major" id="view-w6-overview">
-        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Measured 2026-10</div>
+      <!-- ============================================================ 4. WI-FI 6 (highlight) -->
+      <section class="view major w6-band" id="view-w6-overview">
+        <div class="section-eyebrow">4 · Wi-Fi 6 Risk-Aware Routing — IEEE 802.11ax · completed 2026-10</div>
         <div class="badge-row">
           <span class="tag measured">MEASURED</span>
           <span class="tag v3">802.11AX (WI-FI 6)</span>
@@ -1322,14 +218,8 @@ R_i' = max(R_i, 1[RiskState(i)=high])  — superset: 0 flagged nodes ⇒ identic
             <div class="callout" style="margin-top:10px;font-size:.8rem"><strong>PDR definition —</strong> all main comparisons use <strong>nominal PDR</strong> = delivered ÷ scheduled packets. <span id="w6-denominators">—</span></div>
           </div>
         </div>
-
-        <div class="callout warn" style="margin-top:16px;font-size:.82rem"><strong>Scope —</strong> this study uses the wireless mesh (802.11ax, Tier A) with explicit per-node risk states. It is separate from the proposed BA-topology study (<a href="#view-risk-experiment" style="color:inherit;text-decoration:underline">Phase 8 — BA Risky Nodes</a>), which remains proposed and unrun. Risk-Aware routing uses oracle knowledge of node risk, so its benefit is an upper bound.</div>
+        <div class="callout warn" style="margin-top:16px;font-size:.82rem"><strong>Upper bound —</strong> Risk-Aware routing uses oracle knowledge of node risk, and the high-risk relays are chosen from Static's tree (Static's worst case). Simulator settings: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/wifi6-risk-writeup/TABLES.md" target="_blank" rel="noopener">T-W1</a>.</div>
         <div class="callout" style="margin-top:12px;font-size:.82rem"><strong>Not the V4 mechanism —</strong> Risk-Aware routing here is a risk-weighted Dijkstra (transit cost 1 + β·(−ln(1 − r)), β = 10) computed with oracle risk knowledge. It is unrelated to the V4 sigmoid-based adaptive routing, which was tested on the 802.11b mesh without risk states and closed with a negative result (<a href="#view-routing">V4 section</a>).</div>
-
-        <details class="panel w6-details" style="margin-top:16px">
-          <summary><h3 style="display:inline">Simulation parameters (T-W1)</h3> <span class="panel-sub">— verified against the Wi-Fi read-back of every device in every run</span></summary>
-          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-params"></table></div>
-        </details>
       </section>
 
       <section class="view" id="view-w6-results">
@@ -1367,277 +257,92 @@ R_i' = max(R_i, 1[RiskState(i)=high])  — superset: 0 flagged nodes ⇒ identic
         <figure class="panel w6-fig wide" style="margin-top:16px" data-fig="F-W3_paired_differences"></figure>
       </section>
 
-      <section class="view" id="view-w6-cost">
-        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Trade-off</div>
-        <div class="badge-row"><span class="tag measured">Measured</span><span class="tag bottleneck">Survivorship-aware</span></div>
+            <section class="view" id="view-w6-cost">
+        <div class="section-eyebrow">4 · Wi-Fi 6 — Routing cost</div>
         <h2>Cost of risk avoidance: delay and path length</h2>
         <p class="lede">Delay and hop count are computed over delivered packets. Static loses packets routed through risky relays, so its delivered-packet delay and hops fall with k (survivorship). Path length over <em>all sent</em> packets separates real lengthening from survivorship.</p>
-        <div class="panel" style="margin-bottom:16px">
-          <h3>Mean path length in links — delivered vs all sent (seed means)</h3>
-          <p class="panel-sub">From the per-packet traces of every Static and Risk-Aware run</p>
-          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-hop-table"></table></div>
-          <div class="callout" style="margin-top:12px;font-size:.82rem" id="w6-hop-note">—</div>
-        </div>
         <div class="grid cols-2">
+          <div class="panel">
+            <h3>Mean path length in links — delivered vs all sent (seed means)</h3>
+            <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Path length table"><table class="data" id="w6-hop-table"></table></div>
+            <div class="callout" style="margin-top:12px;font-size:.82rem" id="w6-hop-note">—</div>
+          </div>
           <figure class="panel w6-fig" data-fig="F-W4_cost_delay_hops"></figure>
-          <figure class="panel w6-fig" data-fig="F-W8_delay_cdf_n100"></figure>
         </div>
       </section>
 
-      <section class="view major" id="view-w6-aodv">
-        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Secondary Finding</div>
-        <div class="badge-row"><span class="tag diagnostic">AODV Diagnostic</span><span class="tag planned">N=100 · 3 seeds descriptive</span><span class="tag planned">Diagnostic · seed 20 only</span></div>
-        <h2>AODV degradation at N = 100</h2>
-        <p class="lede">AODV delivers far less than OLSR at N = 100 under the same topology, traffic and PHY/MAC settings, at every k — so the risk model is not the cause. AODV results are reported as measured: no AODV parameter was tuned and no run was replaced.</p>
+      <section class="view" id="view-w6-aodv">
+        <div class="section-eyebrow">4 · Wi-Fi 6 — Secondary finding</div>
+        <h2>AODV at N = 100</h2>
         <div class="key-finding" id="w6-kf-aodv"><span class="kf-label">Measured</span><span>—</span></div>
-        <div class="panel" style="margin-bottom:16px">
-          <h3>AODV vs OLSR, N = 100, 8 kbps, k = 0 (T-W6a)</h3>
-          <p class="panel-sub">Seeds 20–22: mean ± SD [descriptive 95 % t interval] or min–max over seeds</p>
-          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-aodv-a"></table></div>
-        </div>
-        <div class="grid cols-2" style="margin-bottom:16px">
-          <figure class="panel w6-fig" data-fig="F-W5_aodv_olsr_pdr_time"></figure>
-          <figure class="panel w6-fig" data-fig="F-W7_frame_composition"></figure>
-        </div>
-        <div class="grid cols-2" style="margin-bottom:16px">
-          <div class="panel">
-            <h3>Diagnostic run: Block Ack modification off vs on (T-W6b)</h3>
-            <p class="panel-sub">Seed 20 only. AODV events counted from the ns-3 log; the fix-on rerun is byte-identical to the original run, so logging did not change the simulation.</p>
-            <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-aodv-b"></table></div>
-          </div>
-          <div>
-            <figure class="panel w6-fig" data-fig="F-W6_aodv_link_failures_phase"></figure>
-            <div class="panel" style="margin-top:16px">
-              <h3>Suspected routing-repair feedback loop <span class="tag planned" style="margin-left:6px">Hypothesis</span></h3>
-              <p class="panel-sub">Each step is supported by an observation; the causal chain as a whole was not isolated experimentally.</p>
-              <div class="flowchart">
-                <div class="flow-node hot">Contention delays a queued unicast frame beyond the 500 ms MAC queue lifetime</div><div class="flow-arrow">↓</div>
-                <div class="flow-node bad">ns-3 AODV treats the drop as a broken link (any drop reason)<br><span class="tag measured" style="margin-top:4px;display:inline-block">confirmed in ns-3 source</span></div><div class="flow-arrow">↓</div>
-                <div class="flow-node hot">RERR to precursors, routes invalidated, network-wide RREQ re-discovery</div><div class="flow-arrow">↓</div>
-                <div class="flow-node bad">More control traffic and retransmissions → higher airtime → more expiry</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="panel">
-          <h3>Confirmed findings vs hypotheses (T-W6c)</h3>
-          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-aodv-c"></table></div>
-        </div>
-        <div class="callout warn" style="margin-top:16px;font-size:.82rem"><strong>Implication —</strong> under these conditions AODV is not a competitive baseline at N = 100. Risk-Aware's N = 100 comparison should be read against Static (matched) and OLSR; AODV is reported for completeness. The finding concerns the unmodified ns-3 AODV implementation under synchronized periodic traffic in a dense 802.11ax ad-hoc network and should not be generalized to AODV as a protocol.</div>
+        <ul class="evidence-list">
+          <li>Measured in this ns-3 configuration only (802.11ax, synchronized 8 kbps CBR, 100 sensors). AODV's PDR is nearly the same at every k, so the risk model is not the cause; at N = 30 (k = 0, 10 seeds) AODV delivers 99.99 %.</li>
+          <li>Confirmed in the ns-3 source: AODV treats every dropped unicast MPDU, including queue-lifetime expiry, as a link failure.</li>
+          <li><strong>Hypothesis, not a demonstrated cause:</strong> a route-maintenance feedback loop (queue expiry → link failure → RERR and rediscovery → more airtime). The causal chain was not isolated, the Block Ack check covers one seed, and the 500 ms MAC queue lifetime was not varied. This is not a claim about AODV in general.</li>
+          <li>AODV results are reported as measured: no AODV parameter was tuned and no run was replaced. Risk-Aware's N = 100 comparison should be read against Static (matched) and OLSR.</li>
+          <li>Diagnostic tables and figures: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/wifi6-risk-writeup/TABLES.md" target="_blank" rel="noopener">T-W6a–c</a> · <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/wifi6-risk-writeup/FIGURES.md" target="_blank" rel="noopener">F-W5–F-W7</a>.</li>
+        </ul>
       </section>
 
-      <section class="view" id="view-w6-validity">
-        <div class="section-eyebrow">Wi-Fi 6 Risk Study — Validity</div>
-        <div class="badge-row"><span class="tag repro">Simulator validation</span><span class="tag bottleneck">Load calibration</span><span class="tag risk">Limitations</span></div>
-        <h2>Block Ack fix, load calibration and limitations</h2>
-        <p class="lede">The risk study runs on risk-v2, which fixes one confirmed ns-3 Block Ack defect. Why 8 kbps per sensor was chosen, and every limitation that bounds the conclusions.</p>
-        <div class="grid cols-2" style="margin-bottom:16px">
-          <div class="panel">
-            <h3>(a) Block Ack defect and the risk-v2 fix (T-W2a)</h3>
-            <p class="panel-sub">OLSR, N = 30, 16 kbps, seed 20, 100 s — one seed, deterministic defect</p>
-            <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-ba-a"></table></div>
-          </div>
-          <div class="panel">
-            <h3>(d) Validation of simulator variants (T-W2d)</h3>
-            <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-ba-d"></table></div>
-          </div>
-        </div>
-        <details class="panel w6-details" style="margin-bottom:16px">
-          <summary><h3 style="display:inline">(b) Residual Block Ack tail at saturation and (c) its mechanisms (T-W2b, T-W2c)</h3></summary>
-          <p class="panel-sub" style="margin-top:8px">OLSR, N = 100, 64 kbps, k = 0, seeds 20–22 — saturated load, outside the main experiments. <strong>PDR is not shown</strong>: these earlier runs used an app-tx denominator, not nominal PDR.</p>
-          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-ba-b"></table></div>
-          <div class="w6-table-wrap" style="margin-top:12px" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-ba-c"></table></div>
-        </details>
-        <div class="panel" style="margin-bottom:16px">
-          <h3>Load calibration — why 8 kbps per sensor (T-W3)</h3>
-          <p class="panel-sub">k = 0, seeds 20–22 (n = 3 per row, descriptive). Nominal PDR uses the full send schedule as denominator.</p>
-          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-load"></table></div>
-        </div>
-        <div class="panel">
-          <h3>Limitations (T-W7)</h3>
-          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Scrollable data table"><table class="data" id="w6-t-lim"></table></div>
-        </div>
-        <p class="panel-sub" style="margin-top:14px" id="w6-provenance">—</p>
-      </section>
-
-      <section class="view" id="view-data-explorer">
-        <div class="section-eyebrow">Research Data Layer</div>
-        <div class="badge-row"><span class="status-badge validated"><span class="sb-dot"></span>Live SQLite Database</span><span class="tag measured">Measured Data</span><span class="tag v3">Baseline Dataset</span></div>
-        <h2>Data Explorer</h2>
-        <p class="lede">A structured, auditable research-data layer generated from the frozen source CSVs. Queried live in your browser via SQLite compiled to WebAssembly — no server involved.</p>
-        <div class="source-note"><span class="sn-label">Source</span> NS-3 Experiments — <code>research.db</code>, generated from frozen source CSVs (unmodified by this dashboard)</div>
-        <div style="height:16px"></div>
-
-        <div class="flowchart horizontal" style="margin-bottom:20px">
-          <div class="flow-node">NS-3</div><div class="flow-arrow">→</div>
-          <div class="flow-node">Raw CSV Results</div><div class="flow-arrow">→</div>
-          <div class="flow-node">Validation / ETL</div><div class="flow-arrow">→</div>
-          <div class="flow-node good">SQLite research.db</div><div class="flow-arrow">→</div>
-          <div class="flow-node">Dashboard Data Explorer</div>
-        </div>
-
-        <div class="badge-row" style="margin-bottom:16px">
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">V3 baseline</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">V4 matched</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">V4 sensitivity</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">V4 Tier-1</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Bottleneck</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Retry</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Rate sweep</span>
-          <span class="tag" style="background:var(--panel-2);color:var(--text-dim)">Reproducibility</span>
-          <span class="tag" style="background:var(--bad-soft);color:var(--bad)">Historical V2.7 — excluded</span>
-        </div>
-
-        <div class="callout" id="de-status" style="margin-bottom:18px">Initialising…</div>
-
-        <div class="panel" style="margin-bottom:16px">
-          <h3>Preset queries</h3>
-          <p class="panel-sub">Each preset runs a real SQL query against <code>research.db</code>. Every table traces back to a specific frozen source file — see the "Data sources" preset for provenance.</p>
-          <div class="filters" id="de-presets" style="margin:0"></div>
-        </div>
-
-        <div class="panel" style="margin-bottom:16px">
-          <div class="panel-head"><h3>SQL query (read-only)</h3><span id="de-run-status" style="font-size:.76rem;color:var(--text-faint)"></span></div>
-          <p class="panel-sub">Single <code>SELECT</code> statements only — no write access exists in this browser-side database.</p>
-          <p class="panel-sub" style="margin-top:-6px"><strong>Undefined values:</strong> for a run with <code>rx_packets = 0</code> the stored <code>delay_sec</code>, <code>jitter_sec</code> (and, for non-exact hop counts, <code>average_hop_count</code>) are the simulator&rsquo;s placeholder 0, not measurements. Add <code>WHERE rx_packets &gt; 0</code> when averaging them &mdash; the charts and the statistics table below already exclude them.</p>
-          <label for="de-sql" class="fl" style="display:block;margin-bottom:4px">SQL query (read-only, runs in your browser)</label><textarea id="de-sql" rows="5" style="width:100%;font-family:var(--mono);font-size:.8rem;padding:10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel-2);color:var(--text);resize:vertical"></textarea>
-          <div style="margin-top:10px"><button class="pill active" id="de-run">▶ Run Query</button></div>
-        </div>
-
-        <div class="panel">
-          <h3>Result</h3>
-          <div id="de-result"></div>
-        </div>
-
-        <div class="panel stats-explorer" id="v3stats-explorer" style="margin-top:16px">
-          <div class="panel-head"><h3>Condition statistics &mdash; V3 official baseline</h3><span class="metric-status measured">&#10003; Measured &middot; derived from 1,782 runs</span></div>
-          <p class="panel-sub">Mean, sample SD, standard error and two-sided 95% CI (Student t, df&nbsp;=&nbsp;n&nbsp;&minus;&nbsp;1) for every experimental condition, computed from the per-seed runs by <code>experiments/build_v3_site_stats.py</code> into <code>data/v3ext-stats.json</code>. Undefined Delay / Jitter / Hop Count runs are excluded and disclosed in the <em>Excluded</em> column.</p>
-          <div class="filters" id="v3s-filters">
-            <div class="filter-group"><label class="fl" for="v3s-level">Level</label><select id="v3s-level"><option value="cells">Condition (162 cells, 11 seeds each)</option><option value="nodes">Chart point by node count (seed-level)</option><option value="traffic">Chart point by traffic level (seed-level)</option></select></div>
-            <div class="filter-group"><label class="fl" for="v3s-metric">Metric</label><select id="v3s-metric"></select></div>
-            <div class="filter-group"><label class="fl" for="v3s-protocol">Protocol</label><select id="v3s-protocol"><option value="all">All</option><option value="aodv">AODV</option><option value="olsr">OLSR</option><option value="static">Static</option></select></div>
-            <div class="filter-group" data-for="nodes"><label class="fl" for="v3s-nodes">Nodes</label><select id="v3s-nodes"><option value="all">All</option></select></div>
-            <div class="filter-group" data-for="traffic"><label class="fl" for="v3s-traffic">Traffic</label><select id="v3s-traffic"><option value="all">All</option><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></div>
-            <div class="filter-group" data-for="mobility"><label class="fl" for="v3s-mobility">Mobility</label><select id="v3s-mobility"><option value="all">All</option><option value="static">Static</option><option value="low">Low</option><option value="medium">Medium</option></select></div>
-            <div class="filter-group"><label class="fl" for="v3s-only-excl">Only exclusions</label><select id="v3s-only-excl"><option value="no">No</option><option value="yes">Yes</option></select></div>
-          </div>
-          <div class="table-scroll" tabindex="0" role="region" aria-label="V3 statistics explorer table"><table class="data" id="v3s-table"><thead></thead><tbody></tbody></table></div>
-          <div class="row-note" id="v3s-note"></div>
-        </div>
-
-        <div class="caveat" style="color:var(--text-faint);font-size:.78rem;margin-top:14px">Two derived columns exist in <code>intervention_results</code> (<code>attributed_loss</code>, <code>residual_loss</code>) — computed from already-verbatim columns using the same accounting established in the Static/N=50 diagnostic, disclosed in <code>db_metadata</code>. Every other column is copied unmodified from its source CSV. Historical V2.7 data is not included in this database.</div>
-      </section>
-
-      <!-- ============================================================ CONCLUSIONS -->
+      <!-- ============================================================ 5. CONCLUSIONS -->
       <section class="view" id="view-conclusions">
-        <div class="section-eyebrow">Key Findings</div>
-        <h2>Evidence-Based Findings</h2>
-        <p class="lede">Seven findings, each grounded in the measured data presented above. Findings 01–04 come from the frozen IEEE 802.11b study, 05–06 from the completed Wi-Fi 6 study; 07 records what is closed, proposed or not run.</p>
-        <div class="panel" style="margin:16px 0 24px">
-          <ol style="color:var(--text-dim);font-size:.92rem;margin:0;padding-left:0;list-style:none;line-height:1.5">
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">01 — SCALE</span><span>Increasing network scale and traffic increase congestion pressure across the three routing protocols in the Without-Risk baseline.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">02 — BOTTLENECK</span><span>Gateway and first-hop regions are supported as major measurable bottlenecks, with OLSR gateway airtime reaching 0.86–0.89 at N≥75 under high traffic.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">03 — INTERVENTION</span><span>Traffic reduction can improve performance under overloaded conditions, with OLSR PDR improving by +14.7 percentage points at N=75 and +25.2 percentage points at N=100 at the deepest cut.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">04 — ROUTING</span><span>Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">05 — WI-FI 6 RISK-AWARE</span><span>At N = 30 (10 seeds, matched pairs), routing around high-risk relays with a risk-weighted Dijkstra raised nominal PDR over Static by +23.18 pp [95 % CI +19.81, +26.54] and cut risk exposure by 46.33 pp [95 % CI −53.21, −39.46] at k = 3, in 10/10 pairs (exact Wilcoxon p = 0.00195, Holm-adjusted 0.0117). At N = 100 (3 seeds) the direction was the same in 3/3 seeds; this is reported descriptively, without a significance claim. Oracle risk knowledge makes this an upper bound.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--border-soft)"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">06 — AODV AT N = 100</span><span>In this ns-3 configuration (802.11ax, synchronized 8 kbps CBR, 100 sensors) AODV delivered 56.60 % against OLSR's 99.62 % (k = 0, 3 seeds). The Block Ack modification was excluded as the cause (seed 20). A route-maintenance feedback loop is a hypothesis, not a demonstrated cause, and the finding is not a claim about AODV in general.</span></li>
-            <li style="display:flex;gap:14px;padding:12px 0"><span style="font-weight:800;color:var(--accent);flex:0 0 90px">07 — STATUS</span><span>Sigmoid adaptive routing (V4) is closed, with no benefit demonstrated (Finding 04); the Wi-Fi 6 gain does not come from it. The BA topology / risky-node study proposed per advisor direction (2026-10) remains a design only, and the N = 100 saturated-load risk experiment has not been run.</span></li>
+        <div class="section-eyebrow">5 · Conclusions, Limitations &amp; Reproducibility</div>
+        <h2>What the evidence shows</h2>
+        <div class="callout" style="margin-bottom:14px;font-size:.92rem"><strong>IEEE 802.11b study.</strong> The study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions and demonstrates that reducing offered traffic rate can effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities. However, the effectiveness of the intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed by the current instrumentation.</div>
+        <div class="panel">
+          <ol class="findings">
+            <li><strong>Scale.</strong> Increasing network scale and traffic increase congestion pressure across the three routing protocols in the Without-Risk baseline.</li>
+            <li><strong>Bottleneck.</strong> Gateway and first-hop regions are supported as major measurable bottlenecks, with OLSR gateway airtime reaching 0.86–0.89 at N≥75 under high traffic.</li>
+            <li><strong>Intervention.</strong> Traffic reduction can improve performance under overloaded conditions, with OLSR PDR improving by +14.7 percentage points at N=75 and +25.2 percentage points at N=100 at the deepest cut; Static N = 50 does not improve.</li>
+            <li><strong>V4 routing — negative result.</strong> Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</li>
+            <li><strong>Wi-Fi 6 risk-aware routing.</strong> At N = 30 (10 seeds, matched pairs), routing around high-risk relays with a risk-weighted Dijkstra raised nominal PDR over Static by +23.18 pp [95 % CI +19.81, +26.54] and cut risk exposure by 46.33 pp [95 % CI −53.21, −39.46] at k = 3, in 10/10 pairs (exact Wilcoxon p = 0.00195, Holm-adjusted 0.0117), at a p95 delay cost of +4.1 to +9.1 ms versus Static (k = 1–3; delay is over delivered packets, so Static's lower value partly reflects the relayed packets it lost). At N = 100 (3 seeds) the direction was the same in 3/3 seeds; this is reported descriptively, without a significance claim. Oracle risk knowledge makes this an upper bound.</li>
+            <li><strong>AODV at N = 100.</strong> In this configuration AODV delivered 56.60 % against OLSR's 99.62 % (k = 0, 3 seeds); the Block Ack modification was excluded as the cause (seed 20); the mechanism is a hypothesis.</li>
           </ol>
         </div>
 
-        <div class="flowchart" style="margin:20px 0">
-          <div class="flow-node">Network Scale + Traffic</div><div class="flow-arrow">↓</div>
-          <div class="flow-node">Network Contention</div><div class="flow-arrow">↓</div>
-          <div class="flow-node hot">Gateway / First-Hop Congestion</div><div class="flow-arrow">↓</div>
-          <div class="flow-node hot">Queue / Retry Effects</div><div class="flow-arrow">↓</div>
-          <div class="flow-node bad">Packet Loss</div><div class="flow-arrow">↓</div>
-          <div class="flow-node bad">PDR Degradation</div><div class="flow-arrow">↓</div>
-          <div class="flow-node good">Traffic Intervention</div><div class="flow-arrow">↓</div>
-          <div class="flow-node" style="border-style:dashed;color:var(--text-faint)">Future Adaptive Routing</div>
+        <h3 class="sub-h">Limitations</h3>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>IEEE 802.11b study</h3>
+            <ul class="evidence-list" style="margin:6px 0 0">
+              <li><strong>AODV:</strong> FlowMonitor <code>PacketsSent</code>-denominator artifact affects interpretation of PDR/PacketLoss — read as indicative, not exact.</li>
+              <li><strong>OLSR:</strong> <code>RoutingOverheadPackets</code> = 0 is a metric-coverage limitation, not proof of zero control traffic.</li>
+              <li><strong>Static:</strong> Some residual packet loss remains unattributed (64.65%–99.57% at Static/N=50, typically ≥92%).</li>
+              <li><strong>Instrumentation:</strong> Not all packet-loss mechanisms are directly observable using the current counters. PHY RX drops are not directly equivalent to permanent packet loss.</li>
+              <li><strong>V4:</strong> Routing adaptation did not produce measurable overall improvement, even at 100% activation.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Wi-Fi 6 study (T-W7)</h3>
+            <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Wi-Fi 6 limitations table"><table class="data" id="w6-t-lim"></table></div>
+          </div>
         </div>
-        <div class="callout" style="font-size:.95rem"><strong>IEEE 802.11b study.</strong> The study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions and demonstrates that reducing offered traffic rate can effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities. However, the effectiveness of the intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed by the current instrumentation.</div>
-        <div class="callout ok" style="font-size:.95rem;margin-top:12px"><strong>Wi-Fi 6 study.</strong> With explicit high-risk relays, risk-aware route selection removed nearly all risk exposure (≤ 0.33 % mean) and the associated loss at N = 30, at a p95 delay cost of +4.1 to +9.1 ms (k = 1–3). The gain is an upper bound (oracle risk), measured under light, synchronized load; the N = 100 result is descriptive.</div>
 
-        <h2 style="margin-top:40px">Limitations</h2>
-        <div class="panel">
-          <div class="limitation-item"><div class="who">AODV</div><div class="desc">FlowMonitor <code>PacketsSent</code>-denominator artifact affects interpretation of PDR/PacketLoss — read as indicative, not exact.</div></div>
-          <div class="limitation-item"><div class="who">OLSR</div><div class="desc"><code>RoutingOverheadPackets</code> = 0 is a metric-coverage limitation, not proof of zero control traffic.</div></div>
-          <div class="limitation-item"><div class="who">Static</div><div class="desc">Some residual packet loss remains unattributed (64.65%–99.57% at Static/N=50, typically ≥92%).</div></div>
-          <div class="limitation-item"><div class="who">Instrumentation</div><div class="desc">Not all packet-loss mechanisms are directly observable using the current counters. PHY RX drops are not directly equivalent to permanent packet loss.</div></div>
-          <div class="limitation-item"><div class="who">V4</div><div class="desc">Routing adaptation did not produce measurable overall improvement, even at 100% activation.</div></div>
-          <div class="limitation-item"><div class="who">Wi-Fi 6</div><div class="desc">Oracle risk knowledge; high-risk relays chosen from Static's tree; synchronized CBR; different link discovery for Static/Risk-Aware (90 m disk graph) and OLSR/AODV (radio range); light load; delay over delivered packets only; 3 seeds at N = 100; N = 100 saturated experiment not run. Full list: <a href="#view-w6-validity">Validity &amp; Limitations</a>.</div></div>
-          <div class="limitation-item"><div class="who">AODV (Wi-Fi 6)</div><div class="desc">The feedback-loop mechanism is a hypothesis. The Block Ack check covers one seed, and the MAC queue lifetime was not varied.</div></div>
-        </div>
-        <p style="font-size:.8rem;color:var(--text-faint);margin-top:16px">Data source of truth: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md" target="_blank" rel="noopener">analysis/final-report-data/</a> (data dictionary: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/REPORT_DATA_DICTIONARY.md" target="_blank" rel="noopener">REPORT_DATA_DICTIONARY.md</a>). Historical V2.7 results are shown separately in <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md" target="_blank" rel="noopener">Research History</a> and are not mixed into the charts above. For the advisor's "V1–V4" framing and the Phase 8 BA risky-node proposal specifically: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/v1-v4-methodology-results.md" target="_blank" rel="noopener">docs/v1-v4-methodology-results.md</a>.</p>
-      </section>
-
-      <!-- ============================================================ RESEARCH ROADMAP -->
-      <section class="view" id="view-roadmap">
-        <div class="section-eyebrow">What's Next</div>
-        <h2>Research Roadmap</h2>
-        <p class="lede">Where this research stands today: Phases 1–7 frozen and verified, V4 closed with a negative result, the Wi-Fi 6 Risk-Aware Routing study completed (2026-10), the N = 100 saturated risk experiment not run, and Phase 8 (BA risky-node study) proposed per advisor direction (2026-10).</p>
-        <div class="roadmap panel" style="padding:0">
-          <div class="roadmap-col completed">
-            <div class="rc-title">Completed (Frozen)</div>
-            <div class="rc-rule"></div>
-            <ul>
-              <li>Baseline</li>
-              <li>Protocol Comparison</li>
-              <li>Bottleneck Analysis</li>
-              <li>Retry Validation</li>
-              <li>Traffic Intervention</li>
-              <li>Reproducibility</li>
-              <li>Sigmoid Adaptive Routing (V4 — closed, no benefit)</li>
-              <li>Wi-Fi 6 Risk-Aware Routing (N = 30 × 10 seeds; N = 100 × 3 seeds)</li>
-              <li>AODV diagnostic (N = 100, seed 20)</li>
-            </ul>
+        <h3 class="sub-h">Reproducibility</h3>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>IEEE 802.11b — verified reproducible</h3>
+            <p class="panel-sub" style="margin:0">A 51-run validation matrix re-executed the baseline, bottleneck, intervention and Static-control conditions: of 687 metric comparisons, 681 of 681 applicable comparisons passed exactly (6 not applicable), with no numerical drift — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md" target="_blank" rel="noopener">FINAL_REPRODUCIBILITY_CHECK.md</a>. All 802.11b values on this page come from the frozen <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md" target="_blank" rel="noopener">Final Report Data Package</a> (metric definitions: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/REPORT_DATA_DICTIONARY.md" target="_blank" rel="noopener">REPORT_DATA_DICTIONARY.md</a>).</p>
           </div>
-          <div class="roadmap-col current">
-            <div class="rc-title">Current</div>
-            <div class="rc-rule"></div>
-            <ul>
-              <li>BA Risky-Node Design (audit + proposal)</li>
-            </ul>
-          </div>
-          <div class="roadmap-col next">
-            <div class="rc-title">Next</div>
-            <div class="rc-rule"></div>
-            <ul>
-              <li>BA: structural pre-check + 12-run pilot</li>
-              <li>BA: full 11-seed matrix (if pilot passes)</li>
-              <li>Wi-Fi 6: N = 100 saturated-load risk experiment (not run; pending approval)</li>
-            </ul>
-          </div>
-          <div class="roadmap-col future">
-            <div class="rc-title">Future</div>
-            <div class="rc-rule"></div>
-            <ul>
-              <li>Risk-Impact Statistical Analysis</li>
-              <li>Route-Selection Refinement (if a signal is found)</li>
-            </ul>
+          <div class="panel">
+            <h3>Wi-Fi 6 — reproducibility package</h3>
+            <p class="panel-sub" style="margin:0">The validated simulator source, scripts, batch manifests, analysis outputs and report tables are in the repository (<a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/wifi6-risk-reproducibility.md" target="_blank" rel="noopener">guide</a>). The simulator includes one fix for a confirmed ns-3 Block Ack defect. The raw per-run outputs stay outside Git, each listed with sha256.</p>
+            <p class="panel-sub" style="margin:8px 0 0" id="w6-provenance">—</p>
           </div>
         </div>
-        <div class="callout" style="margin-top:16px">This roadmap reflects research status, not a completed timeline — dates are not implied. Completed items are measured and frozen; Current/Next/Future items remain planned or conceptual and carry no numerical results.</div>
+        <p class="panel-sub" style="margin-top:14px"><strong>Not executed:</strong> the N = 100 saturated-load risk experiment, and a Barabasi-Albert-topology variant of the risk study, which was designed but never run. Whether sigmoid routing helps under risk therefore remains open. Earlier project iterations are documented in <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md" target="_blank" rel="noopener">docs/research-history.md</a>.</p>
       </section>
 
     </div>
 
     <footer class="appfoot">
       Salinthip Keereerat &middot; College of Computing, Prince of Songkla University, Phuket Campus &middot;
-      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3">Repository</a> &middot;
-      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/wifi6-risk-reproducibility.md">Wi-Fi 6 reproducibility</a> &middot;
-      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/dashboard-audit/DASHBOARD_AUDIT.md">Dashboard audit</a> &middot;
-      Static site, no backend (GitHub Pages)
+      <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3">Repository</a> &middot; Static site, no backend (GitHub Pages)
     </footer>
   </main>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.10.3/sql-wasm.js"></script>
 <script src="charts.js"></script>
-<script src="topology.js"></script>
-<script src="realworld.js"></script>
-<script src="data-explorer.js"></script>
 <script src="app.js"></script>
 <script src="wifi6.js"></script>
 </body>
