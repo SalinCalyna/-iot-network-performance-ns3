@@ -100,6 +100,37 @@ matrix, a 12-run pilot design, and the logging additions required: see
 [`docs/v1-v4-methodology-results.md`](v1-v4-methodology-results.md), §BA topology / risky-node
 routing.
 
+## Wi-Fi 6 Risk-Aware Routing study (completed 2026-10)
+
+A separate follow-on study, run on an IEEE 802.11ax (Wi-Fi 6) version of the gateway-centric
+wireless mesh. It is distinct from the frozen 802.11b Phases 1–7 (different PHY/MAC, new
+simulator `scratch/iot-network-wifi6-risk-v2.cc`) and from Phase 8 (no BA topology).
+- **Risk model:** explicit LOW_RISK / HIGH_RISK relay states (drop probability 0 / 0.5 for transit
+  data packets), with k = 0–3 high-risk relays.
+- **Protocols:** Static, Risk-Aware (risk-weighted Dijkstra, oracle risk knowledge), OLSR and
+  AODV; 8 kbps per sensor.
+- **Simulator fix:** one confirmed ns-3 Block Ack defect is fixed in risk-v2. The alternative
+  variants risk-v3 and risk-v4 were evaluated and not adopted.
+
+Experiments completed:
+- **Pilot:** N = 30, 96 runs.
+- **Load calibration:** N = 100, OLSR, 9 runs.
+- **Main N = 30 experiment:** seeds 20–29, 160 runs (inferential).
+- **Main N = 100 experiment:** seeds 20–22, 48 runs (descriptive only).
+- **AODV diagnostic:** 2 runs, seed 20.
+
+Main result: at N = 30 and k = 3, Risk-Aware raised nominal PDR over Static by +23.18 pp
+[95 % CI +19.81, +26.54] and cut exposure by 46.33 pp, in 10/10 matched pairs (Holm-adjusted
+exact Wilcoxon p = 0.0117). At N = 100 the direction was the same in 3/3 seeds, reported
+descriptively. Secondary finding: AODV degrades at N = 100 (56.60 % vs OLSR 99.62 %). The
+suspected route-maintenance feedback loop is a hypothesis, not an isolated cause.
+
+**Not run:** the N = 100 saturated-load risk experiment (pending approval).
+
+Details: README § Wi-Fi 6 Risk-Aware Routing; reproduction guide
+[`docs/wifi6-risk-reproducibility.md`](wifi6-risk-reproducibility.md); live dashboard
+https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html
+
 ## Summary
 
 ```
@@ -107,4 +138,8 @@ V1 -> V2/V2.7 -> early V3 sigmoid prototype -> V3 Official Baseline -> V4 Sigmoi
    -> Bottleneck Characterisation -> Retry-Exhaustion Validation -> Offered-Rate Intervention
    -> Static/N=50 Diagnostic -> Final Reproducibility Validation (FROZEN, Phases 1-7)
    -> BA Topology / Risky-Node Routing (Phase 8, PROPOSED 2026-10, not yet executed)
+
+Separate track (802.11ax wireless mesh, not BA):
+   Wi-Fi 6 Risk-Aware Routing (COMPLETED 2026-10: N=30 x 10 seeds, N=100 x 3 seeds)
+   -> N=100 saturated-load risk experiment (NOT RUN, pending approval)
 ```

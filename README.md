@@ -215,10 +215,12 @@ p = 0.0117. With n = 10, 0.00195 is the smallest attainable exact p.
 - **AODV mechanism:** the causal chain is not isolated, the Block Ack check covers one seed, and
   the MAC queue lifetime (500 ms) was not varied.
 
-**Reproducibility status:** the validated tables, figures and per-run analysis are kept in the
-researcher's working repository. The dashboard data file (`site/data/wifi6-risk.json`) lists every
-source file it was built from, with its sha256. The Wi-Fi 6 simulator source and raw run outputs
-are **not yet part of this public repository**.
+**Reproducibility:** the validated simulator source (`scratch/iot-network-wifi6-risk-v2.cc`),
+scripts, batch manifests, per-batch analysis outputs, and report tables and figures are in this
+repository. See [`docs/wifi6-risk-reproducibility.md`](docs/wifi6-risk-reproducibility.md) for the
+build, dependencies and what reproduces from the package. The raw per-run outputs (8,783 files,
+1.6 GB) are kept outside Git. They are listed with sha256 in `results/wifi6-risk/RAW_MANIFEST.csv`
+and are not yet archived publicly.
 
 ## Advisor feedback (2026-10) — BA topology/risky-node routing
 
@@ -310,21 +312,26 @@ the current frozen research. See `docs/research-history.md`.
 ```
 scratch/
   iot-network-v3-ext.cc          Final: V3 official baseline simulator (AODV/OLSR/Static)
+  iot-network-wifi6-risk-v2.cc   Wi-Fi 6 risk study simulator (risk-v2, 802.11ax)
   iot-network-bottleneck-probe.cc Final: instrumented simulator (bottleneck/retry/rate-sweep/diagnostic)
   iot-network.cc                 Legacy (V2.7)
   iot-network-v3.cc               Legacy (early V3 sigmoid prototype)
   scratch-simulator.cc            Legacy (V1)
 results/
   v3-ext/                        Official V3 baseline results (1,782 rows, Seed 20-30)
+  wifi6-risk/                    Wi-Fi 6 risk study: batch manifests, analysis outputs, RAW_MANIFEST.csv
   v4-matched/, v4-sensitivity/   V4 sigmoid-routing results
   *.csv, logs/, plots/, v3/      Legacy (V2.7) results, kept for history
 analysis/
   final-report-data/             Authoritative frozen results package (source of truth)
+  wifi6-risk-writeup/            Wi-Fi 6 risk study: report tables T-W1..T-W7, figures F-W1..F-W8
   final-reproducibility-check/   51-run reproducibility validation
   bottleneck-characterisation/   Raw §10 / retry-exhaustion / rate-sweep run outputs
   update8-tier1-activation/      V4 activation-screen raw data
   final-github-release/          This release's audit trail
+experiments/wifi6-risk/          Wi-Fi 6 risk study: runners, analysis, report and dashboard scripts
 docs/
+  wifi6-risk-reproducibility.md   Wi-Fi 6 study: build, dependencies, reproduction levels, raw archive
   research-history.md             V1 -> V2 -> V3 -> V4 -> bottleneck -> intervention -> frozen
                                   -> Phase 8 BA risky-node (proposed, 2026-10)
   v1-v4-methodology-results.md    Advisor's "V1-V4" framing, cross-walked to real tracks/files,

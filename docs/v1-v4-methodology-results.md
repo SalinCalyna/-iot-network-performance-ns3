@@ -21,6 +21,7 @@ from older docs. Every item below carries one of four labels:
 | V3 | BA topology / risk-aware routing (paper reproduction) | `scratch/iot-network-v3.cc`, a **different, same-named program** that exists only locally/uncommitted (see note below) | Implemented (uncommitted), **Not yet verified** — zero runs |
 | V3 Phase 1 | Official extended baseline | `scratch/iot-network-v3-ext.cc` | Implemented, Experiment completed (1,782 official runs) |
 | V4 | Sigmoid-adaptive routing | `scratch/iot-network-v3-ext.cc`, `--protocol=v4` | Implemented, Experiment completed (957 runs), **closed** |
+| (outside V1–V4) | Wi-Fi 6 Risk-Aware Routing: explicit low/high-risk relay states on the 802.11ax wireless mesh | `scratch/iot-network-wifi6-risk-v2.cc` | Implemented, **Experiment completed** (N = 30: 160 runs, 10 seeds; N = 100: 48 runs, 3 seeds); N = 100 saturated load **Proposed, not run** |
 
 **Branch/filename note:** `iot-network-v3.cc` means two different programs depending on where you
 look. On this repository's `main` branch it is the legacy 15-node sigmoid pilot (what the
@@ -68,6 +69,11 @@ run once per destination (26 runs), installed offline as fixed routes before tra
 This directly explains the advisor's "risky nodes not showing / routing doesn't match before"
 feedback: there is no output to show, and the existing risk model has no node-level state to
 display.
+
+> **Cross-reference (2026-10-25):** explicit low-/high-risk node states with 1–3 high-risk nodes
+> have since been implemented and measured in a *separate* study on the 802.11ax wireless mesh
+> (see "Wi-Fi 6 Risk-Aware Routing" below). The status of the BA program in this section is
+> unchanged: zero runs, and the BA design below is still proposed.
 
 ### Proposed: explicit low-risk / high-risk node state — **Proposed, not implemented**
 
@@ -142,9 +148,50 @@ RiskScore reflects node geometry, not where traffic concentrates (the gateway's 
 neighbourhood, regardless of degree). **Closed: mechanism demonstrably works, no performance
 benefit demonstrated; no further-tier experiment judged scientifically justified.**
 
+## Wi-Fi 6 Risk-Aware Routing (outside V1–V4) — **Experiment completed**
+
+**File:** `scratch/iot-network-wifi6-risk-v2.cc` (risk-v2, source sha256 `33b350ab…`), on an IEEE
+802.11ax version of the V3 gateway-centric mesh. This is **not** the BA topology.
+
+**Methodology:**
+- **Risk model:** each sensor is LOW_RISK (drop probability 0) or HIGH_RISK (0.5 for transit data
+  packets, decided by a deterministic hash). The k = 0–3 high-risk relays are chosen from Static's
+  BFS tree (most descendants).
+- **Protocols:** Static, Risk-Aware (Dijkstra with transit cost 1 + 10·(−ln(1 − r)), oracle risk
+  knowledge), OLSR and AODV.
+- **Design:** matched (same positions, traffic and high-risk set per seed); 8 kbps per sensor;
+  300 s runs; nominal PDR as the main metric.
+
+**Results:**
+- **N = 30 (seeds 20–29, n = 10; inferential):** Risk-Aware − Static nominal PDR +10.45 / +18.00 /
+  +23.18 pp and exposure −21.00 / −36.00 / −46.33 pp at k = 1 / 2 / 3. Risk-Aware is ahead in
+  10/10 pairs at every k (exact Wilcoxon p = 0.00195, Holm-adjusted 0.0117).
+- **N = 100 (seeds 20–22, n = 3; descriptive only):** +9.15 / +15.74 / +19.70 pp PDR, with the
+  same direction in 3/3 seeds. No significance is claimed.
+- **AODV at N = 100:** 56.60 % against OLSR's 99.62 % (k = 0). The suspected cause is a
+  route-maintenance feedback loop; this is a hypothesis.
+
+**Limitations:**
+- risk-selection bias toward Static's tree;
+- oracle risk knowledge;
+- a different link model for Static/Risk-Aware than for OLSR/AODV;
+- synchronized CBR traffic;
+- light load;
+- only 3 seeds at N = 100.
+
+**Not run:** the N = 100 saturated-load experiment.
+
+Full detail: README § Wi-Fi 6 Risk-Aware Routing and
+[`docs/wifi6-risk-reproducibility.md`](wifi6-risk-reproducibility.md).
+
 ## Safety confirmation for this report
 
 No source file was modified, no simulation was run, and no existing data or report was overwritten
 to produce this document. Section V3's status (zero runs) and the BA risky-node design were
 re-verified directly against source/git/filesystem state on 2026-10-11, not assumed from prior
 documentation.
+
+**Addendum 2026-10-25:** the Wi-Fi 6 track-map row, the cross-reference in the BA section and
+the "Wi-Fi 6 Risk-Aware Routing" section were added from the validated Wi-Fi 6 outputs. No
+simulation was run and no simulator file was changed for this edit. The BA (V3) statements above
+were not changed.
