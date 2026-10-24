@@ -4,9 +4,11 @@ Identifying congestion bottlenecks and evaluating traffic-rate mitigation in mul
 wireless networks, using the [ns-3](https://www.nsnam.org/) network simulator.
 
 **Status:** Phases 1–7 (below) are complete and **frozen** — independently verified reproducible
-(51/51 validation runs, 681/681 applicable metric comparisons). **A new Phase 8 opened 2026-10**
-per advisor direction (BA topology / risky-node routing) — this is a proposed experimental
-design only; nothing has been executed yet. See
+(51/51 validation runs, 681/681 applicable metric comparisons). **A Wi-Fi 6 (802.11ax)
+Risk-Aware Routing study was completed and validated in 2026-10** (208 runs; see
+[Wi-Fi 6 Risk-Aware Routing](#wi-fi-6-risk-aware-routing-completed-2026-10) below). **A separate
+Phase 8 opened 2026-10** per advisor direction (BA topology / risky-node routing) — this is a
+proposed experimental design only; nothing has been executed yet. See
 [Advisor feedback (2026-10)](#advisor-feedback-2026-10--ba-topologyrisky-node-routing) below and
 [`docs/v1-v4-methodology-results.md`](docs/v1-v4-methodology-results.md) for the full,
 verification-labelled status of every track.
@@ -14,13 +16,20 @@ verification-labelled status of every track.
 | | |
 |---|---|
 | Simulation | NS-3 |
-| Network | Multi-hop 802.11b ad-hoc IoT mesh |
-| Protocols | AODV / OLSR / Static / V4 Sigmoid-Based Adaptive Routing (investigation) |
+| Network | Multi-hop 802.11b ad-hoc IoT mesh (Phases 1–7); 802.11ax (Wi-Fi 6) ad-hoc mesh (risk study) |
+| Protocols | AODV / OLSR / Static / V4 Sigmoid-Based Adaptive Routing (investigation); Risk-Aware routing (Wi-Fi 6 study) |
 | Official V3 baseline | 1,782 runs |
 | Reproducibility | 51/51 validation runs PASS |
-| Phases 1–7 status | **FROZEN** |
-| Phase 8 (BA risky-node) status | **Proposed — not yet executed** (opened 2026-10) |
-| Dashboard | [GitHub Pages](https://salincalyna.github.io/-iot-network-performance-ns3/) |
+| Dashboard | [GitHub Pages — /site/index.html](https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html) |
+
+### Research status
+
+| Track | Network | Status | Evidence |
+|---|---|---|---|
+| Phases 1–7: V3 baseline → V4 → bottleneck → retry → rate intervention → Static diagnostic → reproducibility | IEEE 802.11b mesh | **Frozen** — reproducible (51/51 runs) | [`analysis/final-report-data/`](analysis/final-report-data/) |
+| Wi-Fi 6 Risk-Aware Routing (low/high-risk relay states, k = 0–3) | IEEE 802.11ax mesh | **Completed and validated** (2026-10) — N = 30 (10 seeds, inferential), N = 100 (3 seeds, descriptive) | [section below](#wi-fi-6-risk-aware-routing-completed-2026-10); [dashboard](https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html#view-w6-overview) |
+| N = 100 saturated-load risk experiment | IEEE 802.11ax mesh | **Not run** (pending approval) | — |
+| Phase 8: BA topology / risky-node routing | Barabasi-Albert graph | **Proposed — not yet executed** (opened 2026-10) | [Advisor feedback](#advisor-feedback-2026-10--ba-topologyrisky-node-routing) |
 
 ## Researcher
 
@@ -112,6 +121,105 @@ about a specific unmeasured physical cause.
   does not improve delivery performance under the tested conditions. This is not a failed
   implementation.
 
+## Wi-Fi 6 Risk-Aware Routing (completed 2026-10)
+
+A follow-on study on an IEEE 802.11ax (Wi-Fi 6) version of the gateway-centric mesh, adding
+explicit low-risk / high-risk relay states. It is **separate from the frozen 802.11b research
+above** (different PHY/MAC, different simulator) and **separate from the proposed Phase 8 BA
+study** (different topology). Live results:
+[dashboard → Wi-Fi 6 Risk-Aware Routing](https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html#view-w6-overview).
+
+**Objectives**
+1. Measure how 0–3 high-risk relay nodes affect delivery and risk exposure under Static, OLSR and
+   AODV routing.
+2. Test whether risk-aware route selection reduces exposure and loss, and at what cost in delay,
+   path length and airtime.
+3. Check whether the result holds when the network grows from 30 to 100 sensors.
+
+**Methodology (summary)**
+- **Network:** 802.11ax, 2.4 GHz channel 1, 20 MHz, HE MCS 0, A-MPDU/A-MSDU off, ARP
+  pre-populated.
+- **Topology:** 250 m × 250 m area with the gateway at the centre; static, seeded positions.
+- **Traffic:** 512 B UDP CBR at 8 kbps per sensor, with all sensors sending at the same instants
+  (synchronized, inherited from the V3 design). simTime is 300 s and traffic starts at 30 s.
+- **Risk model:** each sensor is LOW_RISK (drop probability 0) or HIGH_RISK (0.5 for every transit
+  data packet). The k = 0–3 high-risk relays are the top-k relays of Static's BFS tree (most
+  descendants). Risk drops are deterministic hashes, so the same packet gets the same decision
+  under every protocol.
+- **Protocols:** Static (BFS shortest path on a 90 m disk graph), Risk-Aware (Dijkstra where entering
+  a transit node costs 1 + 10·(−ln(1 − r)), on the same graph, with oracle knowledge of risk), and
+  OLSR and AODV with unmodified ns-3 defaults.
+- **Matched design:** within a seed, positions, traffic and the high-risk set are identical for
+  every protocol.
+- **Simulator:** `iot-network-wifi6-risk-v2`. It includes one fix for a confirmed ns-3 Block Ack
+  defect: an ADDBA SSN mismatch left packets held for up to 65.3 s at N = 30, 16 kbps (seed 20,
+  100 s run).
+- **Runs and checks:** N = 30, seeds 20–29 (160 runs, 1,830/1,830 checks passed); N = 100, seeds
+  20–22 (48 runs, 549/549 checks passed).
+- **Metric:** all main comparisons use **nominal PDR** (delivered ÷ scheduled packets). In all 208
+  runs no scheduled packet went unsent, so nominal PDR equals sink-based PDR.
+
+**Major findings**
+
+N = 30 (10 seeds; inferential), Risk-Aware − Static on the same seed:
+
+| k | Static PDR | Risk-Aware PDR | Δ PDR [95 % CI] | Δ exposure [95 % CI] | Pairs favouring Risk-Aware |
+|---|---|---|---|---|---|
+| 1 | 89.21 % | 99.67 % | +10.45 pp [+8.20, +12.71] | −21.00 pp [−25.64, −16.36] | 10/10 |
+| 2 | 81.50 % | 99.50 % | +18.00 pp [+14.99, +21.00] | −36.00 pp [−42.13, −29.86] | 10/10 |
+| 3 | 76.32 % | 99.50 % | +23.18 pp [+19.81, +26.54] | −46.33 pp [−53.21, −39.46] | 10/10 |
+
+Exact Wilcoxon signed-rank p = 0.00195 for each of these six primary tests; Holm-adjusted
+p = 0.0117. With n = 10, 0.00195 is the smallest attainable exact p.
+
+- **Cost at N = 30.** p95 delay is +4.1 to +9.1 ms higher than Static at k = 1–3, and gateway
+  airtime +0.005 to +0.013. Part of the delivered-packet difference is survivorship, because
+  Static loses the relayed packets that cross risky nodes. Over *all sent* packets, Risk-Aware
+  paths really do lengthen, from 1.64 to 1.75 links at k = 3.
+- **N = 100 (3 seeds; descriptive only — no significance claimed).**
+  - Risk-Aware − Static, same seed: nominal PDR +9.15 / +15.74 / +19.70 pp and exposure
+    −18.33 / −31.33 / −39.33 pp at k = 1 / 2 / 3. The direction is the same in 3/3 seeds.
+  - Every exposed source had a safe alternative, so Risk-Aware exposure is 0 in every run.
+  - All-sent path length is unchanged at 1.613 links for every k, so the delay and hop
+    differences versus Static are survivorship. Against its own k = 0 run, Risk-Aware's
+    p50/p95/p99 delay stays within −1.1 to +2.5 ms.
+- **AODV at N = 100 (secondary finding).**
+  - AODV delivered 56.60 ± 1.76 % against OLSR's 99.62 ± 0.04 % (k = 0, 3 seeds). The level is
+    nearly the same at every k, so the risk model is not the cause; at N = 30 (k = 0, 10 seeds)
+    AODV delivers 99.99 %.
+  - A diagnostic on seed 20 excluded the Block Ack fix as the cause: with it switched off, PDR
+    was 53.21 % against 55.13 % with it on, and airtime was unchanged.
+  - Confirmed in the ns-3 source: AODV treats every dropped unicast MPDU, including queue-lifetime
+    expiry, as a link failure.
+  - The suspected mechanism is a self-reinforcing loop: MAC queue expiry → link failure → RERR
+    and route rediscovery → more airtime → more expiry. This is a **hypothesis**; it was not
+    isolated experimentally.
+  - AODV results are reported as measured; AODV was not tuned.
+
+**Limitations**
+- **Selection bias:** high-risk relays are chosen from Static's tree, which is Static's worst
+  case.
+- **Oracle risk:** Risk-Aware knows each node's risk exactly and the risk is static, so its
+  benefit is an upper bound.
+- **Different link models:** Static and Risk-Aware route on a 90 m disk graph, while OLSR and AODV
+  discover links over the real radio range.
+- **Synchronized CBR traffic:** all sensors send at the same instants.
+- **Light load:** per-run gateway airtime 0.04–0.08 at N = 30 and 0.19–0.44 at N = 100,
+  excluding AODV.
+  The N = 100 saturated-load experiment has not been run.
+- **Three seeds at N = 100:** these results are descriptive only.
+- **Residual Block Ack tail:** under saturation only, 13–37 per 100k delivered packets are delayed
+  more than 10 s. In the main experiments no Static, Risk-Aware or OLSR packet exceeded 10 s;
+  one AODV packet did (N = 100).
+- **Delay survivorship:** delay is measured over delivered packets only.
+- **AODV mechanism:** the causal chain is not isolated, the Block Ack check covers one seed, and
+  the MAC queue lifetime (500 ms) was not varied.
+
+**Reproducibility status:** the validated tables, figures and per-run analysis are kept in the
+researcher's working repository. The dashboard data file (`site/data/wifi6-risk.json`) lists every
+source file it was built from, with its sha256. The Wi-Fi 6 simulator source and raw run outputs
+are **not yet part of this public repository**.
+
 ## Advisor feedback (2026-10) — BA topology/risky-node routing
 
 Komsan Kanjanasit requested, in 2026-10 feedback, that the frozen research above (Phases 1–7) be
@@ -123,6 +231,10 @@ followed by a new investigation on the Barabasi-Albert (BA) topology / risk-awar
 4. Prepare a methodology and results report for V1–V4 before proceeding further.
 
 **Status: proposed design only — no code change, no simulation run, no existing data touched.**
+(Requests 2 and 3, explicit low/high-risk node states with 1–3 high-risk nodes, have since been
+implemented and measured on the *wireless mesh* in the
+[Wi-Fi 6 Risk-Aware Routing](#wi-fi-6-risk-aware-routing-completed-2026-10) study. The BA-topology
+version described here is still unrun.)
 The full audit and design (topology/algorithm as it exists today, the proposed low/high-risk
 node-state model and its supporting references, exactly how — and when it would *not* — affect
 route selection, the matched 0/1/2/3-high-risk-node experiment matrix, a 12-run pilot, and the
@@ -225,20 +337,36 @@ dashboard/
 site/
   index.html, static/, data/     Public GitHub Pages dashboard -- presents the frozen final
                                  research (see Public dashboard below)
+  wifi6.js, data/wifi6-risk.json, images/wifi6/
+                                 Wi-Fi 6 Risk-Aware Routing sections (data file lists its
+                                 validated sources with sha256)
 .github/workflows/
-  deploy-pages.yml                Deploys site/ to GitHub Pages on every push to main
+  deploy-pages.yml                Runs on every push to main (see Public dashboard below)
 ```
 
 ## Public dashboard (GitHub Pages)
 
-https://salincalyna.github.io/-iot-network-performance-ns3/
+https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html
 
 A static HTML/CSS/JS site (no backend) built from `analysis/final-report-data/figure_data.csv`
-and the other frozen package files, deployed automatically by GitHub Actions on every push to
-`main`. It presents: Overview, Baseline Performance, V4 Routing Investigation, Bottleneck,
-Retry Exhaustion, Offered-Rate Intervention, Static Control, Reproducibility, and Conclusions &
-Limitations. Earlier (V2.7/V3-prototype) results are shown separately under a "Research History"
-section, clearly labelled as historical and not mixed into the final-research charts.
+and the other frozen package files. GitHub Pages serves the `main` branch, so the dashboard
+lives under `/site/` (the site root shows this README). `.github/workflows/deploy-pages.yml` also
+runs on every push to `main`. It presents: Overview, Baseline Performance, V4 Routing
+Investigation, Bottleneck, Retry Exhaustion, Offered-Rate Intervention, Static Control,
+Reproducibility, and Conclusions & Limitations. Earlier (V2.7/V3-prototype) results are shown
+separately under a "Research History" section, clearly labelled as historical and not mixed into
+the final-research charts.
+
+A separate sidebar group, **Wi-Fi 6 Risk-Aware Routing — Measured**, adds six sections:
+- Risk Study Overview;
+- Results (N = 30 / N = 100);
+- Paired Risk-Aware vs Static;
+- Cost of Avoidance;
+- AODV Diagnostic;
+- Validity & Limitations.
+
+N = 30 is shown with 95 % confidence intervals and exact tests. N = 100 is descriptive only, with
+no p-values.
 
 `dashboard/app.py` is a separate, local-only Flask tool that browses the legacy V2.7
 `results/*.csv` files directly; it is not the public dashboard and is not part of the frozen
