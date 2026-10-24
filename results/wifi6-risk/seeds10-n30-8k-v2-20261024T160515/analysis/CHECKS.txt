@@ -1,0 +1,17 @@
+seeds10-n30-8k-v2-20261024T160515: 160 runs; checks 1830 passed, 0 failed
+  PASS  P0 run ok: 160 passed, 0 failed
+  PASS  P1 FlowMonitor rx <= sink: 160 passed, 0 failed
+  PASS  P1 delivered + duplicates = sink rx: 160 passed, 0 failed
+  PASS  P1 fates partition: 160 passed, 0 failed
+  PASS  P1 path records = app tx: 160 passed, 0 failed
+  PASS  P2 high-risk set = reference: 160 passed, 0 failed
+  PASS  P2 hop/degree = reference: 160 passed, 0 failed
+  PASS  P2 same high-risk set across protocols and loads: 40 passed, 0 failed
+  PASS  P3 risk drops valid: 160 passed, 0 failed
+  PASS  P4 delivered packets followed the installed path: 80 passed, 0 failed
+  PASS  P4 installed path = reference tree: 80 passed, 0 failed
+  PASS  P4 riskaware k=0 packet paths = static k=0: 10 passed, 0 failed
+  PASS  P5 identical first-send times across runs: 10 passed, 0 failed
+  PASS  P5 one scheduled send count for every source: 10 passed, 0 failed
+  PASS  P5 send count <= nominal: 160 passed, 0 failed
+  PASS  P6 unicast data HE_SU HeMcs0: 160 passed, 0 failed

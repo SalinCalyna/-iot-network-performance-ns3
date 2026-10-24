@@ -1,0 +1,17 @@
+n100-8k-v2-20261024T165009: 48 runs; checks 549 passed, 0 failed
+  PASS  P0 run ok: 48 passed, 0 failed
+  PASS  P1 FlowMonitor rx <= sink: 48 passed, 0 failed
+  PASS  P1 delivered + duplicates = sink rx: 48 passed, 0 failed
+  PASS  P1 fates partition: 48 passed, 0 failed
+  PASS  P1 path records = app tx: 48 passed, 0 failed
+  PASS  P2 high-risk set = reference: 48 passed, 0 failed
+  PASS  P2 hop/degree = reference: 48 passed, 0 failed
+  PASS  P2 same high-risk set across protocols and loads: 12 passed, 0 failed
+  PASS  P3 risk drops valid: 48 passed, 0 failed
+  PASS  P4 delivered packets followed the installed path: 24 passed, 0 failed
+  PASS  P4 installed path = reference tree: 24 passed, 0 failed
+  PASS  P4 riskaware k=0 packet paths = static k=0: 3 passed, 0 failed
+  PASS  P5 identical first-send times across runs: 3 passed, 0 failed
+  PASS  P5 one scheduled send count for every source: 3 passed, 0 failed
+  PASS  P5 send count <= nominal: 48 passed, 0 failed
+  PASS  P6 unicast data HE_SU HeMcs0: 48 passed, 0 failed

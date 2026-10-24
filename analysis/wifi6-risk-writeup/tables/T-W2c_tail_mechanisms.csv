@@ -1,0 +1,5 @@
+case,mechanism,longest_hold,status
+A,"duplicate ADDBA Request processed before the duplicate filter → 2nd ADDBA Response → originator window advanced silently; the missing SN is discarded as old, no BAR",157 s,fixed by risk-v3 (not adopted)
+B,stale ADDBA Response matched to a newer Request,10.5 s,open
+C,BlockAck to a BAR missed with no MPDU outstanding → BAR deferred until data is queued; OLSR moved the route away,12.5 s,open (needs a change to ns-3 BAR retransmission)
+D,as C,75.5 s,open

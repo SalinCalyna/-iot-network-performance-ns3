@@ -1,0 +1,20 @@
+parameter,value,source_or_check
+Simulator,"ns-3 scratch iot-network-wifi6-risk-v2 (risk-v2), unmodified for all results","binary sha256 d909f6de6233…, source 33b350ab5f79…"
+Wi-Fi standard,"IEEE 802.11ax (HE), ad-hoc MAC, Tier A",--standard=80211ax; read-back
+Band / channel / width,"2.4 GHz, channel 1, 20 MHz",read-back
+Data rate (unicast),"ConstantRate HeMcs0, HE SU PPDU, GI 800 ns",read-back; HE_SU/HeMcs0 checked (P6)
+Control / broadcast rate,ERP-OFDM 6 Mbps,read-back
+Aggregation,A-MPDU and A-MSDU disabled (max 0 B); Block Ack agreements still set up by ns-3,read-back
+Block Ack modification,risk-v2 --baSsnFix=1: BlockAckReq when originator start ≠ advertised ADDBA SSN,default on; see T-W2
+Tx power / propagation,"20 dBm; LogDistance, exponent 3.0, reference loss 40 dB at 1 m; constant speed",source
+MAC queue lifetime,ns-3 default (500 ms),not changed
+ARP,pre-populated (--arpPrepopulate=1),base args
+Area / gateway,"250 m × 250 m, gateway at centre, sensors uniform random (seeded), static",source
+Sensors N,30 (seeds 20–29) and 100 (seeds 20–22),batch.json
+Traffic,"UDP CBR to gateway, 512 B payload, 8 kbps per sensor (one packet per 0.512 s); all sensors send at the same instants (synchronized, inherited V3 design)",--trafficLevel=high --offeredRateKbps=8
+Timing,"simTime 300 s, application start 30 s (270 s of traffic)",batch.json
+Routing protocols,"Static (BFS tree on 90 m disk graph), Risk-Aware (risk-weighted Dijkstra on the same graph), OLSR and AODV (ns-3 defaults, unmodified)",--protocol
+Risk model,"HIGH_RISK drop probability r = 0.5, LOW_RISK r = 0; k = 0–3 high-risk relays chosen by the subtree rule (most BFS descendants); risk-drop hash seed 1",--highRiskDropProb=0.5 --lowRiskDropProb=0 --riskSelect=subtree --riskDropSeed=1
+Risk-Aware cost,"per transit node 1 + β·(−ln(1 − r)), β = 10; oracle knowledge of node risk",--riskBeta=10
+Per-packet trace,"on (packet_paths.csv: path, fate, delay per packet)",--perPacketTrace=1
+Throughput accounting,delivered packets × 540 B (payload + UDP/IP headers) × 8 / 270 s,analyze_pilot_n30.py

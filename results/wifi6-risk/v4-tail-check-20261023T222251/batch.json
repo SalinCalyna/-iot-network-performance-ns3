@@ -1,0 +1,18 @@
+{
+ "binary": "/Users/pinpuk/ns-3-dev/build/scratch/ns3-dev-iot-network-wifi6-risk-v4-default",
+ "binary_sha256": "d6344a603f64f2ddffff7d6b3751761e99b7963775c7976b8b01e3cb22d0f917",
+ "source": "/Users/pinpuk/ns-3-dev/scratch/iot-network-wifi6-risk-v4.cc",
+ "source_sha256": "9aa53e1ab5638c1c35eaaa0c1ea2b83718ea51e81f28d8c460b8f18d0db1b62b",
+ "base_args": [
+  "--standard=80211ax",
+  "--protocol=olsr",
+  "--nSensors=100",
+  "--trafficLevel=high",
+  "--arpPrepopulate=1",
+  "--riskStudy=1",
+  "--numHighRisk=0",
+  "--perPacketTrace=1",
+  "--offeredRateKbps=64"
+ ],
+ "started": "2026-10-23T22:22:51+0700"
+}

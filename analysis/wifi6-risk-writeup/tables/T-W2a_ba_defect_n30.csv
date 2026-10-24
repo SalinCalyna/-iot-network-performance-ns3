@@ -1,0 +1,5 @@
+k,variant,delivered,p99_ms,max_delay_s,gt10s
+k = 2,fix off (= risk-v1),6939,29820,65.3,112
+k = 2,fix on (risk-v2),6843,72,0.1,0
+k = 3,fix off (= risk-v1),6597,31339,65.3,112
+k = 3,fix on (risk-v2),6596,73,0.1,0

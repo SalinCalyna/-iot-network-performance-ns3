@@ -1,0 +1,1087 @@
+test,subject,passed,detail
+P0 run ok,aodv_k0_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k0_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,aodv_k0_rate64_seed20,1,"{'delivered': 126483, 'lost_other': 57, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,aodv_k0_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k0_rate64_seed20,1,"('126483', 126483)"
+P2 high-risk set = reference,aodv_k0_rate64_seed20,1,"([], [])"
+P2 hop/degree = reference,aodv_k0_rate64_seed20,1,
+P3 risk drops valid,aodv_k0_rate64_seed20,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k0_rate64_seed20,1,
+P0 run ok,aodv_k0_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k0_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,aodv_k0_rate64_seed21,1,"{'delivered': 126235, 'lost_other': 305, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,aodv_k0_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k0_rate64_seed21,1,"('126235', 126235)"
+P2 high-risk set = reference,aodv_k0_rate64_seed21,1,"([], [])"
+P2 hop/degree = reference,aodv_k0_rate64_seed21,1,
+P3 risk drops valid,aodv_k0_rate64_seed21,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k0_rate64_seed21,1,
+P0 run ok,aodv_k0_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k0_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,aodv_k0_rate64_seed22,1,"{'delivered': 126457, 'lost_other': 83, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,aodv_k0_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k0_rate64_seed22,1,"('126457', 126457)"
+P2 high-risk set = reference,aodv_k0_rate64_seed22,1,"([], [])"
+P2 hop/degree = reference,aodv_k0_rate64_seed22,1,
+P3 risk drops valid,aodv_k0_rate64_seed22,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k0_rate64_seed22,1,
+P0 run ok,aodv_k0_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k0_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,aodv_k0_rate8_seed20,1,"{'delivered': 15806, 'lost_other': 4, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,aodv_k0_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k0_rate8_seed20,1,"('15806', 15806)"
+P2 high-risk set = reference,aodv_k0_rate8_seed20,1,"([], [])"
+P2 hop/degree = reference,aodv_k0_rate8_seed20,1,
+P3 risk drops valid,aodv_k0_rate8_seed20,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k0_rate8_seed20,1,
+P0 run ok,aodv_k0_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k0_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,aodv_k0_rate8_seed21,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k0_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k0_rate8_seed21,1,"('15810', 15810)"
+P2 high-risk set = reference,aodv_k0_rate8_seed21,1,"([], [])"
+P2 hop/degree = reference,aodv_k0_rate8_seed21,1,
+P3 risk drops valid,aodv_k0_rate8_seed21,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k0_rate8_seed21,1,
+P0 run ok,aodv_k0_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k0_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,aodv_k0_rate8_seed22,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k0_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k0_rate8_seed22,1,"('15810', 15810)"
+P2 high-risk set = reference,aodv_k0_rate8_seed22,1,"([], [])"
+P2 hop/degree = reference,aodv_k0_rate8_seed22,1,
+P3 risk drops valid,aodv_k0_rate8_seed22,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k0_rate8_seed22,1,
+P0 run ok,aodv_k1_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k1_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,aodv_k1_rate64_seed20,1,"{'delivered': 119989, 'risk_drop': 6521, 'lost_other': 30}"
+P1 delivered + duplicates = sink rx,aodv_k1_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k1_rate64_seed20,1,"('119989', 119989)"
+P2 high-risk set = reference,aodv_k1_rate64_seed20,1,"([15], [15])"
+P2 hop/degree = reference,aodv_k1_rate64_seed20,1,
+P3 risk drops valid,aodv_k1_rate64_seed20,1,"(6521, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k1_rate64_seed20,1,
+P0 run ok,aodv_k1_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k1_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,aodv_k1_rate64_seed21,1,"{'delivered': 124401, 'lost_other': 543, 'risk_drop': 1596}"
+P1 delivered + duplicates = sink rx,aodv_k1_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k1_rate64_seed21,1,"('124401', 124401)"
+P2 high-risk set = reference,aodv_k1_rate64_seed21,1,"([6], [6])"
+P2 hop/degree = reference,aodv_k1_rate64_seed21,1,
+P3 risk drops valid,aodv_k1_rate64_seed21,1,"(1596, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k1_rate64_seed21,1,
+P0 run ok,aodv_k1_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k1_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,aodv_k1_rate64_seed22,1,"{'delivered': 122817, 'risk_drop': 3703, 'lost_other': 20}"
+P1 delivered + duplicates = sink rx,aodv_k1_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k1_rate64_seed22,1,"('122817', 122817)"
+P2 high-risk set = reference,aodv_k1_rate64_seed22,1,"([0], [0])"
+P2 hop/degree = reference,aodv_k1_rate64_seed22,1,
+P3 risk drops valid,aodv_k1_rate64_seed22,1,"(3703, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k1_rate64_seed22,1,
+P0 run ok,aodv_k1_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k1_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,aodv_k1_rate8_seed20,1,"{'delivered': 15712, 'risk_drop': 94, 'lost_other': 4}"
+P1 delivered + duplicates = sink rx,aodv_k1_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k1_rate8_seed20,1,"('15712', 15712)"
+P2 high-risk set = reference,aodv_k1_rate8_seed20,1,"([15], [15])"
+P2 hop/degree = reference,aodv_k1_rate8_seed20,1,
+P3 risk drops valid,aodv_k1_rate8_seed20,1,"(94, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k1_rate8_seed20,1,
+P0 run ok,aodv_k1_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k1_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,aodv_k1_rate8_seed21,1,"{'delivered': 15807, 'risk_drop': 3, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k1_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k1_rate8_seed21,1,"('15807', 15807)"
+P2 high-risk set = reference,aodv_k1_rate8_seed21,1,"([6], [6])"
+P2 hop/degree = reference,aodv_k1_rate8_seed21,1,
+P3 risk drops valid,aodv_k1_rate8_seed21,1,"(3, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k1_rate8_seed21,1,
+P0 run ok,aodv_k1_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k1_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,aodv_k1_rate8_seed22,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k1_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k1_rate8_seed22,1,"('15810', 15810)"
+P2 high-risk set = reference,aodv_k1_rate8_seed22,1,"([0], [0])"
+P2 hop/degree = reference,aodv_k1_rate8_seed22,1,
+P3 risk drops valid,aodv_k1_rate8_seed22,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k1_rate8_seed22,1,
+P0 run ok,aodv_k2_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k2_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,aodv_k2_rate64_seed20,1,"{'delivered': 119448, 'risk_drop': 7060, 'lost_other': 32}"
+P1 delivered + duplicates = sink rx,aodv_k2_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k2_rate64_seed20,1,"('119448', 119448)"
+P2 high-risk set = reference,aodv_k2_rate64_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,aodv_k2_rate64_seed20,1,
+P3 risk drops valid,aodv_k2_rate64_seed20,1,"(7060, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k2_rate64_seed20,1,
+P0 run ok,aodv_k2_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k2_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,aodv_k2_rate64_seed21,1,"{'delivered': 124779, 'lost_other': 360, 'risk_drop': 1401}"
+P1 delivered + duplicates = sink rx,aodv_k2_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k2_rate64_seed21,1,"('124779', 124779)"
+P2 high-risk set = reference,aodv_k2_rate64_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,aodv_k2_rate64_seed21,1,
+P3 risk drops valid,aodv_k2_rate64_seed21,1,"(1401, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k2_rate64_seed21,1,
+P0 run ok,aodv_k2_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k2_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,aodv_k2_rate64_seed22,1,"{'delivered': 118282, 'lost_other': 111, 'risk_drop': 8147}"
+P1 delivered + duplicates = sink rx,aodv_k2_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k2_rate64_seed22,1,"('118282', 118282)"
+P2 high-risk set = reference,aodv_k2_rate64_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,aodv_k2_rate64_seed22,1,
+P3 risk drops valid,aodv_k2_rate64_seed22,1,"(8147, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k2_rate64_seed22,1,
+P0 run ok,aodv_k2_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k2_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,aodv_k2_rate8_seed20,1,"{'delivered': 15023, 'risk_drop': 783, 'lost_other': 4}"
+P1 delivered + duplicates = sink rx,aodv_k2_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k2_rate8_seed20,1,"('15023', 15023)"
+P2 high-risk set = reference,aodv_k2_rate8_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,aodv_k2_rate8_seed20,1,
+P3 risk drops valid,aodv_k2_rate8_seed20,1,"(783, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k2_rate8_seed20,1,
+P0 run ok,aodv_k2_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k2_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,aodv_k2_rate8_seed21,1,"{'delivered': 15548, 'risk_drop': 262, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k2_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k2_rate8_seed21,1,"('15548', 15548)"
+P2 high-risk set = reference,aodv_k2_rate8_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,aodv_k2_rate8_seed21,1,
+P3 risk drops valid,aodv_k2_rate8_seed21,1,"(262, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k2_rate8_seed21,1,
+P0 run ok,aodv_k2_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k2_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,aodv_k2_rate8_seed22,1,"{'delivered': 15733, 'risk_drop': 77, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k2_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k2_rate8_seed22,1,"('15733', 15733)"
+P2 high-risk set = reference,aodv_k2_rate8_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,aodv_k2_rate8_seed22,1,
+P3 risk drops valid,aodv_k2_rate8_seed22,1,"(77, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k2_rate8_seed22,1,
+P0 run ok,aodv_k3_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k3_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,aodv_k3_rate64_seed20,1,"{'delivered': 116175, 'risk_drop': 10343, 'lost_other': 22}"
+P1 delivered + duplicates = sink rx,aodv_k3_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k3_rate64_seed20,1,"('116175', 116175)"
+P2 high-risk set = reference,aodv_k3_rate64_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,aodv_k3_rate64_seed20,1,
+P3 risk drops valid,aodv_k3_rate64_seed20,1,"(10343, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k3_rate64_seed20,1,
+P0 run ok,aodv_k3_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k3_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,aodv_k3_rate64_seed21,1,"{'delivered': 121819, 'lost_other': 505, 'risk_drop': 4216}"
+P1 delivered + duplicates = sink rx,aodv_k3_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k3_rate64_seed21,1,"('121819', 121819)"
+P2 high-risk set = reference,aodv_k3_rate64_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,aodv_k3_rate64_seed21,1,
+P3 risk drops valid,aodv_k3_rate64_seed21,1,"(4216, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k3_rate64_seed21,1,
+P0 run ok,aodv_k3_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k3_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,aodv_k3_rate64_seed22,1,"{'delivered': 118217, 'risk_drop': 8306, 'lost_other': 17}"
+P1 delivered + duplicates = sink rx,aodv_k3_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k3_rate64_seed22,1,"('118217', 118217)"
+P2 high-risk set = reference,aodv_k3_rate64_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,aodv_k3_rate64_seed22,1,
+P3 risk drops valid,aodv_k3_rate64_seed22,1,"(8306, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k3_rate64_seed22,1,
+P0 run ok,aodv_k3_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k3_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,aodv_k3_rate8_seed20,1,"{'lost_other': 5, 'delivered': 14837, 'risk_drop': 968}"
+P1 delivered + duplicates = sink rx,aodv_k3_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k3_rate8_seed20,1,"('14837', 14837)"
+P2 high-risk set = reference,aodv_k3_rate8_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,aodv_k3_rate8_seed20,1,
+P3 risk drops valid,aodv_k3_rate8_seed20,1,"(968, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k3_rate8_seed20,1,
+P0 run ok,aodv_k3_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k3_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,aodv_k3_rate8_seed21,1,"{'delivered': 15548, 'risk_drop': 262, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k3_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,aodv_k3_rate8_seed21,1,"('15548', 15548)"
+P2 high-risk set = reference,aodv_k3_rate8_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,aodv_k3_rate8_seed21,1,
+P3 risk drops valid,aodv_k3_rate8_seed21,1,"(262, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k3_rate8_seed21,1,
+P0 run ok,aodv_k3_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k3_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,aodv_k3_rate8_seed22,1,"{'delivered': 14422, 'risk_drop': 1388, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,aodv_k3_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,aodv_k3_rate8_seed22,1,"('14422', 14422)"
+P2 high-risk set = reference,aodv_k3_rate8_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,aodv_k3_rate8_seed22,1,
+P3 risk drops valid,aodv_k3_rate8_seed22,1,"(1388, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k3_rate8_seed22,1,
+P0 run ok,olsr_k0_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k0_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,olsr_k0_rate64_seed20,1,"{'delivered': 124517, 'lost_other': 2023, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,olsr_k0_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k0_rate64_seed20,1,"('124517', 124517)"
+P2 high-risk set = reference,olsr_k0_rate64_seed20,1,"([], [])"
+P2 hop/degree = reference,olsr_k0_rate64_seed20,1,
+P3 risk drops valid,olsr_k0_rate64_seed20,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k0_rate64_seed20,1,
+P0 run ok,olsr_k0_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k0_rate64_seed21,1,"(126521, 126521)"
+P1 fates partition,olsr_k0_rate64_seed21,1,"{'delivered': 126214, 'lost_other': 307, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,olsr_k0_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k0_rate64_seed21,1,"('126214', 126214)"
+P2 high-risk set = reference,olsr_k0_rate64_seed21,1,"([], [])"
+P2 hop/degree = reference,olsr_k0_rate64_seed21,1,
+P3 risk drops valid,olsr_k0_rate64_seed21,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k0_rate64_seed21,1,
+P0 run ok,olsr_k0_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k0_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,olsr_k0_rate64_seed22,1,"{'delivered': 125602, 'lost_other': 938, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,olsr_k0_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k0_rate64_seed22,1,"('125602', 125602)"
+P2 high-risk set = reference,olsr_k0_rate64_seed22,1,"([], [])"
+P2 hop/degree = reference,olsr_k0_rate64_seed22,1,
+P3 risk drops valid,olsr_k0_rate64_seed22,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k0_rate64_seed22,1,
+P0 run ok,olsr_k0_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k0_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,olsr_k0_rate8_seed20,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,olsr_k0_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k0_rate8_seed20,1,"('15810', 15810)"
+P2 high-risk set = reference,olsr_k0_rate8_seed20,1,"([], [])"
+P2 hop/degree = reference,olsr_k0_rate8_seed20,1,
+P3 risk drops valid,olsr_k0_rate8_seed20,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k0_rate8_seed20,1,
+P0 run ok,olsr_k0_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k0_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,olsr_k0_rate8_seed21,1,"{'delivered': 15809, 'lost_other': 1, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,olsr_k0_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k0_rate8_seed21,1,"('15809', 15809)"
+P2 high-risk set = reference,olsr_k0_rate8_seed21,1,"([], [])"
+P2 hop/degree = reference,olsr_k0_rate8_seed21,1,
+P3 risk drops valid,olsr_k0_rate8_seed21,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k0_rate8_seed21,1,
+P0 run ok,olsr_k0_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k0_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,olsr_k0_rate8_seed22,1,"{'delivered': 15809, 'lost_other': 1, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,olsr_k0_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k0_rate8_seed22,1,"('15809', 15809)"
+P2 high-risk set = reference,olsr_k0_rate8_seed22,1,"([], [])"
+P2 hop/degree = reference,olsr_k0_rate8_seed22,1,
+P3 risk drops valid,olsr_k0_rate8_seed22,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k0_rate8_seed22,1,
+P0 run ok,olsr_k1_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k1_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,olsr_k1_rate64_seed20,1,"{'risk_drop': 4157, 'delivered': 121138, 'lost_other': 1245}"
+P1 delivered + duplicates = sink rx,olsr_k1_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k1_rate64_seed20,1,"('121138', 121138)"
+P2 high-risk set = reference,olsr_k1_rate64_seed20,1,"([15], [15])"
+P2 hop/degree = reference,olsr_k1_rate64_seed20,1,
+P3 risk drops valid,olsr_k1_rate64_seed20,1,"(4157, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k1_rate64_seed20,1,
+P0 run ok,olsr_k1_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k1_rate64_seed21,1,"(126511, 126511)"
+P1 fates partition,olsr_k1_rate64_seed21,1,"{'delivered': 125829, 'lost_other': 29, 'risk_drop': 653}"
+P1 delivered + duplicates = sink rx,olsr_k1_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k1_rate64_seed21,1,"('125829', 125829)"
+P2 high-risk set = reference,olsr_k1_rate64_seed21,1,"([6], [6])"
+P2 hop/degree = reference,olsr_k1_rate64_seed21,1,
+P3 risk drops valid,olsr_k1_rate64_seed21,1,"(653, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k1_rate64_seed21,1,
+P0 run ok,olsr_k1_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k1_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,olsr_k1_rate64_seed22,1,"{'delivered': 124433, 'lost_other': 1250, 'risk_drop': 857}"
+P1 delivered + duplicates = sink rx,olsr_k1_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k1_rate64_seed22,1,"('124433', 124433)"
+P2 high-risk set = reference,olsr_k1_rate64_seed22,1,"([0], [0])"
+P2 hop/degree = reference,olsr_k1_rate64_seed22,1,
+P3 risk drops valid,olsr_k1_rate64_seed22,1,"(857, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k1_rate64_seed22,1,
+P0 run ok,olsr_k1_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k1_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,olsr_k1_rate8_seed20,1,"{'risk_drop': 1811, 'delivered': 13999, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,olsr_k1_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k1_rate8_seed20,1,"('13999', 13999)"
+P2 high-risk set = reference,olsr_k1_rate8_seed20,1,"([15], [15])"
+P2 hop/degree = reference,olsr_k1_rate8_seed20,1,
+P3 risk drops valid,olsr_k1_rate8_seed20,1,"(1811, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k1_rate8_seed20,1,
+P0 run ok,olsr_k1_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k1_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,olsr_k1_rate8_seed21,1,"{'delivered': 15283, 'risk_drop': 526, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,olsr_k1_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k1_rate8_seed21,1,"('15283', 15283)"
+P2 high-risk set = reference,olsr_k1_rate8_seed21,1,"([6], [6])"
+P2 hop/degree = reference,olsr_k1_rate8_seed21,1,
+P3 risk drops valid,olsr_k1_rate8_seed21,1,"(526, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k1_rate8_seed21,1,
+P0 run ok,olsr_k1_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k1_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,olsr_k1_rate8_seed22,1,"{'delivered': 15809, 'lost_other': 1, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,olsr_k1_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k1_rate8_seed22,1,"('15809', 15809)"
+P2 high-risk set = reference,olsr_k1_rate8_seed22,1,"([0], [0])"
+P2 hop/degree = reference,olsr_k1_rate8_seed22,1,
+P3 risk drops valid,olsr_k1_rate8_seed22,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k1_rate8_seed22,1,
+P0 run ok,olsr_k2_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k2_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,olsr_k2_rate64_seed20,1,"{'risk_drop': 9332, 'delivered': 116575, 'lost_other': 633}"
+P1 delivered + duplicates = sink rx,olsr_k2_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k2_rate64_seed20,1,"('116575', 116575)"
+P2 high-risk set = reference,olsr_k2_rate64_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,olsr_k2_rate64_seed20,1,
+P3 risk drops valid,olsr_k2_rate64_seed20,1,"(9332, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k2_rate64_seed20,1,
+P0 run ok,olsr_k2_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k2_rate64_seed21,1,"(126517, 126517)"
+P1 fates partition,olsr_k2_rate64_seed21,1,"{'delivered': 125409, 'lost_other': 254, 'risk_drop': 854}"
+P1 delivered + duplicates = sink rx,olsr_k2_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k2_rate64_seed21,1,"('125409', 125409)"
+P2 high-risk set = reference,olsr_k2_rate64_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,olsr_k2_rate64_seed21,1,
+P3 risk drops valid,olsr_k2_rate64_seed21,1,"(854, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k2_rate64_seed21,1,
+P0 run ok,olsr_k2_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k2_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,olsr_k2_rate64_seed22,1,"{'delivered': 121891, 'risk_drop': 4289, 'lost_other': 360}"
+P1 delivered + duplicates = sink rx,olsr_k2_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k2_rate64_seed22,1,"('121891', 121891)"
+P2 high-risk set = reference,olsr_k2_rate64_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,olsr_k2_rate64_seed22,1,
+P3 risk drops valid,olsr_k2_rate64_seed22,1,"(4289, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k2_rate64_seed22,1,
+P0 run ok,olsr_k2_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k2_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,olsr_k2_rate8_seed20,1,"{'risk_drop': 2324, 'delivered': 13486, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,olsr_k2_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k2_rate8_seed20,1,"('13486', 13486)"
+P2 high-risk set = reference,olsr_k2_rate8_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,olsr_k2_rate8_seed20,1,
+P3 risk drops valid,olsr_k2_rate8_seed20,1,"(2324, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k2_rate8_seed20,1,
+P0 run ok,olsr_k2_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k2_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,olsr_k2_rate8_seed21,1,"{'delivered': 15283, 'risk_drop': 526, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,olsr_k2_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k2_rate8_seed21,1,"('15283', 15283)"
+P2 high-risk set = reference,olsr_k2_rate8_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,olsr_k2_rate8_seed21,1,
+P3 risk drops valid,olsr_k2_rate8_seed21,1,"(526, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k2_rate8_seed21,1,
+P0 run ok,olsr_k2_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k2_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,olsr_k2_rate8_seed22,1,"{'delivered': 15494, 'risk_drop': 315, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,olsr_k2_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k2_rate8_seed22,1,"('15494', 15494)"
+P2 high-risk set = reference,olsr_k2_rate8_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,olsr_k2_rate8_seed22,1,
+P3 risk drops valid,olsr_k2_rate8_seed22,1,"(315, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k2_rate8_seed22,1,
+P0 run ok,olsr_k3_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k3_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,olsr_k3_rate64_seed20,1,"{'risk_drop': 9652, 'delivered': 116054, 'lost_other': 834}"
+P1 delivered + duplicates = sink rx,olsr_k3_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k3_rate64_seed20,1,"('116054', 116054)"
+P2 high-risk set = reference,olsr_k3_rate64_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,olsr_k3_rate64_seed20,1,
+P3 risk drops valid,olsr_k3_rate64_seed20,1,"(9652, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k3_rate64_seed20,1,
+P0 run ok,olsr_k3_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k3_rate64_seed21,1,"(126509, 126509)"
+P1 fates partition,olsr_k3_rate64_seed21,1,"{'delivered': 123338, 'risk_drop': 2600, 'lost_other': 571}"
+P1 delivered + duplicates = sink rx,olsr_k3_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k3_rate64_seed21,1,"('123338', 123338)"
+P2 high-risk set = reference,olsr_k3_rate64_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,olsr_k3_rate64_seed21,1,
+P3 risk drops valid,olsr_k3_rate64_seed21,1,"(2600, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k3_rate64_seed21,1,
+P0 run ok,olsr_k3_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k3_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,olsr_k3_rate64_seed22,1,"{'delivered': 119500, 'risk_drop': 7016, 'lost_other': 24}"
+P1 delivered + duplicates = sink rx,olsr_k3_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k3_rate64_seed22,1,"('119500', 119500)"
+P2 high-risk set = reference,olsr_k3_rate64_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,olsr_k3_rate64_seed22,1,
+P3 risk drops valid,olsr_k3_rate64_seed22,1,"(7016, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k3_rate64_seed22,1,
+P0 run ok,olsr_k3_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k3_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,olsr_k3_rate8_seed20,1,"{'risk_drop': 2107, 'delivered': 13703, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,olsr_k3_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,olsr_k3_rate8_seed20,1,"('13703', 13703)"
+P2 high-risk set = reference,olsr_k3_rate8_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,olsr_k3_rate8_seed20,1,
+P3 risk drops valid,olsr_k3_rate8_seed20,1,"(2107, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k3_rate8_seed20,1,
+P0 run ok,olsr_k3_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k3_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,olsr_k3_rate8_seed21,1,"{'delivered': 15283, 'risk_drop': 526, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,olsr_k3_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,olsr_k3_rate8_seed21,1,"('15283', 15283)"
+P2 high-risk set = reference,olsr_k3_rate8_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,olsr_k3_rate8_seed21,1,
+P3 risk drops valid,olsr_k3_rate8_seed21,1,"(526, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k3_rate8_seed21,1,
+P0 run ok,olsr_k3_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,olsr_k3_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,olsr_k3_rate8_seed22,1,"{'delivered': 13671, 'risk_drop': 2139, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,olsr_k3_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,olsr_k3_rate8_seed22,1,"('13671', 13671)"
+P2 high-risk set = reference,olsr_k3_rate8_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,olsr_k3_rate8_seed22,1,
+P3 risk drops valid,olsr_k3_rate8_seed22,1,"(2139, [])"
+P6 unicast data HE_SU HeMcs0,olsr_k3_rate8_seed22,1,
+P0 run ok,riskaware_k0_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k0_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,riskaware_k0_rate64_seed20,1,"{'delivered': 126533, 'lost_other': 7, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k0_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k0_rate64_seed20,1,"('126533', 126533)"
+P2 high-risk set = reference,riskaware_k0_rate64_seed20,1,"([], [])"
+P2 hop/degree = reference,riskaware_k0_rate64_seed20,1,
+P3 risk drops valid,riskaware_k0_rate64_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k0_rate64_seed20,1,"('126533', '126533')"
+P4 installed path = reference tree,riskaware_k0_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k0_rate64_seed20,1,
+P0 run ok,riskaware_k0_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k0_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,riskaware_k0_rate64_seed21,1,"{'delivered': 126529, 'lost_other': 11, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k0_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k0_rate64_seed21,1,"('126529', 126529)"
+P2 high-risk set = reference,riskaware_k0_rate64_seed21,1,"([], [])"
+P2 hop/degree = reference,riskaware_k0_rate64_seed21,1,
+P3 risk drops valid,riskaware_k0_rate64_seed21,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k0_rate64_seed21,1,"('126529', '126529')"
+P4 installed path = reference tree,riskaware_k0_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k0_rate64_seed21,1,
+P0 run ok,riskaware_k0_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k0_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,riskaware_k0_rate64_seed22,1,"{'delivered': 126536, 'lost_other': 4, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k0_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k0_rate64_seed22,1,"('126536', 126536)"
+P2 high-risk set = reference,riskaware_k0_rate64_seed22,1,"([], [])"
+P2 hop/degree = reference,riskaware_k0_rate64_seed22,1,
+P3 risk drops valid,riskaware_k0_rate64_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k0_rate64_seed22,1,"('126536', '126536')"
+P4 installed path = reference tree,riskaware_k0_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k0_rate64_seed22,1,
+P0 run ok,riskaware_k0_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k0_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,riskaware_k0_rate8_seed20,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k0_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k0_rate8_seed20,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k0_rate8_seed20,1,"([], [])"
+P2 hop/degree = reference,riskaware_k0_rate8_seed20,1,
+P3 risk drops valid,riskaware_k0_rate8_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k0_rate8_seed20,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k0_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k0_rate8_seed20,1,
+P0 run ok,riskaware_k0_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k0_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,riskaware_k0_rate8_seed21,1,"{'delivered': 15809, 'lost_other': 1, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k0_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k0_rate8_seed21,1,"('15809', 15809)"
+P2 high-risk set = reference,riskaware_k0_rate8_seed21,1,"([], [])"
+P2 hop/degree = reference,riskaware_k0_rate8_seed21,1,
+P3 risk drops valid,riskaware_k0_rate8_seed21,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k0_rate8_seed21,1,"('15809', '15809')"
+P4 installed path = reference tree,riskaware_k0_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k0_rate8_seed21,1,
+P0 run ok,riskaware_k0_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k0_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,riskaware_k0_rate8_seed22,1,"{'delivered': 15809, 'lost_other': 1, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k0_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k0_rate8_seed22,1,"('15809', 15809)"
+P2 high-risk set = reference,riskaware_k0_rate8_seed22,1,"([], [])"
+P2 hop/degree = reference,riskaware_k0_rate8_seed22,1,
+P3 risk drops valid,riskaware_k0_rate8_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k0_rate8_seed22,1,"('15809', '15809')"
+P4 installed path = reference tree,riskaware_k0_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k0_rate8_seed22,1,
+P0 run ok,riskaware_k1_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k1_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,riskaware_k1_rate64_seed20,1,"{'delivered': 126540, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k1_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k1_rate64_seed20,1,"('126540', 126540)"
+P2 high-risk set = reference,riskaware_k1_rate64_seed20,1,"([15], [15])"
+P2 hop/degree = reference,riskaware_k1_rate64_seed20,1,
+P3 risk drops valid,riskaware_k1_rate64_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k1_rate64_seed20,1,"('126540', '126540')"
+P4 installed path = reference tree,riskaware_k1_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k1_rate64_seed20,1,
+P0 run ok,riskaware_k1_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k1_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,riskaware_k1_rate64_seed21,1,"{'delivered': 126534, 'lost_other': 6, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k1_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k1_rate64_seed21,1,"('126534', 126534)"
+P2 high-risk set = reference,riskaware_k1_rate64_seed21,1,"([6], [6])"
+P2 hop/degree = reference,riskaware_k1_rate64_seed21,1,
+P3 risk drops valid,riskaware_k1_rate64_seed21,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k1_rate64_seed21,1,"('126534', '126534')"
+P4 installed path = reference tree,riskaware_k1_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k1_rate64_seed21,1,
+P0 run ok,riskaware_k1_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k1_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,riskaware_k1_rate64_seed22,1,"{'delivered': 126536, 'lost_other': 4, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k1_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k1_rate64_seed22,1,"('126536', 126536)"
+P2 high-risk set = reference,riskaware_k1_rate64_seed22,1,"([0], [0])"
+P2 hop/degree = reference,riskaware_k1_rate64_seed22,1,
+P3 risk drops valid,riskaware_k1_rate64_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k1_rate64_seed22,1,"('126536', '126536')"
+P4 installed path = reference tree,riskaware_k1_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k1_rate64_seed22,1,
+P0 run ok,riskaware_k1_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k1_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,riskaware_k1_rate8_seed20,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k1_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k1_rate8_seed20,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k1_rate8_seed20,1,"([15], [15])"
+P2 hop/degree = reference,riskaware_k1_rate8_seed20,1,
+P3 risk drops valid,riskaware_k1_rate8_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k1_rate8_seed20,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k1_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k1_rate8_seed20,1,
+P0 run ok,riskaware_k1_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k1_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,riskaware_k1_rate8_seed21,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k1_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k1_rate8_seed21,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k1_rate8_seed21,1,"([6], [6])"
+P2 hop/degree = reference,riskaware_k1_rate8_seed21,1,
+P3 risk drops valid,riskaware_k1_rate8_seed21,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k1_rate8_seed21,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k1_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k1_rate8_seed21,1,
+P0 run ok,riskaware_k1_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k1_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,riskaware_k1_rate8_seed22,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k1_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k1_rate8_seed22,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k1_rate8_seed22,1,"([0], [0])"
+P2 hop/degree = reference,riskaware_k1_rate8_seed22,1,
+P3 risk drops valid,riskaware_k1_rate8_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k1_rate8_seed22,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k1_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k1_rate8_seed22,1,
+P0 run ok,riskaware_k2_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k2_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,riskaware_k2_rate64_seed20,1,"{'delivered': 126535, 'lost_other': 5, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k2_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k2_rate64_seed20,1,"('126535', 126535)"
+P2 high-risk set = reference,riskaware_k2_rate64_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,riskaware_k2_rate64_seed20,1,
+P3 risk drops valid,riskaware_k2_rate64_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k2_rate64_seed20,1,"('126535', '126535')"
+P4 installed path = reference tree,riskaware_k2_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k2_rate64_seed20,1,
+P0 run ok,riskaware_k2_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k2_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,riskaware_k2_rate64_seed21,1,"{'delivered': 124391, 'lost_other': 10, 'risk_drop': 2139}"
+P1 delivered + duplicates = sink rx,riskaware_k2_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k2_rate64_seed21,1,"('124391', 124391)"
+P2 high-risk set = reference,riskaware_k2_rate64_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,riskaware_k2_rate64_seed21,1,
+P3 risk drops valid,riskaware_k2_rate64_seed21,1,"(2139, [])"
+P4 delivered packets followed the installed path,riskaware_k2_rate64_seed21,1,"('124391', '124391')"
+P4 installed path = reference tree,riskaware_k2_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k2_rate64_seed21,1,
+P0 run ok,riskaware_k2_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k2_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,riskaware_k2_rate64_seed22,1,"{'delivered': 126536, 'lost_other': 4, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k2_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k2_rate64_seed22,1,"('126536', 126536)"
+P2 high-risk set = reference,riskaware_k2_rate64_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,riskaware_k2_rate64_seed22,1,
+P3 risk drops valid,riskaware_k2_rate64_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k2_rate64_seed22,1,"('126536', '126536')"
+P4 installed path = reference tree,riskaware_k2_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k2_rate64_seed22,1,
+P0 run ok,riskaware_k2_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k2_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,riskaware_k2_rate8_seed20,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k2_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k2_rate8_seed20,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k2_rate8_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,riskaware_k2_rate8_seed20,1,
+P3 risk drops valid,riskaware_k2_rate8_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k2_rate8_seed20,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k2_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k2_rate8_seed20,1,
+P0 run ok,riskaware_k2_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k2_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,riskaware_k2_rate8_seed21,1,"{'delivered': 15547, 'risk_drop': 262, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,riskaware_k2_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k2_rate8_seed21,1,"('15547', 15547)"
+P2 high-risk set = reference,riskaware_k2_rate8_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,riskaware_k2_rate8_seed21,1,
+P3 risk drops valid,riskaware_k2_rate8_seed21,1,"(262, [])"
+P4 delivered packets followed the installed path,riskaware_k2_rate8_seed21,1,"('15547', '15547')"
+P4 installed path = reference tree,riskaware_k2_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k2_rate8_seed21,1,
+P0 run ok,riskaware_k2_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k2_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,riskaware_k2_rate8_seed22,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k2_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k2_rate8_seed22,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k2_rate8_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,riskaware_k2_rate8_seed22,1,
+P3 risk drops valid,riskaware_k2_rate8_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k2_rate8_seed22,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k2_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k2_rate8_seed22,1,
+P0 run ok,riskaware_k3_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k3_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,riskaware_k3_rate64_seed20,1,"{'delivered': 126538, 'lost_other': 2, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k3_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k3_rate64_seed20,1,"('126538', 126538)"
+P2 high-risk set = reference,riskaware_k3_rate64_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,riskaware_k3_rate64_seed20,1,
+P3 risk drops valid,riskaware_k3_rate64_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k3_rate64_seed20,1,"('126538', '126538')"
+P4 installed path = reference tree,riskaware_k3_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k3_rate64_seed20,1,
+P0 run ok,riskaware_k3_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k3_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,riskaware_k3_rate64_seed21,1,"{'delivered': 124397, 'lost_other': 4, 'risk_drop': 2139}"
+P1 delivered + duplicates = sink rx,riskaware_k3_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k3_rate64_seed21,1,"('124397', 124397)"
+P2 high-risk set = reference,riskaware_k3_rate64_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,riskaware_k3_rate64_seed21,1,
+P3 risk drops valid,riskaware_k3_rate64_seed21,1,"(2139, [])"
+P4 delivered packets followed the installed path,riskaware_k3_rate64_seed21,1,"('124397', '124397')"
+P4 installed path = reference tree,riskaware_k3_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k3_rate64_seed21,1,
+P0 run ok,riskaware_k3_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k3_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,riskaware_k3_rate64_seed22,1,"{'delivered': 126535, 'lost_other': 5, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k3_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k3_rate64_seed22,1,"('126535', 126535)"
+P2 high-risk set = reference,riskaware_k3_rate64_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,riskaware_k3_rate64_seed22,1,
+P3 risk drops valid,riskaware_k3_rate64_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k3_rate64_seed22,1,"('126535', '126535')"
+P4 installed path = reference tree,riskaware_k3_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k3_rate64_seed22,1,
+P0 run ok,riskaware_k3_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k3_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,riskaware_k3_rate8_seed20,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k3_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,riskaware_k3_rate8_seed20,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k3_rate8_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,riskaware_k3_rate8_seed20,1,
+P3 risk drops valid,riskaware_k3_rate8_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k3_rate8_seed20,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k3_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k3_rate8_seed20,1,
+P0 run ok,riskaware_k3_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k3_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,riskaware_k3_rate8_seed21,1,"{'delivered': 15548, 'lost_other': 1, 'risk_drop': 261}"
+P1 delivered + duplicates = sink rx,riskaware_k3_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,riskaware_k3_rate8_seed21,1,"('15548', 15548)"
+P2 high-risk set = reference,riskaware_k3_rate8_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,riskaware_k3_rate8_seed21,1,
+P3 risk drops valid,riskaware_k3_rate8_seed21,1,"(261, [])"
+P4 delivered packets followed the installed path,riskaware_k3_rate8_seed21,1,"('15548', '15548')"
+P4 installed path = reference tree,riskaware_k3_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k3_rate8_seed21,1,
+P0 run ok,riskaware_k3_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,riskaware_k3_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,riskaware_k3_rate8_seed22,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,riskaware_k3_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,riskaware_k3_rate8_seed22,1,"('15810', 15810)"
+P2 high-risk set = reference,riskaware_k3_rate8_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,riskaware_k3_rate8_seed22,1,
+P3 risk drops valid,riskaware_k3_rate8_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,riskaware_k3_rate8_seed22,1,"('15810', '15810')"
+P4 installed path = reference tree,riskaware_k3_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,riskaware_k3_rate8_seed22,1,
+P0 run ok,static_k0_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k0_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,static_k0_rate64_seed20,1,"{'delivered': 126533, 'lost_other': 7, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,static_k0_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,static_k0_rate64_seed20,1,"('126533', 126533)"
+P2 high-risk set = reference,static_k0_rate64_seed20,1,"([], [])"
+P2 hop/degree = reference,static_k0_rate64_seed20,1,
+P3 risk drops valid,static_k0_rate64_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,static_k0_rate64_seed20,1,"('126533', '126533')"
+P4 installed path = reference tree,static_k0_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k0_rate64_seed20,1,
+P0 run ok,static_k0_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k0_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,static_k0_rate64_seed21,1,"{'delivered': 126529, 'lost_other': 11, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,static_k0_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,static_k0_rate64_seed21,1,"('126529', 126529)"
+P2 high-risk set = reference,static_k0_rate64_seed21,1,"([], [])"
+P2 hop/degree = reference,static_k0_rate64_seed21,1,
+P3 risk drops valid,static_k0_rate64_seed21,1,"(0, [])"
+P4 delivered packets followed the installed path,static_k0_rate64_seed21,1,"('126529', '126529')"
+P4 installed path = reference tree,static_k0_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k0_rate64_seed21,1,
+P0 run ok,static_k0_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k0_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,static_k0_rate64_seed22,1,"{'delivered': 126536, 'lost_other': 4, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,static_k0_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,static_k0_rate64_seed22,1,"('126536', 126536)"
+P2 high-risk set = reference,static_k0_rate64_seed22,1,"([], [])"
+P2 hop/degree = reference,static_k0_rate64_seed22,1,
+P3 risk drops valid,static_k0_rate64_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,static_k0_rate64_seed22,1,"('126536', '126536')"
+P4 installed path = reference tree,static_k0_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k0_rate64_seed22,1,
+P0 run ok,static_k0_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k0_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,static_k0_rate8_seed20,1,"{'delivered': 15810, 'risk_drop': 0, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,static_k0_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,static_k0_rate8_seed20,1,"('15810', 15810)"
+P2 high-risk set = reference,static_k0_rate8_seed20,1,"([], [])"
+P2 hop/degree = reference,static_k0_rate8_seed20,1,
+P3 risk drops valid,static_k0_rate8_seed20,1,"(0, [])"
+P4 delivered packets followed the installed path,static_k0_rate8_seed20,1,"('15810', '15810')"
+P4 installed path = reference tree,static_k0_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k0_rate8_seed20,1,
+P0 run ok,static_k0_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k0_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,static_k0_rate8_seed21,1,"{'delivered': 15809, 'lost_other': 1, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,static_k0_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,static_k0_rate8_seed21,1,"('15809', 15809)"
+P2 high-risk set = reference,static_k0_rate8_seed21,1,"([], [])"
+P2 hop/degree = reference,static_k0_rate8_seed21,1,
+P3 risk drops valid,static_k0_rate8_seed21,1,"(0, [])"
+P4 delivered packets followed the installed path,static_k0_rate8_seed21,1,"('15809', '15809')"
+P4 installed path = reference tree,static_k0_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k0_rate8_seed21,1,
+P0 run ok,static_k0_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k0_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,static_k0_rate8_seed22,1,"{'delivered': 15809, 'lost_other': 1, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,static_k0_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,static_k0_rate8_seed22,1,"('15809', 15809)"
+P2 high-risk set = reference,static_k0_rate8_seed22,1,"([], [])"
+P2 hop/degree = reference,static_k0_rate8_seed22,1,
+P3 risk drops valid,static_k0_rate8_seed22,1,"(0, [])"
+P4 delivered packets followed the installed path,static_k0_rate8_seed22,1,"('15809', '15809')"
+P4 installed path = reference tree,static_k0_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k0_rate8_seed22,1,
+P0 run ok,static_k1_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k1_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,static_k1_rate64_seed20,1,"{'risk_drop': 23280, 'delivered': 103258, 'lost_other': 2}"
+P1 delivered + duplicates = sink rx,static_k1_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,static_k1_rate64_seed20,1,"('103258', 103258)"
+P2 high-risk set = reference,static_k1_rate64_seed20,1,"([15], [15])"
+P2 hop/degree = reference,static_k1_rate64_seed20,1,
+P3 risk drops valid,static_k1_rate64_seed20,1,"(23280, [])"
+P4 delivered packets followed the installed path,static_k1_rate64_seed20,1,"('103258', '103258')"
+P4 installed path = reference tree,static_k1_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k1_rate64_seed20,1,
+P0 run ok,static_k1_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k1_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,static_k1_rate64_seed21,1,"{'delivered': 118121, 'risk_drop': 8413, 'lost_other': 6}"
+P1 delivered + duplicates = sink rx,static_k1_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,static_k1_rate64_seed21,1,"('118121', 118121)"
+P2 high-risk set = reference,static_k1_rate64_seed21,1,"([6], [6])"
+P2 hop/degree = reference,static_k1_rate64_seed21,1,
+P3 risk drops valid,static_k1_rate64_seed21,1,"(8413, [])"
+P4 delivered packets followed the installed path,static_k1_rate64_seed21,1,"('118121', '118121')"
+P4 installed path = reference tree,static_k1_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k1_rate64_seed21,1,
+P0 run ok,static_k1_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k1_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,static_k1_rate64_seed22,1,"{'delivered': 109841, 'risk_drop': 16697, 'lost_other': 2}"
+P1 delivered + duplicates = sink rx,static_k1_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,static_k1_rate64_seed22,1,"('109841', 109841)"
+P2 high-risk set = reference,static_k1_rate64_seed22,1,"([0], [0])"
+P2 hop/degree = reference,static_k1_rate64_seed22,1,
+P3 risk drops valid,static_k1_rate64_seed22,1,"(16697, [])"
+P4 delivered packets followed the installed path,static_k1_rate64_seed22,1,"('109841', '109841')"
+P4 installed path = reference tree,static_k1_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k1_rate64_seed22,1,
+P0 run ok,static_k1_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k1_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,static_k1_rate8_seed20,1,"{'risk_drop': 2873, 'delivered': 12937, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,static_k1_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,static_k1_rate8_seed20,1,"('12937', 12937)"
+P2 high-risk set = reference,static_k1_rate8_seed20,1,"([15], [15])"
+P2 hop/degree = reference,static_k1_rate8_seed20,1,
+P3 risk drops valid,static_k1_rate8_seed20,1,"(2873, [])"
+P4 delivered packets followed the installed path,static_k1_rate8_seed20,1,"('12937', '12937')"
+P4 installed path = reference tree,static_k1_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k1_rate8_seed20,1,
+P0 run ok,static_k1_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k1_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,static_k1_rate8_seed21,1,"{'delivered': 14741, 'risk_drop': 1068, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,static_k1_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,static_k1_rate8_seed21,1,"('14741', 14741)"
+P2 high-risk set = reference,static_k1_rate8_seed21,1,"([6], [6])"
+P2 hop/degree = reference,static_k1_rate8_seed21,1,
+P3 risk drops valid,static_k1_rate8_seed21,1,"(1068, [])"
+P4 delivered packets followed the installed path,static_k1_rate8_seed21,1,"('14741', '14741')"
+P4 installed path = reference tree,static_k1_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k1_rate8_seed21,1,
+P0 run ok,static_k1_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k1_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,static_k1_rate8_seed22,1,"{'delivered': 13762, 'risk_drop': 2047, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,static_k1_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,static_k1_rate8_seed22,1,"('13762', 13762)"
+P2 high-risk set = reference,static_k1_rate8_seed22,1,"([0], [0])"
+P2 hop/degree = reference,static_k1_rate8_seed22,1,
+P3 risk drops valid,static_k1_rate8_seed22,1,"(2047, [])"
+P4 delivered packets followed the installed path,static_k1_rate8_seed22,1,"('13762', '13762')"
+P4 installed path = reference tree,static_k1_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k1_rate8_seed22,1,
+P0 run ok,static_k2_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k2_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,static_k2_rate64_seed20,1,"{'risk_drop': 33760, 'delivered': 92780, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,static_k2_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,static_k2_rate64_seed20,1,"('92780', 92780)"
+P2 high-risk set = reference,static_k2_rate64_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,static_k2_rate64_seed20,1,
+P3 risk drops valid,static_k2_rate64_seed20,1,"(33760, [])"
+P4 delivered packets followed the installed path,static_k2_rate64_seed20,1,"('92780', '92780')"
+P4 installed path = reference tree,static_k2_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k2_rate64_seed20,1,
+P0 run ok,static_k2_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k2_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,static_k2_rate64_seed21,1,"{'delivered': 109732, 'lost_other': 10, 'risk_drop': 16798}"
+P1 delivered + duplicates = sink rx,static_k2_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,static_k2_rate64_seed21,1,"('109732', 109732)"
+P2 high-risk set = reference,static_k2_rate64_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,static_k2_rate64_seed21,1,
+P3 risk drops valid,static_k2_rate64_seed21,1,"(16798, [])"
+P4 delivered packets followed the installed path,static_k2_rate64_seed21,1,"('109732', '109732')"
+P4 installed path = reference tree,static_k2_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k2_rate64_seed21,1,
+P0 run ok,static_k2_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k2_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,static_k2_rate64_seed22,1,"{'delivered': 97218, 'risk_drop': 29321, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,static_k2_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,static_k2_rate64_seed22,1,"('97218', 97218)"
+P2 high-risk set = reference,static_k2_rate64_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,static_k2_rate64_seed22,1,
+P3 risk drops valid,static_k2_rate64_seed22,1,"(29321, [])"
+P4 delivered packets followed the installed path,static_k2_rate64_seed22,1,"('97218', '97218')"
+P4 installed path = reference tree,static_k2_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k2_rate64_seed22,1,
+P0 run ok,static_k2_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k2_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,static_k2_rate8_seed20,1,"{'risk_drop': 4182, 'delivered': 11628, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,static_k2_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,static_k2_rate8_seed20,1,"('11628', 11628)"
+P2 high-risk set = reference,static_k2_rate8_seed20,1,"([9, 15], [9, 15])"
+P2 hop/degree = reference,static_k2_rate8_seed20,1,
+P3 risk drops valid,static_k2_rate8_seed20,1,"(4182, [])"
+P4 delivered packets followed the installed path,static_k2_rate8_seed20,1,"('11628', '11628')"
+P4 installed path = reference tree,static_k2_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k2_rate8_seed20,1,
+P0 run ok,static_k2_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k2_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,static_k2_rate8_seed21,1,"{'delivered': 13701, 'risk_drop': 2108, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,static_k2_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,static_k2_rate8_seed21,1,"('13701', 13701)"
+P2 high-risk set = reference,static_k2_rate8_seed21,1,"([0, 6], [0, 6])"
+P2 hop/degree = reference,static_k2_rate8_seed21,1,
+P3 risk drops valid,static_k2_rate8_seed21,1,"(2108, [])"
+P4 delivered packets followed the installed path,static_k2_rate8_seed21,1,"('13701', '13701')"
+P4 installed path = reference tree,static_k2_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k2_rate8_seed21,1,
+P0 run ok,static_k2_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k2_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,static_k2_rate8_seed22,1,"{'delivered': 12150, 'risk_drop': 3659, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,static_k2_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,static_k2_rate8_seed22,1,"('12150', 12150)"
+P2 high-risk set = reference,static_k2_rate8_seed22,1,"([0, 8], [0, 8])"
+P2 hop/degree = reference,static_k2_rate8_seed22,1,
+P3 risk drops valid,static_k2_rate8_seed22,1,"(3659, [])"
+P4 delivered packets followed the installed path,static_k2_rate8_seed22,1,"('12150', '12150')"
+P4 installed path = reference tree,static_k2_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k2_rate8_seed22,1,
+P0 run ok,static_k3_rate64_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k3_rate64_seed20,1,"(126540, 126540)"
+P1 fates partition,static_k3_rate64_seed20,1,"{'risk_drop': 40075, 'delivered': 86465, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,static_k3_rate64_seed20,1,
+P1 FlowMonitor rx <= sink,static_k3_rate64_seed20,1,"('86465', 86465)"
+P2 high-risk set = reference,static_k3_rate64_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,static_k3_rate64_seed20,1,
+P3 risk drops valid,static_k3_rate64_seed20,1,"(40075, [])"
+P4 delivered packets followed the installed path,static_k3_rate64_seed20,1,"('86465', '86465')"
+P4 installed path = reference tree,static_k3_rate64_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k3_rate64_seed20,1,
+P0 run ok,static_k3_rate64_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k3_rate64_seed21,1,"(126540, 126540)"
+P1 fates partition,static_k3_rate64_seed21,1,"{'delivered': 105528, 'risk_drop': 21007, 'lost_other': 5}"
+P1 delivered + duplicates = sink rx,static_k3_rate64_seed21,1,
+P1 FlowMonitor rx <= sink,static_k3_rate64_seed21,1,"('105528', 105528)"
+P2 high-risk set = reference,static_k3_rate64_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,static_k3_rate64_seed21,1,
+P3 risk drops valid,static_k3_rate64_seed21,1,"(21007, [])"
+P4 delivered packets followed the installed path,static_k3_rate64_seed21,1,"('105528', '105528')"
+P4 installed path = reference tree,static_k3_rate64_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k3_rate64_seed21,1,
+P0 run ok,static_k3_rate64_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k3_rate64_seed22,1,"(126540, 126540)"
+P1 fates partition,static_k3_rate64_seed22,1,"{'delivered': 90793, 'risk_drop': 35744, 'lost_other': 3}"
+P1 delivered + duplicates = sink rx,static_k3_rate64_seed22,1,
+P1 FlowMonitor rx <= sink,static_k3_rate64_seed22,1,"('90793', 90793)"
+P2 high-risk set = reference,static_k3_rate64_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,static_k3_rate64_seed22,1,
+P3 risk drops valid,static_k3_rate64_seed22,1,"(35744, [])"
+P4 delivered packets followed the installed path,static_k3_rate64_seed22,1,"('90793', '90793')"
+P4 installed path = reference tree,static_k3_rate64_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k3_rate64_seed22,1,
+P0 run ok,static_k3_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,static_k3_rate8_seed20,1,"(15810, 15810)"
+P1 fates partition,static_k3_rate8_seed20,1,"{'risk_drop': 4970, 'delivered': 10840, 'lost_other': 0}"
+P1 delivered + duplicates = sink rx,static_k3_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,static_k3_rate8_seed20,1,"('10840', 10840)"
+P2 high-risk set = reference,static_k3_rate8_seed20,1,"([9, 14, 15], [9, 14, 15])"
+P2 hop/degree = reference,static_k3_rate8_seed20,1,
+P3 risk drops valid,static_k3_rate8_seed20,1,"(4970, [])"
+P4 delivered packets followed the installed path,static_k3_rate8_seed20,1,"('10840', '10840')"
+P4 installed path = reference tree,static_k3_rate8_seed20,1,
+P6 unicast data HE_SU HeMcs0,static_k3_rate8_seed20,1,
+P0 run ok,static_k3_rate8_seed21,1,"(0, 0, [])"
+P1 path records = app tx,static_k3_rate8_seed21,1,"(15810, 15810)"
+P1 fates partition,static_k3_rate8_seed21,1,"{'delivered': 13169, 'risk_drop': 2640, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,static_k3_rate8_seed21,1,
+P1 FlowMonitor rx <= sink,static_k3_rate8_seed21,1,"('13169', 13169)"
+P2 high-risk set = reference,static_k3_rate8_seed21,1,"([0, 6, 9], [0, 6, 9])"
+P2 hop/degree = reference,static_k3_rate8_seed21,1,
+P3 risk drops valid,static_k3_rate8_seed21,1,"(2640, [])"
+P4 delivered packets followed the installed path,static_k3_rate8_seed21,1,"('13169', '13169')"
+P4 installed path = reference tree,static_k3_rate8_seed21,1,
+P6 unicast data HE_SU HeMcs0,static_k3_rate8_seed21,1,
+P0 run ok,static_k3_rate8_seed22,1,"(0, 0, [])"
+P1 path records = app tx,static_k3_rate8_seed22,1,"(15810, 15810)"
+P1 fates partition,static_k3_rate8_seed22,1,"{'delivered': 11351, 'risk_drop': 4458, 'lost_other': 1}"
+P1 delivered + duplicates = sink rx,static_k3_rate8_seed22,1,
+P1 FlowMonitor rx <= sink,static_k3_rate8_seed22,1,"('11351', 11351)"
+P2 high-risk set = reference,static_k3_rate8_seed22,1,"([0, 4, 8], [0, 4, 8])"
+P2 hop/degree = reference,static_k3_rate8_seed22,1,
+P3 risk drops valid,static_k3_rate8_seed22,1,"(4458, [])"
+P4 delivered packets followed the installed path,static_k3_rate8_seed22,1,"('11351', '11351')"
+P4 installed path = reference tree,static_k3_rate8_seed22,1,
+P6 unicast data HE_SU HeMcs0,static_k3_rate8_seed22,1,
+P2 same high-risk set across protocols and loads,seed 20 k 0,1,[()]
+P2 same high-risk set across protocols and loads,seed 21 k 0,1,[()]
+P2 same high-risk set across protocols and loads,seed 22 k 0,1,[()]
+P2 same high-risk set across protocols and loads,seed 20 k 1,1,"[(15,)]"
+P2 same high-risk set across protocols and loads,seed 21 k 1,1,"[(6,)]"
+P2 same high-risk set across protocols and loads,seed 22 k 1,1,"[(0,)]"
+P2 same high-risk set across protocols and loads,seed 20 k 2,1,"[(9, 15)]"
+P2 same high-risk set across protocols and loads,seed 21 k 2,1,"[(0, 6)]"
+P2 same high-risk set across protocols and loads,seed 22 k 2,1,"[(0, 8)]"
+P2 same high-risk set across protocols and loads,seed 20 k 3,1,"[(9, 14, 15)]"
+P2 same high-risk set across protocols and loads,seed 21 k 3,1,"[(0, 6, 9)]"
+P2 same high-risk set across protocols and loads,seed 22 k 3,1,"[(0, 4, 8)]"
+P5 one scheduled send count for every source,seed 20 rate 64,1,[4218]
+P5 identical first-send times across runs,seed 20 rate 64,1,1
+P5 send count <= nominal,aodv_k0_rate64_seed20,1,
+P5 send count <= nominal,aodv_k1_rate64_seed20,1,
+P5 send count <= nominal,aodv_k2_rate64_seed20,1,
+P5 send count <= nominal,aodv_k3_rate64_seed20,1,
+P5 send count <= nominal,olsr_k0_rate64_seed20,1,
+P5 send count <= nominal,olsr_k1_rate64_seed20,1,
+P5 send count <= nominal,olsr_k2_rate64_seed20,1,
+P5 send count <= nominal,olsr_k3_rate64_seed20,1,
+P5 send count <= nominal,riskaware_k0_rate64_seed20,1,
+P5 send count <= nominal,riskaware_k1_rate64_seed20,1,
+P5 send count <= nominal,riskaware_k2_rate64_seed20,1,
+P5 send count <= nominal,riskaware_k3_rate64_seed20,1,
+P5 send count <= nominal,static_k0_rate64_seed20,1,
+P5 send count <= nominal,static_k1_rate64_seed20,1,
+P5 send count <= nominal,static_k2_rate64_seed20,1,
+P5 send count <= nominal,static_k3_rate64_seed20,1,
+P5 one scheduled send count for every source,seed 21 rate 64,1,[4218]
+P5 identical first-send times across runs,seed 21 rate 64,1,1
+P5 send count <= nominal,aodv_k0_rate64_seed21,1,
+P5 send count <= nominal,aodv_k1_rate64_seed21,1,
+P5 send count <= nominal,aodv_k2_rate64_seed21,1,
+P5 send count <= nominal,aodv_k3_rate64_seed21,1,
+P5 send count <= nominal,olsr_k0_rate64_seed21,1,
+P5 send count <= nominal,olsr_k1_rate64_seed21,1,
+P5 send count <= nominal,olsr_k2_rate64_seed21,1,
+P5 send count <= nominal,olsr_k3_rate64_seed21,1,
+P5 send count <= nominal,riskaware_k0_rate64_seed21,1,
+P5 send count <= nominal,riskaware_k1_rate64_seed21,1,
+P5 send count <= nominal,riskaware_k2_rate64_seed21,1,
+P5 send count <= nominal,riskaware_k3_rate64_seed21,1,
+P5 send count <= nominal,static_k0_rate64_seed21,1,
+P5 send count <= nominal,static_k1_rate64_seed21,1,
+P5 send count <= nominal,static_k2_rate64_seed21,1,
+P5 send count <= nominal,static_k3_rate64_seed21,1,
+P5 one scheduled send count for every source,seed 22 rate 64,1,[4218]
+P5 identical first-send times across runs,seed 22 rate 64,1,1
+P5 send count <= nominal,aodv_k0_rate64_seed22,1,
+P5 send count <= nominal,aodv_k1_rate64_seed22,1,
+P5 send count <= nominal,aodv_k2_rate64_seed22,1,
+P5 send count <= nominal,aodv_k3_rate64_seed22,1,
+P5 send count <= nominal,olsr_k0_rate64_seed22,1,
+P5 send count <= nominal,olsr_k1_rate64_seed22,1,
+P5 send count <= nominal,olsr_k2_rate64_seed22,1,
+P5 send count <= nominal,olsr_k3_rate64_seed22,1,
+P5 send count <= nominal,riskaware_k0_rate64_seed22,1,
+P5 send count <= nominal,riskaware_k1_rate64_seed22,1,
+P5 send count <= nominal,riskaware_k2_rate64_seed22,1,
+P5 send count <= nominal,riskaware_k3_rate64_seed22,1,
+P5 send count <= nominal,static_k0_rate64_seed22,1,
+P5 send count <= nominal,static_k1_rate64_seed22,1,
+P5 send count <= nominal,static_k2_rate64_seed22,1,
+P5 send count <= nominal,static_k3_rate64_seed22,1,
+P5 one scheduled send count for every source,seed 20 rate 8,1,[527]
+P5 identical first-send times across runs,seed 20 rate 8,1,1
+P5 send count <= nominal,aodv_k0_rate8_seed20,1,
+P5 send count <= nominal,aodv_k1_rate8_seed20,1,
+P5 send count <= nominal,aodv_k2_rate8_seed20,1,
+P5 send count <= nominal,aodv_k3_rate8_seed20,1,
+P5 send count <= nominal,olsr_k0_rate8_seed20,1,
+P5 send count <= nominal,olsr_k1_rate8_seed20,1,
+P5 send count <= nominal,olsr_k2_rate8_seed20,1,
+P5 send count <= nominal,olsr_k3_rate8_seed20,1,
+P5 send count <= nominal,riskaware_k0_rate8_seed20,1,
+P5 send count <= nominal,riskaware_k1_rate8_seed20,1,
+P5 send count <= nominal,riskaware_k2_rate8_seed20,1,
+P5 send count <= nominal,riskaware_k3_rate8_seed20,1,
+P5 send count <= nominal,static_k0_rate8_seed20,1,
+P5 send count <= nominal,static_k1_rate8_seed20,1,
+P5 send count <= nominal,static_k2_rate8_seed20,1,
+P5 send count <= nominal,static_k3_rate8_seed20,1,
+P5 one scheduled send count for every source,seed 21 rate 8,1,[527]
+P5 identical first-send times across runs,seed 21 rate 8,1,1
+P5 send count <= nominal,aodv_k0_rate8_seed21,1,
+P5 send count <= nominal,aodv_k1_rate8_seed21,1,
+P5 send count <= nominal,aodv_k2_rate8_seed21,1,
+P5 send count <= nominal,aodv_k3_rate8_seed21,1,
+P5 send count <= nominal,olsr_k0_rate8_seed21,1,
+P5 send count <= nominal,olsr_k1_rate8_seed21,1,
+P5 send count <= nominal,olsr_k2_rate8_seed21,1,
+P5 send count <= nominal,olsr_k3_rate8_seed21,1,
+P5 send count <= nominal,riskaware_k0_rate8_seed21,1,
+P5 send count <= nominal,riskaware_k1_rate8_seed21,1,
+P5 send count <= nominal,riskaware_k2_rate8_seed21,1,
+P5 send count <= nominal,riskaware_k3_rate8_seed21,1,
+P5 send count <= nominal,static_k0_rate8_seed21,1,
+P5 send count <= nominal,static_k1_rate8_seed21,1,
+P5 send count <= nominal,static_k2_rate8_seed21,1,
+P5 send count <= nominal,static_k3_rate8_seed21,1,
+P5 one scheduled send count for every source,seed 22 rate 8,1,[527]
+P5 identical first-send times across runs,seed 22 rate 8,1,1
+P5 send count <= nominal,aodv_k0_rate8_seed22,1,
+P5 send count <= nominal,aodv_k1_rate8_seed22,1,
+P5 send count <= nominal,aodv_k2_rate8_seed22,1,
+P5 send count <= nominal,aodv_k3_rate8_seed22,1,
+P5 send count <= nominal,olsr_k0_rate8_seed22,1,
+P5 send count <= nominal,olsr_k1_rate8_seed22,1,
+P5 send count <= nominal,olsr_k2_rate8_seed22,1,
+P5 send count <= nominal,olsr_k3_rate8_seed22,1,
+P5 send count <= nominal,riskaware_k0_rate8_seed22,1,
+P5 send count <= nominal,riskaware_k1_rate8_seed22,1,
+P5 send count <= nominal,riskaware_k2_rate8_seed22,1,
+P5 send count <= nominal,riskaware_k3_rate8_seed22,1,
+P5 send count <= nominal,static_k0_rate8_seed22,1,
+P5 send count <= nominal,static_k1_rate8_seed22,1,
+P5 send count <= nominal,static_k2_rate8_seed22,1,
+P5 send count <= nominal,static_k3_rate8_seed22,1,
+P4 riskaware k=0 packet paths = static k=0,rate 64 seed 20,1,
+P4 riskaware k=0 packet paths = static k=0,rate 64 seed 21,1,
+P4 riskaware k=0 packet paths = static k=0,rate 64 seed 22,1,
+P4 riskaware k=0 packet paths = static k=0,rate 8 seed 20,1,
+P4 riskaware k=0 packet paths = static k=0,rate 8 seed 21,1,
+P4 riskaware k=0 packet paths = static k=0,rate 8 seed 22,1,

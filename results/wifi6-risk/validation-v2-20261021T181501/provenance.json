@@ -1,0 +1,9 @@
+{
+ "version": "v2",
+ "compare_to": "results/wifi6-risk/validation-20261021T174215",
+ "new_source": "/Users/pinpuk/ns-3-dev/scratch/iot-network-wifi6-risk-v2.cc",
+ "new_source_sha256": "33b350ab5f790d7347fbd81b3b010a1d455af73ebd0a28ce187eca7e0633311b",
+ "new_binary_sha256": "d909f6de6233dfad80700b37beb71d4a62c2cd38f223b6acc70cbb40f1bb2407",
+ "arp_binary_sha256": "2aa4d5e5172ba463f12951034cd3451a6485f17e854a57822d36385935ae845e",
+ "started": "2026-10-21T18:15:01+0700"
+}

@@ -1,0 +1,19 @@
+quantity,Block Ack fix off,Block Ack fix on (original)
+Nominal PDR (%),53.21,55.13
+Gateway airtime,0.691,0.697
+Broadcast frames,"208,899","202,494"
+Unicast data PSDUs,"1,393,752","1,380,871"
+BlockAckRequest PSDUs,"177,748","183,074"
+MPDUs expired,"162,246","157,691"
+"Packets > 10 s (max delay, s)",3 (48.0),0 (9.8)
+Block Ack fix events,0,1692
+AODV link-failure events,"163,075","161,253"
+"— before traffic, 0–30 s (rate)","6,865 (229 s⁻¹)","6,865 (229 s⁻¹)"
+"— during traffic, 30–300 s (rate)","156,210 (579 s⁻¹)","154,388 (572 s⁻¹)"
+RERR to active precursors,"118,194","117,736"
+RERR receptions,"1,247,226","1,237,296"
+RREQ originations (to gateway / other),"5,458 (2,283 / 3,175)","5,350 (2,254 / 3,096)"
+RREQ receptions (per origination),"3,550,283 (650)","3,462,743 (647)"
+Gratuitous RREPs by intermediate nodes,"108,482","106,664"
+Hellos sent,"5,857","5,371"
+RREQ originations in first 32 ms of 512 ms CBR cycle (uniform 6.25 %),38.8 %,39.9 %

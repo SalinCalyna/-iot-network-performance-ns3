@@ -1,0 +1,11 @@
+status,statement,evidence
+Confirmed,AODV's deficit is present at k = 0 and nearly constant over k = 0–3 → not caused by the risk model,"T-W5a, T-W6a"
+Confirmed,"Block Ack fix off: PDR 53.21 % vs 55.13 %, airtime and BARs unchanged → not caused by the Block Ack modification (seed 20 only)",T-W6b
+Confirmed,"Same data traffic under OLSR: 99.6 % PDR, airtime 0.40; AODV at N = 30 is 99.99 % (8 kbps) and 99.76–99.95 % (64 kbps, 2.4× total load) → not data load alone","T-W6a, T-W3"
+Confirmed,ns-3 AODV marks a neighbour broken on every dropped unicast MPDU regardless of drop reason (queue-lifetime expiry included),aodv-routing-protocol.cc:784-791; aodv-neighbor.cc:167-179
+Confirmed,"Control activity is driven by link failures (≈161k) and RERRs (≈118k, 1.24M receptions); RREQ originations are few (5.4k) but each flood is received ≈650 times (3.46M receptions), the largest control component by receptions",T-W6b
+Confirmed,"Link failures 229 s⁻¹ before traffic, 572 s⁻¹ from the first 10 s of traffic, flat to 300 s","T-W6b, F-W6"
+Confirmed,RREQ originations concentrate at synchronized send instants (39.9 % in first 32 ms),"T-W6b, F-W6"
+Hypothesis,Self-reinforcing loop: contention → MPDU expiry → link failure → RERR + rediscovery → more airtime → more expiry,not isolated experimentally
+Hypothesis,Synchronized CBR and node density amplify the loop,no desynchronization option; not tested
+Unknown,Split of post-traffic link failures between MAC-drop and Hello-expiry causes; unicast vs broadcast share of expired MPDUs,not logged separately

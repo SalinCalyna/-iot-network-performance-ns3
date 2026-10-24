@@ -1,0 +1,17 @@
+pilot-n30-v2-20261024T054949: 96 runs; checks 1086 passed, 0 failed
+  PASS  P0 run ok: 96 passed, 0 failed
+  PASS  P1 FlowMonitor rx <= sink: 96 passed, 0 failed
+  PASS  P1 delivered + duplicates = sink rx: 96 passed, 0 failed
+  PASS  P1 fates partition: 96 passed, 0 failed
+  PASS  P1 path records = app tx: 96 passed, 0 failed
+  PASS  P2 high-risk set = reference: 96 passed, 0 failed
+  PASS  P2 hop/degree = reference: 96 passed, 0 failed
+  PASS  P2 same high-risk set across protocols and loads: 12 passed, 0 failed
+  PASS  P3 risk drops valid: 96 passed, 0 failed
+  PASS  P4 delivered packets followed the installed path: 48 passed, 0 failed
+  PASS  P4 installed path = reference tree: 48 passed, 0 failed
+  PASS  P4 riskaware k=0 packet paths = static k=0: 6 passed, 0 failed
+  PASS  P5 identical first-send times across runs: 6 passed, 0 failed
+  PASS  P5 one scheduled send count for every source: 6 passed, 0 failed
+  PASS  P5 send count <= nominal: 96 passed, 0 failed
+  PASS  P6 unicast data HE_SU HeMcs0: 96 passed, 0 failed

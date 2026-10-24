@@ -1,0 +1,31 @@
+{
+ "run_id": "aodv_k0_rate8_seed20",
+ "argv": [
+  "/Users/pinpuk/ns-3-dev/build/scratch/ns3-dev-iot-network-wifi6-risk-v2-default",
+  "--standard=80211ax",
+  "--nSensors=100",
+  "--trafficLevel=high",
+  "--arpPrepopulate=1",
+  "--riskStudy=1",
+  "--perPacketTrace=1",
+  "--highRiskDropProb=0.5",
+  "--lowRiskDropProb=0",
+  "--riskBeta=10",
+  "--riskSelect=subtree",
+  "--riskDropSeed=1",
+  "--protocol=aodv",
+  "--numHighRisk=0",
+  "--offeredRateKbps=8",
+  "--seed=20",
+  "--outDir=results/wifi6-risk/aodv-diag-n100-20261024T204129/bafix1/runs/aodv_k0_rate8_seed20"
+ ],
+ "env_NS_LOG": "AodvRoutingProtocol=level_logic|prefix_time|prefix_node",
+ "exit_code": 0,
+ "counter_exit_code": 0,
+ "wall_sec": 2756.8,
+ "stderr_bytes": 0,
+ "binary_sha256": "d909f6de6233dfad80700b37beb71d4a62c2cd38f223b6acc70cbb40f1bb2407",
+ "source_sha256": "33b350ab5f790d7347fbd81b3b010a1d455af73ebd0a28ce187eca7e0633311b",
+ "counter_sha256": "80d29b943362fd9703f43d5faf19b461a5127c72acd547003cf1bb4d5a8681a7",
+ "finished": "2026-10-24T21:27:26+0700"
+}

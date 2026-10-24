@@ -1,0 +1,21 @@
+metric,AODV,OLSR
+"Nominal PDR (%), k = 0","56.60 ± 1.76 [52.23, 60.97]","99.62 ± 0.04 [99.53, 99.71]"
+"Nominal PDR (%), means over k = 0–3",56.60–58.08,98.64–99.62
+Throughput (kbps),"477.2 ± 14.8 [440.4, 514.1]","840.0 ± 0.3 [839.3, 840.8]"
+Gateway airtime,"0.690 ± 0.008 [0.670, 0.710]","0.400 ± 0.038 [0.305, 0.495]"
+Delay p50 (ms),"206 ± 16 [167, 245]","144 ± 21 [91, 196]"
+Delay p95 (ms),"675 ± 51 [548, 802]","285 ± 35 [198, 373]"
+Delay p99 (ms),"973 ± 23 [916, 1029]","329 ± 43 [223, 435]"
+Hops (delivered),"1.73 ± 0.13 [1.41, 2.04]","1.40 ± 0.08 [1.20, 1.59]"
+Broadcast frames per run,"202,494–220,277","19,370–20,685"
+Unicast data PSDUs per run,"1,254,820–1,419,053","403,036–494,777"
+BlockAckRequest PSDUs per run,"144,556–183,074","961–1,272"
+MPDUs expired (queue lifetime) per run,"135,658–165,918",0–0
+IP no-route drops per run,675–829,0–0
+Path changes per source per minute,51.8–57.5,6.9–11.2
+Packets on looping paths per run,84–358,0–12
+Lost packets not forwarded by any relay (% of lost),49.8–55.1,75.3–80.4
+"PDR of packets sent per 30 s window, min–max over windows and seeds (%)",39.7–65.8,98.9–100.0
+"PDR of sources 1 hop from gateway (90 m graph, %)",68.8–78.6,99.9–99.9
+"PDR of sources ≥ 2 hops from gateway (90 m graph, %)",42.9–47.8,99.4–99.5
+"Reference: N = 30, 8 kbps, k = 0 nominal PDR (%), n = 10","99.99 ± 0.02 [99.98, 100.00]","99.99 ± 0.00 [99.99, 100.00]"

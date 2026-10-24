@@ -1,0 +1,14 @@
+test,subject,passed,detail
+P0 run ok,aodv_k0_rate8_seed20,1,"(0, 0, [])"
+P1 path records = app tx,aodv_k0_rate8_seed20,1,"(52700, 52700)"
+P1 fates partition,aodv_k0_rate8_seed20,1,"{'lost_other': 23645, 'delivered': 29055, 'risk_drop': 0}"
+P1 delivered + duplicates = sink rx,aodv_k0_rate8_seed20,1,
+P1 FlowMonitor rx <= sink,aodv_k0_rate8_seed20,1,"('29055', 29055)"
+P2 high-risk set = reference,aodv_k0_rate8_seed20,1,"([], [])"
+P2 hop/degree = reference,aodv_k0_rate8_seed20,1,
+P3 risk drops valid,aodv_k0_rate8_seed20,1,"(0, [])"
+P6 unicast data HE_SU HeMcs0,aodv_k0_rate8_seed20,1,
+P2 same high-risk set across protocols and loads,seed 20 k 0,1,[()]
+P5 one scheduled send count for every source,seed 20 rate 8,1,[527]
+P5 identical first-send times across runs,seed 20 rate 8,1,1
+P5 send count <= nominal,aodv_k0_rate8_seed20,1,

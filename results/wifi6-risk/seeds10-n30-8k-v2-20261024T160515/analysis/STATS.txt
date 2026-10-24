@@ -1,0 +1,36 @@
+seeds10-n30-8k-v2-20261024T160515: rate 8 kbps, 160 runs
+k=0 pdr_nominal_pct      static 99.66 riskaware 99.66 diff +0 [+0, +0] higher/equal/lower 0/10/0 t p=1 Wilcoxon p=nan sign-flip p=1
+k=0 exposure_rate_pct    static 0 riskaware 0 diff +0 [+0, +0] higher/equal/lower 0/10/0 t p=1 Wilcoxon p=nan sign-flip p=1
+k=1 pdr_nominal_pct      static 89.21 riskaware 99.67 diff +10.45 [+8.199, +12.71] higher/equal/lower 10/0/0 t p=2.41e-06 Wilcoxon p=0.00195 (Holm 0.0117) sign-flip p=0.00195
+k=1 sink_pdr_pct         static 89.21 riskaware 99.67 diff +10.45 [+8.199, +12.71] higher/equal/lower 10/0/0 t p=2.41e-06 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=1 sink_thr_kbps        static 225.7 riskaware 252.1 diff +26.45 [+20.74, +32.15] higher/equal/lower 10/0/0 t p=2.41e-06 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=1 delay_p50_ms         static 23.65 riskaware 25.82 diff +2.176 [+1.721, +2.63] higher/equal/lower 10/0/0 t p=1.84e-06 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=1 delay_p95_ms         static 48.03 riskaware 52.15 diff +4.114 [+3.516, +4.712] higher/equal/lower 10/0/0 t p=8.2e-08 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=1 delay_p99_ms         static 57.79 riskaware 61.03 diff +3.237 [+2.403, +4.07] higher/equal/lower 10/0/0 t p=1.04e-05 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=1 mean_hops_delivered  static 1.594 riskaware 1.662 diff +0.06819 [+0.04034, +0.09604] higher/equal/lower 10/0/0 t p=0.000362 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=1 exposure_rate_pct    static 21 riskaware 0 diff -21 [-25.64, -16.36] higher/equal/lower 0/0/10 t p=2.95e-06 Wilcoxon p=0.00195 (Holm 0.0117) sign-flip p=0.00195
+k=1 risk_dropped_pkts    static 1652 riskaware 0 diff -1652 [-2009, -1296] higher/equal/lower 0/0/10 t p=2.42e-06 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=1 other_lost_pkts      static 53.2 riskaware 52.8 diff -0.4 [-0.9002, +0.1002] higher/equal/lower 0/7/3 t p=0.104 Wilcoxon p=0.25 sign-flip p=0.25
+k=1 gw_airtime           static 0.05398 riskaware 0.05871 diff +0.004727 [+0.003892, +0.005561] higher/equal/lower 10/0/0 t p=4.41e-07 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 pdr_nominal_pct      static 81.5 riskaware 99.5 diff +18 [+14.99, +21] higher/equal/lower 10/0/0 t p=2.72e-07 Wilcoxon p=0.00195 (Holm 0.0117) sign-flip p=0.00195
+k=2 sink_pdr_pct         static 81.5 riskaware 99.5 diff +18 [+14.99, +21] higher/equal/lower 10/0/0 t p=2.72e-07 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 sink_thr_kbps        static 206.2 riskaware 251.7 diff +45.52 [+37.92, +53.12] higher/equal/lower 10/0/0 t p=2.72e-07 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 delay_p50_ms         static 22.25 riskaware 26.08 diff +3.829 [+3.091, +4.568] higher/equal/lower 10/0/0 t p=9.35e-07 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 delay_p95_ms         static 45.45 riskaware 52.24 diff +6.792 [+4.476, +9.109] higher/equal/lower 10/0/0 t p=9.56e-05 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 delay_p99_ms         static 55.33 riskaware 61.17 diff +5.839 [+3.82, +7.859] higher/equal/lower 10/0/0 t p=0.000106 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 mean_hops_delivered  static 1.536 riskaware 1.721 diff +0.1849 [+0.09668, +0.2732] higher/equal/lower 10/0/0 t p=0.00106 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 exposure_rate_pct    static 36.33 riskaware 0.3333 diff -36 [-42.13, -29.86] higher/equal/lower 0/0/10 t p=3.25e-07 Wilcoxon p=0.00195 (Holm 0.0117) sign-flip p=0.00195
+k=2 risk_dropped_pkts    static 2871 riskaware 26.2 diff -2845 [-3320, -2370] higher/equal/lower 0/0/10 t p=2.72e-07 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=2 other_lost_pkts      static 53.1 riskaware 52.8 diff -0.3 [-0.6456, +0.04555] higher/equal/lower 0/7/3 t p=0.0811 Wilcoxon p=0.25 sign-flip p=0.25
+k=2 gw_airtime           static 0.05081 riskaware 0.05997 diff +0.00916 [+0.006869, +0.01145] higher/equal/lower 10/0/0 t p=8.18e-06 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 pdr_nominal_pct      static 76.32 riskaware 99.5 diff +23.18 [+19.81, +26.54] higher/equal/lower 10/0/0 t p=8.18e-08 Wilcoxon p=0.00195 (Holm 0.0117) sign-flip p=0.00195
+k=3 sink_pdr_pct         static 76.32 riskaware 99.5 diff +23.18 [+19.81, +26.54] higher/equal/lower 10/0/0 t p=8.18e-08 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 sink_thr_kbps        static 193.1 riskaware 251.7 diff +58.63 [+50.11, +67.15] higher/equal/lower 10/0/0 t p=8.18e-08 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 delay_p50_ms         static 21.33 riskaware 26.28 diff +4.948 [+3.987, +5.909] higher/equal/lower 10/0/0 t p=9.94e-07 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 delay_p95_ms         static 43.94 riskaware 53.06 diff +9.122 [+6.397, +11.85] higher/equal/lower 10/0/0 t p=3.43e-05 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 delay_p99_ms         static 54.03 riskaware 62.61 diff +8.58 [+6.424, +10.74] higher/equal/lower 10/0/0 t p=8.51e-06 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 mean_hops_delivered  static 1.498 riskaware 1.748 diff +0.2493 [+0.1557, +0.3428] higher/equal/lower 10/0/0 t p=0.000196 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 exposure_rate_pct    static 46.67 riskaware 0.3327 diff -46.33 [-53.21, -39.46] higher/equal/lower 0/0/10 t p=9.83e-08 Wilcoxon p=0.00195 (Holm 0.0117) sign-flip p=0.00195
+k=3 risk_dropped_pkts    static 3690 riskaware 26.1 diff -3664 [-4196, -3131] higher/equal/lower 0/0/10 t p=8.18e-08 Wilcoxon p=0.00195 sign-flip p=0.00195
+k=3 other_lost_pkts      static 53.1 riskaware 52.9 diff -0.2 [-0.6524, +0.2524] higher/equal/lower 1/6/3 t p=0.343 Wilcoxon p=0.625 sign-flip p=0.625
+k=3 gw_airtime           static 0.04889 riskaware 0.06142 diff +0.01253 [+0.009118, +0.01594] higher/equal/lower 10/0/0 t p=1.63e-05 Wilcoxon p=0.00195 sign-flip p=0.00195

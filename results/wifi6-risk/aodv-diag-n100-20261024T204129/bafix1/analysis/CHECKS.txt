@@ -1,0 +1,14 @@
+bafix1: 1 runs; checks 13 passed, 0 failed
+  PASS  P0 run ok: 1 passed, 0 failed
+  PASS  P1 FlowMonitor rx <= sink: 1 passed, 0 failed
+  PASS  P1 delivered + duplicates = sink rx: 1 passed, 0 failed
+  PASS  P1 fates partition: 1 passed, 0 failed
+  PASS  P1 path records = app tx: 1 passed, 0 failed
+  PASS  P2 high-risk set = reference: 1 passed, 0 failed
+  PASS  P2 hop/degree = reference: 1 passed, 0 failed
+  PASS  P2 same high-risk set across protocols and loads: 1 passed, 0 failed
+  PASS  P3 risk drops valid: 1 passed, 0 failed
+  PASS  P5 identical first-send times across runs: 1 passed, 0 failed
+  PASS  P5 one scheduled send count for every source: 1 passed, 0 failed
+  PASS  P5 send count <= nominal: 1 passed, 0 failed
+  PASS  P6 unicast data HE_SU HeMcs0: 1 passed, 0 failed

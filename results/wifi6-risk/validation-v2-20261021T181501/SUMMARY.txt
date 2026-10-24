@@ -1,0 +1,62 @@
+validation validation-v2-20261021T181501: 6206 passed, 0 failed
+  PASS  T0 run: 48 passed, 0 failed
+  PASS  T1 no new outputs with riskStudy=0: 4 passed, 0 failed
+  PASS  T1 regression (parent binary, rebuilt libs): 4 passed, 0 failed
+  PASS  T1 regression (riskStudy=0): 4 passed, 0 failed
+  PASS  T10 802.11b: no fix file (non-QoS): 2 passed, 0 failed
+  PASS  T10 FlowMonitor rx = sink with the default 10 s timer: 36 passed, 0 failed
+  PASS  T10 a BlockAckReq was transmitted for every SSN-mismatch event: 34 passed, 0 failed
+  PASS  T10 fix only corrects mismatches (originator start != advertised SSN): 34 passed, 0 failed
+  PASS  T10 no delivered packet delayed > 1 s: 36 passed, 0 failed
+  PASS  T2 passivity (riskStudy=1, 0 high-risk): 4 passed, 0 failed
+  PASS  T3 count: 36 passed, 0 failed
+  PASS  T3 gateway never risky: 36 passed, 0 failed
+  PASS  T3 high-risk ids match reference: 36 passed, 0 failed
+  PASS  T3 hop/degree/descendants match reference: 36 passed, 0 failed
+  PASS  T3 nested k=1 in k=2 in k=3: 1 passed, 0 failed
+  PASS  T3 risk scores: 36 passed, 0 failed
+  PASS  T3 same high-risk ids under every protocol/standard: 4 passed, 0 failed
+  PASS  T4 planned paths and costs match reference: 1080 passed, 0 failed
+  PASS  T4 riskaware k=0 tree == static BFS tree: 2 passed, 0 failed
+  PASS  T4 safe path flag: 1080 passed, 0 failed
+  PASS  T5 installed path = protocol tree: 600 passed, 0 failed
+  PASS  T5 reachability matches BFS: 1080 passed, 0 failed
+  PASS  T6 drop log = per-node counters: 36 passed, 0 failed
+  PASS  T6 empirical drop rate in 99.9% Wilson interval: 37 passed, 0 failed
+  PASS  T6 every drop at a p>0 node and reproduced by the reference hash: 36 passed, 0 failed
+  PASS  T6 identical decision value for a (node, src, seq) across protocols: 1 passed, 0 failed
+  PASS  T6 key_missing = 0: 36 passed, 0 failed
+  PASS  T6 no drop of a node's own packet: 36 passed, 0 failed
+  PASS  T6 no drops where p=0: 1029 passed, 0 failed
+  PASS  T6 own-source packets seen by the filter only under AODV (loopback): 36 passed, 0 failed
+  PASS  T7 FlowMonitor mean delay = mean of per-packet delays (1 us): 16 passed, 0 failed
+  PASS  T7 FlowMonitor rx <= unique sink deliveries (default 10 s per-hop loss timer): 20 passed, 0 failed
+  PASS  T7 FlowMonitor rx = unique sink deliveries (MaxPerHopDelay 1000 s): 16 passed, 0 failed
+  PASS  T7 PDR = 100 rx/tx (FlowMonitor): 36 passed, 0 failed
+  PASS  T7 app PDR = 100 delivered/app tx: 36 passed, 0 failed
+  PASS  T7 delivered + duplicates = sink rx: 36 passed, 0 failed
+  PASS  T7 every delivered packet followed the installed path: 20 passed, 0 failed
+  PASS  T7 exposure recomputed from packet paths: 36 passed, 0 failed
+  PASS  T7 fates partition the packets: 36 passed, 0 failed
+  PASS  T7 high-risk transits recomputed from path strings: 36 passed, 0 failed
+  PASS  T7 path records = app tx: 36 passed, 0 failed
+  PASS  T7 path_summary totals: 36 passed, 0 failed
+  PASS  T7 per-packet delay >= 0 and rx within the run: 36 passed, 0 failed
+  PASS  T7 throughput = rx * 540 B * 8 / 70 s: 36 passed, 0 failed
+  PASS  T8 FlowMonitor timer does not change the simulation (twin identical): 16 passed, 0 failed
+  PASS  T8 identical per-source send schedule (count, first, last): 33 passed, 0 failed
+  PASS  T8 identical positions across runs: 33 passed, 0 failed
+  PASS  T8 reference positions reproduce simulator: 1 passed, 0 failed
+  PASS  T8 repeat run byte-identical (determinism): 1 passed, 0 failed
+  PASS  T8 riskaware k=0 == static (all aggregate metrics): 1 passed, 0 failed
+  PASS  T8 riskaware k=0 == static (packet paths): 1 passed, 0 failed
+  PASS  T9 802.11b settings read back: 2 passed, 0 failed
+  PASS  T9 ACKs use ERP-OFDM 6 Mbps or DSSS 1 Mbps only: 34 passed, 0 failed
+  PASS  T9 HE settings read back on every device: 34 passed, 0 failed
+  PASS  T9 all PSDUs DSSS 1 Mbps: 2 passed, 0 failed
+  PASS  T9 group data frames use ERP-OFDM 6 Mbps (NonUnicastMode): 34 passed, 0 failed
+  PASS  T9 no HE PPDU other than unicast data: 34 passed, 0 failed
+  PASS  T9 only management action frames and their ACKs use DSSS 1 Mbps (2.4 GHz basic rate): 34 passed, 0 failed
+  PASS  T9 unicast data PSDUs are HE SU, HeMcs0, 20 MHz, GI 800 ns: 34 passed, 0 failed
+
+failures (first 40):

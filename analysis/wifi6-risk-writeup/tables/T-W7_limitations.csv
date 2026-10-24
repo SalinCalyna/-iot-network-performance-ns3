@@ -1,0 +1,14 @@
+limitation,description,consequence,category
+Risk-selection bias,"High-risk relays are the top-k of Static's BFS tree (subtree rule), where Static routes most traffic","Static is the worst case; Risk-Aware vs Static is matched, but the gain over OLSR/AODV is not comparable to the gain over Static",Design
+Oracle risk knowledge,Risk-Aware knows every node's risk exactly; risk is static,Risk-Aware results are an upper bound,Design
+Different link models,Static/Risk-Aware route on a 90 m disk graph; OLSR/AODV discover links over the real radio range,OLSR/AODV use shorter paths (1.39–1.40 vs 1.52–1.61 hops at N = 100); N = 30 seed 28: one source isolated in the disk graph (527 packets lost by Static and Risk-Aware),Design
+Synchronized CBR,All sensors send at the same instants every 512 ms (inherited V3 design),Absolute delays include synchronization; amplifies AODV contention (T-W6),Design
+Light load,"8 kbps per sensor; per-run gateway airtime 0.043–0.084 (N = 30, all protocols) and 0.186–0.443 (N = 100, Static / Risk-Aware / OLSR; AODV 0.680–0.699)",No congestion trade-off of risk avoidance tested; saturated N = 100 experiment not performed,Scope
+Seed counts,N = 30: 10 seeds; N = 100: 3 seeds,N = 100 is descriptive only; smallest exact Wilcoxon p = 0.00195 at n = 10,Sample size
+Block Ack modification,risk-v2 sends a BAR on ADDBA SSN mismatch; residual tail at saturation 13–37 per 100k delivered packets > 10 s,"Not reached in the main experiments (Static/RA 0 packets > 1 s; OLSR ≤ 36 > 1 s, 0 > 10 s at N = 100); max delay reported only with caveat",Simulator
+Delay survivorship,Delay and hops are over delivered packets; Static loses relayed packets at risky nodes,Static's delay/hops look lower; at N = 100 Risk-Aware hops over all sent packets equal Static's (F-W4),Metric
+FlowMonitor undercount,FlowMonitor rx < sink by ≤ 3 packets in main runs (≤ 45 at saturation),Sink-based PDR used throughout,Metric
+Exposure definition,Exposure = share of packets whose path crosses a high-risk node; drops are deterministic hashes,"Same packet gets the same risk decision under every protocol (fair matching), not a stochastic attack model",Model
+AODV at N = 100,Route-maintenance feedback suspected; causal chain not isolated; Block Ack check on one seed; Hello-expiry vs MAC-drop share unknown; AODV not tuned,AODV at N = 100 is not a competitive baseline; compare Risk-Aware with Static and OLSR,Protocol implementation
+MAC queue lifetime,"ns-3 default 500 ms, not varied",Couples congestion to AODV link failure; sensitivity unknown,Configuration
+Static topology,No mobility; offline routes for Static/Risk-Aware,Results do not cover route maintenance under mobility for Static/Risk-Aware,Scope

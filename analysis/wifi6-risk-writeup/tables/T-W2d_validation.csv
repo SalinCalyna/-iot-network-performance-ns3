@@ -1,0 +1,4 @@
+version,validation_batch,checks_passed,checks_failed,decision
+risk-v2,validation-v2-20261021T181501,"6,206",0,adopted
+risk-v3,validation-v3-20261022T133856,"6,322",2 (packet-UID relabelling only),not adopted
+risk-v4,validation-v4-20261023T222251,"6,354",0,not adopted (not consistently better)
