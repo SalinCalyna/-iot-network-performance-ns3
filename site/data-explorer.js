@@ -106,7 +106,7 @@ function renderResultTable(container, columns, rows) {
     tbody.appendChild(tr);
   });
   table.appendChild(thead); table.appendChild(tbody);
-  const wrap = htmlEl("div", { style: "overflow-x:auto" }, [table]);
+  const wrap = htmlEl("div", { style: "overflow-x:auto", tabindex: "0", role: "region", "aria-label": "Query result table" }, [table]);
   container.appendChild(wrap);
 }
 

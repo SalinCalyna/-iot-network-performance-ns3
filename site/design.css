@@ -1,0 +1,115 @@
+/* Design system layer (2026-10-25). Loaded after dashboard.css; overrides only presentation.
+   - Contrast-safe text tokens (WCAG AA 4.5:1 for text on --panel / --panel-2).
+   - One protocol palette for every chart and figure. It matches the validated Wi-Fi 6 figures
+     (Static blue, Risk-Aware orange, OLSR green, AODV red); V4 keeps purple.
+   - Minimum rendered text 11.5 px for labels; body text 15 px.
+   - Accessible focus, link underlines, scrollable tables, skip link. No new animation. */
+:root{
+  --text:#17202e; --text-dim:#3d4a5c; --text-faint:#4f5b6c;
+  --ok:#17663f; --warn:#8a4b06; --planned:#8a4b06; --bad:#a3261b; --purple:#4c2f99;
+  --accent:#123b84; --accent-2:#0b5d53;
+  /* protocol palette (graphics; line/bar fills) */
+  --static:#4C72B0; --riskaware:#DD8452; --olsr:#55A868; --olsr-2:#2e6b3d; --aodv:#C44E52; --v4:#6a4cc0;
+  /* protocol text colours (darker, AA on white) */
+  --static-text:#2f5592; --olsr-text:#2e6b3d; --aodv-text:#9c2f33; --riskaware-text:#9a4a14;
+  --focus:#1d5fd1;
+}
+body{font-size:15px}
+a{text-decoration-thickness:1px;text-underline-offset:2px}
+p a,li a,td a,.callout a,.lede a,.panel-sub a,figcaption a,.key-finding a{text-decoration:underline}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:3px}
+
+/* skip link */
+.skip-link{position:absolute;left:8px;top:-40px;z-index:100;background:var(--accent);color:#fff;padding:8px 12px;border-radius:4px;font-weight:700;text-decoration:none}
+.skip-link:focus{top:8px}
+
+/* minimum label sizes (were .60–.70rem) */
+.sidebar .brand .name small,.navgroup .glabel,.chip,.section-eyebrow,.key-finding .kf-label,.tag,.story-num,.kpi .note,
+.evidence-role,.metric-tag,.metric-status,.filter-group .fl,.tooltip .t-note,.status-pill,.insight-card .k,.oei-col .oei-label,
+table.data th,.rw-connector,.rw-legend .grp,.status-chip .sc-val,.scope-card .sc-k,.op-row .op-level,.mp-row .mp-label,
+.roadmap-col .rc-title,.source-note,.stat-method .stat-cell .k,.undef-callout th,.unit-note,.iot-mini-legend,figure.w6-fig .w6-src,
+.badge-row .metric-status,.ci-caption{font-size:.72rem!important}
+.navlink .dot{font-size:.7rem}
+.navlink{font-size:.88rem;text-decoration:none}
+.panel .panel-sub,.kpi .label{font-size:.8rem}
+table.data{font-size:.86rem}
+.legend{font-size:.82rem}
+
+/* contrast fixes for coloured labels */
+.tag.v3{color:var(--accent)}
+.tag.intervention,.tag.measured{color:var(--ok)}
+.tag.planned,.tag.bottleneck{color:var(--warn)}
+.tag.risk,.tag.diagnostic{color:var(--bad)}
+.tag.v4,.tag.retry,.tag.direction{color:var(--purple)}
+.chip{color:var(--text-dim)}
+.chip.ok,.status-chip .sc-val.measured,.sidebar-foot .status{color:var(--ok)}
+.status-chip .sc-val.direction{color:var(--purple)}
+.status-chip .sc-val.planned{color:var(--warn)}
+
+/* navigation */
+.navgroup .glabel{color:var(--text-faint);letter-spacing:.06em}
+.navgroup.phase-wifi6 .glabel{color:var(--accent-2)}
+.navgroup.phase-closed .glabel{color:var(--purple)}
+.navgroup.phase-planned .glabel{color:var(--warn)}
+.navlink[aria-current="true"]{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.navlinks-ext a{display:flex;align-items:center;gap:8px;padding:6px 10px;font-size:.84rem;color:var(--text-dim);text-decoration:none;border-radius:var(--radius-sm)}
+.navlinks-ext a:hover{background:var(--panel-2);color:var(--text)}
+.navlinks-ext a::before{content:"↗";font-family:var(--mono);font-size:.75rem;color:var(--text-faint)}
+.topbar .ext-link{font-size:.78rem;font-weight:600;padding:5px 10px;border:1px solid var(--border);border-radius:4px;color:var(--text-dim);background:var(--panel);text-decoration:none}
+.topbar .ext-link:hover{border-color:var(--accent-line);color:var(--accent)}
+
+/* tables: horizontal scroll inside their own region */
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.table-scroll:focus-visible{outline:2px solid var(--focus)}
+.table-scroll table.data{min-width:520px}
+
+/* charts */
+svg.chart text{fill:var(--text-faint);font-size:12px}
+svg.chart text.axis-title{fill:var(--text-dim);font-size:12px;font-weight:600}
+.chart-wrap{min-height:40px}
+.ci-caption{color:var(--text-faint);margin-top:6px;line-height:1.45}
+
+/* research-at-a-glance */
+.glance{margin:22px 0 6px}
+.glance h2{font-size:1.15rem;margin:0 0 4px}
+.glance .phase-table td:first-child{font-weight:600;color:var(--text)}
+.glance .status{font-weight:700;white-space:nowrap}
+.glance .status.frozen{color:var(--ok)}.glance .status.done{color:var(--accent-2)}.glance .status.closed{color:var(--purple)}
+.glance .status.notrun,.glance .status.proposed{color:var(--warn)}
+.glance ul.tight{margin:6px 0 0;padding-left:18px}.glance ul.tight li{margin:4px 0;font-size:.9rem;color:var(--text-dim)}
+.glance .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.heuristic-note{font-size:.8rem;color:var(--text-faint);margin-top:8px}
+.status-pill.info{background:var(--panel-2);color:var(--text-dim);border:1px solid var(--border)}
+.risk-card-na{border-left:3px solid var(--border)}
+
+/* responsive */
+@media(max-width:900px){.glance .two-col{grid-template-columns:1fr}}
+@media(max-width:760px){
+  body{font-size:15px}
+  .topbar{padding:10px 14px}
+  .topbar .meta{display:none}
+  .content{padding-left:14px!important;padding-right:14px!important}
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .hero-title{font-size:1.45rem!important;line-height:1.2}
+}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+.risk-item.risk-na .ri-dot{background:var(--text-faint)}
+.filter-group .fl{color:var(--text-faint);padding-left:8px;font-weight:700;text-transform:uppercase;letter-spacing:.03em}
+.filter-group select{font:inherit;font-size:.84rem;padding:4px 6px;border:1px solid var(--border);border-radius:4px;background:var(--panel);color:var(--text)}
+@media(max-width:760px){
+  .health-row{flex-wrap:wrap;row-gap:6px}
+  .health-row .health-bar{flex:1 1 100%;order:3}
+  [id^="view"] .kpi-grid[style]{grid-template-columns:1fr 1fr!important}
+}
+code{font-size:.9em}
+.status-badge{font-size:.74rem}
+.iot-label{font-size:13px}
+.callout strong[style*="font-size"]{font-size:.72rem!important}
+sub{font-size:.8em}
+/* hero: the original mask-image faded the whole hero (KPI cards and story rail became nearly invisible).
+   Only the decorative grid should fade, so it moves to a pseudo-element. */
+.hero{-webkit-mask-image:none;mask-image:none;background-image:none}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(var(--border-soft) 1px,transparent 1px),linear-gradient(90deg,var(--border-soft) 1px,transparent 1px);
+  background-size:28px 28px;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 40%,transparent 80%);mask-image:linear-gradient(180deg,#000 0%,#000 40%,transparent 80%)}
+.hero>*{position:relative;z-index:1}

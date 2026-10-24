@@ -68,7 +68,7 @@ function clearLayer() {
 
 function addMarker(loc, shape) {
   const color = MARKER_COLOR[loc.type] || "#aab8c9";
-  const m = L.marker([loc.latitude, loc.longitude], { icon: circleDivIcon(color, shape) }).addTo(RW_MAP);
+  const m = L.marker([loc.latitude, loc.longitude], { icon: circleDivIcon(color, shape), title: loc.name, alt: loc.name, keyboard: true }).addTo(RW_MAP);
   m.bindPopup(popupHtml(loc.name, ROLE_LABEL[loc.type] || loc.type, loc.description));
   return m;
 }

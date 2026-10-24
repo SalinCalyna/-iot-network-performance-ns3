@@ -10,6 +10,45 @@ function el(tag, attrs) {
 }
 function fmt(v, digits) { return typeof v === "number" ? v.toFixed(digits == null ? 1 : digits) : v; }
 
+// ---------------------------------------------------------------- layout helpers (2026-10-25)
+// Charts are drawn at the container's real pixel width (so 12 px text stays 12 px on a phone) and redrawn when
+// that width changes. opts.ytitle / opts.xtitle add axis titles with units; opts.title is the accessible name.
+const _resizeObs = typeof ResizeObserver !== "undefined" ? new ResizeObserver(entries => {
+  entries.forEach(e => {
+    const c = e.target, w = Math.round(e.contentRect.width);
+    if (c.__redraw && w > 0 && Math.abs(w - (c.__drawnW || 0)) > 8) c.__redraw();
+  });
+}) : null;
+function chartSize(container, opts) {
+  const cw = container.clientWidth || opts.width || 520;
+  const W = Math.max(280, Math.min(cw, 900));
+  const H = opts.height || (W < 420 ? 230 : 250);
+  return { W, H };
+}
+function remember(container, fn, args) {
+  container.__redraw = () => fn(...args);
+  container.__drawnW = container.clientWidth;
+  if (_resizeObs && !container.__observed) { _resizeObs.observe(container); container.__observed = true; }
+}
+function a11y(svg, opts, kind, names) {
+  const label = opts.title || [kind, opts.ytitle, opts.xtitle ? "by " + opts.xtitle : "", names.length ? "series: " + names.join(", ") : ""].filter(Boolean).join(" ");
+  svg.setAttribute("role", "img"); svg.setAttribute("aria-label", label);
+  const t = el("title", {}); t.textContent = label; svg.appendChild(t);
+}
+function axisTitles(svg, W, H, pad, opts) {
+  if (opts.ytitle) {
+    const t = el("text", { x: -(pad.t + (H - pad.t - pad.b) / 2), y: 13, transform: "rotate(-90)", "text-anchor": "middle", class: "axis-title" });
+    t.textContent = opts.ytitle; svg.appendChild(t);
+  }
+  if (opts.xtitle) {
+    const t = el("text", { x: pad.l + (W - pad.l - pad.r) / 2, y: H - 4, "text-anchor": "middle", class: "axis-title" });
+    t.textContent = opts.xtitle; svg.appendChild(t);
+  }
+}
+function padFor(opts, base) {
+  return { l: base.l + (opts.ytitle ? 18 : 0), r: base.r, t: base.t, b: base.b + (opts.xtitle ? 18 : 0) };
+}
+
 // Resolve a "var(--name)" color reference to its computed value. SVG presentation
 // attributes (plain fill="..."/stroke="..." rather than a CSS class or style=)
 // are not reliably re-evaluated for custom-property substitution in every
@@ -89,6 +128,18 @@ function pointTipHtml(title, seriesName, d, opts) {
   }
   return h;
 }
+// Round an axis maximum up so that 4 equal ticks fall on 1 / 2 / 2.5 / 5 x 10^k (axis still starts at 0).
+function niceMax(v) {
+  if (!(v > 0)) return 1;
+  const raw = v / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 1.2, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10].map(m => m * mag).find(st => st >= raw - 1e-12);
+  return +(step * 4).toPrecision(12);
+}
+// Percent axes stop at 100 when every drawn value (mean and CI upper limit) is <= 100.
+function axisMax(top, opts) {
+  const m = niceMax(top * 1.04);
+  return opts.unit === "%" && top <= 100 ? Math.min(m, 100) : m;
+}
 function ciYMax(names, series, opts) {
   const tops = names.flatMap(n => series[n].map(d => (ciLimits(d, opts) ? ciLimits(d, opts).hi : d.y)));
   return Math.max(...tops) * 1.12 || 1;
@@ -96,14 +147,16 @@ function ciYMax(names, series, opts) {
 
 // ---------------------------------------------------------------- grouped bars (optional Mean +/- 95% CI whiskers)
 function groupedBar(container, series, opts) {
+  remember(container, groupedBar, [container, series, opts]);
   container.innerHTML = "";
   const tip = ensureTooltip(container);
-  const W = opts.width || 520, H = opts.height || 240, pad = { l: 40, r: 10, t: 10, b: 28 };
+  const { W, H } = chartSize(container, opts), pad = padFor(opts, { l: 44, r: 10, t: 10, b: 30 });
   const names = Object.keys(series);
   const xs = series[names[0]].map(d => d.x);
   const anyCi = names.some(n => series[n].some(hasCi));
-  const yMax = anyCi ? ciYMax(names, series, opts) : (Math.max(...names.flatMap(n => series[n].map(d => d.y))) * 1.15 || 1);
-  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart" });
+  const yMax = axisMax(anyCi ? ciYMax(names, series, opts) / 1.12 : Math.max(...names.flatMap(n => series[n].map(d => d.y))), opts);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: "chart" });
+  a11y(svg, opts, "Bar chart", names);
   const plotW = W - pad.l - pad.r, plotH = H - pad.t - pad.b;
   const groupW = plotW / xs.length;
   const barW = (groupW * 0.72) / names.length;
@@ -111,8 +164,9 @@ function groupedBar(container, series, opts) {
   for (let i = 0; i <= 4; i++) {
     const y = pad.t + plotH - (i / 4) * plotH;
     svg.appendChild(el("line", { x1: pad.l, x2: W - pad.r, y1: y, y2: y, class: "gridline" }));
-    const t = el("text", { x: 2, y: y + 3 }); t.textContent = fmt(yMax * i / 4, opts.yfmt); svg.appendChild(t);
+    const t = el("text", { x: pad.l - 5, y: y + 4, "text-anchor": "end" }); t.textContent = fmt(yMax * i / 4, opts.yfmt); svg.appendChild(t);
   }
+  axisTitles(svg, W, H, pad, opts);
   xs.forEach((x, xi) => {
     names.forEach((n, ni) => {
       const d = series[n][xi];
@@ -141,33 +195,41 @@ function groupedBar(container, series, opts) {
         svg.appendChild(g);
       }
     });
-    const t = el("text", { x: pad.l + xi * groupW + groupW / 2, y: H - 8, "text-anchor": "middle" });
+    const t = el("text", { x: pad.l + xi * groupW + groupW / 2, y: H - pad.b + 16, "text-anchor": "middle" });
     t.textContent = opts.xlabel ? opts.xlabel(x) : x; svg.appendChild(t);
   });
   container.appendChild(svg);
 }
 
 // ---------------------------------------------------------------- line chart (optional shaded 95% CI band)
+// opts.xNumeric: place points at their numeric x value (e.g. node counts 10, 20, 30, 50, 75, 100) instead of at equal
+// spacing, so slopes are not distorted; ticks are drawn only at the measured x values (no interpolated ticks).
 function lineChart(container, series, opts) {
+  remember(container, lineChart, [container, series, opts]);
   container.innerHTML = "";
   const tip = ensureTooltip(container);
-  const W = opts.width || 520, H = opts.height || 240, pad = { l: 40, r: 14, t: 10, b: 28 };
+  const { W, H } = chartSize(container, opts), pad = padFor(opts, { l: 44, r: 16, t: 10, b: 30 });
   const names = Object.keys(series);
   const xs = series[names[0]].map(d => d.x);
   const anyCi = names.some(n => series[n].some(hasCi));
   const allY = names.flatMap(n => series[n].map(d => d.y));
-  const yMax = anyCi ? ciYMax(names, series, opts) : (Math.max(...allY) * 1.15 || 1);
-  const yMin = opts.yMinZero === false ? Math.min(...allY) * 0.9 : 0;
-  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart" });
+  const yMax = axisMax(anyCi ? ciYMax(names, series, opts) / 1.12 : Math.max(...allY), opts);
+  const yMin = 0;   // value axes always start at 0 (no truncation)
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, width: W, height: H, class: "chart" });
+  a11y(svg, opts, "Line chart", names);
   const plotW = W - pad.l - pad.r, plotH = H - pad.t - pad.b;
-  const xScale = i => pad.l + (xs.length === 1 ? plotW / 2 : (i / (xs.length - 1)) * plotW);
+  const xv = xs.map(Number), numeric = opts.xNumeric && xv.every(isFinite);
+  const xMin = Math.min(...xv), xMax = Math.max(...xv);
+  const xScale = i => pad.l + (xs.length === 1 ? plotW / 2
+    : numeric ? ((xv[i] - xMin) / (xMax - xMin || 1)) * plotW : (i / (xs.length - 1)) * plotW);
   const yScale = v => pad.t + plotH - ((v - yMin) / (yMax - yMin || 1)) * plotH;
   for (let i = 0; i <= 4; i++) {
     const y = pad.t + plotH - (i / 4) * plotH;
     svg.appendChild(el("line", { x1: pad.l, x2: W - pad.r, y1: y, y2: y, class: "gridline" }));
-    const t = el("text", { x: 2, y: y + 3 }); t.textContent = fmt(yMin + (yMax - yMin) * i / 4, opts.yfmt); svg.appendChild(t);
+    const t = el("text", { x: pad.l - 5, y: y + 4, "text-anchor": "end" }); t.textContent = fmt(yMin + (yMax - yMin) * i / 4, opts.yfmt); svg.appendChild(t);
   }
-  xs.forEach((x, i) => { const t = el("text", { x: xScale(i), y: H - 8, "text-anchor": "middle" }); t.textContent = x; svg.appendChild(t); });
+  axisTitles(svg, W, H, pad, opts);
+  xs.forEach((x, i) => { const t = el("text", { x: xScale(i), y: H - pad.b + 16, "text-anchor": "middle" }); t.textContent = opts.xlabel ? opts.xlabel(x) : x; svg.appendChild(t); });
   // bands first (under every line), one closed polygon per series over its contiguous points that have a CI
   names.forEach(n => {
     const col = opts.colors[n];
@@ -207,7 +269,7 @@ function ciCaption(container, kind, extraHtml) {
   if (!cap) { cap = document.createElement("div"); cap.className = "ci-caption"; container.insertAdjacentElement("afterend", cap); }
   const what = kind === "band" ? `<span class="ci-key band"></span>shaded band = 95% CI of the mean`
                                : `<span class="ci-key whisker"></span>whiskers = mean ± 95% CI`;
-  cap.innerHTML = `${what} · Student t, n = 11 seeds, df = 10${extraHtml ? `<div class="ci-caption-extra">${extraHtml}</div>` : ""}`;
+  cap.innerHTML = `${what} · Student t over seeds, n = 11 (df = 10) unless noted below${extraHtml ? `<div class="ci-caption-extra">${extraHtml}</div>` : ""}`;
 }
 
 // ---------------------------------------------------------------- horizontal stacked comparison (two-value bar)
@@ -216,17 +278,18 @@ function twoBar(container, a, b, opts) {
   const W = opts.width || 380, H = opts.height || 90;
   const max = Math.max(a.value, b.value) * 1.1 || 1;
   const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, class: "chart" });
+  a11y(svg, { title: opts.title || `Bar comparison: ${a.label} ${fmt(a.value, opts.yfmt)}${opts.unit || ""}, ${b.label} ${fmt(b.value, opts.yfmt)}${opts.unit || ""}` }, "", []);
   // labelW must fit the longer of the two labels (was a fixed 74, which clipped e.g. "MAC queue
   // overflow" under the bar rect painted after it) -- approximate at ~6.3 viewBox-units/char for
   // the 11px label font, with a sensible floor/ceiling so a short label doesn't waste space.
-  const barH = 22, gap = 14, labelW = Math.max(74, Math.min(160, Math.max(a.label.length, b.label.length) * 6.3 + 6));
+  const barH = 22, gap = 14, labelW = Math.max(84, Math.min(190, Math.max(a.label.length, b.label.length) * 7.4 + 8));
   [a, b].forEach((d, i) => {
     const y = i * (barH + gap) + 6;
-    const t = el("text", { x: 0, y: y + barH / 2 + 3, "font-size": 11, fill: resolveColor("var(--text-dim)") }); t.textContent = d.label; svg.appendChild(t);
+    const t = el("text", { x: 0, y: y + barH / 2 + 4, "font-size": 13, fill: resolveColor("var(--text-dim)") }); t.textContent = d.label; svg.appendChild(t);
     svg.appendChild(el("rect", { x: labelW, y, width: W - labelW - 46, height: barH, rx: 4, fill: resolveColor("var(--panel-2)") }));
     const w = ((W - labelW - 46) * d.value) / max;
     svg.appendChild(el("rect", { x: labelW, y, width: Math.max(w, 2), height: barH, rx: 4, fill: resolveColor(d.color) }));
-    const vt = el("text", { x: W - 4, y: y + barH / 2 + 3, "text-anchor": "end", "font-size": 11, fill: resolveColor("var(--text)"), "font-weight": 700 });
+    const vt = el("text", { x: W - 4, y: y + barH / 2 + 4, "text-anchor": "end", "font-size": 13, fill: resolveColor("var(--text)"), "font-weight": 700 });
     vt.textContent = fmt(d.value, opts.yfmt) + (opts.unit || ""); svg.appendChild(vt);
   });
   container.appendChild(svg);
@@ -250,6 +313,6 @@ function healthBar(container, label, valuePct, displayVal, statusFn) {
     <div class="health-label">${label}</div>
     <div class="health-bar"><div class="fill" style="width:${Math.min(valuePct,100)}%;background:${colors[status]}"></div></div>
     <div class="health-val">${displayVal}</div>
-    <div class="status-pill ${status}">${status}</div>`;
+    <div class="status-pill ${status}">${status === "info" ? "no threshold" : status}</div>`;
   container.appendChild(row);
 }

@@ -27,28 +27,41 @@ function bval(p, n, field) {
 function initNav() {
   const links = document.querySelectorAll(".navlink");
   const sections = [...document.querySelectorAll("section.view")];
-  links.forEach(l => l.addEventListener("click", () => {
-    document.getElementById(l.dataset.target).scrollIntoView({ behavior: "smooth", block: "start" });
+  const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  links.forEach(l => l.addEventListener("click", ev => {
+    const t = document.getElementById(l.dataset.target);
+    if (!t) return;
+    ev.preventDefault();
+    t.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    history.replaceState(null, "", "#" + l.dataset.target);   // shareable section links
     closeDrawer();
   }));
+  const setActive = id => links.forEach(l => {
+    const on = l.dataset.target === id;
+    l.classList.toggle("active", on);
+    if (on) l.setAttribute("aria-current", "true"); else l.removeAttribute("aria-current");
+  });
   const spy = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        links.forEach(l => l.classList.toggle("active", l.dataset.target === e.target.id));
-      }
-    });
+    entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
   }, { rootMargin: "-15% 0px -70% 0px" });
   sections.forEach(s => spy.observe(s));
 
-  document.getElementById("menu-btn").addEventListener("click", () => {
+  const btn = document.getElementById("menu-btn");
+  btn.setAttribute("aria-controls", "sidebar"); btn.setAttribute("aria-expanded", "false");
+  btn.setAttribute("aria-label", "Open section navigation");
+  btn.addEventListener("click", () => {
     document.getElementById("sidebar").classList.add("open");
     document.getElementById("scrim").classList.add("show");
+    btn.setAttribute("aria-expanded", "true");
   });
   document.getElementById("scrim").addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeDrawer(); });
 }
 function closeDrawer() {
   document.getElementById("sidebar").classList.remove("open");
   document.getElementById("scrim").classList.remove("show");
+  const btn = document.getElementById("menu-btn");
+  if (btn) btn.setAttribute("aria-expanded", "false");
 }
 
 // ---------------------------------------------------------------- pill filter helper
@@ -85,11 +98,14 @@ function renderHealth() {
   // representative near-saturated condition: OLSR N=100 high (the frozen worst-measured case)
   const cell = DATA.bottleneck["olsr-high"].find(d => d.n === 100);
   healthBar(el, "PDR", cell.pdr, cell.pdr.toFixed(1) + "%", statusFromPdr);
-  healthBar(el, "Throughput", Math.min(cell.throughput / 5, 100), cell.throughput.toFixed(0) + " kbps", () => "normal");
+  healthBar(el, "Throughput", Math.min(cell.throughput / 5, 100), cell.throughput.toFixed(0) + " kbps", () => "info");   // no threshold defined
   healthBar(el, "Gateway Airtime", cell.gw_airtime * 100, (cell.gw_airtime * 100).toFixed(0) + "%", v => statusFromAirtime(v / 100));
   healthBar(el, "MAC Queue Drops", Math.min(cell.macq / 500, 100), cell.macq.toFixed(0), v => v > 60 ? "critical" : v > 25 ? "congested" : "normal");
   document.getElementById("health-note").textContent =
-    `Representative near-saturated condition: OLSR, N=100, high traffic (§10 bottleneck characterisation, 11 seeds). Thresholds: gateway airtime ≥85% = critical, ≥60% = congested, ≥35% = degraded, else normal.`;
+    `Representative near-saturated condition: OLSR, N=100, high traffic (§10 bottleneck characterisation, 11 seeds). ` +
+    `Status labels are a dashboard heuristic for orientation, not research results. Thresholds: PDR ≥45% normal, ≥30% degraded, ≥15% congested, else critical; ` +
+    `gateway airtime ≥85% critical, ≥60% congested, ≥35% degraded, else normal; MAC-queue drops >30,000 critical, >12,500 congested (bar full at 50,000). ` +
+    `Throughput has no threshold (bar full at 500 kbps).`;
 }
 
 // ---------------------------------------------------------------- 2b. risk summary
@@ -120,8 +136,8 @@ function computeRiskMedians() {
 }
 
 function riskItemHtml(item) {
-  const cls = item.level === "HIGH" ? "risk-high" : "risk-low";
-  const levelText = item.level === "HIGH" ? "High — " : "Low Risk — ";
+  const cls = item.level === "HIGH" ? "risk-high" : item.level === "NA" ? "risk-na" : "risk-low";
+  const levelText = item.level === "HIGH" ? "Strained — " : item.level === "NA" ? "" : "Within typical range — ";
   return `<div class="risk-item ${cls}">
     <div class="ri-icon"><span class="ri-dot"></span></div>
     <div class="ri-body">
@@ -176,8 +192,8 @@ function drawRiskSummary() {
     why: cell.loss >= riskMedians.loss ? "significant packet delivery degradation" : "packet loss is below the median across measured conditions" });
 
   if (protocol === "olsr") {
-    items.push({ label: "Routing Overhead", valueText: cell.routing_overhead.toFixed(0) + " pkts", level: "LOW",
-      why: "measured as 0 — known instrumentation coverage limitation, not confirmed zero overhead (see Performance Analysis)" });
+    items.push({ label: "Routing Overhead", valueText: cell.routing_overhead.toFixed(0) + " pkts", level: "NA",
+      why: "Not classified: stored as 0 because of a known instrumentation coverage limitation, not a confirmed zero overhead (see Performance Analysis)" });
   } else {
     items.push({ label: "Routing Overhead", valueText: cell.routing_overhead.toFixed(0) + " pkts",
       level: cell.routing_overhead >= riskMedians.routing_overhead ? "HIGH" : "LOW",
@@ -185,8 +201,8 @@ function drawRiskSummary() {
   }
 
   if (protocol === "static") {
-    items.push({ label: "Path Changes / Routing Stability", valueText: cell.path_changes.toFixed(1), level: "LOW",
-      why: "0 by design — fixed shortest-path tree, routes never change (not a coverage gap)" });
+    items.push({ label: "Path Changes / Routing Stability", valueText: cell.path_changes.toFixed(1), level: "NA",
+      why: "Not classified: 0 by design (fixed shortest-path tree, routes never change)" });
   } else {
     items.push({ label: "Path Changes / Routing Stability", valueText: cell.path_changes.toFixed(1),
       level: cell.path_changes >= riskMedians.path_changes ? "HIGH" : "LOW",
@@ -205,10 +221,13 @@ function drawRiskSummary() {
 
   const high = items.filter(it => it.level === "HIGH");
   const low = items.filter(it => it.level === "LOW");
+  const na = items.filter(it => it.level === "NA");
   highEl.innerHTML = high.length ? high.map(riskItemHtml).join("")
-    : '<p class="panel-sub" style="margin:0">No metrics currently flagged as high risk for this configuration.</p>';
+    : '<p class="panel-sub" style="margin:0">No metric is flagged as strained for this configuration.</p>';
   lowEl.innerHTML = low.length ? low.map(riskItemHtml).join("")
-    : '<p class="panel-sub" style="margin:0">No metrics currently flagged as low risk for this configuration.</p>';
+    : '<p class="panel-sub" style="margin:0">No metric is within the typical range for this configuration.</p>';
+  const naEl = document.getElementById("risk-na-list");
+  if (naEl) naEl.innerHTML = na.length ? na.map(riskItemHtml).join("") : '<p class="panel-sub" style="margin:0">All metrics classified.</p>';
   const dBlk = nodeBlock(protocol, n, "delay");
   const dNote = dBlk && dBlk.excluded > 0 ? ` Average Delay uses n = ${dBlk.n} of ${dBlk.nTotal} seeds (${dBlk.excluded} seed excluded: undefined because no packets were received).` : "";
   ctxEl.textContent = `Showing: ${protocol.toUpperCase()}, N=${n} (Without-Risk baseline, pooled across traffic level and mobility mode).${dNote}`;
@@ -485,28 +504,28 @@ function undefinedNoteFor(metric) {
   });
   return parts.join("<br>");
 }
-const PERF_CHARTS = [
-  ["chart-pdr", "line", "pdr", null, { unit: "%", yfmt: 0 }],
-  ["chart-throughput", "line", "throughput", null, { unit: " kbps", yfmt: 0 }],
-  ["chart-delay", "line", "delay", null, { unit: " ms", yfmt: 0 }],
-  ["chart-loss", "line", "loss", null, { unit: " pkts", yfmt: 0 }],
-  ["chart-jitter", "line", "jitter", null, { unit: " ms", yfmt: 1 }],
-  ["chart-pdr-compare", "bar", "pdr", null, { unit: "%", yfmt: 0 }],
-  ["chart-throughput-compare", "bar", "throughput", null, { unit: " kbps", yfmt: 0 }],
-  ["chart-delay-compare", "bar", "delay", null, { unit: " ms", yfmt: 0 }],
-  ["chart-loss-compare", "bar", "loss", null, { unit: " pkts", yfmt: 0 }],
-  ["chart-routing-overhead", "bar", "routing_overhead", null, { unit: " pkts", yfmt: 0 }],
-  ["chart-hopcount-v3", "line", "hop", null, { unit: " hops", yfmt: 2 }],
-  ["chart-path-changes", "bar", "path_changes", null, { unit: "", yfmt: 0 }],
-  ["chart-mlu", "bar", "link_util_max", 100, { unit: "%", yfmt: 1 }],
+const PERF_CHARTS = [   // ytitle = axis title with unit; line charts use a proportional node-count axis (xNumeric)
+  ["chart-pdr", "line", "pdr", null, { unit: "%", yfmt: 0, ytitle: "PDR (%)" }],
+  ["chart-throughput", "line", "throughput", null, { unit: " kbps", yfmt: 0, ytitle: "Throughput (kbps)" }],
+  ["chart-delay", "line", "delay", null, { unit: " ms", yfmt: 0, ytitle: "Mean delay (ms)" }],
+  ["chart-loss", "line", "loss", null, { unit: " pkts", yfmt: 0, ytitle: "Packet loss (packets)" }],
+  ["chart-jitter", "line", "jitter", null, { unit: " ms", yfmt: 1, ytitle: "Mean jitter (ms)" }],
+  ["chart-pdr-compare", "bar", "pdr", null, { unit: "%", yfmt: 0, ytitle: "PDR (%)" }],
+  ["chart-throughput-compare", "bar", "throughput", null, { unit: " kbps", yfmt: 0, ytitle: "Throughput (kbps)" }],
+  ["chart-delay-compare", "bar", "delay", null, { unit: " ms", yfmt: 0, ytitle: "Mean delay (ms)" }],
+  ["chart-loss-compare", "bar", "loss", null, { unit: " pkts", yfmt: 0, ytitle: "Packet loss (packets)" }],
+  ["chart-routing-overhead", "bar", "routing_overhead", null, { unit: " pkts", yfmt: 0, ytitle: "Routing overhead (packets)" }],
+  ["chart-hopcount-v3", "line", "hop", null, { unit: " hops", yfmt: 2, ytitle: "Mean hop count" }],
+  ["chart-path-changes", "bar", "path_changes", null, { unit: "", yfmt: 0, ytitle: "Path changes (count)" }],
+  ["chart-mlu", "bar", "link_util_max", 100, { unit: "%", yfmt: 1, ytitle: "Max link utilisation (%)" }],
 ];
 function drawPerfCharts() {
   legendOnce("perf-legend");
   PERF_CHARTS.forEach(([id, kind, metric, scale, o]) => {
     const c = document.getElementById(id);
     const series = activeSeries(metric, scale);
-    if (kind === "line") lineChart(c, series, { colors: COLORS, ...o });
-    else groupedBar(c, series, { colors: COLORS, ...o, xlabel: x => `N=${x}` });
+    if (kind === "line") lineChart(c, series, { colors: COLORS, xNumeric: true, xtitle: "Number of sensor nodes (N)", ...o });
+    else groupedBar(c, series, { colors: COLORS, xtitle: "Number of sensor nodes (N)", ...o, xlabel: x => `N=${x}` });
     if (STATS) {
       let extra = undefinedNoteFor(metric);
       if (metric === "routing_overhead" && perfProtocols.olsr) extra += (extra ? "<br>" : "") + "OLSR: stored 0 reflects a documented instrumentation-coverage limitation &mdash; no interval is drawn for it.";
@@ -533,7 +552,7 @@ function renderTrafficLoad() {
                                  : { x: l.toUpperCase(), y: DATA.traffic_level[p][l] };
     });
   });
-  groupedBar(c, series, { colors: COLORS, unit: "%", yfmt: 0, xlabel: x => x });
+  groupedBar(c, series, { colors: COLORS, unit: "%", yfmt: 0, xlabel: x => x, ytitle: "PDR (%)", xtitle: "Traffic level" });
   if (STATS) ciCaption(c, "bar", "Each bar: every seed&rsquo;s mean PDR over the 18 conditions (6 node counts &times; 3 mobility modes); the CI is taken across those 11 per-seed values.");
 }
 
@@ -544,7 +563,7 @@ function renderBottleneck() {
   groupedBar(c1, {
     olsr: DATA.bottleneck["olsr-high"].map(d => ({ x: d.n, y: d.gw_airtime * 100 })),
     static: DATA.bottleneck["static-high"].map(d => ({ x: d.n, y: d.gw_airtime * 100 }))
-  }, { colors: COLORS, unit: "%", yfmt: 0, xlabel: x => `N=${x}` });
+  }, { colors: COLORS, unit: "%", yfmt: 0, xlabel: x => `N=${x}`, ytitle: "Gateway airtime (% busy)", xtitle: "Number of sensor nodes (N), high traffic" });
 }
 
 // ---------------------------------------------------------------- 7. hop-based MAC queue chart
@@ -559,7 +578,9 @@ function drawHop() {
   const bins = (DATA.hopbin[key] || []).filter(b => b.bin !== "unreach");
   const c = document.getElementById("chart-hop-macq");
   groupedBar(c, { macq: bins.map(b => ({ x: b.bin, y: b.macq })) },
-    { colors: { macq: "var(--warn)" }, yfmt: 1, xlabel: x => x === "gw" ? "Gateway" : x.toUpperCase() });
+    { colors: { macq: "var(--warn)" }, yfmt: 1, xlabel: x => x === "gw" ? "Gateway" : x.toUpperCase(),
+      ytitle: "MAC-queue drops per node (mean)", xtitle: "Hop distance from gateway",
+      title: `Mean MAC-queue drops per node by hop distance, ${hopState.protocol.toUpperCase()} N=${hopState.n}, ${hopState.traffic} traffic` });
 }
 
 // ---------------------------------------------------------------- 8. retry
@@ -584,7 +605,7 @@ function renderV4() {
   groupedBar(document.getElementById("chart-v4-tier1-pdr"), {
     v4: DATA.v4_tier1.map((r, i) => ({ x: `Config${i + 1}`, y: r.pdr_v4 })),
     static: DATA.v4_tier1.map((r, i) => ({ x: `Config${i + 1}`, y: r.pdr_static }))
-  }, { colors: { v4: "var(--v4)", static: "var(--static)" }, unit: "%", yfmt: 0, xlabel: x => x });
+  }, { colors: { v4: "var(--v4)", static: "var(--static)" }, unit: "%", yfmt: 0, xlabel: x => x, ytitle: "PDR (%)", xtitle: "V4 Tier-1 configuration (N = 50, medium traffic, 11 seeds)" });
 
   const tbody = document.getElementById("v4-table-body"); tbody.innerHTML = "";
   DATA.v4_tier1.forEach(r => {
@@ -601,7 +622,7 @@ function renderV4Matched() {
   groupedBar(document.getElementById("chart-v4-matched-pdr"), {
     v4: DATA.v4_matched.map(d => ({ x: d.n, y: d.pdr_v4 })),
     static: DATA.v4_matched.map(d => ({ x: d.n, y: d.pdr_static }))
-  }, { colors: { v4: "var(--v4)", static: "var(--static)" }, unit: "%", yfmt: 0, xlabel: x => `N=${x}` });
+  }, { colors: { v4: "var(--v4)", static: "var(--static)" }, unit: "%", yfmt: 0, xlabel: x => `N=${x}`, ytitle: "PDR (%)", xtitle: "Number of sensor nodes (N)" });
 }
 
 // ---------------------------------------------------------------- 10. intervention
@@ -614,8 +635,8 @@ function drawIntervention() {
   const key = `olsr-${intN}`;
   const rows = DATA.ratesweep[key];
   legend(document.getElementById("int-legend"), [["PDR", "var(--olsr)"]]);
-  lineChart(document.getElementById("chart-int-pdr"), { pdr: rows.map(d => ({ x: d.rate + "k", y: d.pdr })) }, { colors: { pdr: "var(--olsr)" }, unit: "%", yfmt: 0 });
-  lineChart(document.getElementById("chart-int-airtime"), { air: rows.map(d => ({ x: d.rate + "k", y: d.gw_airtime * 100 })) }, { colors: { air: "var(--warn)" }, unit: "%", yfmt: 0 });
+  lineChart(document.getElementById("chart-int-pdr"), { pdr: rows.map(d => ({ x: d.rate + "k", y: d.pdr })) }, { colors: { pdr: "var(--olsr)" }, unit: "%", yfmt: 0, ytitle: "PDR (%)", xtitle: "Offered rate per sensor (kbps, 3 seeds)" });
+  lineChart(document.getElementById("chart-int-airtime"), { air: rows.map(d => ({ x: d.rate + "k", y: d.gw_airtime * 100 })) }, { colors: { air: "var(--warn)" }, unit: "%", yfmt: 0, ytitle: "Gateway airtime (% busy)", xtitle: "Offered rate per sensor (kbps, 3 seeds)" });
   const delta = rows[rows.length - 1].delta_pdr_pp;
   document.getElementById("int-delta").textContent = `${delta > 0 ? "+" : ""}${delta.toFixed(1)} pp`;
   document.getElementById("int-delta-label").textContent = `PDR change, N=${intN}, 16→4 kbps`;
@@ -628,7 +649,7 @@ function renderStaticControl() {
     "OLSR N=75": DATA.ratesweep["olsr-75"].map(d => ({ x: d.rate + "k", y: d.pdr })),
     "OLSR N=100": DATA.ratesweep["olsr-100"].map(d => ({ x: d.rate + "k", y: d.pdr })),
     "Static N=50": DATA.ratesweep["static-50"].map(d => ({ x: d.rate + "k", y: d.pdr }))
-  }, { colors: { "OLSR N=75": "var(--olsr)", "OLSR N=100": "var(--olsr-2)", "Static N=50": "var(--static)" }, unit: "%", yfmt: 0 });
+  }, { colors: { "OLSR N=75": "var(--olsr)", "OLSR N=100": "var(--olsr-2)", "Static N=50": "var(--static)" }, unit: "%", yfmt: 0, ytitle: "PDR (%)", xtitle: "Offered rate per sensor (kbps, 3 seeds)" });
 
   const tbody = document.getElementById("diag-table-body"); tbody.innerHTML = "";
   DATA.diagnostic.forEach(r => {
@@ -670,7 +691,7 @@ function renderUndefinedDetail() {
     const ex = ["delay", "jitter", "hop"].map(k => nodeBlock(r.protocol, r.nodes, k)).filter(Boolean);
     const ux = ex.length === 3 ? `${ex[0].mean.toFixed(2)} ms / ${ex[1].mean.toFixed(2)} ms / ${ex[2].mean.toFixed(3)}` : "";
     return `<div style="margin-top:10px"><strong>${r.protocol.toUpperCase()} &middot; ${r.nodes} nodes &middot; ${r.traffic} traffic &middot; ${r.mobility} mobility</strong> &mdash; seed ${r.seed} delivered ${r.packetsReceived} of ${r.packetsSent.toLocaleString()} packets. Its raw result is unchanged (stored delay / jitter / hop count = ${r.storedRawValue.delaySec}).
-      <table><thead><tr><th>Metric</th><th>n</th><th>df</th><th>Mean</th><th>95% CI</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Undefined-metric detail table"><table><thead><tr><th>Metric</th><th>n</th><th>df</th><th>Mean</th><th>95% CI</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>
       <p style="margin:8px 0 0;color:var(--text-dim)">In the ${r.protocol.toUpperCase()} @ N=${r.nodes} chart points (seed-level, 9 conditions) Delay, Jitter and Hop Count exclude seed ${r.seed} whole (n = 10 of 11, df = 9, t = 2.262). The frozen <code>final_research.json</code> summary averages the placeholder 0 into those points (Delay / Jitter / Hop = ${fz}); the charts use the exclusion-aware values ${ux}.</p></div>`;
   }).join("");
 }
