@@ -3457,7 +3457,7 @@
     ],
     [
      "Light load",
-     "8 kbps per sensor; gateway airtime 0.05–0.08 (N = 30) and 0.19–0.40 (N = 100, non-AODV)",
+     "8 kbps per sensor; per-run gateway airtime 0.043–0.084 (N = 30, all protocols) and 0.186–0.443 (N = 100, Static / Risk-Aware / OLSR; AODV 0.680–0.699)",
      "No congestion trade-off of risk avoidance tested; saturated N = 100 experiment not performed",
      "Scope"
     ],
@@ -3642,7 +3642,7 @@
   "analysis/wifi6-risk-writeup/tables/T-W6a_aodv_vs_olsr_n100.csv": "ca9cbd3fe7840afd03deff8031e9f58e4e9b73ce620474568767d60584268544",
   "analysis/wifi6-risk-writeup/tables/T-W6b_aodv_diagnostic_seed20.csv": "50f17f9d88776149027bc1b653bf0dc54e3b4432b145c7527b8a4cfd7876be85",
   "analysis/wifi6-risk-writeup/tables/T-W6c_aodv_findings_status.csv": "7bedfd2a86f8c45f7986c0a33bb68d6139fd7dd3a84dfeaf122076755cd09a98",
-  "analysis/wifi6-risk-writeup/tables/T-W7_limitations.csv": "fffceff3863ba441f81be47385e0e342bd46a3aa0ea96cda54d70ae3228fa046",
+  "analysis/wifi6-risk-writeup/tables/T-W7_limitations.csv": "77540a3c1c796239f843307f7a1fca126cf30822be9baa1587f9d8972129a4fd",
   "results/wifi6-risk/n100-8k-v2-20261024T165009/analysis/paired_riskaware_vs_static.csv": "10235e43622b13a8f4a920955735d43f13a89a4da1b87e78324dcda0aa867e41",
   "results/wifi6-risk/n100-8k-v2-20261024T165009/analysis/pilot_runs.csv": "c18f319d1e06bf9521e6bdf854d452535877faa6aef039a3f86e602de7ae5c55",
   "results/wifi6-risk/n100-8k-v2-20261024T165009/analysis/stats_by_config.csv": "e1fa662cb5e5bfea12acd3792daccca24967081b86e8373be1a29465825b72a9",
