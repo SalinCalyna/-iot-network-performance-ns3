@@ -7,6 +7,7 @@
 <meta name="description" content="NS-3 research dashboard: gateway-centric IoT wireless mesh networks. Frozen IEEE 802.11b study (baseline, bottleneck, retry, rate intervention, V4 sigmoid routing) and a completed Wi-Fi 6 (802.11ax) risk-aware routing study with paired statistics.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23154394%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%229%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2225%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M16%209%20L7%2023%20M16%209%20L25%2023%20M7%2023%20L25%2023%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <link rel="stylesheet" href="dashboard.css">
 <link rel="stylesheet" href="design.css">
 </head>
@@ -39,6 +40,10 @@
       <div class="glabel">How the Wi-Fi 6 study works</div>
       <a class="navlink" href="#view-topology" data-target="view-topology"><span class="dot" aria-hidden="true"></span>Network topology explorer</a>
       <a class="navlink" href="#view-architecture" data-target="view-architecture"><span class="dot" aria-hidden="true"></span>Architecture &amp; workflow</a>
+    </div>
+    <div class="navgroup">
+      <div class="glabel">Case study (proposed)</div>
+      <a class="navlink" href="#view-campus" data-target="view-campus"><span class="dot" aria-hidden="true"></span>PSU Phuket smart campus</a>
     </div>
     <div class="navgroup">
       <a class="navlink" href="#view-conclusions" data-target="view-conclusions"><span class="dot" aria-hidden="true"></span>5 · Conclusions &amp; Reproducibility</a>
@@ -502,6 +507,87 @@ install on every sensor i:  "gateway via parent[i]"</pre>
         </div>
       </section>
 
+      <!-- ============================================================ CAMPUS CASE STUDY -->
+      <section class="view major" id="view-campus">
+        <div class="section-eyebrow">Case study (proposed) · Prince of Songkla University, Phuket Campus, Kathu, Phuket</div>
+        <div class="badge-row">
+          <span class="tag planned">PROPOSED CASE STUDY · NOT A DEPLOYMENT</span>
+          <span class="tag v3">MAP: OPENSTREETMAP (ODbL)</span>
+          <span class="tag measured">SIMULATION MODE: VALIDATED NS-3 RUNS</span>
+        </div>
+        <h2>PSU Phuket Smart Campus — IoT Wireless Mesh Network Case Study</h2>
+        <p class="lede">How could the gateway-centric mesh studied in ns-3 apply to a real campus? The map shows the PSU Phuket campus from OpenStreetMap. Switch between a <strong>proposed deployment</strong>, with sensor sites derived by a fixed rule from campus buildings, roads and water, and the <strong>validated ns-3 topologies</strong>, drawn at true scale on the same map.</p>
+        <div class="callout warn" style="margin-bottom:16px;font-size:.86rem"><strong>No sensor is installed on campus, and no campus measurement exists.</strong> Proposed sensor sites, links and routes are conceptual illustrations. Simulation results describe the ns-3 scenario (an open 250 m × 250 m field with no buildings), not the performance a campus network would achieve.</div>
+
+        <div class="panel cs-controls">
+          <div class="filters">
+            <div class="filter-group"><span class="fl">Mode</span><div id="cs-mode" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Gateway site</span><select id="cs-gw" class="cs-select" aria-label="Gateway building"></select></div>
+          </div>
+          <div class="filters" id="cs-controls"></div>
+          <div id="cs-legend" class="legend topo-legend"></div>
+        </div>
+        <div class="cs-mapwrap" style="margin-top:14px">
+          <div id="cs-map" class="cs-map" role="region" aria-label="Map of PSU Phuket Campus with the network overlay"></div>
+          <div class="cs-mapnote" id="cs-mapnote">—</div>
+        </div>
+        <div class="grid cols-2" style="margin-top:14px">
+          <div class="panel" id="cs-summary" aria-live="polite">—</div>
+          <div class="panel" id="cs-info" aria-live="polite"><p class="panel-sub" style="margin:0">Click a sensor on the map to see what it is derived from, its route to the gateway and the route cost.</p></div>
+        </div>
+
+        <h3 class="sub-h">Potential campus applications</h3>
+        <div class="cs-apps" id="cs-apps"></div>
+
+        <h3 class="sub-h">What the validated simulations suggest, and what they do not</h3>
+        <div class="panel">
+          <p class="panel-sub" style="margin:0 0 10px">ns-3 results for N = 100 sensors with k = 3 high-risk relays placed uniformly at random (12 matched draws). These are the scenarios closest to a campus, where the location of a compromised or failing node is not known in advance. They are simulation results, not campus measurements.</p>
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Validated simulation results relevant to the case study"><table class="data" id="cs-results"></table></div>
+          <ul class="evidence-list" id="cs-results-notes" style="margin-top:12px"></ul>
+        </div>
+
+        <h3 class="sub-h">Case-study architecture: from campus sensor to dashboard</h3>
+        <div class="panel">
+          <div class="cs-arch" id="cs-arch"></div>
+          <p class="panel-sub" style="margin:10px 0 0">Top row: the proposed physical system (conceptual). Bottom row: how this research studies it. ns-3 replaces the campus radio environment, and every number on this dashboard comes from the bottom row. Full pipeline with source references: <a href="#view-architecture">Architecture &amp; workflow</a>.</p>
+        </div>
+
+        <h3 class="sub-h">Placing the ns-3 field on the campus map</h3>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Transformation</h3>
+            <ul class="evidence-list" style="margin:0" id="cs-transform"></ul>
+          </div>
+          <div class="panel">
+            <h3>Assumptions and limitations</h3>
+            <ul class="evidence-list" style="margin:0">
+              <li><strong>Positions are not campus sites.</strong> Simulated sensors are uniformly random in the field. Some land on buildings, the pond or roads (counts are shown below the map).</li>
+              <li><strong>No buildings in the radio model.</strong> ns-3 uses log-distance propagation (exponent 3) in open space. Walls, vegetation and terrain are not modelled, so campus links would differ.</li>
+              <li><strong>Scale mismatch.</strong> The 250 m field covers about a quarter of the 0.26 km² campus. The proposed deployment spans the whole campus, so it is sparser and deeper. Under the 90 m model the default layout needs up to 7 hops with about 7 links per sensor, while every simulated topology is at most 2–3 hops deep (26–33 links per sensor at N = 100). The validated results therefore do not cover deep campus-scale meshes.</li>
+              <li><strong>Traffic is a stress load.</strong> 8 kbps (and 32 kbps) of constant 512-byte UDP per sensor is far more than typical campus sensing traffic.</li>
+              <li><strong>Links are a model.</strong> The 90 m disk is the routing model of Static and Risk-Aware. In ns-3, OLSR and AODV used links up to 116.6 m.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="sub-h">Data needed for a scientifically defensible campus study</h3>
+        <div class="panel">
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Missing data for a campus study"><table class="data">
+            <thead><tr><th>Missing</th><th>Why it matters</th><th>Safe way to obtain it</th></tr></thead>
+            <tbody>
+              <tr><td>Campus node positions in the simulator</td><td>Current runs use random positions in a 250 m field</td><td>A new simulator option that reads a positions file (for example the proposed sites below), validated like the existing runs</td></tr>
+              <tr><td>Building and obstacle propagation</td><td>Walls and vegetation change link quality and range</td><td>ns-3 <code>BuildingsPropagationLossModel</code> with OSM footprints, or campus RSSI measurements</td></tr>
+              <tr><td>Per-link radio measurements</td><td>Links on the map are modelled, not observed</td><td>Read-only receive-side tracing (signal strength and frame success per link) in new runs, or a small field test</td></tr>
+              <tr><td>Application traffic profiles</td><td>Sensing traffic is bursty and light, unlike constant 8 kbps</td><td>Per-application rates and payloads from the intended sensors</td></tr>
+              <tr><td>Terrain, gateway backhaul, power</td><td>Elevation is in neither the OSM extract nor the simulator; gateways need power and an uplink</td><td>Elevation data and a campus IT survey</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+
+        <h3 class="sub-h">Map data and licensing</h3>
+        <div class="panel"><p class="panel-sub" style="margin:0" id="cs-sources">—</p></div>
+      </section>
+
       <!-- ============================================================ 5. CONCLUSIONS -->
       <section class="view" id="view-conclusions">
         <div class="section-eyebrow">5 · Conclusions, Limitations &amp; Reproducibility</div>
@@ -566,5 +652,7 @@ install on every sensor i:  "gateway via parent[i]"</pre>
 <script src="wifi6.js"></script>
 <script src="randplace.js"></script>
 <script src="topology.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="campus.js"></script>
 </body>
 </html>

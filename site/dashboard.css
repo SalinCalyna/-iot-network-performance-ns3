@@ -522,3 +522,32 @@ details.w6-details[open] summary{margin-bottom:10px}
 .arch-nav .pill[disabled]{opacity:.4;cursor:default}
 .arch-code{font-family:var(--mono);font-size:.74rem;line-height:1.5;background:var(--panel-2);border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:12px;overflow-x:auto;white-space:pre;margin:0}
 @media(max-width:900px){.arch-flow{flex-direction:column}.arch-arrow{transform:rotate(90deg)}}
+
+/* ---------- PSU Phuket smart-campus case study (campus.js) ---------- */
+#view-campus .grid>*{min-width:0}
+.cs-controls .filters{margin:0 0 8px;gap:10px 18px}
+.cs-controls .filter-group{flex-wrap:wrap;max-width:100%}
+.cs-select{font:inherit;font-size:.82rem;max-width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--panel);color:var(--text)}
+.cs-mapwrap{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.cs-map{height:560px;width:100%;background:#e8ecf1}
+.cs-mapnote{font-size:.76rem;color:var(--text-dim);padding:8px 12px;border-top:1px solid var(--border-soft)}
+.cs-gw{display:grid;place-items:center;background:#17202e;color:#fff;font:800 10px/1 var(--font);border:2px solid #fff;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.leaflet-container{font-family:var(--font)}
+.leaflet-tooltip{font-size:.74rem;max-width:260px;white-space:normal}
+.cs-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.cs-app-h{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.cs-app-h h3{margin:0}
+.cs-app-dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto}
+.cs-row-h{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin:0 0 8px}
+.cs-flow{display:flex;align-items:stretch;gap:6px}
+.cs-box{flex:1 1 0;min-width:0;border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 10px;background:var(--panel)}
+.cs-box.concept{border-style:dashed;background:var(--panel-2)}
+.cs-box.muted{opacity:.7}
+.cs-box.study{border-color:var(--accent-line);background:var(--accent-soft)}
+.cs-box-t{font-size:.8rem;font-weight:700;color:var(--text)}
+.cs-box-s{font-size:.72rem;color:var(--text-dim);margin-top:3px;line-height:1.4}
+.cs-arr{align-self:center;color:var(--text-faint)}
+.cs-link{text-align:center;font-size:.72rem;font-weight:700;color:var(--text-faint);margin:10px 0;text-transform:uppercase;letter-spacing:.05em}
+@media(max-width:1100px){.cs-apps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:900px){.cs-flow{flex-direction:column}.cs-arr{transform:rotate(90deg)}.cs-map{height:430px}}
+@media(max-width:560px){.cs-apps{grid-template-columns:1fr}}

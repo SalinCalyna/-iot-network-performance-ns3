@@ -235,7 +235,7 @@
     }
     const obs = (S.view === "compare" ? ["static", "riskaware"] : [S.view]).map(p => {
       const run = runFor(p), s = run.src[i];
-      const top = run.paths[i].map(([pk, dl, path]) => `<li><span class="topo-path">${fmtPath(path)}</span> — ${pk.toLocaleString()} packets, ${dl.toLocaleString()} delivered</li>`).join("");
+      const top = run.paths[i].map(([pk, dl, path]) => `<li><span class="topo-path">${fmtPath(path)}</span>${path.length === 1 ? " (lost before the first hop)" : ""} — ${pk.toLocaleString()} packets, ${dl.toLocaleString()} delivered</li>`).join("");
       return `<div><div class="k" style="color:${resolveColor(TEXT[p])}">${LABEL[p]} · observed</div><p class="panel-sub" style="margin:2px 0">Sent ${s[0].toLocaleString()}, delivered ${s[1].toLocaleString()}, risk-dropped ${s[2].toLocaleString()} · ${run.n_paths[i]} distinct path(s)${run.n_paths[i] > 3 ? ", 3 most used:" : ":"}</p><ul class="topo-paths">${top}</ul></div>`;
     }).join("");
     html += `<h3 class="sub-h" style="margin-top:14px">Packet paths observed in the run</h3><div class="grid cols-2" style="gap:12px">${obs}</div>`;
