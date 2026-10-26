@@ -1,0 +1,72 @@
+campus-matrix-20261026T161440: 108 runs; 15 matched k = 3 draws per rate (5 placements x 3 seeds); k = 0 baseline over seeds [1, 2, 3]
+
+== 8 kbps, k = 3: mean [95 % t interval] over 15 draws
+  Static     PDR 92.13 [85.50, 98.76] | exposure 13.73 [2.74, 24.73] (zero in 0) | thr 644.8 [598.4, 691.2] kbps | p95 126 [120, 132] ms | hops 3.11 [3.06, 3.15] | gw 0.153 [0.146, 0.160]
+  Risk-Aware PDR 99.99 [99.99, 100.00] | exposure 0.00 [0.00, 0.00] (zero in 15) | thr 699.8 [699.8, 699.9] kbps | p95 133 [132, 133] ms | hops 3.20 [3.18, 3.22] | gw 0.162 [0.161, 0.162]
+  OLSR       PDR 97.32 [95.94, 98.70] | exposure 5.17 [2.46, 7.88] (zero in 0) | thr 681.1 [671.4, 690.8] kbps | p95 185 [183, 187] ms | hops 2.45 [2.44, 2.46] | gw 0.205 [0.203, 0.208]
+  k = 0  Static     PDR 100.00 (range 100.00-100.00) | p95 133 ms | gw 0.163
+  k = 0  Risk-Aware PDR 100.00 (range 100.00-100.00) | p95 133 ms | gw 0.163
+  k = 0  OLSR       PDR 99.92 (range 99.91-99.93) | p95 190 ms | gw 0.212
+== 32 kbps, k = 3: mean [95 % t interval] over 15 draws
+  Static     PDR 90.16 [84.16, 96.17] | exposure 13.73 [2.74, 24.72] (zero in 0) | thr 2525.3 [2357.0, 2693.5] kbps | p95 384 [301, 467] ms | hops 3.10 [3.05, 3.14] | gw 0.610 [0.582, 0.638]
+  Risk-Aware PDR 96.05 [95.53, 96.58] | exposure 0.00 [0.00, 0.00] (zero in 15) | thr 2690.2 [2675.5, 2704.8] kbps | p95 485 [483, 486] ms | hops 3.17 [3.15, 3.19] | gw 0.638 [0.633, 0.643]
+  OLSR       PDR 67.05 [66.18, 67.92] | exposure 7.09 [4.27, 9.92] (zero in 0) | thr 1877.9 [1853.5, 1902.4] kbps | p95 681 [662, 699] ms | hops 2.55 [2.54, 2.57] | gw 0.627 [0.624, 0.629]
+  k = 0  Static     PDR 95.33 (range 95.08-95.49) | p95 484 ms | gw 0.639
+  k = 0  Risk-Aware PDR 95.33 (range 95.08-95.49) | p95 484 ms | gw 0.639
+  k = 0  OLSR       PDR 68.02 (range 67.86-68.21) | p95 690 ms | gw 0.632
+
+== paired A - B (draw-level 95 % interval; placement-level interval, n = 5; sign-flip p; Holm for primary)
+   8 kbps Risk-Aware-Static     pdr_nominal_pct          +7.864 [+1.234, +14.49] plc [-8.191, +23.92] A>B 15 = 0 A<B 0 p=6.1e-05 holm=0.000732 -> supported
+   8 kbps Risk-Aware-Static     exposure_rate_pct        -13.73 [-24.73, -2.74] plc [-40.36, +12.89] A>B 0 = 0 A<B 15 p=6.1e-05 holm=0.000732 -> supported
+   8 kbps Risk-Aware-Static     sink_thr_kbps            +55.03 [+8.638, +101.4] plc [-57.33, +167.4] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> consistent
+   8 kbps Risk-Aware-Static     delay_p95_ms             +6.942 [+1.442, +12.44] plc [-6.36, +20.24] A>B 12 = 0 A<B 3 p=0.000793 holm=- -> descriptive
+   8 kbps Risk-Aware-Static     mean_hops_delivered    +0.09216 [+0.02215, +0.1622] plc [-0.07739, +0.2617] A>B 12 = 0 A<B 3 p=0.0014 holm=- -> descriptive
+   8 kbps Risk-Aware-Static     gw_airtime             +0.00866 [+0.0008759, +0.01644] plc [-0.01018, +0.0275] A>B 12 = 0 A<B 3 p=0.00238 holm=- -> descriptive
+   8 kbps Risk-Aware-Static     mpdu_retry_drop              +0 [-1.594, +1.594] plc [-2.698, +2.698] A>B 6 = 3 A<B 6 p=1 holm=- -> descriptive
+   8 kbps Risk-Aware-OLSR       pdr_nominal_pct          +2.675 [+1.288, +4.061] plc [-0.5985, +5.948] A>B 15 = 0 A<B 0 p=6.1e-05 holm=0.000732 -> supported
+   8 kbps Risk-Aware-OLSR       exposure_rate_pct        -5.168 [-7.88, -2.457] plc [-11.6, +1.263] A>B 0 = 0 A<B 15 p=6.1e-05 holm=0.000732 -> supported
+   8 kbps Risk-Aware-OLSR       sink_thr_kbps            +18.72 [+9.017, +28.42] plc [-4.188, +41.62] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> consistent
+   8 kbps Risk-Aware-OLSR       delay_p95_ms              -52.2 [-54.35, -50.06] plc [-56.27, -48.14] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> descriptive
+   8 kbps Risk-Aware-OLSR       mean_hops_delivered     +0.7441 [+0.7147, +0.7735] plc [+0.6741, +0.8141] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> descriptive
+   8 kbps Risk-Aware-OLSR       gw_airtime             -0.04385 [-0.0473, -0.04039] plc [-0.05112, -0.03657] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> consistent
+   8 kbps Risk-Aware-OLSR       mpdu_retry_drop          -79.33 [-83.91, -74.75] plc [-84.43, -74.24] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> consistent
+   8 kbps     Static-OLSR       pdr_nominal_pct          -5.189 [-10.53, +0.1532] plc [-18.11, +7.73] A>B 4 = 0 A<B 11 p=0.0339 holm=0.111 -> descriptive
+   8 kbps     Static-OLSR       exposure_rate_pct        +8.566 [+0.0765, +17.06] plc [-11.95, +29.08] A>B 11 = 0 A<B 4 p=0.0278 holm=0.111 -> descriptive
+   8 kbps     Static-OLSR       sink_thr_kbps            -36.32 [-73.7, +1.072] plc [-126.7, +54.1] A>B 4 = 0 A<B 11 p=0.0339 holm=- -> descriptive
+   8 kbps     Static-OLSR       delay_p95_ms             -59.15 [-63.71, -54.58] plc [-69.73, -48.56] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> descriptive
+   8 kbps     Static-OLSR       mean_hops_delivered     +0.6519 [+0.6101, +0.6937] plc [+0.5518, +0.7521] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> descriptive
+   8 kbps     Static-OLSR       gw_airtime              -0.0525 [-0.05852, -0.04649] plc [-0.06647, -0.03854] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> consistent
+   8 kbps     Static-OLSR       mpdu_retry_drop          -79.33 [-83.7, -74.96] plc [-84.31, -74.36] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> consistent
+  32 kbps Risk-Aware-Static     pdr_nominal_pct          +5.887 [-0.5534, +12.33] plc [-9.708, +21.48] A>B 9 = 0 A<B 6 p=0.0383 holm=0.111 -> descriptive
+  32 kbps Risk-Aware-Static     exposure_rate_pct        -13.73 [-24.72, -2.74] plc [-40.35, +12.89] A>B 0 = 0 A<B 15 p=6.1e-05 holm=0.000732 -> supported
+  32 kbps Risk-Aware-Static     sink_thr_kbps            +164.9 [-15.5, +345.2] plc [-271.9, +601.6] A>B 9 = 0 A<B 6 p=0.0383 holm=- -> descriptive
+  32 kbps Risk-Aware-Static     delay_p95_ms             +100.5 [+15.82, +185.2] plc [-104.5, +305.5] A>B 13 = 0 A<B 2 p=0.00189 holm=- -> descriptive
+  32 kbps Risk-Aware-Static     mean_hops_delivered    +0.07687 [+0.01497, +0.1388] plc [-0.07301, +0.2268] A>B 12 = 0 A<B 3 p=0.00275 holm=- -> descriptive
+  32 kbps Risk-Aware-Static     gw_airtime             +0.02812 [-0.003961, +0.0602] plc [-0.04957, +0.1058] A>B 11 = 0 A<B 4 p=0.104 holm=- -> descriptive
+  32 kbps Risk-Aware-Static     mpdu_retry_drop         -0.3333 [-1.977, +1.31] plc [-3.216, +2.549] A>B 5 = 2 A<B 8 p=0.73 holm=- -> descriptive
+  32 kbps Risk-Aware-OLSR       pdr_nominal_pct             +29 [+27.64, +30.36] plc [+25.78, +32.22] A>B 15 = 0 A<B 0 p=6.1e-05 holm=0.000732 -> supported
+  32 kbps Risk-Aware-OLSR       exposure_rate_pct        -7.095 [-9.917, -4.272] plc [-13.9, -0.2903] A>B 0 = 0 A<B 15 p=6.1e-05 holm=0.000732 -> supported
+  32 kbps Risk-Aware-OLSR       sink_thr_kbps            +812.2 [+774.2, +850.2] plc [+722, +902.5] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> consistent
+  32 kbps Risk-Aware-OLSR       delay_p95_ms             -196.3 [-215.2, -177.3] plc [-234, -158.5] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> descriptive
+  32 kbps Risk-Aware-OLSR       mean_hops_delivered     +0.6204 [+0.5893, +0.6514] plc [+0.552, +0.6887] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> descriptive
+  32 kbps Risk-Aware-OLSR       gw_airtime              +0.0113 [+0.005077, +0.01752] plc [-0.003407, +0.026] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> consistent
+  32 kbps Risk-Aware-OLSR       mpdu_retry_drop          -135.4 [-144.6, -126.2] plc [-147.4, -123.4] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> consistent
+  32 kbps     Static-OLSR       pdr_nominal_pct          +23.11 [+17.85, +28.37] plc [+10.39, +35.83] A>B 15 = 0 A<B 0 p=6.1e-05 holm=0.000732 -> supported
+  32 kbps     Static-OLSR       exposure_rate_pct        +6.637 [-1.813, +15.09] plc [-13.82, +27.09] A>B 9 = 0 A<B 6 p=0.204 holm=0.204 -> descriptive
+  32 kbps     Static-OLSR       sink_thr_kbps            +647.4 [+500.1, +794.6] plc [+291.1, +1004] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> consistent
+  32 kbps     Static-OLSR       delay_p95_ms             -296.8 [-369.7, -223.9] plc [-471, -122.5] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> descriptive
+  32 kbps     Static-OLSR       mean_hops_delivered     +0.5435 [+0.5033, +0.5837] plc [+0.4513, +0.6357] A>B 15 = 0 A<B 0 p=6.1e-05 holm=- -> descriptive
+  32 kbps     Static-OLSR       gw_airtime             -0.01682 [-0.043, +0.009356] plc [-0.08014, +0.04649] A>B 12 = 0 A<B 3 p=0.25 holm=- -> descriptive
+  32 kbps     Static-OLSR       mpdu_retry_drop          -135.1 [-144.1, -126] plc [-147.5, -122.7] A>B 0 = 0 A<B 15 p=6.1e-05 holm=- -> consistent
+
+== per placement (mean over seeds): PDR % / exposure %
+   8 kbps subtree  high [1 2 4]  Static 69.13 / 51.81  Risk-Aware 100.00 / 0.00  OLSR 92.68 / 14.29
+   8 kbps u101     high [16 25 44]  Static 98.18 / 3.61  Risk-Aware 99.99 / 0.00  OLSR 98.97 / 1.89
+   8 kbps u102     high [35 42 76]  Static 95.77 / 8.43  Risk-Aware 99.99 / 0.00  OLSR 98.90 / 2.11
+   8 kbps u103     high [39 53 55]  Static 99.40 / 1.20  Risk-Aware 100.00 / 0.00  OLSR 97.89 / 4.08
+   8 kbps u104     high [5 19 47]  Static 98.18 / 3.61  Risk-Aware 100.00 / 0.00  OLSR 98.16 / 3.48
+  32 kbps subtree  high [1 2 4]  Static 69.23 / 51.80  Risk-Aware 97.52 / 0.00  OLSR 64.42 / 15.97
+  32 kbps u101     high [16 25 44]  Static 95.90 / 3.61  Risk-Aware 96.08 / 0.00  OLSR 68.01 / 1.72
+  32 kbps u102     high [35 42 76]  Static 95.36 / 8.43  Risk-Aware 94.85 / 0.00  OLSR 68.41 / 8.14
+  32 kbps u103     high [39 53 55]  Static 95.73 / 1.20  Risk-Aware 95.46 / 0.00  OLSR 67.89 / 5.52
+  32 kbps u104     high [5 19 47]  Static 94.60 / 3.61  Risk-Aware 96.34 / 0.00  OLSR 66.53 / 4.13

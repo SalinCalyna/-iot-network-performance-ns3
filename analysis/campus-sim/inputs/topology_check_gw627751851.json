@@ -1,0 +1,99 @@
+{
+ "input": {
+  "file": "analysis/campus-sim/inputs/campus.json",
+  "sha256": "b44e7d9b6784662023490a86c9b0ddee0232274950ed59bd0676847addb27828",
+  "source": "site/data/campus/campus.json at commit 66b422f4e"
+ },
+ "gateway": {
+  "osm_way": 627751851,
+  "name": "ตึกอธิการบดีมอ.ภูเก็ต",
+  "xy": [
+   -23.51,
+   -8.7
+  ],
+  "ll": [
+   7.8943864,
+   98.3528585
+  ]
+ },
+ "n_sensors": 83,
+ "applications": {
+  "environmental": 27,
+  "traffic": 21,
+  "flood": 7,
+  "lighting": 28
+ },
+ "frame": {
+  "lat0": 7.8944645187499995,
+  "lon0": 98.35307175,
+  "m_per_deg_lat": 111320.0,
+  "m_per_deg_lon": 110264.99113398281,
+  "note": "local equirectangular frame centred on the campus polygon's vertex mean; x east, y north, metres"
+ },
+ "extent_m": {
+  "x": [
+   -324.85,
+   255.25
+  ],
+  "y": [
+   -372.98,
+   234.59
+  ]
+ },
+ "min_pairwise_distance_m": 30.11,
+ "frame_round_trip_max_error_m": "<= 0.02 (rounding of the dashboard values)",
+ "link_model_90m": {
+  "links": 284,
+  "components": 1,
+  "unreachable": [],
+  "max_hop": 7,
+  "hop_histogram": {
+   "1": 10,
+   "2": 19,
+   "3": 24,
+   "4": 16,
+   "5": 7,
+   "6": 5,
+   "7": 2
+  },
+  "mean_degree": 6.76,
+  "gateway_degree": 10,
+  "links_crossing_osm_building": 170
+ },
+ "at_116_6m": {
+  "components": 1,
+  "max_hop": 6,
+  "mean_degree": 11.21
+ },
+ "sensors_inside_osm_building_footprint": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  46,
+  47
+ ]
+}

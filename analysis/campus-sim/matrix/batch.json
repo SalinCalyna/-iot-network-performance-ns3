@@ -1,0 +1,48 @@
+{
+ "study": "PSU Phuket campus-specific ns-3 study (proposed deployment; not calibrated to campus measurements)",
+ "phase": "matrix",
+ "simulator": "scratch/iot-network-wifi6-campus.cc",
+ "binary": "build/scratch/ns3-dev-iot-network-wifi6-campus-default",
+ "source_sha256": "7c2d52276e6b9a42f5996c66ba0890ff16557924ea8fb0c40f8907c3822c56ee",
+ "binary_sha256": "96fe6f3a691528c3155d0451593069547ac34f9bdda741dff5dceb4874975de7",
+ "positions_sha256": "5e898bcd70cb7931694934913db8d4f46f97e69a6900a7e3d8c054a8aa051cae",
+ "libraries_manifest": "analysis/campus-sim/SIMULATOR_LIBS_CAMPUS.sha256",
+ "positions_file": "analysis/campus-sim/inputs/positions_gw627751851.csv",
+ "topology_check": "analysis/campus-sim/inputs/topology_check_gw627751851.json",
+ "n_sensors": 83,
+ "base_args": [
+  "--standard=80211ax",
+  "--nSensors=83",
+  "--trafficLevel=high",
+  "--arpPrepopulate=1",
+  "--riskStudy=1",
+  "--perPacketTrace=1",
+  "--highRiskDropProb=0.5",
+  "--lowRiskDropProb=0",
+  "--riskBeta=10"
+ ],
+ "protocols": [
+  "olsr",
+  "riskaware",
+  "static"
+ ],
+ "seeds": [
+  1,
+  2,
+  3
+ ],
+ "uniform_placements": [
+  101,
+  102,
+  103,
+  104
+ ],
+ "runs": 108,
+ "max_jobs": 6,
+ "created": "2026-10-26T16:14:40+0700",
+ "host": {
+  "os": "26.3.1",
+  "cpus": 8,
+  "python": "3.14.3"
+ }
+}

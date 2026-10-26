@@ -1,0 +1,11 @@
+Pilot campus-pilot-20261026T160720 vs matrix campus-matrix-20261026T161440: the 6 pilot configurations were run again inside the matrix.
+Simulator output files compared by sha256 (outputs_sha256.json), excluding probe_aggregate.csv (wall-clock timestamp
+column); provenance.json compared field by field: argv must be identical apart from --outDir (the batch's own path),
+only the timing fields wall_sec and finished may differ; metric rows of pilot_runs.csv compared field by field, excluding wall_min.
+  olsr_k0_none_rate8_seed1: 14 output files identical; provenance differs only in ['finished', 'wall_sec']; metrics identical
+  olsr_k3_subtree_rate8_seed1: 14 output files identical; provenance differs only in ['finished', 'wall_sec']; metrics identical
+  riskaware_k0_none_rate8_seed1: 14 output files identical; provenance differs only in ['finished', 'wall_sec']; metrics identical
+  riskaware_k3_subtree_rate8_seed1: 14 output files identical; provenance differs only in ['finished', 'wall_sec']; metrics identical
+  static_k0_none_rate8_seed1: 14 output files identical; provenance differs only in ['finished', 'wall_sec']; metrics identical
+  static_k3_subtree_rate8_seed1: 14 output files identical; provenance differs only in ['finished', 'wall_sec']; metrics identical
+RESULT: deterministic: all outputs and metrics identical

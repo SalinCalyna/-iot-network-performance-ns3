@@ -1,0 +1,33 @@
+{
+ "rule": "uniform: k sensors with the smallest SplitMix64(SplitMix64(P) ^ id); subtree: simulator rule",
+ "sets": {
+  "u101": {
+   "high_order": [
+    16,
+    44,
+    25
+   ]
+  },
+  "u102": {
+   "high_order": [
+    42,
+    35,
+    76
+   ]
+  },
+  "u103": {
+   "high_order": [
+    39,
+    53,
+    55
+   ]
+  },
+  "u104": {
+   "high_order": [
+    19,
+    5,
+    47
+   ]
+  }
+ }
+}

@@ -551,3 +551,16 @@ details.w6-details[open] summary{margin-bottom:10px}
 @media(max-width:1100px){.cs-apps{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:900px){.cs-flow{flex-direction:column}.cs-arr{transform:rotate(90deg)}.cs-map{height:430px}}
 @media(max-width:560px){.cs-apps{grid-template-columns:1fr}}
+
+/* ---------- PSU Phuket campus simulation results (campus-sim.js) ---------- */
+#view-campus-sim .grid>*{min-width:0}
+.cms-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cms-cat{display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;font-size:.8rem;color:var(--text-dim)}
+.cms-cat strong{display:block;color:var(--text);font-size:.82rem;margin-bottom:2px}
+.cms-cat span{display:block}
+.cms-cat.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent);background:var(--accent-soft)}
+.cms-cat.none{border-style:dashed}
+.cms-cat-n{flex:0 0 auto;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--panel-2);border:1px solid var(--border);font-weight:800;font-size:.72rem;color:var(--text)}
+.cms-cat.on .cms-cat-n{background:var(--accent);color:#fff;border-color:var(--accent)}
+@media(max-width:1100px){.cms-cats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.cms-cats{grid-template-columns:1fr}}

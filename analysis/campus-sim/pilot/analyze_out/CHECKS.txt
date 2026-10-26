@@ -1,0 +1,21 @@
+campus-pilot-20261026T160720: 6 runs; checks 88 passed, 0 failed
+  PASS  P0 run ok: 6 passed, 0 failed
+  PASS  P1 FlowMonitor rx <= sink: 6 passed, 0 failed
+  PASS  P1 delivered + duplicates = sink rx: 6 passed, 0 failed
+  PASS  P1 fates partition: 6 passed, 0 failed
+  PASS  P1 path records = app tx: 6 passed, 0 failed
+  PASS  P2 high-risk set = reference: 6 passed, 0 failed
+  PASS  P2 hop/degree = reference: 6 passed, 0 failed
+  PASS  P2 same high-risk set across protocols and loads: 2 passed, 0 failed
+  PASS  P3 risk drops valid: 6 passed, 0 failed
+  PASS  P4 delivered packets followed the installed path: 4 passed, 0 failed
+  PASS  P4 installed path = reference tree: 4 passed, 0 failed
+  PASS  P4 riskaware k=0 packet paths = static k=0: 1 passed, 0 failed
+  PASS  P5 identical first-send times across runs: 1 passed, 0 failed
+  PASS  P5 one scheduled send count for every source: 1 passed, 0 failed
+  PASS  P5 send count <= nominal: 6 passed, 0 failed
+  PASS  P6 unicast data HE_SU HeMcs0: 6 passed, 0 failed
+  PASS  P7 coordinates = positions file: 6 passed, 0 failed
+  PASS  R1 static routes = k0 static routes: 1 passed, 0 failed
+  PASS  R2 riskaware no exposure without unavoidable sources: 2 passed, 0 failed
+  PASS  R3 risk_summary key_missing / preregistered ids: 6 passed, 0 failed

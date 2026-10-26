@@ -1,0 +1,1 @@
+campus-matrix-20261026T161440: 108 runs, 368420 risk drops rechecked with each run's own seed; violations: 0

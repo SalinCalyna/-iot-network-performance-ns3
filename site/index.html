@@ -44,6 +44,7 @@
     <div class="navgroup">
       <div class="glabel">Case study (proposed)</div>
       <a class="navlink" href="#view-campus" data-target="view-campus"><span class="dot" aria-hidden="true"></span>PSU Phuket smart campus</a>
+      <a class="navlink sub" href="#view-campus-sim" data-target="view-campus-sim"><span class="dot" aria-hidden="true"></span>Campus simulation results</a>
     </div>
     <div class="navgroup">
       <a class="navlink" href="#view-conclusions" data-target="view-conclusions"><span class="dot" aria-hidden="true"></span>5 · Conclusions &amp; Reproducibility</a>
@@ -588,6 +589,84 @@ install on every sensor i:  "gateway via parent[i]"</pre>
         <div class="panel"><p class="panel-sub" style="margin:0" id="cs-sources">—</p></div>
       </section>
 
+      <!-- ============================================================ CAMPUS SIMULATION RESULTS -->
+      <section class="view major" id="view-campus-sim">
+        <div class="section-eyebrow">Case study · PSU Phuket campus-specific ns-3 simulation · 2026-10-26</div>
+        <div class="badge-row">
+          <span class="tag measured">CAMPUS-SPECIFIC NS-3 SIMULATION</span>
+          <span class="tag planned">UNCALIBRATED · OPEN-SPACE RADIO MODEL</span>
+          <span class="tag v3" id="cms-badge-runs">— RUNS</span>
+          <span class="tag repro">DESIGN FIXED BEFORE THE RUNS</span>
+        </div>
+        <h2>PSU Phuket Campus Simulation Results</h2>
+        <p class="lede">The proposed campus deployment above, simulated in ns-3: 83 sensors at the proposed sites and one gateway at the administration building, placed exactly at their campus coordinates. Static, Risk-Aware and OLSR are compared at 8 and 32 kbps per sensor with no risk, with three high-risk relays on Static's tree (the worst case for Static), and with four uniformly random placements of three high-risk sensors. Each configuration runs with three seeds.</p>
+        <div class="cms-cats" role="list" aria-label="Evidence categories">
+          <div class="cms-cat" role="listitem"><span class="cms-cat-n">1</span><div><strong>Proposed campus deployment</strong><span>Sensor sites derived from OpenStreetMap features. Conceptual: <a href="#view-campus">section above</a>.</span></div></div>
+          <div class="cms-cat on" role="listitem"><span class="cms-cat-n">2</span><div><strong>Campus-specific ns-3 results</strong><span>This section: simulated on the campus layout, uncalibrated.</span></div></div>
+          <div class="cms-cat" role="listitem"><span class="cms-cat-n">3</span><div><strong>Validated generic mesh results</strong><span>Random 250 m fields: <a href="#view-w6-overview">Wi-Fi 6 study</a> and <a href="#view-w6-randplace">uniform placement</a>.</span></div></div>
+          <div class="cms-cat none" role="listitem"><span class="cms-cat-n">4</span><div><strong>Real campus measurements</strong><span>None exist. No sensor is installed and no campus radio or traffic was measured.</span></div></div>
+        </div>
+        <div class="key-finding" id="cms-kf" style="margin-top:16px"><span class="kf-label">Key Finding</span><span>—</span></div>
+        <div class="kpi-grid" id="cms-kpis"></div>
+
+        <h3 class="sub-h">Simulated routes on the campus map</h3>
+        <div class="panel cs-controls">
+          <div class="filters">
+            <div class="filter-group"><span class="fl">Risk placement</span><div id="cms-place" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Rate</span><div id="cms-rate" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Protocol</span><div id="cms-proto" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Layers</span><div id="cms-layers" class="pillrow"></div></div>
+          </div>
+          <div id="cms-legend" class="legend topo-legend"></div>
+        </div>
+        <div class="cs-mapwrap" style="margin-top:14px">
+          <div id="cms-map" class="cs-map" role="region" aria-label="Campus map with simulated routes"></div>
+          <div class="cs-mapnote" id="cms-mapnote">—</div>
+        </div>
+        <div class="grid cols-2" style="margin-top:14px">
+          <div class="panel" id="cms-run" aria-live="polite">—</div>
+          <div class="panel" id="cms-info" aria-live="polite"><p class="panel-sub" style="margin:0">Click a sensor to see its simulated route and packet counts.</p></div>
+        </div>
+
+        <h3 class="sub-h">Results by protocol (k = 3 high-risk relays, 15 matched draws per rate)</h3>
+        <div class="filters"><div class="filter-group"><span class="fl">Rate</span><div id="cms-tab-rate" class="pillrow"></div></div></div>
+        <div class="panel">
+          <p class="panel-sub">Mean over 5 risk placements × 3 seeds with the 95 % t interval (df = 14) in brackets. Delay and hop count are over delivered packets only (survivorship), so they are descriptive.</p>
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Campus results by protocol"><table class="data" id="cms-tab"></table></div>
+        </div>
+        <div id="cms-chart-legend" style="margin-top:16px"></div>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Nominal PDR</h3><p class="panel-sub">% of scheduled packets delivered · mean ± 95 % CI, k = 3</p><div class="chart-wrap" id="cms-chart-pdr"></div></div>
+          <div class="panel"><h3>Risk exposure</h3><p class="panel-sub">% of sent packets whose path crossed a high-risk relay · mean ± 95 % CI</p><div class="chart-wrap" id="cms-chart-exp"></div></div>
+        </div>
+
+        <h3 class="sub-h">Matched comparisons</h3>
+        <div class="filters"><div class="filter-group"><span class="fl">Rate</span><div id="cms-pair-rate" class="pillrow"></div></div></div>
+        <div class="panel">
+          <p class="panel-sub">Differences A − B within each (placement, seed) draw. Supported = primary metric, Holm-adjusted exact sign-flip p &lt; 0.05, draw-level 95 % interval excluding 0, and the same sign in all 5 placements. Consistent = a secondary metric meeting the same criteria without Holm (exploratory). Descriptive = everything else, plus all delay and hop metrics.</p>
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Campus matched comparisons"><table class="data" id="cms-pair"></table></div>
+        </div>
+
+        <h3 class="sub-h">By risk placement, and without risk</h3>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Per placement (mean of 3 seeds)</h3><div class="w6-table-wrap" tabindex="0" role="region" aria-label="Per-placement results"><table class="data" id="cms-place-tab"></table></div></div>
+          <div class="panel"><h3>No-risk baseline (k = 0, 3 seeds)</h3><div class="w6-table-wrap" tabindex="0" role="region" aria-label="No-risk baseline"><table class="data" id="cms-k0"></table></div><ul class="evidence-list" id="cms-k0-notes" style="margin-top:10px"></ul></div>
+        </div>
+
+        <h3 class="sub-h">Methodology, validation and limitations</h3>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Method and validation</h3><ul class="evidence-list" style="margin:0" id="cms-method"></ul></div>
+          <div class="panel"><h3>Limitations</h3><ul class="evidence-list" style="margin:0">
+            <li><strong>Not calibrated.</strong> No campus RSSI, packet-loss or traffic measurement exists. The radio model is open-space log-distance (exponent 3, 40 dB at 1 m), as in the validated generic study.</li>
+            <li><strong>No buildings.</strong> 170 of the 284 links in the 90 m model (60 %) cross an OSM building footprint. Walls are not modelled, so link quality is likely optimistic. Footprints exist, but heights and materials do not.</li>
+            <li><strong>One layout.</strong> One proposed deployment with one gateway site. Seeds vary only ns-3 randomness and the risk-drop hash, so results do not generalise to other layouts or gateway sites.</li>
+            <li><strong>Stress traffic.</strong> Constant 512-byte UDP at 8 or 32 kbps per sensor is far above typical campus sensing traffic.</li>
+            <li><strong>Same risk assumptions</strong> as the generic study: oracle risk knowledge for Risk-Aware, transit-only drops with p = 0.5, gateway never risky, flat terrain.</li>
+          </ul></div>
+        </div>
+        <p class="panel-sub" style="margin-top:14px" id="cms-provenance">—</p>
+      </section>
+
       <!-- ============================================================ 5. CONCLUSIONS -->
       <section class="view" id="view-conclusions">
         <div class="section-eyebrow">5 · Conclusions, Limitations &amp; Reproducibility</div>
@@ -654,5 +733,6 @@ install on every sensor i:  "gateway via parent[i]"</pre>
 <script src="topology.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" integrity="sha512-puJW3E/qXDqYp9IfhAI54BJEaWIfloJ7JWs7OeD5i6ruC9JZL1gERT1wjtwXFlh7CjE7ZJ+/vcRZRkIYIb6p4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="campus.js"></script>
+<script src="campus-sim.js"></script>
 </body>
 </html>

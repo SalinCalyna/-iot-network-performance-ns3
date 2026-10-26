@@ -1,0 +1,85 @@
+node_id,role,application,x_m,y_m,lat,lon,source
+0,sensor,environmental,105.63,72.53,7.8951161,98.3540297,"building centroid, OSM way 316508932 (Gymnasium)"
+1,sensor,environmental,-89.91,-117.33,7.8934105,98.3522564,"building centroid, OSM way 316508934 (6th Building)"
+2,sensor,environmental,-27.26,-66.84,7.893864,98.3528245,"building centroid, OSM way 316508941 (Auditorium)"
+3,sensor,environmental,42.92,-107.9,7.8934952,98.353461,"building centroid, OSM way 316508942"
+4,sensor,environmental,-98.45,34.64,7.8947757,98.3521789,"building centroid, OSM way 316508943 (1st Building)"
+5,sensor,environmental,-61.84,22.29,7.8946647,98.3525109,"building centroid, OSM way 316508944 (1st Building (1A))"
+6,sensor,environmental,-103.92,-47.09,7.8940415,98.3521293,"building centroid, OSM way 316508946 (2nd Building)"
+7,sensor,environmental,-135.85,-61.73,7.89391,98.3518397,"building centroid, OSM way 316508947 (PSU Lodge)"
+8,sensor,environmental,45.2,-51.56,7.8940014,98.3534817,"building centroid, OSM way 316508948 (5th Building (A))"
+9,sensor,environmental,-0.67,-83.4,7.8937153,98.3530657,"building centroid, OSM way 316508949 (3rd Building)"
+10,sensor,environmental,-278.0,-372.98,7.891114,98.3505505,"building centroid, OSM way 316508950 (Lecturers Dormitory)"
+11,sensor,environmental,204.83,-180.61,7.8928421,98.3549293,"building centroid, OSM way 316508953 (Dormitory I (Male))"
+12,sensor,environmental,164.86,-103.54,7.8935344,98.3545668,"building centroid, OSM way 316508954 (Dormitory II (Female))"
+13,sensor,environmental,255.25,-257.32,7.892153,98.3553866,"building centroid, OSM way 316508955 (Dormitory III (Female))"
+14,sensor,environmental,-51.64,234.59,7.8965719,98.3526035,"building centroid, OSM way 627743985 (Sports Complex PSU Phuket)"
+15,sensor,environmental,-110.04,-224.63,7.8924467,98.3520738,"building centroid, OSM way 627745355"
+16,sensor,environmental,-211.54,-4.71,7.8944222,98.3511533,"building centroid, OSM way 627746259"
+17,sensor,environmental,93.42,128.9,7.8956224,98.353919,"building centroid, OSM way 627746260"
+18,sensor,environmental,-225.96,174.93,7.8960359,98.3510225,"building centroid, OSM way 627746262"
+19,sensor,environmental,-269.24,99.41,7.8953575,98.35063,"building centroid, OSM way 627746264"
+20,sensor,environmental,-239.68,109.23,7.8954458,98.3508981,"building centroid, OSM way 627746265"
+21,sensor,environmental,-197.23,59.21,7.8949964,98.3512831,"building centroid, OSM way 627746266"
+22,sensor,environmental,-59.75,-235.11,7.8923525,98.3525299,"building centroid, OSM way 627746267"
+23,sensor,environmental,58.32,172.55,7.8960145,98.3536006,"building centroid, OSM way 1047155289"
+24,sensor,environmental,-267.64,134.06,7.8956688,98.3506445,"building centroid, OSM way 1073666918"
+25,sensor,environmental,-259.37,-342.76,7.8913854,98.3507195,"building centroid, OSM way 1327934270 (Lecturers Dormitory)"
+26,sensor,environmental,-239.12,-310.26,7.8916774,98.3509031,"building centroid, OSM way 1327934271 (Lecturers Dormitory)"
+27,sensor,traffic,-324.85,-320.31,7.8915871,98.3501257,"road junction at 7.8915871, 98.3501257 (2 roads)"
+28,sensor,traffic,-312.94,-286.94,7.8918869,98.3502337,"road junction at 7.8918869, 98.3502337 (2 roads)"
+29,sensor,traffic,-292.8,-256.41,7.8921612,98.3504163,"road junction at 7.8921612, 98.3504163 (2 roads)"
+30,sensor,traffic,209.98,-234.05,7.892362,98.3549761,"road junction at 7.8923620, 98.3549761 (2 roads)"
+31,sensor,traffic,0.04,-208.93,7.8925877,98.3530721,"road junction at 7.8925877, 98.3530721 (2 roads)"
+32,sensor,traffic,-114.12,-193.11,7.8927298,98.3520368,"road junction at 7.8927298, 98.3520368 (2 roads)"
+33,sensor,traffic,-148.39,-158.4,7.8930416,98.351726,"road junction at 7.8930416, 98.3517260 (2 roads)"
+34,sensor,traffic,-102.25,-151.71,7.8931017,98.3521444,"road junction at 7.8931017, 98.3521444 (2 roads)"
+35,sensor,traffic,71.78,-148.01,7.8931349,98.3537227,"road junction at 7.8931349, 98.3537227 (2 roads)"
+36,sensor,traffic,-168.17,-128.81,7.8933074,98.3515466,"road junction at 7.8933074, 98.3515466 (2 roads)"
+37,sensor,traffic,-229.04,-83.4,7.8937153,98.3509946,"road junction at 7.8937153, 98.3509946 (2 roads)"
+38,sensor,traffic,-199.36,-78.33,7.8937609,98.3512637,"road junction at 7.8937609, 98.3512637 (2 roads)"
+39,sensor,traffic,-205.12,-45.02,7.8940601,98.3512115,"road junction at 7.8940601, 98.3512115 (2 roads)"
+40,sensor,traffic,-171.46,15.24,7.8946014,98.3515168,"road junction at 7.8946014, 98.3515168 (2 roads)"
+41,sensor,traffic,-152.52,48.97,7.8949044,98.3516885,"road junction at 7.8949044, 98.3516885 (2 roads)"
+42,sensor,traffic,25.97,74.88,7.8951372,98.3533073,"road junction at 7.8951372, 98.3533073 (2 roads)"
+43,sensor,traffic,-117.85,89.27,7.8952664,98.352003,"road junction at 7.8952664, 98.3520030 (2 roads)"
+44,sensor,traffic,52.36,99.91,7.895362,98.3535466,"road junction at 7.8953620, 98.3535466 (3 roads)"
+45,sensor,traffic,-177.5,184.05,7.8961179,98.351462,"road junction at 7.8961179, 98.3514620 (2 roads)"
+46,sensor,traffic,-136.41,206.92,7.8963233,98.3518346,"road junction at 7.8963233, 98.3518346 (2 roads)"
+47,sensor,traffic,21.98,209.97,7.8963507,98.3532711,"road junction at 7.8963507, 98.3532711 (2 roads)"
+48,sensor,flood,-249.85,-167.37,7.892961,98.3508058,north edge of water body OSM way 90449507 (สระอโนดาษ)
+49,sensor,flood,-140.43,-240.71,7.8923022,98.3517982,east edge of water body OSM way 90449507 (สระอโนดาษ)
+50,sensor,flood,-204.32,-273.25,7.8920099,98.3512188,south edge of water body OSM way 90449507 (สระอโนดาษ)
+51,sensor,flood,-264.65,-235.98,7.8923447,98.3506716,west edge of water body OSM way 90449507 (สระอโนดาษ)
+52,sensor,flood,105.77,-137.79,7.8932267,98.354031,north edge of water body OSM way 627746258
+53,sensor,flood,163.44,-155.98,7.8930633,98.354554,east edge of water body OSM way 627746258
+54,sensor,flood,134.9,-172.1,7.8929185,98.3542952,south edge of water body OSM way 627746258
+55,sensor,lighting,78.36,35.47,7.8947831,98.3537824,along residential OSM way 89401605
+56,sensor,lighting,114.74,-24.12,7.8942478,98.3541123,along residential OSM way 89401605
+57,sensor,lighting,110.09,-90.81,7.8936488,98.3540702,along residential OSM way 89401605
+58,sensor,lighting,9.39,-179.03,7.8928563,98.3531569,along residential OSM way 89401605
+59,sensor,lighting,-59.33,-192.18,7.8927382,98.3525336,along residential OSM way 89401605
+60,sensor,lighting,-61.68,-156.65,7.8930573,98.3525124,along footway OSM way 316508936
+61,sensor,lighting,-86.5,90.42,7.8952768,98.3522872,along footway OSM way 316508936
+62,sensor,lighting,-16.83,91.02,7.8952821,98.3529191,along footway OSM way 316508936
+63,sensor,lighting,-4.65,-119.6,7.8933902,98.3530295,along footway OSM way 316508938
+64,sensor,lighting,23.97,-8.83,7.8943852,98.3532892,along footway OSM way 316508939
+65,sensor,lighting,-82.68,-22.19,7.8942651,98.3523219,along footway OSM way 316508939
+66,sensor,lighting,-57.17,-51.16,7.8940049,98.3525533,along service OSM way 316508956
+67,sensor,lighting,-117.68,-15.98,7.894321,98.3520045,along service OSM way 316508956
+68,sensor,lighting,-24.31,55.63,7.8949643,98.3528513,along residential OSM way 627751850
+69,sensor,lighting,125.18,-64.48,7.8938853,98.354207,along footway OSM way 627751858
+70,sensor,lighting,176.75,-207.06,7.8926045,98.3546747,along footway OSM way 627751858
+71,sensor,lighting,-131.77,131.19,7.895643,98.3518767,along footway OSM way 627753832
+72,sensor,lighting,55.95,137.73,7.8957017,98.3535792,along footway OSM way 627753832
+73,sensor,lighting,-260.56,-122.36,7.8933653,98.3507087,along footway OSM way 627753838
+74,sensor,lighting,-287.31,-185.35,7.8927995,98.3504662,along footway OSM way 627753838
+75,sensor,lighting,-209.88,89.06,7.8952646,98.3511684,along service OSM way 959091267
+76,sensor,lighting,-167.41,-81.43,7.893733,98.3515535,along service OSM way 959091269
+77,sensor,lighting,-24.41,-243.21,7.8922798,98.3528504,along residential OSM way 959091272
+78,sensor,lighting,13.56,-299.59,7.8917733,98.3531948,along residential OSM way 959091272
+79,sensor,lighting,56.09,-216.06,7.8925237,98.3535805,along service OSM way 959628061
+80,sensor,lighting,-48.82,103.06,7.8953904,98.352629,along residential OSM way 1063117686
+81,sensor,lighting,20.97,104.89,7.8954068,98.353262,along residential OSM way 1063117686
+82,sensor,lighting,-208.37,204.73,7.8963036,98.351182,along footway OSM way 1189312693
+83,gateway,,-23.51,-8.7,7.8943864,98.3528585,centroid of OSM way 627751851 (ตึกอธิการบดีมอ.ภูเก็ต)
