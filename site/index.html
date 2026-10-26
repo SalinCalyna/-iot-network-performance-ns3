@@ -33,6 +33,7 @@
       <a class="navlink sub" href="#view-w6-paired" data-target="view-w6-paired"><span class="dot" aria-hidden="true"></span>Paired vs Static</a>
       <a class="navlink sub" href="#view-w6-cost" data-target="view-w6-cost"><span class="dot" aria-hidden="true"></span>Routing cost</a>
       <a class="navlink sub" href="#view-w6-aodv" data-target="view-w6-aodv"><span class="dot" aria-hidden="true"></span>AODV at N=100</a>
+      <a class="navlink sub" href="#view-w6-randplace" data-target="view-w6-randplace"><span class="dot" aria-hidden="true"></span>Uniform random placement</a>
     </div>
     <div class="navgroup">
       <a class="navlink" href="#view-conclusions" data-target="view-conclusions"><span class="dot" aria-hidden="true"></span>5 · Conclusions &amp; Reproducibility</a>
@@ -82,7 +83,7 @@
           <a class="area-card" href="#view-performance"><span class="ac-num">1</span><span class="ac-title">V3 Baseline</span><span class="ac-meta"><span id="kpi-v3">1,782</span> runs · AODV / OLSR / Static · N = 10–100 · 11 seeds</span><span class="ac-res">Delivery degrades as network size and traffic load grow, for all three protocols.</span></a>
           <a class="area-card" href="#view-bottleneck"><span class="ac-num">2</span><span class="ac-title">Bottleneck &amp; Rate Intervention</span><span class="ac-meta"><span id="kpi-bottleneck">176</span> + 36 + 72 + 12 runs</span><span class="ac-res">OLSR gateway airtime reaches 0.86–0.89 at N ≥ 75 (high traffic); cutting the rate 16 → 4 kbps raises OLSR PDR by +25.2 pp at N = 100.</span></a>
           <a class="area-card" href="#view-routing"><span class="ac-num">3</span><span class="ac-title">V4 Sigmoid Routing</span><span class="ac-meta">957 runs</span><span class="ac-res">Re-routes up to 11/11 seeds without a credible PDR gain over Static: a valid negative result.</span></a>
-          <a class="area-card highlight" href="#view-w6-overview"><span class="ac-num">4</span><span class="ac-title">Wi-Fi 6 Risk-Aware Routing</span><span class="ac-meta">208 runs · N = 30 (160 runs, 10 seeds) · N = 100 (48 runs, 3 seeds)</span><span class="ac-res">At N = 30, k = 3: PDR <strong>+23.18 pp</strong> [95 % CI +19.81, +26.54] and risk exposure <strong>−46.33 pp</strong> [95 % CI −53.21, −39.46] vs Static, 10/10 pairs; an upper bound (oracle risk knowledge). N = 100 descriptive only.</span></a>
+          <a class="area-card highlight" href="#view-w6-overview"><span class="ac-num">4</span><span class="ac-title">Wi-Fi 6 Risk-Aware Routing</span><span class="ac-meta">208 runs · N = 30 (160 runs, 10 seeds) · N = 100 (48 runs, 3 seeds) · + 72-run uniform-placement follow-up</span><span class="ac-res">At N = 30, k = 3: PDR <strong>+23.18 pp</strong> [95 % CI +19.81, +26.54] and risk exposure <strong>−46.33 pp</strong> [95 % CI −53.21, −39.46] vs Static, 10/10 pairs; an upper bound (oracle risk knowledge). N = 100 descriptive only.</span></a>
           <a class="area-card" href="#view-conclusions"><span class="ac-num">5</span><span class="ac-title">Conclusions &amp; Reproducibility</span><span class="ac-meta">51-run reproducibility check</span><span class="ac-res"><span id="kpi-repro">681/681</span> applicable comparisons reproduced exactly; Wi-Fi 6 package published.</span></a>
         </div>
       </section>
@@ -218,7 +219,7 @@
             <div class="callout" style="margin-top:10px;font-size:.8rem"><strong>PDR definition —</strong> all main comparisons use <strong>nominal PDR</strong> = delivered ÷ scheduled packets. <span id="w6-denominators">—</span></div>
           </div>
         </div>
-        <div class="callout warn" style="margin-top:16px;font-size:.82rem"><strong>Upper bound —</strong> Risk-Aware routing uses oracle knowledge of node risk, and the high-risk relays are chosen from Static's tree (Static's worst case). Simulator settings: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/wifi6-risk-writeup/TABLES.md" target="_blank" rel="noopener">T-W1</a>.</div>
+        <div class="callout warn" style="margin-top:16px;font-size:.82rem"><strong>Upper bound —</strong> Risk-Aware routing uses oracle knowledge of node risk, and the high-risk relays are chosen from Static's tree (Static's worst case). The follow-up with protocol-independent placement is in <a href="#view-w6-randplace">Uniform random placement</a>. Simulator settings: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/wifi6-risk-writeup/TABLES.md" target="_blank" rel="noopener">T-W1</a>.</div>
         <div class="callout" style="margin-top:12px;font-size:.82rem"><strong>Not the V4 mechanism —</strong> Risk-Aware routing here is a risk-weighted Dijkstra (transit cost 1 + β·(−ln(1 − r)), β = 10) computed with oracle risk knowledge. It is unrelated to the V4 sigmoid-based adaptive routing, which was tested on the 802.11b mesh without risk states and closed with a negative result (<a href="#view-routing">V4 section</a>).</div>
       </section>
 
@@ -284,6 +285,99 @@
         </ul>
       </section>
 
+      <section class="view major" id="view-w6-randplace">
+        <div class="section-eyebrow">4 · Wi-Fi 6 — Uniform random risk placement · N = 100 · completed 2026-10-26</div>
+        <div class="badge-row">
+          <span class="tag measured">MEASURED</span>
+          <span class="tag v3">72 RUNS + 18 REUSED k = 0</span>
+          <span class="tag intervention">12 MATCHED DRAWS PER RATE</span>
+          <span class="tag repro">PRE-REGISTERED DESIGN</span>
+        </div>
+        <h2>Uniform random risk placement</h2>
+        <p class="lede">The study above chose the high-risk relays from Static's own BFS tree, the worst case for Static. This follow-up places the k = 3 high-risk sensors uniformly at random over all 100 sensors, using only node ids and pre-registered seeds, never any protocol's routes. Static, Risk-Aware and OLSR are compared at 8 and 32 kbps per sensor on 3 topologies × 4 placements = 12 matched draws. Within a draw all three protocols share positions, traffic schedule and high-risk set.</p>
+        <div class="key-finding" id="rp-kf"><span class="kf-label">Key Finding</span><span>—</span></div>
+        <div class="kpi-grid" id="rp-kpis"></div>
+
+        <h3 class="sub-h">Static, Risk-Aware and OLSR</h3>
+        <div class="filters"><div class="filter-group"><span class="fl">Rate</span><div id="rp-tab-rate" style="display:flex;flex-wrap:wrap"></div></div></div>
+        <div class="panel">
+          <div class="panel-head"><h3 id="rp-tab-title">—</h3></div>
+          <p class="panel-sub">Mean over 12 draws with the 95 % t interval (df = 11) in brackets. Delay is over delivered packets only (survivorship), so it is descriptive.</p>
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Protocol comparison table"><table class="data" id="rp-tab"></table></div>
+        </div>
+        <div id="rp-legend" style="margin-top:16px"></div>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Nominal PDR</h3><p class="panel-sub">% of scheduled packets delivered · mean ± 95 % CI over 12 draws</p><div class="chart-wrap" id="rp-chart-pdr"></div></div>
+          <div class="panel"><h3>Risk exposure</h3><p class="panel-sub">% of sent packets whose path crossed a high-risk relay · mean ± 95 % CI</p><div class="chart-wrap" id="rp-chart-exp"></div></div>
+        </div>
+
+        <h3 class="sub-h">Risk exposure in each of the 12 matched draws</h3>
+        <div class="filters"><div class="filter-group"><span class="fl">Rate</span><div id="rp-draw-rate" style="display:flex;flex-wrap:wrap"></div></div></div>
+        <div class="panel">
+          <p class="panel-sub">One column per draw (topology seed / placement seed). Shaded columns are the 5 draws where a high-risk sensor lies on Static's BFS tree. Static's routes do not depend on load, so its exposure is the same at both rates.</p>
+          <div class="chart-wrap" id="rp-chart-draws"></div>
+          <div class="callout" style="margin-top:12px;font-size:.82rem" id="rp-draws-note">—</div>
+        </div>
+
+        <h3 class="sub-h">7 identical draws, 5 where Risk-Aware changes the outcome</h3>
+        <div class="panel">
+          <p class="panel-sub" id="rp-cases-sub">—</p>
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Per-draw Risk-Aware versus Static table"><table class="data" id="rp-cases"></table></div>
+          <div class="callout warn" style="margin-top:12px;font-size:.84rem" id="rp-cases-note">—</div>
+        </div>
+
+        <h3 class="sub-h">Paired differences and uncertainty</h3>
+        <div class="filters"><div class="filter-group"><span class="fl">Rate</span><div id="rp-pair-rate" style="display:flex;flex-wrap:wrap"></div></div></div>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Primary metrics: A − B per draw</h3><p class="panel-sub">Thick bar = draw-level 95 % CI (n = 12, df = 11); thin line = topology-level 95 % CI (n = 3, df = 2); dot = mean difference</p><div class="chart-wrap" id="rp-chart-forest"></div></div>
+          <div class="panel">
+            <h3>How a result is classified</h3>
+            <div class="insight-card primary"><div class="k"><span class="tag measured">Supported</span></div>Primary metric (exposure or nominal PDR), Holm-adjusted sign-flip p &lt; 0.05 over the 12-test primary family, draw-level 95 % CI excludes 0, and the same sign in all 3 topologies.</div>
+            <div class="insight-card secondary" style="margin-top:10px"><div class="k"><span class="tag intervention">Consistent</span></div>Secondary metric that meets the same three criteria without Holm adjustment. Exploratory.</div>
+            <div class="insight-card secondary" style="margin-top:10px"><div class="k"><span class="tag planned">Descriptive</span></div>Everything else, and every delay metric. Reported, not claimed.</div>
+            <p class="panel-sub" style="margin:10px 0 0">These rules were written into the analysis script before the results were read.</p>
+          </div>
+        </div>
+        <div class="panel" style="margin-top:16px">
+          <div class="panel-head"><h3 id="rp-pair-title">—</h3></div>
+          <p class="panel-sub">Exact sign-flip permutation p over the 12 draws (4,096 sign patterns). Holm p is given for the primary family only.</p>
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Paired differences table"><table class="data" id="rp-pair"></table></div>
+        </div>
+
+        <h3 class="sub-h">Gateway congestion and delay</h3>
+        <div class="grid cols-2">
+          <div class="panel"><h3>Gateway airtime</h3><p class="panel-sub">fraction of time the gateway channel is busy · mean ± 95 % CI</p><div class="chart-wrap" id="rp-chart-air"></div></div>
+          <div class="panel"><h3>MAC retry-limit drops per run</h3><p class="panel-sub">MPDUs dropped after the retry limit · mean ± 95 % CI</p><div class="chart-wrap" id="rp-chart-retry"></div></div>
+        </div>
+        <ul class="evidence-list" id="rp-cong-notes"></ul>
+
+        <h3 class="sub-h">Why protocol-independent placement changes the interpretation</h3>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Subtree placement vs uniform placement (same seeds, k = 3)</h3>
+            <p class="panel-sub">Each cell: subtree placement → uniform placement, mean over the same topology seeds 20–22. Descriptive.</p>
+            <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Subtree versus uniform placement table"><table class="data" id="rp-subtree"></table></div>
+          </div>
+          <div class="panel"><ol class="findings" id="rp-findings"></ol></div>
+        </div>
+
+        <h3 class="sub-h">Statistical limitations</h3>
+        <ul class="evidence-list">
+          <li><strong>Nested draws.</strong> The 12 draws come from 3 topologies (4 placements each), so they are not fully independent. Inference covers random placement within these 3 topologies. The topology-level interval (n = 3) is shown for every comparison; with 3 topologies, no result is established for other topologies.</li>
+          <li><strong>Risk-Aware vs Static cannot reach significance in this design.</strong> The two are identical in 7 of 12 draws, which leaves 5 non-zero differences. The smallest attainable sign-flip p is then 0.0625.</li>
+          <li><strong>Precision.</strong> The Static − OLSR exposure interval spans about ±1.8 pp. It rules out a gap like the 37 pp seen under subtree placement, but it cannot confirm or reject the pre-registered prediction of |Δ| ≤ 1 pp.</li>
+          <li><strong>Survivorship.</strong> Delay and hop metrics cover delivered packets only.</li>
+          <li><strong>Same model assumptions</strong> as the main study: oracle risk knowledge for Risk-Aware, transit-only drops with probability 0.5, gateway never risky, one Wi-Fi 6 configuration (802.11ax, HE MCS0, synchronized CBR).</li>
+        </ul>
+
+        <h3 class="sub-h">Remaining verification tasks</h3>
+        <div class="grid cols-2">
+          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag planned">Not yet done</span></div><h3>1 · Independent recomputation</h3><p class="panel-sub" style="margin:0">Recompute every reported metric for the 90 runs directly from the raw per-packet traces with a separately written script (as was done for the saturated N = 100 batch with <code>verify_n100_sat.py</code>), then publish a checksum manifest of the batch. So far the runner's 1,197 checks passed, and a re-run of the analysis reproduced its outputs byte for byte. That shows the analysis is repeatable, but it is not independent of the analysis code.</p></div>
+          <div class="panel"><div class="badge-row" style="margin-bottom:8px"><span class="tag planned">Not yet done</span></div><h3>2 · Predicted vs measured exposure</h3><p class="panel-sub" style="margin:0">Before the run, the proposal predicted exposure for this design from k = 0 packet paths (Static 1.7–1.9 %, OLSR 0.9–1.3 % at 8 kbps and 2.0–2.2 % at 32 kbps, ignoring re-routing). The measured means (Static 1.83 %, OLSR 1.15 % and 2.29 %) have not yet been compared with those predictions draw by draw. The comparison would show how much re-routing under risk shifts exposure.</p></div>
+        </div>
+        <p class="panel-sub" style="margin-top:14px" id="rp-provenance">—</p>
+      </section>
+
       <!-- ============================================================ 5. CONCLUSIONS -->
       <section class="view" id="view-conclusions">
         <div class="section-eyebrow">5 · Conclusions, Limitations &amp; Reproducibility</div>
@@ -296,6 +390,7 @@
             <li><strong>Intervention.</strong> Traffic reduction can improve performance under overloaded conditions, with OLSR PDR improving by +14.7 percentage points at N=75 and +25.2 percentage points at N=100 at the deepest cut; Static N = 50 does not improve.</li>
             <li><strong>V4 routing — negative result.</strong> Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</li>
             <li><strong>Wi-Fi 6 risk-aware routing.</strong> At N = 30 (10 seeds, matched pairs), routing around high-risk relays with a risk-weighted Dijkstra raised nominal PDR over Static by +23.18 pp [95 % CI +19.81, +26.54] and cut risk exposure by 46.33 pp [95 % CI −53.21, −39.46] at k = 3, in 10/10 pairs (exact Wilcoxon p = 0.00195, Holm-adjusted 0.0117), at a p95 delay cost of +4.1 to +9.1 ms versus Static (k = 1–3; delay is over delivered packets, so Static's lower value partly reflects the relayed packets it lost). At N = 100 (3 seeds) the direction was the same in 3/3 seeds; this is reported descriptively, without a significance claim. Oracle risk knowledge makes this an upper bound.</li>
+            <li><strong>Uniform random risk placement (N = 100, 72 runs, 12 matched draws).</strong> With the high-risk sensors placed independently of every protocol, no Static − OLSR exposure difference was detected (+0.68 pp [95 % CI −1.09, +2.45] at 8 kbps; −0.45 pp [−2.18, +1.28] at 32 kbps), so the 37 pp gap of the subtree design does not appear. Risk-Aware had lower exposure and higher nominal PDR than OLSR in 12/12 draws (Holm-adjusted p = 0.006). It differed from Static only in the 5 draws with a risky node on Static's tree, where its PDR gains are descriptive and not statistically significant (<a href="#view-w6-randplace">section</a>).</li>
             <li><strong>AODV at N = 100.</strong> In this configuration AODV delivered 56.60 % against OLSR's 99.62 % (k = 0, 3 seeds); the Block Ack modification was excluded as the cause (seed 20); the mechanism is a hypothesis.</li>
           </ol>
         </div>
@@ -330,7 +425,7 @@
             <p class="panel-sub" style="margin:8px 0 0" id="w6-provenance">—</p>
           </div>
         </div>
-        <p class="panel-sub" style="margin-top:14px"><strong>Not executed:</strong> the N = 100 saturated-load risk experiment, and a Barabasi-Albert-topology variant of the risk study, which was designed but never run. Whether sigmoid routing helps under risk therefore remains open. Earlier project iterations are documented in <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md" target="_blank" rel="noopener">docs/research-history.md</a>.</p>
+        <p class="panel-sub" style="margin-top:14px"><strong>Not executed:</strong> a Barabasi-Albert-topology variant of the risk study, which was designed but never run. Whether sigmoid routing helps under risk therefore remains open. Earlier project iterations are documented in <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/docs/research-history.md" target="_blank" rel="noopener">docs/research-history.md</a>.</p>
       </section>
 
     </div>
@@ -345,5 +440,6 @@
 <script src="charts.js"></script>
 <script src="app.js"></script>
 <script src="wifi6.js"></script>
+<script src="randplace.js"></script>
 </body>
 </html>
