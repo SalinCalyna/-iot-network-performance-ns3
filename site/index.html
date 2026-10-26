@@ -36,6 +36,11 @@
       <a class="navlink sub" href="#view-w6-randplace" data-target="view-w6-randplace"><span class="dot" aria-hidden="true"></span>Uniform random placement</a>
     </div>
     <div class="navgroup">
+      <div class="glabel">How the Wi-Fi 6 study works</div>
+      <a class="navlink" href="#view-topology" data-target="view-topology"><span class="dot" aria-hidden="true"></span>Network topology explorer</a>
+      <a class="navlink" href="#view-architecture" data-target="view-architecture"><span class="dot" aria-hidden="true"></span>Architecture &amp; workflow</a>
+    </div>
+    <div class="navgroup">
       <a class="navlink" href="#view-conclusions" data-target="view-conclusions"><span class="dot" aria-hidden="true"></span>5 · Conclusions &amp; Reproducibility</a>
     </div>
     </nav>
@@ -378,6 +383,125 @@
         <p class="panel-sub" style="margin-top:14px" id="rp-provenance">—</p>
       </section>
 
+      <!-- ============================================================ TOPOLOGY EXPLORER -->
+      <section class="view major" id="view-topology">
+        <div class="section-eyebrow">How the Wi-Fi 6 study works · Network topology explorer</div>
+        <div class="badge-row">
+          <span class="tag measured">MEASURED · COORDINATES, ROUTES, PACKET PATHS</span>
+          <span class="tag v3">RECONSTRUCTED EXACTLY · 90 M LINK MODEL</span>
+          <span class="tag repro">352 VALIDATED RUNS · 13 TOPOLOGIES</span>
+        </div>
+        <h2>Network topology explorer</h2>
+        <p class="lede">Every node position, installed route and packet path below is read from the output files of the validated Wi-Fi 6 runs. Choose a network, topology seed, risk placement, traffic rate and number of high-risk relays. Then compare Static and Risk-Aware routing on the identical network, or look at any single protocol. Click a sensor to see its route and how the route cost is computed.</p>
+        <div class="key-finding" id="topo-kf"><span class="kf-label">How to read it</span><span>The grey lines are the <strong>90 m link model</strong> that Static and Risk-Aware route on. The coloured lines show the route tree each one <strong>installed</strong> before traffic started. Turn on <em>observed traffic</em> to see the links packets actually crossed, with line width proportional to the packet count. OLSR and AODV install no fixed tree, so for them only observed traffic exists.</span></div>
+
+        <div class="panel topo-controls">
+          <div class="filters">
+            <div class="filter-group"><span class="fl">Network</span><div id="topo-n" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Topology seed</span><div id="topo-seed" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Risk placement</span><div id="topo-place" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Rate</span><div id="topo-rate" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">High-risk relays k</span><div id="topo-k" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">View</span><div id="topo-view" class="pillrow"></div></div>
+            <div class="filter-group"><span class="fl">Layers</span><div id="topo-layers" class="pillrow"></div></div>
+          </div>
+          <div id="topo-legend" class="legend topo-legend"></div>
+        </div>
+        <div class="grid cols-2" id="topo-panels" style="margin-top:14px"></div>
+        <div class="panel" id="topo-info" style="margin-top:14px" aria-live="polite"><p class="panel-sub" style="margin:0">Click or tap a sensor to see its route to the gateway, the route cost under each metric and its packet counts.</p></div>
+
+        <h3 class="sub-h">How routes and route costs are calculated</h3>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Static (BFS shortest-hop tree)</h3>
+            <p class="panel-sub" style="margin:0 0 8px">Two sensors are linked when they are at most 90 m apart (<code>--txRange</code>). A breadth-first search from the gateway gives every sensor its hop count and a parent. Each sensor gets one host route, "gateway via parent", installed before traffic starts and never changed. When several neighbours are equally close, the first one found wins: neighbours are visited in node-id order.</p>
+            <p class="panel-sub" style="margin:0"><code>scratch/iot-network-wifi6-risk-v2.cc</code> lines 910–957.</p>
+          </div>
+          <div class="panel">
+            <h3>Risk-Aware (risk-weighted Dijkstra)</h3>
+            <p class="panel-sub" style="margin:0 0 8px">It uses the same 90 m link model. A route's cost is the sum, over every node the packet <em>enters</em> after leaving the source, of <strong>1 + β·τ<sub>v</sub></strong>, where <strong>τ<sub>v</sub> = −ln(1 − r<sub>v</sub>)</strong>, r<sub>v</sub> is the node's risk score and τ = 0 at the gateway. With β = 10 and r = 0.5 for a high-risk relay, entering it costs 1 + 10·ln 2 ≈ <strong>7.93</strong>, against 1 for a low-risk node. So a route through one risky relay loses to any safe route at most 6 hops longer. Ties are broken so that with no risk the tree equals Static's exactly.</p>
+            <p class="panel-sub" style="margin:0"><code>scratch/iot-network-wifi6-risk-v2.cc</code> lines 1016–1056. Costs shown when you click a sensor are recomputed from this formula, and the build checks that they equal <code>routes_planned.csv</code> for every source in every run.</p>
+          </div>
+        </div>
+
+        <h3 class="sub-h">What is measured, what is reconstructed, what is not recorded</h3>
+        <div class="panel">
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Evidence status of the topology data"><table class="data">
+            <thead><tr><th>Element</th><th>Status</th><th>Source and check</th></tr></thead>
+            <tbody>
+              <tr><td>Node coordinates</td><td><span class="tag measured">Measured</span></td><td><code>pernode/probe_*.csv</code> columns x, y, written by the simulator. Identical in every run of the same (N, seed), and within 0.0005 m (print rounding) of an independent replica of the generator (<code>std::mt19937(seed)</code>, uniform on 250 m × 250 m, gateway at the centre).</td></tr>
+              <tr><td>90 m link model</td><td><span class="tag v3">Reconstructed, exact</span></td><td>Computed from the printed coordinates with the simulator's rule (distance ≤ 90 m). It reproduces the simulator's own <code>degree</code> for every node in all 352 runs.</td></tr>
+              <tr><td>Static and Risk-Aware route trees</td><td><span class="tag measured">Measured</span></td><td><code>routes_planned.csv</code> (installed path per source). A BFS and Dijkstra re-implemented from the source reproduce every path and every route cost.</td></tr>
+              <tr><td>High-risk relays</td><td><span class="tag measured">Measured</span></td><td><code>risk_nodes.csv</code> risk state and rank, matching the pre-registered sets.</td></tr>
+              <tr><td>Observed traffic (all protocols)</td><td><span class="tag measured">Measured</span></td><td><code>path_summary.csv</code>: every observed path with its packet count, aggregated over the whole run (30–300 s).</td></tr>
+              <tr><td>Radio connectivity</td><td><span class="tag planned">Not recorded</span></td><td>The 90 m disk is a routing model, not the radio range. OLSR and AODV packets crossed links up to 116.6 m long (14–44 % of their hops are longer than 90 m), so real reception reaches further. Per-link received power, SNR and frame success are not traced.</td></tr>
+              <tr><td>OLSR / AODV neighbour and routing tables</td><td><span class="tag planned">Not recorded</span></td><td>Only the resulting packet paths are known. Route changes over time are in the per-packet traces (<code>packet_paths.csv</code>, raw data outside Git) but are not visualised here.</td></tr>
+              <tr><td>V3 / V4 (IEEE 802.11b) topologies</td><td><span class="tag planned">Not shown</span></td><td>Same position generator, but those runs wrote no per-node coordinates or route files, and V3 includes mobility. Positions could be reconstructed from the seed. Routes could not be reconstructed without re-running.</td></tr>
+            </tbody>
+          </table></div>
+          <p class="panel-sub" style="margin:10px 0 0" id="topo-provenance">—</p>
+        </div>
+      </section>
+
+      <!-- ============================================================ ARCHITECTURE -->
+      <section class="view" id="view-architecture">
+        <div class="section-eyebrow">How the Wi-Fi 6 study works · Architecture &amp; simulation workflow</div>
+        <h2>From parameters to the published result</h2>
+        <p class="lede">The Wi-Fi 6 risk study is one ns-3 program run once per configuration, followed by read-only validation, analysis and publication steps. Select a stage to see what it does, the exact settings and where it is implemented.</p>
+        <div class="panel">
+          <div class="arch-flow" id="arch-flow" role="list"></div>
+          <div class="arch-detail" id="arch-detail" aria-live="polite"></div>
+        </div>
+
+        <h3 class="sub-h">The Risk-Aware routing algorithm, as implemented</h3>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Algorithm</h3>
+            <pre class="arch-code" tabindex="0">for each sensor i:  r[i] = 0.5 if HIGH_RISK else 0.0
+                    tau[i] = -ln(1 - r[i])        # 0.693 or 0
+tau[gateway] = 0
+dist[gateway] = 0;  push (0, order=0, gateway)
+while queue not empty:
+    (d, _, v) = pop smallest (cost, insertion order)
+    if v done: continue;  mark v done
+    w = 1 + beta * tau[v]                 # beta = 10
+    for u in neighbours(v)  (distance ≤ 90 m):
+        if not done[u] and d + w &lt; dist[u]:
+            dist[u] = d + w;  parent[u] = v
+            push (dist[u], order++, u)
+install on every sensor i:  "gateway via parent[i]"</pre>
+            <p class="panel-sub" style="margin:8px 0 0">The tree grows outward from the gateway, so <code>w</code> is the price of entering <code>v</code> on the way toward the gateway. A source never pays for its own risk, and the gateway costs 1.</p>
+          </div>
+          <div class="panel">
+            <h3>Verified assumptions</h3>
+            <ul class="evidence-list" style="margin:0">
+              <li><strong>Oracle knowledge.</strong> Risk-Aware knows every node's true risk state. Its benefit is an upper bound.</li>
+              <li><strong>Computed once, offline.</strong> Routes are fixed before traffic starts (t = 30 s) and never adapt, exactly like Static.</li>
+              <li><strong>Transit-only risk.</strong> A high-risk node drops a forwarded data packet when U &lt; 0.5, where U in [0, 1) is a SplitMix64 hash of (drop seed, node, source, sequence number), scaled as (h ≫ 11) · 2<sup>−53</sup>. Its own packets and all control, ARP and broadcast frames are never affected. The same packet gets the same decision under every protocol.</li>
+              <li><strong>Same link model as Static.</strong> With no risky node, or none on Static's tree, Risk-Aware installs exactly Static's routes. This was confirmed in the uniform-placement study, where the two were identical on every metric in 7 of 12 draws.</li>
+              <li><strong>Gateway never risky.</strong> Its τ is 0.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="sub-h">Wi-Fi 6 risk study vs the earlier V3 / V4 experiments</h3>
+        <div class="panel">
+          <div class="w6-table-wrap" tabindex="0" role="region" aria-label="Comparison of the Wi-Fi 6 risk study with V3 and V4"><table class="data">
+            <thead><tr><th></th><th>V3 baseline and V4 sigmoid routing</th><th>Wi-Fi 6 risk study</th></tr></thead>
+            <tbody>
+              <tr><td>Simulator</td><td><code>scratch/iot-network-v3-ext.cc</code></td><td><code>scratch/iot-network-wifi6-risk-v2.cc</code> (sha256 <code>33b350ab…</code>)</td></tr>
+              <tr><td>Radio</td><td>IEEE 802.11b, DSSS 1 Mbps</td><td>IEEE 802.11ax HE single-user, 2.4 GHz, 20 MHz, HE MCS0, aggregation off, ARP pre-filled, one Block Ack fix</td></tr>
+              <tr><td>Topology</td><td>Same generator: <code>mt19937(seed)</code>, 250 m × 250 m, gateway at the centre. N = 10–100, mobility static / low / medium</td><td>Same generator, static nodes only. N = 30 (seeds 20–29) and N = 100 (seeds 20–22)</td></tr>
+              <tr><td>Routing</td><td>AODV, OLSR, Static (BFS). V4: <code>--protocol=v4</code>, a two-input sigmoid edge cost (degree-based risk score and load score), computed offline in two passes</td><td>Static (BFS), Risk-Aware (risk-weighted Dijkstra), OLSR, AODV</td></tr>
+              <tr><td>Risk model</td><td>None. V4's "risk score" is a topology (degree) proxy, not node risk</td><td>k = 0–3 HIGH_RISK relays that drop transit data with p = 0.5. Placed on Static's BFS subtrees (worst case for Static) or uniformly at random</td></tr>
+              <tr><td>Traffic</td><td>UDP CBR, 512 B, 4 / 8 / 16 kbps</td><td>UDP CBR, 512 B, 8 kbps (16 / 32 kbps for saturated runs), 30–300 s</td></tr>
+              <tr><td>Key metrics</td><td>FlowMonitor PDR, throughput, delay, gateway airtime</td><td>Nominal PDR from per-packet traces, risk exposure, delay, gateway airtime. FlowMonitor is not used for PDR</td></tr>
+              <tr><td>Outcome</td><td>Bottleneck at the gateway; V4 a valid negative result</td><td>Risk-Aware lowers exposure; its gain over Static depends on where risk is placed</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </section>
+
       <!-- ============================================================ 5. CONCLUSIONS -->
       <section class="view" id="view-conclusions">
         <div class="section-eyebrow">5 · Conclusions, Limitations &amp; Reproducibility</div>
@@ -441,5 +565,6 @@
 <script src="app.js"></script>
 <script src="wifi6.js"></script>
 <script src="randplace.js"></script>
+<script src="topology.js"></script>
 </body>
 </html>
