@@ -660,7 +660,9 @@ install on every sensor i:  "gateway via parent[i]"</pre>
             <li><strong>Not calibrated.</strong> No campus RSSI, packet-loss or traffic measurement exists. The radio model is open-space log-distance (exponent 3, 40 dB at 1 m), as in the validated generic study.</li>
             <li><strong>No buildings.</strong> 170 of the 284 links in the 90 m model (60 %) cross an OSM building footprint. Walls are not modelled, so link quality is likely optimistic. Footprints exist, but heights and materials do not.</li>
             <li><strong>One layout.</strong> One proposed deployment with one gateway site. Seeds vary only ns-3 randomness and the risk-drop hash, so results do not generalise to other layouts or gateway sites.</li>
-            <li><strong>Stress traffic.</strong> Constant 512-byte UDP at 8 or 32 kbps per sensor is far above typical campus sensing traffic.</li>
+            <li><strong>Placement-dependent effects.</strong> The five risk placements are not a random sample of campus risk, and one (subtree) was chosen as the worst case for Static. Most of the Risk-Aware − Static difference comes from that placement, so the averages depend on the placements chosen.</li>
+            <li><strong>Stress traffic.</strong> Constant 512-byte UDP at 8 or 32 kbps per sensor is far above typical campus sensing traffic. OLSR's loss at 32 kbps (also without risk) was not investigated further.</li>
+            <li><strong>Rebuilt libraries.</strong> Building the campus simulator recompiled the ns-3 libraries. Three validated configurations reproduced byte for byte with the rebuilt libraries; the rest were not re-run.</li>
             <li><strong>Same risk assumptions</strong> as the generic study: oracle risk knowledge for Risk-Aware, transit-only drops with p = 0.5, gateway never risky, flat terrain.</li>
           </ul></div>
         </div>
