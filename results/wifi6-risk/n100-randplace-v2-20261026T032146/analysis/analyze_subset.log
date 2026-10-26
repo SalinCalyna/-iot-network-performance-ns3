@@ -1,0 +1,20 @@
+n100-randplace-v2-20261026T032146: 24 runs; checks 328 passed, 0 failed
+  PASS  P0 run ok: 24 passed, 0 failed
+  PASS  P1 FlowMonitor rx <= sink: 24 passed, 0 failed
+  PASS  P1 delivered + duplicates = sink rx: 24 passed, 0 failed
+  PASS  P1 fates partition: 24 passed, 0 failed
+  PASS  P1 path records = app tx: 24 passed, 0 failed
+  PASS  P2 high-risk set = reference: 24 passed, 0 failed
+  PASS  P2 hop/degree = reference: 24 passed, 0 failed
+  PASS  P2 same high-risk set across protocols and loads: 4 passed, 0 failed
+  PASS  P3 risk drops valid: 24 passed, 0 failed
+  PASS  P4 delivered packets followed the installed path: 16 passed, 0 failed
+  PASS  P4 installed path = reference tree: 16 passed, 0 failed
+  PASS  P4 riskaware k=0 packet paths = static k=0: 6 passed, 0 failed
+  PASS  P5 identical first-send times across runs: 6 passed, 0 failed
+  PASS  P5 one scheduled send count for every source: 6 passed, 0 failed
+  PASS  P5 send count <= nominal: 24 passed, 0 failed
+  PASS  P6 unicast data HE_SU HeMcs0: 24 passed, 0 failed
+  PASS  R1 static routes = k0 static routes: 2 passed, 0 failed
+  PASS  R2 riskaware no exposure without unavoidable sources: 8 passed, 0 failed
+  PASS  R3 risk_summary key_missing / preregistered ids: 24 passed, 0 failed

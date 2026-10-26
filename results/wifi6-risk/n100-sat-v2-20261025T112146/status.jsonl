@@ -1,0 +1,160 @@
+{"event": "created", "batch": "results/wifi6-risk/n100-sat-v2-20261025T112146", "reused": 36, "free_gb": 8.3, "time": "2026-10-25T11:21:47+0700"}
+{"event": "phase_start", "phase": "subset", "runs": 6, "time": "2026-10-25T11:21:47+0700"}
+{"event": "concurrency", "allowed": 4, "memory_pressure_level": 2, "cpu_speed_limit": 100, "time": "2026-10-25T11:21:47+0700"}
+{"event": "start", "run": "olsr_k0_rate32_seed20", "time": "2026-10-25T11:21:47+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed20", "time": "2026-10-25T11:21:49+0700"}
+{"event": "start", "run": "static_k0_rate32_seed20", "time": "2026-10-25T11:21:51+0700"}
+{"event": "start", "run": "static_k3_rate32_seed20", "time": "2026-10-25T11:21:53+0700"}
+{"event": "end", "run": "static_k3_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1191.0, "time": "2026-10-25T11:41:44+0700"}
+{"event": "start", "run": "riskaware_k0_rate32_seed20", "time": "2026-10-25T11:41:49+0700"}
+{"event": "end", "run": "static_k0_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1217.8, "time": "2026-10-25T11:42:08+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed20", "time": "2026-10-25T11:42:11+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1772.5, "time": "2026-10-25T11:51:21+0700"}
+{"event": "end", "run": "olsr_k0_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1782.3, "time": "2026-10-25T11:51:29+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1266.9, "time": "2026-10-25T12:03:18+0700"}
+{"event": "end", "run": "riskaware_k0_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1295.5, "time": "2026-10-25T12:03:25+0700"}
+{"event": "phase_end", "phase": "subset", "critical": null, "time": "2026-10-25T12:03:34+0700"}
+{"event": "gate", "gate": "subset", "runs": 6, "checks": "n100-sat-v2-20261025T112146: 42 runs; checks 500 passed, 0 failed", "errors": [], "time": "2026-10-25T12:03:44+0700"}
+{"event": "phase_start", "phase": "full", "runs": 66, "time": "2026-10-25T12:03:44+0700"}
+{"event": "concurrency", "allowed": 4, "memory_pressure_level": 2, "cpu_speed_limit": 100, "time": "2026-10-25T12:03:44+0700"}
+{"event": "start", "run": "olsr_k1_rate32_seed20", "time": "2026-10-25T12:03:44+0700"}
+{"event": "start", "run": "olsr_k2_rate32_seed20", "time": "2026-10-25T12:03:46+0700"}
+{"event": "start", "run": "olsr_k0_rate32_seed21", "time": "2026-10-25T12:03:48+0700"}
+{"event": "start", "run": "olsr_k1_rate32_seed21", "time": "2026-10-25T12:03:50+0700"}
+{"event": "concurrency", "allowed": 6, "memory_pressure_level": 1, "cpu_speed_limit": 100, "time": "2026-10-25T12:51:20+0700"}
+{"event": "start", "run": "olsr_k2_rate32_seed21", "time": "2026-10-25T12:51:20+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed21", "time": "2026-10-25T12:51:22+0700"}
+{"event": "concurrency", "allowed": 4, "memory_pressure_level": 2, "cpu_speed_limit": 100, "time": "2026-10-25T12:52:04+0700"}
+{"event": "end", "run": "olsr_k1_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 3986.4, "time": "2026-10-25T13:10:10+0700"}
+{"event": "end", "run": "olsr_k2_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 3991.5, "time": "2026-10-25T13:10:18+0700"}
+{"event": "end", "run": "olsr_k0_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 4262.7, "time": "2026-10-25T13:14:51+0700"}
+{"event": "end", "run": "olsr_k1_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 4262.6, "time": "2026-10-25T13:14:53+0700"}
+{"event": "start", "run": "olsr_k0_rate32_seed22", "time": "2026-10-25T13:14:55+0700"}
+{"event": "start", "run": "olsr_k1_rate32_seed22", "time": "2026-10-25T13:14:57+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 3045.3, "time": "2026-10-25T13:42:07+0700"}
+{"event": "end", "run": "olsr_k2_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 3055.8, "time": "2026-10-25T13:42:15+0700"}
+{"event": "start", "run": "olsr_k2_rate32_seed22", "time": "2026-10-25T13:42:16+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed22", "time": "2026-10-25T13:42:18+0700"}
+{"event": "end", "run": "olsr_k0_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2301.1, "time": "2026-10-25T13:53:16+0700"}
+{"event": "start", "run": "static_k1_rate32_seed20", "time": "2026-10-25T13:53:24+0700"}
+{"event": "end", "run": "olsr_k1_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2364.0, "time": "2026-10-25T13:54:21+0700"}
+{"event": "start", "run": "static_k2_rate32_seed20", "time": "2026-10-25T13:54:26+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2405.8, "time": "2026-10-25T14:22:24+0700"}
+{"event": "start", "run": "static_k0_rate32_seed21", "time": "2026-10-25T14:22:25+0700"}
+{"event": "end", "run": "static_k1_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1752.3, "time": "2026-10-25T14:22:36+0700"}
+{"event": "start", "run": "static_k1_rate32_seed21", "time": "2026-10-25T14:22:37+0700"}
+{"event": "end", "run": "static_k2_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1724.2, "time": "2026-10-25T14:23:10+0700"}
+{"event": "end", "run": "olsr_k2_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2453.7, "time": "2026-10-25T14:23:10+0700"}
+{"event": "start", "run": "static_k2_rate32_seed21", "time": "2026-10-25T14:23:20+0700"}
+{"event": "start", "run": "static_k3_rate32_seed21", "time": "2026-10-25T14:23:22+0700"}
+{"event": "end", "run": "static_k0_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1625.0, "time": "2026-10-25T14:49:30+0700"}
+{"event": "start", "run": "static_k0_rate32_seed22", "time": "2026-10-25T14:49:31+0700"}
+{"event": "end", "run": "static_k1_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1617.8, "time": "2026-10-25T14:49:35+0700"}
+{"event": "start", "run": "static_k1_rate32_seed22", "time": "2026-10-25T14:49:43+0700"}
+{"event": "end", "run": "static_k2_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1595.0, "time": "2026-10-25T14:49:55+0700"}
+{"event": "start", "run": "static_k2_rate32_seed22", "time": "2026-10-25T14:49:55+0700"}
+{"event": "end", "run": "static_k3_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1597.7, "time": "2026-10-25T14:49:59+0700"}
+{"event": "start", "run": "static_k3_rate32_seed22", "time": "2026-10-25T14:50:07+0700"}
+{"event": "end", "run": "static_k0_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1187.3, "time": "2026-10-25T15:09:18+0700"}
+{"event": "end", "run": "static_k2_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1166.6, "time": "2026-10-25T15:09:21+0700"}
+{"event": "end", "run": "static_k1_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1178.7, "time": "2026-10-25T15:09:21+0700"}
+{"event": "start", "run": "riskaware_k1_rate32_seed20", "time": "2026-10-25T15:09:23+0700"}
+{"event": "start", "run": "riskaware_k2_rate32_seed20", "time": "2026-10-25T15:09:26+0700"}
+{"event": "start", "run": "riskaware_k0_rate32_seed21", "time": "2026-10-25T15:09:28+0700"}
+{"event": "end", "run": "static_k3_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1167.3, "time": "2026-10-25T15:09:34+0700"}
+{"event": "start", "run": "riskaware_k1_rate32_seed21", "time": "2026-10-25T15:09:40+0700"}
+{"event": "end", "run": "riskaware_k0_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1360.1, "time": "2026-10-25T15:32:08+0700"}
+{"event": "start", "run": "riskaware_k2_rate32_seed21", "time": "2026-10-25T15:32:17+0700"}
+{"event": "end", "run": "riskaware_k1_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1391.5, "time": "2026-10-25T15:32:35+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed21", "time": "2026-10-25T15:32:39+0700"}
+{"event": "end", "run": "riskaware_k2_rate32_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1395.4, "time": "2026-10-25T15:32:41+0700"}
+{"event": "start", "run": "riskaware_k0_rate32_seed22", "time": "2026-10-25T15:32:41+0700"}
+{"event": "end", "run": "riskaware_k1_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1397.0, "time": "2026-10-25T15:32:57+0700"}
+{"event": "start", "run": "riskaware_k1_rate32_seed22", "time": "2026-10-25T15:33:03+0700"}
+{"event": "concurrency", "allowed": 6, "memory_pressure_level": 1, "cpu_speed_limit": 100, "time": "2026-10-25T15:56:52+0700"}
+{"event": "start", "run": "riskaware_k2_rate32_seed22", "time": "2026-10-25T15:56:52+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed22", "time": "2026-10-25T15:56:54+0700"}
+{"event": "end", "run": "riskaware_k2_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1624.6, "time": "2026-10-25T15:59:22+0700"}
+{"event": "start", "run": "olsr_k0_rate16_seed20", "time": "2026-10-25T15:59:26+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1682.4, "time": "2026-10-25T16:00:42+0700"}
+{"event": "start", "run": "olsr_k1_rate16_seed20", "time": "2026-10-25T16:00:49+0700"}
+{"event": "end", "run": "riskaware_k0_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1723.3, "time": "2026-10-25T16:01:25+0700"}
+{"event": "start", "run": "olsr_k2_rate16_seed20", "time": "2026-10-25T16:01:31+0700"}
+{"event": "end", "run": "riskaware_k1_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1723.1, "time": "2026-10-25T16:01:47+0700"}
+{"event": "start", "run": "olsr_k3_rate16_seed20", "time": "2026-10-25T16:01:53+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2150.7, "time": "2026-10-25T16:32:44+0700"}
+{"event": "start", "run": "olsr_k0_rate16_seed21", "time": "2026-10-25T16:32:45+0700"}
+{"event": "end", "run": "riskaware_k2_rate32_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2160.4, "time": "2026-10-25T16:32:52+0700"}
+{"event": "start", "run": "olsr_k1_rate16_seed21", "time": "2026-10-25T16:32:57+0700"}
+{"event": "concurrency", "allowed": 4, "memory_pressure_level": 2, "cpu_speed_limit": 100, "time": "2026-10-25T16:35:00+0700"}
+{"event": "end", "run": "olsr_k0_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2513.2, "time": "2026-10-25T16:41:20+0700"}
+{"event": "end", "run": "olsr_k1_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2481.8, "time": "2026-10-25T16:42:11+0700"}
+{"event": "end", "run": "olsr_k2_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2474.1, "time": "2026-10-25T16:42:45+0700"}
+{"event": "end", "run": "olsr_k3_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2454.3, "time": "2026-10-25T16:42:48+0700"}
+{"event": "start", "run": "olsr_k2_rate16_seed21", "time": "2026-10-25T16:42:52+0700"}
+{"event": "start", "run": "olsr_k3_rate16_seed21", "time": "2026-10-25T16:42:54+0700"}
+{"event": "end", "run": "olsr_k0_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1838.6, "time": "2026-10-25T17:03:24+0700"}
+{"event": "start", "run": "olsr_k0_rate16_seed22", "time": "2026-10-25T17:03:32+0700"}
+{"event": "end", "run": "olsr_k1_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1861.1, "time": "2026-10-25T17:03:58+0700"}
+{"event": "start", "run": "olsr_k1_rate16_seed22", "time": "2026-10-25T17:04:04+0700"}
+{"event": "end", "run": "olsr_k3_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1707.1, "time": "2026-10-25T17:11:22+0700"}
+{"event": "end", "run": "olsr_k2_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1710.1, "time": "2026-10-25T17:11:22+0700"}
+{"event": "start", "run": "olsr_k2_rate16_seed22", "time": "2026-10-25T17:11:28+0700"}
+{"event": "start", "run": "olsr_k3_rate16_seed22", "time": "2026-10-25T17:11:30+0700"}
+{"event": "end", "run": "olsr_k0_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1485.0, "time": "2026-10-25T17:28:17+0700"}
+{"event": "start", "run": "static_k0_rate16_seed20", "time": "2026-10-25T17:28:26+0700"}
+{"event": "end", "run": "olsr_k1_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1509.6, "time": "2026-10-25T17:29:13+0700"}
+{"event": "start", "run": "static_k1_rate16_seed20", "time": "2026-10-25T17:29:18+0700"}
+{"event": "end", "run": "olsr_k3_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1484.7, "time": "2026-10-25T17:36:14+0700"}
+{"event": "end", "run": "olsr_k2_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1490.5, "time": "2026-10-25T17:36:18+0700"}
+{"event": "start", "run": "static_k2_rate16_seed20", "time": "2026-10-25T17:36:22+0700"}
+{"event": "start", "run": "static_k3_rate16_seed20", "time": "2026-10-25T17:36:24+0700"}
+{"event": "end", "run": "static_k0_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 674.2, "time": "2026-10-25T17:39:40+0700"}
+{"event": "start", "run": "static_k0_rate16_seed21", "time": "2026-10-25T17:39:47+0700"}
+{"event": "end", "run": "static_k1_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 639.4, "time": "2026-10-25T17:39:57+0700"}
+{"event": "start", "run": "static_k1_rate16_seed21", "time": "2026-10-25T17:39:59+0700"}
+{"event": "end", "run": "static_k3_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 619.0, "time": "2026-10-25T17:46:43+0700"}
+{"event": "end", "run": "static_k2_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 628.1, "time": "2026-10-25T17:46:50+0700"}
+{"event": "start", "run": "static_k2_rate16_seed21", "time": "2026-10-25T17:46:52+0700"}
+{"event": "start", "run": "static_k3_rate16_seed21", "time": "2026-10-25T17:46:54+0700"}
+{"event": "end", "run": "static_k1_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 677.6, "time": "2026-10-25T17:51:16+0700"}
+{"event": "start", "run": "static_k0_rate16_seed22", "time": "2026-10-25T17:51:18+0700"}
+{"event": "end", "run": "static_k0_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 700.4, "time": "2026-10-25T17:51:27+0700"}
+{"event": "start", "run": "static_k1_rate16_seed22", "time": "2026-10-25T17:51:30+0700"}
+{"event": "end", "run": "static_k3_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 642.0, "time": "2026-10-25T17:57:37+0700"}
+{"event": "start", "run": "static_k2_rate16_seed22", "time": "2026-10-25T17:57:43+0700"}
+{"event": "end", "run": "static_k2_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 663.4, "time": "2026-10-25T17:57:56+0700"}
+{"event": "start", "run": "static_k3_rate16_seed22", "time": "2026-10-25T17:58:05+0700"}
+{"event": "end", "run": "static_k1_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 692.4, "time": "2026-10-25T18:03:02+0700"}
+{"event": "start", "run": "riskaware_k0_rate16_seed20", "time": "2026-10-25T18:03:09+0700"}
+{"event": "end", "run": "static_k0_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 734.2, "time": "2026-10-25T18:03:32+0700"}
+{"event": "start", "run": "riskaware_k1_rate16_seed20", "time": "2026-10-25T18:03:41+0700"}
+{"event": "end", "run": "static_k2_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 721.1, "time": "2026-10-25T18:09:44+0700"}
+{"event": "end", "run": "static_k3_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 705.7, "time": "2026-10-25T18:09:51+0700"}
+{"event": "start", "run": "riskaware_k2_rate16_seed20", "time": "2026-10-25T18:09:54+0700"}
+{"event": "start", "run": "riskaware_k3_rate16_seed20", "time": "2026-10-25T18:09:56+0700"}
+{"event": "end", "run": "riskaware_k0_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 821.5, "time": "2026-10-25T18:16:50+0700"}
+{"event": "start", "run": "riskaware_k0_rate16_seed21", "time": "2026-10-25T18:17:00+0700"}
+{"event": "end", "run": "riskaware_k1_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 802.7, "time": "2026-10-25T18:17:03+0700"}
+{"event": "start", "run": "riskaware_k1_rate16_seed21", "time": "2026-10-25T18:17:12+0700"}
+{"event": "end", "run": "riskaware_k3_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 811.4, "time": "2026-10-25T18:23:28+0700"}
+{"event": "start", "run": "riskaware_k2_rate16_seed21", "time": "2026-10-25T18:23:36+0700"}
+{"event": "end", "run": "riskaware_k2_rate16_seed20", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 822.4, "time": "2026-10-25T18:23:37+0700"}
+{"event": "start", "run": "riskaware_k3_rate16_seed21", "time": "2026-10-25T18:23:38+0700"}
+{"event": "end", "run": "riskaware_k0_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 824.6, "time": "2026-10-25T18:30:45+0700"}
+{"event": "start", "run": "riskaware_k0_rate16_seed22", "time": "2026-10-25T18:30:51+0700"}
+{"event": "end", "run": "riskaware_k1_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 845.0, "time": "2026-10-25T18:31:17+0700"}
+{"event": "start", "run": "riskaware_k1_rate16_seed22", "time": "2026-10-25T18:31:24+0700"}
+{"event": "end", "run": "riskaware_k2_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 818.2, "time": "2026-10-25T18:37:14+0700"}
+{"event": "start", "run": "riskaware_k2_rate16_seed22", "time": "2026-10-25T18:37:17+0700"}
+{"event": "end", "run": "riskaware_k3_rate16_seed21", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 830.3, "time": "2026-10-25T18:37:28+0700"}
+{"event": "start", "run": "riskaware_k3_rate16_seed22", "time": "2026-10-25T18:37:29+0700"}
+{"event": "end", "run": "riskaware_k0_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 829.3, "time": "2026-10-25T18:44:41+0700"}
+{"event": "end", "run": "riskaware_k1_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 811.3, "time": "2026-10-25T18:44:55+0700"}
+{"event": "end", "run": "riskaware_k3_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 686.5, "time": "2026-10-25T18:48:56+0700"}
+{"event": "end", "run": "riskaware_k2_rate16_seed22", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 699.2, "time": "2026-10-25T18:48:56+0700"}
+{"event": "phase_end", "phase": "full", "critical": null, "time": "2026-10-25T18:49:02+0700"}
+{"event": "gate", "gate": "final", "runs": 72, "checks": "n100-sat-v2-20261025T112146: 108 runs; checks 1263 passed, 0 failed", "errors": [], "time": "2026-10-25T18:49:42+0700"}
+{"event": "paired_stats", "rate": 16, "rc": 0, "time": "2026-10-25T18:49:42+0700"}
+{"event": "paired_stats", "rate": 32, "rc": 0, "time": "2026-10-25T18:49:42+0700"}
+{"event": "DONE", "elapsed_min": 447.9, "time": "2026-10-25T18:49:42+0700"}

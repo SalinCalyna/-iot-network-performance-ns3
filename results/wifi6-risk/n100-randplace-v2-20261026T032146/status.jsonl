@@ -1,0 +1,159 @@
+{"event": "created", "batch": "results/wifi6-risk/n100-randplace-v2-20261026T032146", "reused": 18, "free_gb": 10.27, "time": "2026-10-26T03:21:46+0700"}
+{"event": "phase_start", "phase": "subset", "runs": 6, "time": "2026-10-26T03:21:46+0700"}
+{"event": "concurrency", "allowed": 6, "memory_pressure_level": 1, "cpu_speed_limit": 100, "time": "2026-10-26T03:21:46+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed20_place101", "time": "2026-10-26T03:21:46+0700"}
+{"event": "start", "run": "static_k3_rate32_seed20_place101", "time": "2026-10-26T03:21:48+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed20_place101", "time": "2026-10-26T03:21:50+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed20_place101", "time": "2026-10-26T03:21:52+0700"}
+{"event": "start", "run": "static_k3_rate8_seed20_place101", "time": "2026-10-26T03:21:54+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed20_place101", "time": "2026-10-26T03:21:56+0700"}
+{"event": "end", "run": "static_k3_rate8_seed20_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 404.3, "time": "2026-10-26T03:28:38+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed20_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 410.5, "time": "2026-10-26T03:28:47+0700"}
+{"event": "end", "run": "static_k3_rate32_seed20_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1218.8, "time": "2026-10-26T03:42:07+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed20_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1225.0, "time": "2026-10-26T03:42:15+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed20_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1299.3, "time": "2026-10-26T03:43:31+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed20_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1531.3, "time": "2026-10-26T03:47:17+0700"}
+{"event": "phase_end", "phase": "subset", "critical": null, "time": "2026-10-26T03:47:19+0700"}
+{"event": "gate", "gate": "subset", "runs": 6, "checks": "n100-randplace-v2-20261026T032146: 24 runs; checks 328 passed, 0 failed", "errors": [], "time": "2026-10-26T03:47:28+0700"}
+{"event": "phase_start", "phase": "full", "runs": 66, "time": "2026-10-26T03:47:28+0700"}
+{"event": "concurrency", "allowed": 4, "memory_pressure_level": 2, "cpu_speed_limit": 100, "time": "2026-10-26T03:47:28+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed20_place102", "time": "2026-10-26T03:47:28+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed20_place103", "time": "2026-10-26T03:47:30+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed20_place104", "time": "2026-10-26T03:47:32+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed21_place101", "time": "2026-10-26T03:47:34+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed20_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1805.7, "time": "2026-10-26T04:17:34+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed21_place102", "time": "2026-10-26T04:17:34+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed20_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1808.3, "time": "2026-10-26T04:17:39+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed21_place103", "time": "2026-10-26T04:17:46+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed20_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1854.0, "time": "2026-10-26T04:18:26+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed21_place104", "time": "2026-10-26T04:18:29+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed21_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1982.7, "time": "2026-10-26T04:20:37+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed22_place101", "time": "2026-10-26T04:20:41+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed21_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1847.1, "time": "2026-10-26T04:48:21+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed22_place102", "time": "2026-10-26T04:48:30+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed21_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1890.7, "time": "2026-10-26T04:49:17+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed22_place103", "time": "2026-10-26T04:49:23+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed21_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1870.6, "time": "2026-10-26T04:49:39+0700"}
+{"event": "start", "run": "olsr_k3_rate32_seed22_place104", "time": "2026-10-26T04:49:45+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed22_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1743.8, "time": "2026-10-26T04:49:45+0700"}
+{"event": "start", "run": "static_k3_rate32_seed20_place102", "time": "2026-10-26T04:49:47+0700"}
+{"event": "end", "run": "static_k3_rate32_seed20_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1153.2, "time": "2026-10-26T05:09:00+0700"}
+{"event": "start", "run": "static_k3_rate32_seed20_place103", "time": "2026-10-26T05:09:04+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed22_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1645.2, "time": "2026-10-26T05:15:56+0700"}
+{"event": "start", "run": "static_k3_rate32_seed20_place104", "time": "2026-10-26T05:15:57+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed22_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1620.9, "time": "2026-10-26T05:16:24+0700"}
+{"event": "start", "run": "static_k3_rate32_seed21_place101", "time": "2026-10-26T05:16:29+0700"}
+{"event": "end", "run": "olsr_k3_rate32_seed22_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1623.5, "time": "2026-10-26T05:16:48+0700"}
+{"event": "start", "run": "static_k3_rate32_seed21_place102", "time": "2026-10-26T05:16:51+0700"}
+{"event": "concurrency", "allowed": 6, "memory_pressure_level": 1, "cpu_speed_limit": 100, "time": "2026-10-26T05:23:15+0700"}
+{"event": "start", "run": "static_k3_rate32_seed21_place103", "time": "2026-10-26T05:23:15+0700"}
+{"event": "start", "run": "static_k3_rate32_seed21_place104", "time": "2026-10-26T05:23:17+0700"}
+{"event": "end", "run": "static_k3_rate32_seed20_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1153.8, "time": "2026-10-26T05:28:18+0700"}
+{"event": "start", "run": "static_k3_rate32_seed22_place101", "time": "2026-10-26T05:28:20+0700"}
+{"event": "end", "run": "static_k3_rate32_seed21_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1241.6, "time": "2026-10-26T05:37:11+0700"}
+{"event": "start", "run": "static_k3_rate32_seed22_place102", "time": "2026-10-26T05:37:14+0700"}
+{"event": "end", "run": "static_k3_rate32_seed20_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1284.1, "time": "2026-10-26T05:37:21+0700"}
+{"event": "start", "run": "static_k3_rate32_seed22_place103", "time": "2026-10-26T05:37:27+0700"}
+{"event": "end", "run": "static_k3_rate32_seed21_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1255.5, "time": "2026-10-26T05:37:47+0700"}
+{"event": "start", "run": "static_k3_rate32_seed22_place104", "time": "2026-10-26T05:37:49+0700"}
+{"event": "end", "run": "static_k3_rate32_seed21_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1356.9, "time": "2026-10-26T05:45:52+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed20_place102", "time": "2026-10-26T05:45:53+0700"}
+{"event": "end", "run": "static_k3_rate32_seed21_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1364.4, "time": "2026-10-26T05:46:01+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed20_place103", "time": "2026-10-26T05:46:05+0700"}
+{"event": "end", "run": "static_k3_rate32_seed22_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1377.2, "time": "2026-10-26T05:51:17+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed20_place104", "time": "2026-10-26T05:51:18+0700"}
+{"event": "end", "run": "static_k3_rate32_seed22_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1391.0, "time": "2026-10-26T06:00:26+0700"}
+{"event": "end", "run": "static_k3_rate32_seed22_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1384.6, "time": "2026-10-26T06:00:31+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed21_place101", "time": "2026-10-26T06:00:32+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed21_place102", "time": "2026-10-26T06:00:34+0700"}
+{"event": "concurrency", "allowed": 4, "memory_pressure_level": 2, "cpu_speed_limit": 100, "time": "2026-10-26T06:00:47+0700"}
+{"event": "end", "run": "static_k3_rate32_seed22_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1397.6, "time": "2026-10-26T06:01:06+0700"}
+{"event": "concurrency", "allowed": 6, "memory_pressure_level": 1, "cpu_speed_limit": 100, "time": "2026-10-26T06:04:48+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed21_place103", "time": "2026-10-26T06:04:48+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed20_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1406.9, "time": "2026-10-26T06:09:20+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed21_place104", "time": "2026-10-26T06:09:21+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed20_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1415.9, "time": "2026-10-26T06:09:41+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed22_place101", "time": "2026-10-26T06:09:43+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed20_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1417.9, "time": "2026-10-26T06:14:56+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed22_place102", "time": "2026-10-26T06:14:56+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed21_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1433.2, "time": "2026-10-26T06:24:26+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed21_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1432.9, "time": "2026-10-26T06:24:27+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed22_place103", "time": "2026-10-26T06:24:31+0700"}
+{"event": "start", "run": "riskaware_k3_rate32_seed22_place104", "time": "2026-10-26T06:24:33+0700"}
+{"event": "concurrency", "allowed": 4, "memory_pressure_level": 2, "cpu_speed_limit": 100, "time": "2026-10-26T06:28:57+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed21_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1474.7, "time": "2026-10-26T06:29:22+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed21_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1547.2, "time": "2026-10-26T06:35:08+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed22_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1565.4, "time": "2026-10-26T06:35:48+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed20_place102", "time": "2026-10-26T06:35:49+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed22_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1614.0, "time": "2026-10-26T06:41:50+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed20_place103", "time": "2026-10-26T06:41:52+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed22_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1547.8, "time": "2026-10-26T06:50:19+0700"}
+{"event": "end", "run": "riskaware_k3_rate32_seed22_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1548.8, "time": "2026-10-26T06:50:22+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed20_place104", "time": "2026-10-26T06:50:27+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed21_place101", "time": "2026-10-26T06:50:29+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed20_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1658.0, "time": "2026-10-26T07:03:27+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed21_place102", "time": "2026-10-26T07:03:34+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed20_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1620.3, "time": "2026-10-26T07:08:53+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed21_place103", "time": "2026-10-26T07:08:58+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed20_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1596.8, "time": "2026-10-26T07:17:04+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed21_place104", "time": "2026-10-26T07:17:12+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed21_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 2097.6, "time": "2026-10-26T07:25:26+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed22_place101", "time": "2026-10-26T07:25:36+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed21_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1960.5, "time": "2026-10-26T07:36:15+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed22_place102", "time": "2026-10-26T07:36:21+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed21_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1871.6, "time": "2026-10-26T07:40:10+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed22_place103", "time": "2026-10-26T07:40:14+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed21_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1719.8, "time": "2026-10-26T07:45:52+0700"}
+{"event": "start", "run": "olsr_k3_rate8_seed22_place104", "time": "2026-10-26T07:45:57+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed22_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1292.7, "time": "2026-10-26T07:47:09+0700"}
+{"event": "start", "run": "static_k3_rate8_seed20_place102", "time": "2026-10-26T07:47:09+0700"}
+{"event": "end", "run": "static_k3_rate8_seed20_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 301.8, "time": "2026-10-26T07:52:11+0700"}
+{"event": "start", "run": "static_k3_rate8_seed20_place103", "time": "2026-10-26T07:52:12+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed22_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1186.6, "time": "2026-10-26T07:56:08+0700"}
+{"event": "concurrency", "allowed": 6, "memory_pressure_level": 1, "cpu_speed_limit": 100, "time": "2026-10-26T07:56:15+0700"}
+{"event": "start", "run": "static_k3_rate8_seed20_place104", "time": "2026-10-26T07:56:15+0700"}
+{"event": "start", "run": "static_k3_rate8_seed21_place101", "time": "2026-10-26T07:56:17+0700"}
+{"event": "start", "run": "static_k3_rate8_seed21_place102", "time": "2026-10-26T07:56:19+0700"}
+{"event": "end", "run": "static_k3_rate8_seed20_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 317.6, "time": "2026-10-26T07:57:30+0700"}
+{"event": "start", "run": "static_k3_rate8_seed21_place103", "time": "2026-10-26T07:57:32+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed22_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1255.2, "time": "2026-10-26T08:01:09+0700"}
+{"event": "start", "run": "static_k3_rate8_seed21_place104", "time": "2026-10-26T08:01:15+0700"}
+{"event": "end", "run": "static_k3_rate8_seed20_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 394.9, "time": "2026-10-26T08:02:50+0700"}
+{"event": "end", "run": "static_k3_rate8_seed21_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 397.6, "time": "2026-10-26T08:02:55+0700"}
+{"event": "start", "run": "static_k3_rate8_seed22_place101", "time": "2026-10-26T08:02:57+0700"}
+{"event": "start", "run": "static_k3_rate8_seed22_place102", "time": "2026-10-26T08:02:59+0700"}
+{"event": "end", "run": "static_k3_rate8_seed21_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 399.7, "time": "2026-10-26T08:02:59+0700"}
+{"event": "start", "run": "static_k3_rate8_seed22_place103", "time": "2026-10-26T08:03:01+0700"}
+{"event": "end", "run": "static_k3_rate8_seed21_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 391.7, "time": "2026-10-26T08:04:04+0700"}
+{"event": "start", "run": "static_k3_rate8_seed22_place104", "time": "2026-10-26T08:04:04+0700"}
+{"event": "end", "run": "static_k3_rate8_seed21_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 401.8, "time": "2026-10-26T08:07:57+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed20_place102", "time": "2026-10-26T08:08:07+0700"}
+{"event": "end", "run": "olsr_k3_rate8_seed22_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 1343.0, "time": "2026-10-26T08:08:20+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed20_place103", "time": "2026-10-26T08:08:29+0700"}
+{"event": "end", "run": "static_k3_rate8_seed22_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 389.3, "time": "2026-10-26T08:09:27+0700"}
+{"event": "end", "run": "static_k3_rate8_seed22_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 389.3, "time": "2026-10-26T08:09:29+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed20_place104", "time": "2026-10-26T08:09:31+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed21_place101", "time": "2026-10-26T08:09:33+0700"}
+{"event": "end", "run": "static_k3_rate8_seed22_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 394.6, "time": "2026-10-26T08:09:36+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed21_place102", "time": "2026-10-26T08:09:45+0700"}
+{"event": "end", "run": "static_k3_rate8_seed22_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 397.2, "time": "2026-10-26T08:10:41+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed21_place103", "time": "2026-10-26T08:10:47+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed20_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 401.1, "time": "2026-10-26T08:14:48+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed21_place104", "time": "2026-10-26T08:14:50+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed20_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 400.6, "time": "2026-10-26T08:15:09+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed22_place101", "time": "2026-10-26T08:15:12+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed20_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 402.6, "time": "2026-10-26T08:16:14+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed22_place102", "time": "2026-10-26T08:16:15+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed21_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 403.2, "time": "2026-10-26T08:16:16+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed22_place103", "time": "2026-10-26T08:16:17+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed21_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 404.2, "time": "2026-10-26T08:16:29+0700"}
+{"event": "start", "run": "riskaware_k3_rate8_seed22_place104", "time": "2026-10-26T08:16:39+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed21_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 397.7, "time": "2026-10-26T08:17:25+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed21_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 378.5, "time": "2026-10-26T08:21:09+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed22_place101", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 364.5, "time": "2026-10-26T08:21:17+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed22_place103", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 350.7, "time": "2026-10-26T08:22:07+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed22_place102", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 353.1, "time": "2026-10-26T08:22:08+0700"}
+{"event": "end", "run": "riskaware_k3_rate8_seed22_place104", "exit_code": 0, "stderr_bytes": 0, "wall_sec": 340.9, "time": "2026-10-26T08:22:20+0700"}
+{"event": "phase_end", "phase": "full", "critical": null, "time": "2026-10-26T08:22:21+0700"}
+{"event": "gate", "gate": "final", "runs": 72, "checks": "n100-randplace-v2-20261026T032146: 90 runs; checks 1197 passed, 0 failed", "errors": [], "time": "2026-10-26T08:22:53+0700"}
+{"event": "DONE", "elapsed_min": 301.1, "time": "2026-10-26T08:22:53+0700"}

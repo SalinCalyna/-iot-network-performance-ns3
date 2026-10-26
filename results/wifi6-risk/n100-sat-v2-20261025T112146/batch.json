@@ -1,0 +1,84 @@
+{
+ "binary": "/Users/pinpuk/ns-3-dev/build/scratch/ns3-dev-iot-network-wifi6-risk-v2-default",
+ "binary_sha256": "d909f6de6233dfad80700b37beb71d4a62c2cd38f223b6acc70cbb40f1bb2407",
+ "source": "/Users/pinpuk/ns-3-dev/scratch/iot-network-wifi6-risk-v2.cc",
+ "source_sha256": "33b350ab5f790d7347fbd81b3b010a1d455af73ebd0a28ce187eca7e0633311b",
+ "base_args": [
+  "--standard=80211ax",
+  "--nSensors=100",
+  "--trafficLevel=high",
+  "--arpPrepopulate=1",
+  "--riskStudy=1",
+  "--perPacketTrace=1",
+  "--highRiskDropProb=0.5",
+  "--lowRiskDropProb=0",
+  "--riskBeta=10",
+  "--riskSelect=subtree",
+  "--riskDropSeed=1"
+ ],
+ "n_sensors": 100,
+ "protocols": [
+  "olsr",
+  "static",
+  "riskaware"
+ ],
+ "num_high_risk": [
+  0,
+  1,
+  2,
+  3
+ ],
+ "rates_kbps": [
+  16,
+  32
+ ],
+ "seeds": [
+  20,
+  21,
+  22
+ ],
+ "subset": [
+  [
+   "olsr",
+   0,
+   20,
+   32
+  ],
+  [
+   "olsr",
+   3,
+   20,
+   32
+  ],
+  [
+   "static",
+   0,
+   20,
+   32
+  ],
+  [
+   "static",
+   3,
+   20,
+   32
+  ],
+  [
+   "riskaware",
+   0,
+   20,
+   32
+  ],
+  [
+   "riskaware",
+   3,
+   20,
+   32
+  ]
+ ],
+ "reused_reference": "results/wifi6-risk/n100-8k-v2-20261024T165009",
+ "reused_rate_kbps": 8,
+ "simTime_s": 300,
+ "appStart_s": 30,
+ "max_jobs": 6,
+ "created": "2026-10-25T11:21:46+0700"
+}

@@ -1,0 +1,17 @@
+n100-sat-v2-20261025T112146: 42 runs; checks 500 passed, 0 failed
+  PASS  P0 run ok: 42 passed, 0 failed
+  PASS  P1 FlowMonitor rx <= sink: 42 passed, 0 failed
+  PASS  P1 delivered + duplicates = sink rx: 42 passed, 0 failed
+  PASS  P1 fates partition: 42 passed, 0 failed
+  PASS  P1 path records = app tx: 42 passed, 0 failed
+  PASS  P2 high-risk set = reference: 42 passed, 0 failed
+  PASS  P2 hop/degree = reference: 42 passed, 0 failed
+  PASS  P2 same high-risk set across protocols and loads: 12 passed, 0 failed
+  PASS  P3 risk drops valid: 42 passed, 0 failed
+  PASS  P4 delivered packets followed the installed path: 28 passed, 0 failed
+  PASS  P4 installed path = reference tree: 28 passed, 0 failed
+  PASS  P4 riskaware k=0 packet paths = static k=0: 4 passed, 0 failed
+  PASS  P5 identical first-send times across runs: 4 passed, 0 failed
+  PASS  P5 one scheduled send count for every source: 4 passed, 0 failed
+  PASS  P5 send count <= nominal: 42 passed, 0 failed
+  PASS  P6 unicast data HE_SU HeMcs0: 42 passed, 0 failed

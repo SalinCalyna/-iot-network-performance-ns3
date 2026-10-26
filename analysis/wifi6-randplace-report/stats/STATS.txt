@@ -1,0 +1,89 @@
+analysis/wifi6-randplace-report/analyze_out/pilot_runs.csv: 72 runs at k = 3 (12 draws x 3 protocols x 2 rates) + 18 reused k = 0 runs
+draws with a risky node on the static BFS tree: 5 of 12 (20/102 21/103 22/101 22/102 22/103)
+
+== 8 kbps: mean [95 % t interval] over 12 draws
+  static    exposure % 1.83 [0.124, 3.54] (zero in 7/12, max 7) | nominal PDR % 99 [98.2, 99.9] | p95 delay ms 162 [159, 165] | gw airtime 0.223 [0.219, 0.227]
+  riskaware exposure % 0 [0, 0] (zero in 12/12, max 0) | nominal PDR % 100 [99.9, 100] | p95 delay ms 162 [159, 166] | gw airtime 0.224 [0.22, 0.228]
+  olsr      exposure % 1.15 [0.917, 1.39] (zero in 0/12, max 1.76) | nominal PDR % 99 [98.9, 99.2] | p95 delay ms 281 [264, 299] | gw airtime 0.397 [0.377, 0.416]
+== 32 kbps: mean [95 % t interval] over 12 draws
+  static    exposure % 1.83 [0.123, 3.54] (zero in 7/12, max 7) | nominal PDR % 72 [70.4, 73.6] | p95 delay ms 493 [490, 496] | gw airtime 0.754 [0.753, 0.755]
+  riskaware exposure % 0 [0, 0] (zero in 12/12, max 0) | nominal PDR % 72.2 [70.4, 73.9] | p95 delay ms 493 [490, 496] | gw airtime 0.753 [0.751, 0.755]
+  olsr      exposure % 2.29 [1.41, 3.16] (zero in 0/12, max 5.43) | nominal PDR % 58.8 [57.7, 59.9] | p95 delay ms 519 [508, 530] | gw airtime 0.77 [0.768, 0.772]
+
+== paired differences A - B (draw-level 95 % interval; topology-level interval, n = 3; sign-flip p; Holm for primary)
+   8 kbps    static-olsr      exposure_rate_pct    +0.6787 [-1.092, +2.449] topo [-3.527, +4.884] (20:-1.025 21:+0.6997 22:+2.361) A>B 4 =:0 A<B 8 p=0.414 holm=1 -> descriptive
+   8 kbps    static-olsr      pdr_nominal_pct     +0.03257 [-0.8438, +0.909] topo [-2.185, +2.251] (20:+0.981 21:-0.09156 22:-0.7917) A>B 8 =:0 A<B 4 p=0.938 holm=1 -> descriptive
+   8 kbps    static-olsr      risk_dropped_pkts     +171.8 [-287.1, +630.7] topo [-933, +1277] (20:-274 21:+174 22:+615.5) A>B 4 =:0 A<B 8 p=0.426 holm=- -> descriptive
+   8 kbps    static-olsr      delay_p95_ms          -119.8 [-139.6, -100.1] topo [-209.9, -29.82] (20:-158 21:-85.96 22:-115.5) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> descriptive
+   8 kbps    static-olsr      gw_airtime           -0.1736 [-0.1964, -0.1508] topo [-0.2773, -0.06988] (20:-0.2198 21:-0.1385 22:-0.1625) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+   8 kbps    static-olsr      mpdu_retry_drop       -586.8 [-624.1, -549.4] topo [-719.4, -454.1] (20:-626.2 21:-526 22:-608) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+   8 kbps riskaware-static    exposure_rate_pct     -1.833 [-3.542, -0.1235] topo [-5.874, +2.208] (20:-0.25 21:-1.749 22:-3.5) A>B 0 =:7 A<B 5 p=0.0625 holm=0.438 -> descriptive
+   8 kbps riskaware-static    pdr_nominal_pct      +0.9051 [+0.06015, +1.75] topo [-1.106, +2.916] (20:+0.1176 21:+0.8624 22:+1.735) A>B 5 =:7 A<B 0 p=0.0625 holm=0.438 -> descriptive
+   8 kbps riskaware-static    risk_dropped_pkts     -475.1 [-919.1, -31.02] topo [-1532, +581.7] (20:-61 21:-453.2 22:-911) A>B 0 =:7 A<B 5 p=0.0625 holm=- -> descriptive
+   8 kbps riskaware-static    delay_p95_ms         +0.8181 [-0.07417, +1.71] topo [-0.56, +2.196] (20:+0.1775 21:+1.136 22:+1.141) A>B 5 =:7 A<B 0 p=0.0625 holm=- -> descriptive
+   8 kbps riskaware-static    gw_airtime         +0.001045 [-8.889e-05, +0.002179] topo [-0.0009294, +0.00302] (20:+0.000235 21:+0.001077 22:+0.001824) A>B 4 =:7 A<B 1 p=0.125 holm=- -> descriptive
+   8 kbps riskaware-static    mpdu_retry_drop         -2.5 [-6.931, +1.931] topo [-10.57, +5.573] (20:+1.25 21:-4.5 22:-4.25) A>B 2 =:7 A<B 3 p=0.375 holm=- -> descriptive
+   8 kbps riskaware-olsr      exposure_rate_pct     -1.154 [-1.392, -0.917] topo [-1.436, -0.8725] (20:-1.275 21:-1.049 22:-1.139) A>B 0 =:0 A<B 12 p=0.000488 holm=0.00586 -> supported
+   8 kbps riskaware-olsr      pdr_nominal_pct      +0.9377 [+0.7944, +1.081] topo [+0.5304, +1.345] (20:+1.099 21:+0.7709 22:+0.9435) A>B 12 =:0 A<B 0 p=0.000488 holm=0.00586 -> supported
+   8 kbps riskaware-olsr      risk_dropped_pkts     -303.2 [-367.9, -238.6] topo [-374.5, -232] (20:-335 21:-279.2 22:-295.5) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+   8 kbps riskaware-olsr      delay_p95_ms            -119 [-139, -99.01] topo [-210.3, -27.74] (20:-157.9 21:-84.83 22:-114.4) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> descriptive
+   8 kbps riskaware-olsr      gw_airtime           -0.1725 [-0.1956, -0.1495] topo [-0.2777, -0.06743] (20:-0.2195 21:-0.1374 22:-0.1607) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+   8 kbps riskaware-olsr      mpdu_retry_drop       -589.2 [-624.9, -553.6] topo [-716.6, -461.9] (20:-625 21:-530.5 22:-612.2) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+  32 kbps    static-olsr      exposure_rate_pct    -0.4529 [-2.184, +1.278] topo [-3.319, +2.414] (20:-1.654 21:-0.3524 22:+0.6475) A>B 3 =:0 A<B 9 p=0.563 holm=1 -> descriptive
+  32 kbps    static-olsr      pdr_nominal_pct        +13.2 [+10.63, +15.77] topo [+1.575, +24.82] (20:+18.05 21:+8.72 22:+12.82) A>B 12 =:0 A<B 0 p=0.000488 holm=0.00586 -> supported
+  32 kbps    static-olsr      risk_dropped_pkts     -451.3 [-2262, +1359] topo [-3464, +2562] (20:-1700 21:-376.2 22:+722.2) A>B 3 =:0 A<B 9 p=0.589 holm=- -> descriptive
+  32 kbps    static-olsr      delay_p95_ms          -26.34 [-38.45, -14.24] topo [-64.09, +11.41] (20:-41.44 21:-26.55 22:-11.05) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> descriptive
+  32 kbps    static-olsr      gw_airtime          -0.01585 [-0.01734, -0.01436] topo [-0.02029, -0.01141] (20:-0.01496 21:-0.01791 22:-0.01469) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+  32 kbps    static-olsr      mpdu_retry_drop        -1135 [-1181, -1088] topo [-1280, -989.3] (20:-1174 21:-1162 22:-1068) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+  32 kbps riskaware-static    exposure_rate_pct     -1.833 [-3.542, -0.1235] topo [-5.874, +2.208] (20:-0.2499 21:-1.749 22:-3.5) A>B 0 =:7 A<B 5 p=0.0625 holm=0.438 -> descriptive
+  32 kbps riskaware-static    pdr_nominal_pct      +0.1922 [-0.1988, +0.5831] topo [-1.026, +1.411] (20:+0.0908 21:-0.2398 22:+0.7255) A>B 4 =:7 A<B 1 p=0.312 holm=1 -> descriptive
+  32 kbps riskaware-static    risk_dropped_pkts      -1938 [-3742, -133.7] topo [-6213, +2337] (20:-269 21:-1838 22:-3706) A>B 0 =:7 A<B 5 p=0.0625 holm=- -> descriptive
+  32 kbps riskaware-static    delay_p95_ms         +0.5006 [-0.2099, +1.211] topo [-1.043, +2.044] (20:-0.2138 21:+0.8015 22:+0.914) A>B 4 =:7 A<B 1 p=0.188 holm=- -> descriptive
+  32 kbps riskaware-static    gw_airtime         -0.000486 [-0.001669, +0.000697] topo [-0.001637, +0.0006649] (20:+4.675e-05 21:-0.0007102 22:-0.0007945) A>B 2 =:7 A<B 3 p=0.438 holm=- -> descriptive
+  32 kbps riskaware-static    mpdu_retry_drop           -4 [-7.851, -0.1495] topo [-9.52, +1.52] (20:-2.25 21:-3.25 22:-6.5) A>B 0 =:8 A<B 4 p=0.125 holm=- -> descriptive
+  32 kbps riskaware-olsr      exposure_rate_pct     -2.286 [-3.157, -1.415] topo [-3.529, -1.043] (20:-1.904 21:-2.102 22:-2.852) A>B 0 =:0 A<B 12 p=0.000488 holm=0.00586 -> supported
+  32 kbps riskaware-olsr      pdr_nominal_pct       +13.39 [+10.73, +16.05] topo [+1.38, +25.4] (20:+18.15 21:+8.48 22:+13.54) A>B 12 =:0 A<B 0 p=0.000488 holm=0.00586 -> supported
+  32 kbps riskaware-olsr      risk_dropped_pkts      -2389 [-3292, -1486] topo [-3705, -1073] (20:-1969 21:-2214 22:-2984) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+  32 kbps riskaware-olsr      delay_p95_ms          -25.84 [-37.9, -13.79] topo [-64.99, +13.31] (20:-41.65 21:-25.74 22:-10.13) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> descriptive
+  32 kbps riskaware-olsr      gw_airtime          -0.01634 [-0.01855, -0.01412] topo [-0.0213, -0.01137] (20:-0.01491 21:-0.01862 22:-0.01548) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+  32 kbps riskaware-olsr      mpdu_retry_drop        -1139 [-1183, -1095] topo [-1279, -998.8] (20:-1177 21:-1165 22:-1074) A>B 0 =:0 A<B 12 p=0.000488 holm=- -> consistent
+
+== conditional (descriptive): mean difference, on-tree draws vs off-tree draws
+   8 kbps on_tree  n=5    static-olsr      exposure_rate_pct  +3.183 (range -0.7571 .. +6.34)
+   8 kbps on_tree  n=5    static-olsr      pdr_nominal_pct    -1.173 (range -2.852 .. +0.8975)
+   8 kbps on_tree  n=5 riskaware-static    exposure_rate_pct  -4.399 (range -6.996 .. -1)
+   8 kbps on_tree  n=5 riskaware-static    pdr_nominal_pct    +2.172 (range +0.4706 .. +3.45)
+   8 kbps on_tree  n=5 riskaware-olsr      exposure_rate_pct  -1.216 (range -1.757 .. -0.6565)
+   8 kbps on_tree  n=5 riskaware-olsr      pdr_nominal_pct    +0.9996 (range +0.5977 .. +1.368)
+   8 kbps off_tree n=7    static-olsr      exposure_rate_pct  -1.11 (range -1.626 .. -0.5541)
+   8 kbps off_tree n=7    static-olsr      pdr_nominal_pct    +0.8935 (range +0.666 .. +1.146)
+   8 kbps off_tree n=7 riskaware-static    exposure_rate_pct  +0 (range +0 .. +0)
+   8 kbps off_tree n=7 riskaware-static    pdr_nominal_pct    +0 (range +0 .. +0)
+   8 kbps off_tree n=7 riskaware-olsr      exposure_rate_pct  -1.11 (range -1.626 .. -0.5541)
+   8 kbps off_tree n=7 riskaware-olsr      pdr_nominal_pct    +0.8935 (range +0.666 .. +1.146)
+  32 kbps on_tree  n=5    static-olsr      exposure_rate_pct  +1.198 (range -4.43 .. +4.871)
+  32 kbps on_tree  n=5    static-olsr      pdr_nominal_pct    +12.71 (range +7.945 .. +17.53)
+  32 kbps on_tree  n=5 riskaware-static    exposure_rate_pct  -4.399 (range -6.997 .. -0.9995)
+  32 kbps on_tree  n=5 riskaware-static    pdr_nominal_pct    +0.4612 (range -0.9592 .. +1.494)
+  32 kbps on_tree  n=5 riskaware-olsr      exposure_rate_pct  -3.201 (range -5.43 .. -2.096)
+  32 kbps on_tree  n=5 riskaware-olsr      pdr_nominal_pct    +13.17 (range +6.986 .. +17.89)
+  32 kbps off_tree n=7    static-olsr      exposure_rate_pct  -1.632 (range -2.959 .. -0.4359)
+  32 kbps off_tree n=7    static-olsr      pdr_nominal_pct    +13.55 (range +8.421 .. +18.94)
+  32 kbps off_tree n=7 riskaware-static    exposure_rate_pct  +0 (range +0 .. +0)
+  32 kbps off_tree n=7 riskaware-static    pdr_nominal_pct    +0 (range +0 .. +0)
+  32 kbps off_tree n=7 riskaware-olsr      exposure_rate_pct  -1.632 (range -2.959 .. -0.4359)
+  32 kbps off_tree n=7 riskaware-olsr      pdr_nominal_pct    +13.55 (range +8.421 .. +18.94)
+
+== subtree vs uniform placement, k = 3, same seeds (descriptive)
+   8 kbps static    exposure_rate_pct  subtree 39.33 -> uniform 1.833
+   8 kbps static    pdr_nominal_pct    subtree 80.25 -> uniform 99.05
+   8 kbps riskaware exposure_rate_pct  subtree 0 -> uniform 0
+   8 kbps riskaware pdr_nominal_pct    subtree 99.96 -> uniform 99.95
+   8 kbps olsr      exposure_rate_pct  subtree 1.515 -> uniform 1.154
+   8 kbps olsr      pdr_nominal_pct    subtree 98.86 -> uniform 99.02
+  32 kbps static    exposure_rate_pct  subtree 39.3 -> uniform 1.833
+  32 kbps static    pdr_nominal_pct    subtree 69.95 -> uniform 71.99
+  32 kbps riskaware exposure_rate_pct  subtree 0 -> uniform 0
+  32 kbps riskaware pdr_nominal_pct    subtree 71.41 -> uniform 72.18
+  32 kbps olsr      exposure_rate_pct  subtree 4.875 -> uniform 2.286
+  32 kbps olsr      pdr_nominal_pct    subtree 58.85 -> uniform 58.79
