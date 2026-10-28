@@ -1,0 +1,2 @@
+timestamp,protocol,nodes,trafficLevel,offered_rate_kbps,seed,simTime,txPkts,rxPkts,pdr,throughputKbps,avgDelaySec,avgJitterSec,unreachableSensors,routingOverheadPkts,total_phy_rx_drops,total_mac_queue_drops,total_max_retry_drops,total_ip_drop_no_route,total_ip_drop_ttl,total_ip_drop_route_error,total_ip_drop_queue,total_ip_drop_other,gw_airtime_busy_frac,ring1_airtime_busy_frac_mean,rest_airtime_busy_frac_mean,ring1_node_count
+1792331285,static,100,medium,8,29,300,52700,26013,49.3605,416.208,0.297073,0.123827,0,0,17333707,22371,5181,0,0,0,0,0,0.864473,0.864867,0.76549,41

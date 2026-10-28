@@ -12,6 +12,14 @@ from older docs. Every item below carries one of four labels:
 - **Not yet verified** — implemented, but no execution evidence exists; results must not be
   assumed or invented.
 
+> **Status note (2026-10-28): ARP artifact.** The 802.11b results in this document (V1, V3 Phase 1, V4)
+> come from simulators that do not pre-populate the ARP cache and start every sensor at the same instant.
+> Under these conditions colliding ARP requests drop packets without any loss counter recording them. The
+> V3 Phase 1 experiments were re-run with the ARP cache pre-populated (static sensors): this ARP-fixed
+> analysis is the primary 802.11b analysis of the thesis draft (the advisor approved this analysis structure, with the original runs as secondary evidence, in October 2026; the thesis itself remains under advisor review). The original results below are kept unchanged for traceability; affected
+> statements are marked. See the [ARP-fixed results](../README.md#ieee-80211b-study-arp-fixed-results-primary). The Wi-Fi 6 study used ARP
+> pre-population throughout and is not affected.
+
 ## Track map
 
 | Advisor's label | Actual track | Simulator file | Status |
@@ -40,6 +48,10 @@ DSSS, log-distance path loss). AODV, OLSR, and Static (BFS shortest-hop) routing
 nodes × 3 protocols × 5 seeds = 60 runs, all complete (`results/*.csv`, `results/statistics.csv`).
 PDR falls as node count grows for every protocol (e.g. AODV 70.5%→27.2%, OLSR 49.6%→20.0%, Static
 53.5%→23.6% from N=10 to N=50) — the fixed reference point every later track is checked against.
+
+*Not re-examined for the ARP artifact:* `scratch/iot-network.cc` also has no ARP pre-population and starts
+all sensors at the same instant (`app.Start(Seconds(appStart))`), so these values may include the same
+uncounted ARP loss. V1 was not re-run.
 
 ## V2 — Sigmoid pilot
 
@@ -132,6 +144,13 @@ higher link-utilisation cost; Static has the lowest delay/jitter but lowest mean
 collapses at scale. The 75/100-node PDR collapse was confirmed (via Static's own connectivity
 counter) to be channel congestion, not a topology defect.
 
+**[ARP-affected / superseded ranking]** These pooled values include uncounted ARP loss that affected the
+protocols unequally. With ARP fixed (static sensors; mobility not re-run), Static Routing has the highest
+PDR and goodput in every condition from N = 20 upward (15/15), so "OLSR delivers most consistently … Static
+lowest mean PDR" does not hold for the ARP-fixed static-sensor runs. The PDR-denominator caveat applies to
+OLSR (sent counts up to 10.0 % below the schedule), not AODV. The values above remain the correct outputs of
+the original configuration.
+
 ## V4 — Sigmoid-adaptive routing
 
 **File:** `scratch/iot-network-v3-ext.cc`, `--protocol=v4`. **Status: Implemented, Experiment
@@ -147,6 +166,9 @@ loss over Static** with a credible effect (n=11/config). Attributed to a structu
 RiskScore reflects node geometry, not where traffic concentrates (the gateway's one-hop
 neighbourhood, regardless of degree). **Closed: mechanism demonstrably works, no performance
 benefit demonstrated; no further-tier experiment judged scientifically justified.**
+
+*Still valid in the original configuration:* V4 and Static share the same ARP behaviour, so the V4 − Static
+comparison is internally matched. V4 was not re-run with ARP fixed.
 
 ## Wi-Fi 6 Risk-Aware Routing (outside V1–V4) — **Experiment completed**
 
@@ -195,3 +217,6 @@ documentation.
 the "Wi-Fi 6 Risk-Aware Routing" section were added from the validated Wi-Fi 6 outputs. No
 simulation was run and no simulator file was changed for this edit. The BA (V3) statements above
 were not changed.
+
+**Addendum 2026-10-28:** ARP-artifact status notes were added to the introduction and to the V1, V3 Phase 1
+and V4 sections. No historical value or sentence was changed; no simulation was run for this edit.

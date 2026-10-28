@@ -1,0 +1,21 @@
+ARP study step 2 -- Phase I (802.11b) residual loss vs ARP drops
+
+Reproduction of frozen Phase I values by b-off: all compared values identical
+
+static N= 50 16kbps s20: PDR off  38.99 -> on  53.72 (d +14.73 pp) | off: residual  29751 ( 92.5% of loss), ARP  29824 = 100.2% of residual, residual-ARP    -73 | on: ARP 0, residual -777
+static N= 50 16kbps s25: PDR off  38.16 -> on  57.51 (d +19.35 pp) | off: residual  30777 ( 94.4% of loss), ARP  30825 = 100.2% of residual, residual-ARP    -48 | on: ARP 0, residual -611
+static N= 50 16kbps s30: PDR off  42.40 -> on  55.83 (d +13.44 pp) | off: residual  19625 ( 64.6% of loss), ARP  19895 = 101.4% of residual, residual-ARP   -270 | on: ARP 0, residual -498
+static N= 50 12kbps s20: PDR off  31.25 -> on  74.06 (d +42.80 pp) | off: residual  26941 ( 99.1% of loss), ARP  26928 = 100.0% of residual, residual-ARP     13 | on: ARP 0, residual -413
+static N= 50 12kbps s25: PDR off  24.48 -> on  70.94 (d +46.46 pp) | off: residual  29742 ( 99.6% of loss), ARP  29720 =  99.9% of residual, residual-ARP     22 | on: ARP 0, residual -420
+static N= 50 12kbps s30: PDR off  26.52 -> on  70.29 (d +43.77 pp) | off: residual  28754 ( 98.9% of loss), ARP  28737 =  99.9% of residual, residual-ARP     17 | on: ARP 0, residual -452
+static N= 50  8kbps s20: PDR off  33.47 -> on  90.62 (d +57.15 pp) | off: residual  17166 ( 97.9% of loss), ARP  17194 = 100.2% of residual, residual-ARP    -28 | on: ARP 0, residual -179
+static N= 50  8kbps s25: PDR off  32.09 -> on  85.90 (d +53.80 pp) | off: residual  17649 ( 98.6% of loss), ARP  17647 = 100.0% of residual, residual-ARP      2 | on: ARP 0, residual -258
+static N= 50  8kbps s30: PDR off  37.48 -> on  86.90 (d +49.42 pp) | off: residual  16166 ( 98.1% of loss), ARP  16165 = 100.0% of residual, residual-ARP      1 | on: ARP 0, residual -201
+static N= 50  4kbps s20: PDR off  32.54 -> on  90.65 (d +58.11 pp) | off: residual   8808 ( 99.3% of loss), ARP   8811 = 100.0% of residual, residual-ARP     -3 | on: ARP 0, residual -96
+static N= 50  4kbps s25: PDR off  31.41 -> on  85.95 (d +54.54 pp) | off: residual   8949 ( 99.2% of loss), ARP   8955 = 100.1% of residual, residual-ARP     -6 | on: ARP 0, residual -151
+static N= 50  4kbps s30: PDR off  32.78 -> on  87.00 (d +54.22 pp) | off: residual   8692 ( 98.3% of loss), ARP   8698 = 100.1% of residual, residual-ARP     -6 | on: ARP 0, residual -126
+olsr   N= 75 16kbps s20: PDR off  24.12 -> on  21.33 (d  -2.79 pp) | off: residual  27859 ( 46.5% of loss), ARP  30634 = 110.0% of residual, residual-ARP  -2775 | on: ARP 0, residual -4517
+olsr   N=100 16kbps s20: PDR off  12.74 -> on  11.17 (d  -1.57 pp) | off: residual  32058 ( 38.4% of loss), ARP  37065 = 115.6% of residual, residual-ARP  -5007 | on: ARP 0, residual -6931
+
+Static N=50 (12 runs), b-off: ARP share of residual min 99.9% / median 100.1% / max 101.4%
+  residual left after ARP: min -270 / max 22 packets

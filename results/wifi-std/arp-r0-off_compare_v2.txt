@@ -1,0 +1,34 @@
+    excluded, differs: UnreachableSensors v3-ext '0' new '8'
+  b-off_aodv_10_high_seed20 vs aodv_10_high_static.csv seed 20: 17 values, 0 differ
+  b-off_aodv_20_high_seed20 vs aodv_20_high_static.csv seed 20: 17 values, 0 differ
+  b-off_aodv_50_high_seed20 vs aodv_50_high_static.csv seed 20: 17 values, 0 differ
+    excluded, differs: PathChanges v3-ext '10' new '0'
+    excluded, differs: UnreachableSensors v3-ext '0' new '8'
+  b-off_olsr_10_high_seed20 vs olsr_10_high_static.csv seed 20: 17 values, 0 differ
+    excluded, differs: PathChanges v3-ext '122' new '0'
+  b-off_olsr_20_high_seed20 vs olsr_20_high_static.csv seed 20: 17 values, 0 differ
+    excluded, differs: PathChanges v3-ext '1268' new '0'
+  b-off_olsr_50_high_seed20 vs olsr_50_high_static.csv seed 20: 17 values, 0 differ
+  b-off_static_10_high_seed20 vs static_10_high_static.csv seed 20: 17 values, 0 differ
+  b-off_static_20_high_seed20 vs static_20_high_static.csv seed 20: 17 values, 0 differ
+  b-off_static_50_high_seed20 vs static_50_high_static.csv seed 20: 17 values, 0 differ
+  b-off_aodv_50_low_seed20 vs aodv_50_low_static.csv seed 20: 17 values, 0 differ
+  b-off_aodv_50_medium_seed20 vs aodv_50_medium_static.csv seed 20: 17 values, 0 differ
+    excluded, differs: PathChanges v3-ext '288' new '0'
+  b-off_olsr_50_low_seed20 vs olsr_50_low_static.csv seed 20: 17 values, 0 differ
+    excluded, differs: PathChanges v3-ext '617' new '0'
+  b-off_olsr_50_medium_seed20 vs olsr_50_medium_static.csv seed 20: 17 values, 0 differ
+  b-off_static_50_low_seed20 vs static_50_low_static.csv seed 20: 17 values, 0 differ
+  b-off_static_50_medium_seed20 vs static_50_medium_static.csv seed 20: 17 values, 0 differ
+== excluded from the regression criterion (not used from -arp.cc in any analysis)
+  PathChanges: -arp.cc samples routes for AODV only (iot-network-wifi-std-arp.cc:532-533); v3-ext samples every protocol (iot-network-v3-ext.cc:505-513)
+  UnreachableSensors: -arp.cc counts BFS-unreachable sensors for every protocol (iot-network-wifi-std-arp.cc:435-437); v3-ext counts them for static only (iot-network-v3-ext.cc:1190-1245)
+== v3-ext columns not compared
+  Timestamp: wall clock
+  Version: program label ('v3'), not a measurement
+  MobilitySpeed: static mobility only (v3-ext writes 0); not an input of the new program
+  AverageLinkUtilization: MLU instrumentation of v3-ext (per-link PhyTxBegin byte map) is not part of the new program
+  MaximumLinkUtilization: same as AverageLinkUtilization
+
+RESULT: runs 15, values compared 255, differing values 0, FAIL items 0
+R0 PASS

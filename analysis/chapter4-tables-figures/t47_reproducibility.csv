@@ -1,0 +1,5 @@
+case,reruns,runs_ok,comparisons,passed,pass_nonzero_diff,not_applicable,failed
+A,27,27,351,351,0,0,0
+B,6,6,84,78,0,6,0
+C,12,12,168,168,0,0,0
+D,6,6,84,84,0,0,0

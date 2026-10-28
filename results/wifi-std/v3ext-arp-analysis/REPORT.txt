@@ -1,0 +1,102 @@
+v3-ext (off) vs -arp.cc --arpPrepopulate=1 (on), 802.11b, static mobility. A2/b-on-os overlap identical: 18/18 runs. max ARP drops on: 0 pkts/run
+PDR %, thr kbps; +-95% CI; dPDR pp paired on-off; n seeds (high 11, low/medium 3)
+aodv    10 low    n= 3 | PDR off  70.65+-46.90 on  95.72+- 7.24 d +25.07+-51.87 | thr off   29.7+- 19.7 on   40.3+-  3.0 | air on 0.079 | wall 0.0
+aodv    10 medium n= 3 | PDR off  89.48+-29.06 on  95.80+- 7.89 d  +6.32+-32.42 | thr off   75.5+- 24.5 on   80.8+-  6.6 | air on 0.155 | wall 0.1
+aodv    10 high   n=11 | PDR off  73.85+-10.70 on  93.45+- 2.47 d +19.60+-11.36 | thr off  124.5+- 18.0 on  157.6+-  4.2 | air on 0.291 | wall 0.1
+aodv    20 low    n= 3 | PDR off  59.82+-36.79 on  87.17+- 4.29 d +27.36+-35.98 | thr off   50.3+- 31.0 on   73.4+-  3.6 | air on 0.159 | wall 0.1
+aodv    20 medium n= 3 | PDR off  59.52+-64.77 on  85.54+-10.90 d +26.02+-60.52 | thr off  100.4+-109.2 on  144.3+- 18.4 | air on 0.314 | wall 0.2
+aodv    20 high   n=11 | PDR off  59.02+- 9.11 on  85.09+- 2.28 d +26.08+- 8.69 | thr off  199.0+- 30.7 on  287.0+-  7.7 | air on 0.620 | wall 0.4
+aodv    30 low    n= 3 | PDR off  48.83+-37.50 on  76.79+-13.79 d +27.96+-35.09 | thr off   61.6+- 47.3 on   96.9+- 17.4 | air on 0.276 | wall 0.3
+aodv    30 medium n= 3 | PDR off  56.34+-22.34 on  80.06+- 9.87 d +23.71+-15.34 | thr off  142.5+- 56.5 on  202.5+- 25.0 | air on 0.504 | wall 0.5
+aodv    30 high   n=11 | PDR off  38.26+- 4.76 on  61.03+- 6.86 d +22.77+- 5.22 | thr off  193.6+- 24.1 on  308.7+- 34.7 | air on 0.847 | wall 1.0
+aodv    50 low    n= 3 | PDR off  30.05+-13.62 on  58.83+- 7.93 d +28.78+-17.57 | thr off   63.2+- 28.7 on  123.8+- 16.7 | air on 0.658 | wall 2.6
+aodv    50 medium n= 3 | PDR off  22.02+- 7.95 on  50.98+- 6.20 d +28.96+-13.52 | thr off   92.8+- 33.5 on  214.9+- 26.1 | air on 0.848 | wall 2.7
+aodv    50 high   n=11 | PDR off  11.31+- 1.58 on  31.53+- 2.12 d +20.22+- 1.55 | thr off   95.4+- 13.3 on  265.9+- 17.9 | air on 0.873 | wall 3.0
+aodv    75 low    n= 3 | PDR off   9.97+-11.68 on  30.01+- 3.69 d +20.04+- 7.99 | thr off   31.5+- 36.8 on   94.7+- 11.6 | air on 0.849 | wall 7.0
+aodv    75 medium n= 3 | PDR off   6.43+- 5.65 on  23.52+- 1.75 d +17.08+- 6.62 | thr off   40.7+- 35.7 on  148.7+- 11.1 | air on 0.876 | wall 6.1
+aodv    75 high   n=11 | PDR off   3.29+- 0.81 on  13.04+- 0.89 d  +9.76+- 0.82 | thr off   41.6+- 10.2 on  165.0+- 11.2 | air on 0.887 | wall 5.8
+aodv   100 low    n= 3 | PDR off   2.40+- 4.45 on  16.13+- 5.00 d +13.73+- 4.43 | thr off   10.1+- 18.7 on   67.9+- 21.0 | air on 0.873 | wall 12.3
+aodv   100 medium n= 3 | PDR off   1.55+- 1.18 on  12.43+- 3.54 d +10.88+- 2.45 | thr off   13.1+- 10.0 on  104.8+- 29.9 | air on 0.886 | wall 10.5
+aodv   100 high   n=11 | PDR off   1.39+- 0.59 on   6.16+- 0.71 d  +4.77+- 0.80 | thr off   23.5+- 10.0 on  104.0+- 12.0 | air on 0.894 | wall 8.1
+olsr    10 low    n= 3 | PDR off  70.20+-19.82 on  95.93+- 6.57 d +25.73+-15.63 | thr off   29.5+-  8.3 on   40.4+-  2.8 | air on 0.083 | wall 0.0
+olsr    10 medium n= 3 | PDR off  53.71+- 8.14 on  95.70+- 7.71 d +41.99+-12.62 | thr off   45.3+-  6.9 on   80.7+-  6.6 | air on 0.158 | wall 0.1
+olsr    10 high   n=11 | PDR off  60.19+-12.25 on  95.13+- 2.23 d +34.94+-11.64 | thr off   99.1+- 18.6 on  157.2+-  4.3 | air on 0.292 | wall 0.1
+olsr    20 low    n= 3 | PDR off  38.68+-22.91 on  80.94+- 5.16 d +42.27+-25.48 | thr off   32.5+- 19.3 on   68.1+-  4.3 | air on 0.161 | wall 0.2
+olsr    20 medium n= 3 | PDR off  39.74+-34.95 on  80.86+- 4.10 d +41.12+-33.24 | thr off   67.0+- 58.9 on  136.4+-  6.9 | air on 0.314 | wall 0.3
+olsr    20 high   n=11 | PDR off  43.54+- 8.00 on  83.21+- 1.47 d +39.67+- 7.88 | thr off  146.7+- 26.9 on  280.0+-  4.9 | air on 0.628 | wall 0.4
+olsr    30 low    n= 3 | PDR off  41.51+-17.44 on  73.92+- 7.30 d +32.41+-14.20 | thr off   52.4+- 22.0 on   93.3+-  9.2 | air on 0.260 | wall 0.4
+olsr    30 medium n= 3 | PDR off  41.20+-34.21 on  73.54+- 8.32 d +32.34+-30.60 | thr off  104.2+- 86.5 on  186.0+- 21.1 | air on 0.490 | wall 0.6
+olsr    30 high   n=11 | PDR off  42.53+- 5.86 on  64.39+- 4.85 d +21.87+- 5.47 | thr off  215.0+- 29.6 on  325.0+- 24.6 | air on 0.838 | wall 0.9
+olsr    50 low    n= 3 | PDR off  39.18+-20.04 on  67.42+- 6.99 d +28.24+-13.91 | thr off   82.4+- 42.2 on  141.9+- 14.7 | air on 0.432 | wall 2.0
+olsr    50 medium n= 3 | PDR off  41.08+-26.56 on  71.83+- 3.37 d +30.74+-23.51 | thr off  173.2+-112.0 on  302.8+- 14.2 | air on 0.800 | wall 2.1
+olsr    50 high   n=11 | PDR off  38.70+- 3.97 on  43.73+- 2.67 d  +5.03+- 2.20 | thr off  326.0+- 33.4 on  367.9+- 22.5 | air on 0.875 | wall 2.1
+olsr    75 low    n= 3 | PDR off  40.95+- 5.98 on  53.35+- 5.78 d +12.40+- 8.21 | thr off  129.2+- 18.9 on  168.4+- 18.3 | air on 0.581 | wall 6.0
+olsr    75 medium n= 3 | PDR off  37.77+- 4.70 on  48.57+- 7.43 d +10.81+- 2.83 | thr off  238.8+- 29.7 on  307.1+- 47.0 | air on 0.877 | wall 4.6
+olsr    75 high   n=11 | PDR off  25.21+- 1.87 on  22.12+- 1.45 d  -3.09+- 2.20 | thr off  315.7+- 25.3 on  275.6+- 18.5 | air on 0.892 | wall 4.5
+olsr   100 low    n= 3 | PDR off  39.74+-10.98 on  42.42+- 8.04 d  +2.68+- 3.44 | thr off  167.2+- 46.2 on  178.5+- 33.8 | air on 0.670 | wall 13.6
+olsr   100 medium n= 3 | PDR off  29.29+-10.94 on  34.57+- 7.31 d  +5.28+- 5.31 | thr off  245.3+- 97.8 on  291.0+- 61.3 | air on 0.895 | wall 8.5
+olsr   100 high   n=11 | PDR off  14.73+- 1.37 on  11.66+- 0.84 d  -3.07+- 0.76 | thr off  235.7+- 23.0 on  182.0+- 13.4 | air on 0.904 | wall 8.2
+static  10 low    n= 3 | PDR off  50.34+-55.57 on  75.29+-54.29 d +24.94+- 5.31 | thr off   21.2+- 23.4 on   31.7+- 22.8 | air on 0.061 | wall 0.0
+static  10 medium n= 3 | PDR off  46.20+-39.66 on  75.31+-53.99 d +29.10+-18.90 | thr off   39.0+- 33.4 on   63.5+- 45.5 | air on 0.122 | wall 0.0
+static  10 high   n=11 | PDR off  54.41+- 8.68 on  78.83+- 8.28 d +24.42+- 5.43 | thr off   91.8+- 14.6 on  132.9+- 14.0 | air on 0.252 | wall 0.1
+static  20 low    n= 3 | PDR off  39.21+-40.49 on  94.54+-14.23 d +55.33+-43.23 | thr off   33.0+- 34.1 on   79.6+- 12.0 | air on 0.127 | wall 0.1
+static  20 medium n= 3 | PDR off  42.28+-15.28 on  94.37+-14.34 d +52.09+-21.87 | thr off   71.3+- 25.8 on  159.1+- 24.2 | air on 0.254 | wall 0.2
+static  20 high   n=11 | PDR off  44.86+- 8.70 on  92.29+- 2.97 d +47.42+- 8.66 | thr off  151.3+- 29.4 on  311.3+- 10.0 | air on 0.541 | wall 0.4
+static  30 low    n= 3 | PDR off  41.45+-18.26 on  94.74+- 4.94 d +53.28+-22.61 | thr off   52.3+- 23.1 on  119.6+-  6.2 | air on 0.197 | wall 0.2
+static  30 medium n= 3 | PDR off  41.55+-19.32 on  94.58+- 5.31 d +53.03+-24.36 | thr off  105.1+- 48.9 on  239.2+- 13.4 | air on 0.394 | wall 0.4
+static  30 high   n=11 | PDR off  44.21+- 7.67 on  82.64+- 6.84 d +38.43+- 7.42 | thr off  223.7+- 38.8 on  418.1+- 34.6 | air on 0.815 | wall 0.7
+static  50 low    n= 3 | PDR off  32.24+- 1.82 on  87.87+- 6.14 d +55.62+- 5.37 | thr off   67.8+-  3.8 on  184.9+- 12.9 | air on 0.327 | wall 0.5
+static  50 medium n= 3 | PDR off  34.35+- 6.95 on  87.81+- 6.18 d +53.46+- 9.63 | thr off  144.8+- 29.3 on  370.2+- 26.1 | air on 0.655 | wall 1.0
+static  50 high   n=11 | PDR off  39.11+- 5.59 on  48.85+- 4.26 d  +9.74+- 4.91 | thr off  329.8+- 47.1 on  411.9+- 35.9 | air on 0.862 | wall 1.5
+static  75 low    n= 3 | PDR off  25.87+- 2.53 on  79.22+- 6.57 d +53.35+- 6.40 | thr off   81.7+-  8.0 on  250.0+- 20.7 | air on 0.481 | wall 1.1
+static  75 medium n= 3 | PDR off  27.51+-13.73 on  64.96+- 3.23 d +37.46+-10.96 | thr off  174.0+- 86.9 on  410.8+- 20.4 | air on 0.855 | wall 1.9
+static  75 high   n=11 | PDR off  28.93+- 2.05 on  32.32+- 2.28 d  +3.39+- 2.86 | thr off  365.9+- 26.0 on  408.8+- 28.8 | air on 0.873 | wall 2.5
+static 100 low    n= 3 | PDR off  20.77+-17.87 on  64.12+- 6.42 d +43.35+-19.69 | thr off   87.4+- 75.2 on  269.8+- 27.0 | air on 0.541 | wall 1.7
+static 100 medium n= 3 | PDR off  28.16+-16.64 on  47.12+- 6.24 d +18.96+-11.24 | thr off  237.4+-140.3 on  397.3+- 52.6 | air on 0.869 | wall 2.8
+static 100 high   n=11 | PDR off  22.06+- 1.87 on  22.64+- 1.32 d  +0.58+- 1.66 | thr off  371.9+- 31.6 on  381.7+- 22.3 | air on 0.878 | wall 3.5
+
+pooled (9 runs = 3 traffic x 3 seeds)
+aodv    10 | PDR off  83.17+-12.03 on  95.79+- 2.00 d +12.63+-12.79 | thr off   85.3 on   94.2
+aodv    20 | PDR off  59.60+-14.12 on  86.02+- 2.86 d +26.42+-13.11 | thr off  117.1 on  168.5
+aodv    30 | PDR off  48.99+- 8.31 on  74.95+- 5.34 d +25.95+- 6.54 | thr off  138.6 on  214.5
+aodv    50 | PDR off  21.54+- 6.42 on  48.10+- 8.42 d +26.56+- 4.55 | thr off   87.3 on  209.9
+aodv    75 | PDR off   6.75+- 2.89 on  22.49+- 5.46 d +15.74+- 3.78 | thr off   40.3 on  139.9
+aodv   100 | PDR off   1.80+- 0.81 on  11.51+- 3.59 d  +9.72+- 3.28 | thr off   15.8 on   91.2
+olsr    10 | PDR off  62.09+- 7.45 on  95.80+- 2.02 d +33.71+- 6.88 | thr off   60.0 on   94.0
+olsr    20 | PDR off  41.40+- 8.52 on  81.15+- 1.37 d +39.76+- 7.97 | thr off   84.6 on  159.8
+olsr    30 | PDR off  40.97+- 8.04 on  72.23+- 3.01 d +31.26+- 6.73 | thr off  120.0 on  209.8
+olsr    50 | PDR off  40.72+- 5.86 on  61.61+- 9.63 d +20.89+-10.87 | thr off  202.8 on  276.0
+olsr    75 | PDR off  35.00+- 5.33 on  41.60+-11.02 d  +6.60+- 5.95 | thr off  232.7 on  253.3
+olsr   100 | PDR off  27.85+- 8.79 on  29.57+-10.76 d  +1.72+- 2.95 | thr off  214.4 on  217.3
+static  10 | PDR off  48.84+-13.35 on  75.30+-14.51 d +26.47+- 3.70 | thr off   48.1 on   74.1
+static  20 | PDR off  41.03+- 9.09 on  94.39+- 3.83 d +53.36+-11.04 | thr off   81.5 on  185.6
+static  30 | PDR off  45.64+- 6.71 on  94.02+- 2.16 d +48.38+- 8.07 | thr off  143.4 on  276.0
+static  50 | PDR off  35.48+- 2.97 on  77.12+-12.45 d +41.64+-15.04 | thr off  182.9 on  341.5
+static  75 | PDR off  27.44+- 3.18 on  59.87+-14.91 d +32.43+-16.11 | thr off  207.2 on  369.7
+static 100 | PDR off  23.57+- 4.71 on  44.99+-13.60 d +21.42+-14.31 | thr off  230.7 on  355.8
+
+ranking by mean PDR (sep = top-1 CI does not overlap top-2 CI)
+N= 10 low    off aodv > olsr > static   sep=False | on olsr > aodv > static   sep=False CHANGED
+N= 10 medium off aodv > olsr > static   sep=False | on aodv > olsr > static   sep=False 
+N= 10 high   off aodv > olsr > static   sep=False | on olsr > aodv > static   sep=False CHANGED
+N= 10 pooled off aodv > olsr > static   sep=True  | on olsr > aodv > static   sep=False CHANGED
+N= 20 low    off aodv > static > olsr   sep=False | on static > aodv > olsr   sep=False CHANGED
+N= 20 medium off aodv > static > olsr   sep=False | on static > aodv > olsr   sep=False CHANGED
+N= 20 high   off aodv > static > olsr   sep=False | on static > aodv > olsr   sep=True  CHANGED
+N= 20 pooled off aodv > olsr > static   sep=False | on static > aodv > olsr   sep=True  CHANGED
+N= 30 low    off aodv > olsr > static   sep=False | on static > aodv > olsr   sep=False CHANGED
+N= 30 medium off aodv > static > olsr   sep=False | on static > aodv > olsr   sep=False CHANGED
+N= 30 high   off static > olsr > aodv   sep=False | on static > olsr > aodv   sep=True  
+N= 30 pooled off aodv > static > olsr   sep=False | on static > aodv > olsr   sep=True  CHANGED
+N= 50 low    off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=True  CHANGED
+N= 50 medium off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=True  CHANGED
+N= 50 high   off static > olsr > aodv   sep=False | on static > olsr > aodv   sep=False 
+N= 50 pooled off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=False CHANGED
+N= 75 low    off olsr > static > aodv   sep=True  | on static > olsr > aodv   sep=True  CHANGED
+N= 75 medium off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=True  CHANGED
+N= 75 high   off static > olsr > aodv   sep=False | on static > olsr > aodv   sep=True  
+N= 75 pooled off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=False CHANGED
+N=100 low    off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=True  CHANGED
+N=100 medium off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=False CHANGED
+N=100 high   off static > olsr > aodv   sep=True  | on static > olsr > aodv   sep=True  
+N=100 pooled off olsr > static > aodv   sep=False | on static > olsr > aodv   sep=False CHANGED

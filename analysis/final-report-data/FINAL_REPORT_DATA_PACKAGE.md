@@ -2,6 +2,14 @@
 
 **Type: read-only data extraction and synthesis.** No simulation run, no dataset modified, no source/runner touched. All figures below are either copied verbatim from existing approved derived tables, or freshly computed from frozen raw datasets using only mean/SD/percentage-change arithmetic (no new statistical testing, no outlier removal).
 
+> **Status note (2026-10-28): superseded as the thesis source of truth.** This package describes the
+> frozen 802.11b datasets, which were produced without ARP cache pre-population and include uncounted ARP
+> loss. The ARP-fixed re-analysis (306 / 176 / 72 re-runs, static sensors) is the primary 802.11b analysis of the thesis draft (the advisor approved this analysis structure, with the original runs as secondary evidence, in October 2026; the thesis itself remains under advisor review). The files and
+> numbers below are kept unchanged: they remain the correct outputs of the original configuration, and
+> the V4 result and the reproducibility check are still valid in that configuration. Items that the
+> ARP-fixed analysis superseded are marked below. Current findings: [README](../../README.md#ieee-80211b-study-arp-fixed-results-primary);
+> evidence: [`publication/CLAIMS.csv`](../../publication/CLAIMS.csv).
+
 ---
 
 ## Files in this package (`analysis/final-report-data/`)
@@ -24,6 +32,9 @@
 
 ## AUTHORITATIVE NUMBERS FOR THESIS
 
+> *Historical heading. These were the thesis numbers before the ARP diagnosis; they are no longer the
+> thesis's primary 802.11b numbers (see the status note above).*
+
 Use these exact values consistently across Abstract, Chapters 3-5, Conclusion, and slides. Each is sourced to its file above.
 
 ### V3 baseline (PDR, pooled over traffic × mobility, official Seed 20-30, n=99 per cell)
@@ -41,6 +52,9 @@ Use these exact values consistently across Abstract, Chapters 3-5, Conclusion, a
 - Gateway airtime at **N=75/high traffic: 0.8638**; at **N=100/high traffic: 0.8893** — the empirical near-saturation reference band used throughout this research (~0.85+), not a universal theoretical threshold.
 - MAC-queue-drop concentration at hop≤1: **1.2–2.4× over-represented** relative to node population share, across all 16 (protocol×N×traffic) cells.
 - Retry-exhaustion contribution to loss: **mean ≈6%** (range 1.5–18.0% across 12 cells), MAC-queue overflow larger in **10 of 12 cells**.
+  - **[superseded form]** Retry-limit and MAC-queue drops are frame events, not lost packets (in the
+    ARP-fixed Static runs, counted drop events exceed the measured loss in 141/143 runs), so they cannot be
+    expressed as shares of loss.
 
 *(Source: `bottleneck_results.csv`, `retry_results.csv`)*
 
@@ -52,10 +66,16 @@ Use these exact values consistently across Abstract, Chapters 3-5, Conclusion, a
 
 *(Source: `rate_sweep_results.csv`)*
 
+> **[ARP-affected]** With ARP fixed, every reduced rate improved PDR for both OLSR and Static in 18/18
+> conditions (3 seeds; descriptive).
+
 ### Static/N=50 diagnostic
 
 - Residual (unattributed) loss: **64.65%–99.57% across all 12 runs**, **≥92% in 10 of 12 runs**. State both figures in the thesis: *"typically ≥92% of loss unattributed, full range 65–99.6% across all 12 diagnostic runs."*
 - 12-run conclusion: congestion (airtime, MAC-queue drops) was measurably relieved by rate reduction, but the relieved mechanisms accounted for at most ~35% (typically ~16% or less) of Static/N=50's total loss even at the congested baseline — explaining, without inventing, why PDR did not improve.
+
+> **[superseded]** The residual was ARP drops: ARP drops equal 99.9–101.4 % of the residual in these 12
+> runs. The "mutually exclusive counters" premise also does not hold for MAC frame-drop events.
 
 *(Source: `static_n50_diagnostic.csv`)*
 
@@ -87,15 +107,17 @@ V3 baseline (1782 official rows), V4 matched (594) + sensitivity (297) + Tier-1 
 `final_metrics.csv`, `v3_core_results.csv`, `v4_results.csv`, `bottleneck_results.csv`, `retry_results.csv`, `rate_sweep_results.csv`, `static_n50_diagnostic.csv`, `figure_data.csv`, `thesis_evidence_map.csv`, `REPORT_DATA_DICTIONARY.md`, `final_number_check.csv`, `FINAL_REPORT_DATA_PACKAGE.md` — all new, all under `analysis/final-report-data/`.
 
 ### 4. Authoritative findings (with key quantitative evidence)
-1. Performance degrades with N/load — OLSR PDR 69.5%→29.8% (N=10→100).
-2. V4 activation ≠ improvement — 100% activation, +27.9% hop count, PDR change not significant (p=1.0).
-3. Gateway/1-hop congestion dominant under near-saturation — airtime 0.86–0.89 at N≥75/high, MAC-queue 1.2–2.4× concentrated at hop≤1.
-4. Retry exhaustion present, not dominant — mean ≈6% of loss, queue overflow larger in 10/12 cells.
-5. Rate reduction improves OLSR PDR at N=75/100 — +14.7pp and +25.2pp respectively, monotonic across seeds.
-6. Static/N=50 does not respond — PDR flat-to-negative in all 3 seeds; low CV (1.9–10.4%) rules out noise.
-7. Residual loss remains unexplained — 65–99.6% (typically ≥92%) unattributed across all 12 diagnostic runs.
+1. **[ARP-affected]** Performance degrades with N/load — OLSR PDR 69.5%→29.8% (N=10→100).
+2. **[still valid; original configuration]** V4 activation ≠ improvement — 100% activation, +27.9% hop count, PDR change not significant (p=1.0).
+3. **[consistent with ARP-fixed results]** Gateway/1-hop congestion dominant under near-saturation — airtime 0.86–0.89 at N≥75/high, MAC-queue 1.2–2.4× concentrated at hop≤1.
+4. **[superseded form]** Retry exhaustion present, not dominant — mean ≈6% of loss, queue overflow larger in 10/12 cells.
+5. **[ARP-affected]** Rate reduction improves OLSR PDR at N=75/100 — +14.7pp and +25.2pp respectively, monotonic across seeds.
+6. **[superseded]** Static/N=50 does not respond — PDR flat-to-negative in all 3 seeds; low CV (1.9–10.4%) rules out noise.
+7. **[superseded: ARP drops]** Residual loss remains unexplained — 65–99.6% (typically ≥92%) unattributed across all 12 diagnostic runs.
 
 ### 5. Important caveats
+*Correction (2026-10-28): the FlowMonitor `PacketsSent` denominator caveat applies to OLSR (sent counts up
+to 10.0 % below the schedule), not AODV.*
 AODV FlowMonitor denominator artifact; V3's `RoutingOverheadPackets`=0 for OLSR is a metric-coverage gap, not zero control traffic; PHY RX-drop volume ≠ permanent loss; retry exhaustion measured but secondary; not every terminal packet fate is captured; the rate intervention is a fixed-rate sweep, not adaptive control; results are specific to this ns-3 topology/configuration; 19 legacy-seed V3 rows (no conclusion impact); rate-sweep per-node rate-ambiguity (aggregate unaffected).
 
 ### 6. Number conflicts
@@ -105,6 +127,8 @@ AODV FlowMonitor denominator artifact; V3's `RoutingOverheadPackets`=0 for OLSR 
 No simulation rerun. No new experiment. No dataset modified. No source modified. No runner modified. No topology modified.
 
 ### 8. Report readiness
+*Historical verdict (before the ARP diagnosis). The thesis Results chapter is now drafted from the
+ARP-fixed analysis, with this package as secondary evidence.*
 **Can the thesis Results/Discussion chapters now be written from this package without reopening the research?**
 
 **YES.** All seven frozen findings have quantitative evidence, source files, and stated limitations in this package. The two "smallest missing items" that remain (residual-loss mechanism identity; rate-sweep pernode data at 12kbps) are explicitly out of scope by design — they are documented as open limitations for the thesis's Future Work section, not blockers for writing Results/Discussion from the frozen evidence base.

@@ -1,0 +1,2098 @@
+{
+ "bottleneck": {
+  "olsr-high": [
+   {
+    "gw_airtime": 0.8377,
+    "gw_airtime_ci": 0.007,
+    "hop1_concentration": 0.9979,
+    "mac_frame_drop_events": 7200.2727,
+    "n": 30,
+    "pdr": 64.3925,
+    "ring1_airtime": 0.8001,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8754,
+    "gw_airtime_ci": 0.002,
+    "hop1_concentration": 1.544,
+    "mac_frame_drop_events": 28150.2727,
+    "n": 50,
+    "pdr": 43.7314,
+    "ring1_airtime": 0.8722,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8919,
+    "gw_airtime_ci": 0.0013,
+    "hop1_concentration": 1.7091,
+    "mac_frame_drop_events": 62717.1818,
+    "n": 75,
+    "pdr": 22.1188,
+    "ring1_airtime": 0.8912,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.9036,
+    "gw_airtime_ci": 0.001,
+    "hop1_concentration": 1.7289,
+    "mac_frame_drop_events": 90510.2727,
+    "n": 100,
+    "pdr": 11.6594,
+    "ring1_airtime": 0.8995,
+    "seeds": 11
+   }
+  ],
+  "olsr-medium": [
+   {
+    "gw_airtime": 0.4975,
+    "gw_airtime_ci": 0.0227,
+    "hop1_concentration": 0.5124,
+    "mac_frame_drop_events": 1.6364,
+    "n": 30,
+    "pdr": 74.7319,
+    "ring1_airtime": 0.4567,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8231,
+    "gw_airtime_ci": 0.0162,
+    "hop1_concentration": 0.9121,
+    "mac_frame_drop_events": 2728.5455,
+    "n": 50,
+    "pdr": 68.2147,
+    "ring1_airtime": 0.7713,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8791,
+    "gw_airtime_ci": 0.0018,
+    "hop1_concentration": 1.6266,
+    "mac_frame_drop_events": 17448.8182,
+    "n": 75,
+    "pdr": 47.9946,
+    "ring1_airtime": 0.8627,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8945,
+    "gw_airtime_ci": 0.0012,
+    "hop1_concentration": 1.8182,
+    "mac_frame_drop_events": 34001.2727,
+    "n": 100,
+    "pdr": 35.1803,
+    "ring1_airtime": 0.8894,
+    "seeds": 11
+   }
+  ],
+  "static-high": [
+   {
+    "gw_airtime": 0.8149,
+    "gw_airtime_ci": 0.023,
+    "hop1_concentration": 2.3141,
+    "mac_frame_drop_events": 2790.2727,
+    "n": 30,
+    "pdr": 82.6419,
+    "ring1_airtime": 0.7664,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8624,
+    "gw_airtime_ci": 0.003,
+    "hop1_concentration": 2.0981,
+    "mac_frame_drop_events": 24011.8182,
+    "n": 50,
+    "pdr": 48.8518,
+    "ring1_airtime": 0.8551,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8726,
+    "gw_airtime_ci": 0.0014,
+    "hop1_concentration": 1.9939,
+    "mac_frame_drop_events": 50646.4545,
+    "n": 75,
+    "pdr": 32.3207,
+    "ring1_airtime": 0.8772,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8776,
+    "gw_airtime_ci": 0.001,
+    "hop1_concentration": 1.9332,
+    "mac_frame_drop_events": 79134.1818,
+    "n": 100,
+    "pdr": 22.6366,
+    "ring1_airtime": 0.8842,
+    "seeds": 11
+   }
+  ],
+  "static-medium": [
+   {
+    "gw_airtime": 0.423,
+    "gw_airtime_ci": 0.024,
+    "hop1_concentration": null,
+    "mac_frame_drop_events": 0.0,
+    "n": 30,
+    "pdr": 91.8337,
+    "ring1_airtime": 0.3932,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.7082,
+    "gw_airtime_ci": 0.0404,
+    "hop1_concentration": 2.242,
+    "mac_frame_drop_events": 216.1818,
+    "n": 50,
+    "pdr": 85.7492,
+    "ring1_airtime": 0.666,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8585,
+    "gw_airtime_ci": 0.0033,
+    "hop1_concentration": 2.2783,
+    "mac_frame_drop_events": 11745.8182,
+    "n": 75,
+    "pdr": 58.8047,
+    "ring1_airtime": 0.8359,
+    "seeds": 11
+   },
+   {
+    "gw_airtime": 0.8698,
+    "gw_airtime_ci": 0.0018,
+    "hop1_concentration": 2.2586,
+    "mac_frame_drop_events": 25823.1818,
+    "n": 100,
+    "pdr": 43.1608,
+    "ring1_airtime": 0.8631,
+    "seeds": 11
+   }
+  ]
+ },
+ "claims": [
+  {
+   "claim": "ARP-fixed run counts: Stage 1 re-run / bottleneck / rate sweep (distinct runs)",
+   "id": "C01",
+   "value": "306/176/72"
+  },
+  {
+   "claim": "Every ARP-fixed (flag-on) run has --arpPrepopulate=1 recorded and 0 ARP drops",
+   "id": "C02",
+   "value": "474/474"
+  },
+  {
+   "claim": "ARP drops as % of the previously unattributed loss in the 12 Static N = 50 diagnostic runs",
+   "id": "C03",
+   "value": "99.9–101.4"
+  },
+  {
+   "claim": "Static has the highest mean PDR and goodput in every condition with N >= 20 (ARP-fixed)",
+   "id": "C04",
+   "value": "15/15"
+  },
+  {
+   "claim": "High traffic, 11 seeds: Static - OLSR and Static - AODV goodput 95 % CIs exclude zero at every N",
+   "id": "C05",
+   "value": "12/12"
+  },
+  {
+   "claim": "Largest OLSR/AODV lead over the runner-up at N = 10 (pp)",
+   "id": "C06",
+   "value": "1.7"
+  },
+  {
+   "claim": "High traffic N = 10: leader against scheduled sends, and its margin (pp)",
+   "id": "C07",
+   "value": "aodv 0.26"
+  },
+  {
+   "claim": "Static goodput at high traffic, N = 30-100 (kbit/s)",
+   "id": "C08",
+   "value": "362–396"
+  },
+  {
+   "claim": "Gateway airtime (cell means), N >= 75",
+   "id": "C09",
+   "value": "0.86–0.90"
+  },
+  {
+   "claim": "Conditions where MAC frame-drop events concentrate one hop from the gateway (ratio > 1.5), and the ratio range",
+   "id": "C10",
+   "value": "12/16 1.54–2.31"
+  },
+  {
+   "claim": "Distinct ARP-fixed Static runs whose counted MAC/IP drop events exceed measured packet loss",
+   "id": "C11",
+   "value": "141/143"
+  },
+  {
+   "claim": "Reduced rate beats 16 kbit/s: condition means, and seed-level comparisons",
+   "id": "C12",
+   "value": "18/18 54/54"
+  },
+  {
+   "claim": "OLSR N = 50 PDR at 8 and 4 kbit/s (%)",
+   "id": "C13",
+   "value": "71.8 67.4"
+  },
+  {
+   "claim": "Conditions where Static has the lowest mean delay of delivered packets",
+   "id": "C14",
+   "value": "15/18"
+  },
+  {
+   "claim": "V4 - Static PDR, matched comparison (original configuration): mean pp, normal-approximation 95 % CI, pairs",
+   "id": "C15",
+   "value": "+0.11 [-0.75, +0.97] n=594"
+  },
+  {
+   "claim": "Reproducibility: passing / applicable metric comparisons (51 reruns)",
+   "id": "C16",
+   "value": "681/681"
+  },
+  {
+   "claim": "Largest OLSR sent-count shortfall below the schedule (%): original configuration / ARP-fixed (one of ten sensors sending nothing at N = 10)",
+   "id": "C17",
+   "value": "10.0/10.0"
+  },
+  {
+   "claim": "Static at N = 10: Static and OLSR/AODV mean PDR ranges over the three conditions (%); mean sensors without a 90 m disk-model route at N = 10 and N = 20 (high traffic, 11 seeds) and the maximum from N = 50; Pearson r of Static PDR against that count over the Static N = 10 runs; high-traffic Static PDR with the fewest / most such sensors",
+   "id": "C18",
+   "value": "75.3–78.8 93.5–95.9 2.8 0.6 0 -0.93 n=17 99.5/0 57.0/8"
+  }
+ ],
+ "delay": {
+  "high": {
+   "aodv": [
+    {
+     "ci": 7.2637,
+     "max": 68.9128,
+     "mean": 52.9318,
+     "min": 36.3444,
+     "n": 10,
+     "seeds": 11
+    },
+    {
+     "ci": 7.29,
+     "max": 120.548,
+     "mean": 103.414,
+     "min": 83.8852,
+     "n": 20,
+     "seeds": 11
+    },
+    {
+     "ci": 15.799,
+     "max": 215.874,
+     "mean": 185.02,
+     "min": 146.307,
+     "n": 30,
+     "seeds": 11
+    },
+    {
+     "ci": 13.194,
+     "max": 328.441,
+     "mean": 295.207,
+     "min": 265.741,
+     "n": 50,
+     "seeds": 11
+    },
+    {
+     "ci": 18.843,
+     "max": 478.38,
+     "mean": 436.413,
+     "min": 393.917,
+     "n": 75,
+     "seeds": 11
+    },
+    {
+     "ci": 20.261,
+     "max": 546.353,
+     "mean": 507.311,
+     "min": 463.528,
+     "n": 100,
+     "seeds": 11
+    }
+   ],
+   "olsr": [
+    {
+     "ci": 7.3231,
+     "max": 71.4034,
+     "mean": 53.6162,
+     "min": 37.6391,
+     "n": 10,
+     "seeds": 11
+    },
+    {
+     "ci": 8.672,
+     "max": 128.915,
+     "mean": 107.059,
+     "min": 83.8411,
+     "n": 20,
+     "seeds": 11
+    },
+    {
+     "ci": 19.023,
+     "max": 243.096,
+     "mean": 203.654,
+     "min": 158.963,
+     "n": 30,
+     "seeds": 11
+    },
+    {
+     "ci": 14.163,
+     "max": 312.662,
+     "mean": 275.591,
+     "min": 245.356,
+     "n": 50,
+     "seeds": 11
+    },
+    {
+     "ci": 15.352,
+     "max": 443.145,
+     "mean": 399.983,
+     "min": 362.244,
+     "n": 75,
+     "seeds": 11
+    },
+    {
+     "ci": 9.202,
+     "max": 462.51,
+     "mean": 448.098,
+     "min": 422.602,
+     "n": 100,
+     "seeds": 11
+    }
+   ],
+   "static": [
+    {
+     "ci": 6.6294,
+     "max": 69.2249,
+     "mean": 45.8533,
+     "min": 33.4912,
+     "n": 10,
+     "seeds": 11
+    },
+    {
+     "ci": 8.7876,
+     "max": 116.935,
+     "mean": 97.1204,
+     "min": 80.2931,
+     "n": 20,
+     "seeds": 11
+    },
+    {
+     "ci": 24.055,
+     "max": 249.273,
+     "mean": 188.247,
+     "min": 128.162,
+     "n": 30,
+     "seeds": 11
+    },
+    {
+     "ci": 7.841,
+     "max": 236.179,
+     "mean": 213.63,
+     "min": 198.811,
+     "n": 50,
+     "seeds": 11
+    },
+    {
+     "ci": 21.77,
+     "max": 308.783,
+     "mean": 254.487,
+     "min": 204.939,
+     "n": 75,
+     "seeds": 11
+    },
+    {
+     "ci": 18.626,
+     "max": 323.683,
+     "mean": 276.611,
+     "min": 238.195,
+     "n": 100,
+     "seeds": 11
+    }
+   ]
+  },
+  "low": {
+   "aodv": [
+    {
+     "ci": null,
+     "max": 69.195,
+     "mean": 53.2471,
+     "min": 42.7331,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 98.9762,
+     "mean": 96.8267,
+     "min": 94.5931,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 163.858,
+     "mean": 148.457,
+     "min": 134.012,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 289.562,
+     "mean": 268.465,
+     "min": 245.538,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 401.16,
+     "mean": 381.126,
+     "min": 350.636,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 528.727,
+     "mean": 482.128,
+     "min": 419.255,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "olsr": [
+    {
+     "ci": null,
+     "max": 72.7456,
+     "mean": 55.7137,
+     "min": 44.9143,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 105.505,
+     "mean": 96.5664,
+     "min": 89.3445,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 178.897,
+     "mean": 151.219,
+     "min": 131.73,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 265.136,
+     "mean": 237.833,
+     "min": 221.318,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 325.343,
+     "mean": 310.84,
+     "min": 294.134,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 387.524,
+     "mean": 363.276,
+     "min": 336.214,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "static": [
+    {
+     "ci": null,
+     "max": 53.6748,
+     "mean": 42.8685,
+     "min": 35.1941,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 93.1801,
+     "mean": 89.3053,
+     "min": 84.2165,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 143.046,
+     "mean": 137.206,
+     "min": 127.873,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 218.693,
+     "mean": 217.529,
+     "min": 216.417,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 331.747,
+     "mean": 320.647,
+     "min": 314.546,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 395.033,
+     "mean": 366.433,
+     "min": 348.639,
+     "n": 100,
+     "seeds": 3
+    }
+   ]
+  },
+  "medium": {
+   "aodv": [
+    {
+     "ci": null,
+     "max": 71.6138,
+     "mean": 54.2244,
+     "min": 43.0835,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 102.509,
+     "mean": 97.1612,
+     "min": 92.7966,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 157.118,
+     "mean": 147.456,
+     "min": 137.015,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 283.36,
+     "mean": 262.596,
+     "min": 239.3,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 393.723,
+     "mean": 379.512,
+     "min": 352.144,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 523.845,
+     "mean": 480.649,
+     "min": 423.111,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "olsr": [
+    {
+     "ci": null,
+     "max": 71.3345,
+     "mean": 54.8703,
+     "min": 44.2187,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 105.9,
+     "mean": 98.5063,
+     "min": 90.8269,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 178.621,
+     "mean": 151.024,
+     "min": 132.249,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 263.136,
+     "mean": 242.828,
+     "min": 231.424,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 295.159,
+     "mean": 287.96,
+     "min": 280.95,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 388.654,
+     "mean": 370.65,
+     "min": 357.451,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "static": [
+    {
+     "ci": null,
+     "max": 53.5545,
+     "mean": 42.7227,
+     "min": 35.1403,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 93.4417,
+     "mean": 89.4426,
+     "min": 84.411,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 143.146,
+     "mean": 137.218,
+     "min": 126.989,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 220.539,
+     "mean": 217.905,
+     "min": 214.95,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 287.763,
+     "mean": 279.728,
+     "min": 266.654,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 318.689,
+     "mean": 301.194,
+     "min": 285.342,
+     "n": 100,
+     "seeds": 3
+    }
+   ]
+  }
+ },
+ "goodput": {
+  "high": {
+   "aodv": [
+    {
+     "ci": 3.946,
+     "max": 157.408,
+     "mean": 149.427,
+     "min": 140.629,
+     "n": 10,
+     "offered": 160.0,
+     "seeds": 11
+    },
+    {
+     "ci": 7.284,
+     "max": 287.964,
+     "mean": 272.123,
+     "min": 253.603,
+     "n": 20,
+     "offered": 320.0,
+     "seeds": 11
+    },
+    {
+     "ci": 32.917,
+     "max": 354.562,
+     "mean": 292.733,
+     "min": 205.483,
+     "n": 30,
+     "offered": 480.0,
+     "seeds": 11
+    },
+    {
+     "ci": 16.946,
+     "max": 281.243,
+     "mean": 252.103,
+     "min": 200.734,
+     "n": 50,
+     "offered": 800.0,
+     "seeds": 11
+    },
+    {
+     "ci": 10.636,
+     "max": 189.22,
+     "mean": 156.429,
+     "min": 132.938,
+     "n": 75,
+     "offered": 1200.0,
+     "seeds": 11
+    },
+    {
+     "ci": 11.3485,
+     "max": 123.73,
+     "mean": 98.5605,
+     "min": 68.919,
+     "n": 100,
+     "offered": 1600.0,
+     "seeds": 11
+    }
+   ],
+   "olsr": [
+    {
+     "ci": 4.049,
+     "max": 157.241,
+     "mean": 149.016,
+     "min": 140.053,
+     "n": 10,
+     "offered": 160.0,
+     "seeds": 11
+    },
+    {
+     "ci": 4.611,
+     "max": 274.66,
+     "mean": 265.435,
+     "min": 254.68,
+     "n": 20,
+     "offered": 320.0,
+     "seeds": 11
+    },
+    {
+     "ci": 23.357,
+     "max": 363.482,
+     "mean": 308.103,
+     "min": 249.173,
+     "n": 30,
+     "offered": 480.0,
+     "seeds": 11
+    },
+    {
+     "ci": 21.365,
+     "max": 395.492,
+     "mean": 348.869,
+     "min": 306.366,
+     "n": 50,
+     "offered": 800.0,
+     "seeds": 11
+    },
+    {
+     "ci": 17.563,
+     "max": 309.324,
+     "mean": 261.355,
+     "min": 225.902,
+     "n": 75,
+     "offered": 1200.0,
+     "seeds": 11
+    },
+    {
+     "ci": 12.662,
+     "max": 203.647,
+     "mean": 172.52,
+     "min": 140.538,
+     "n": 100,
+     "offered": 1600.0,
+     "seeds": 11
+    }
+   ],
+   "static": [
+    {
+     "ci": 13.24,
+     "max": 159.061,
+     "mean": 126.046,
+     "min": 91.2194,
+     "n": 10,
+     "offered": 160.0,
+     "seeds": 11
+    },
+    {
+     "ci": 9.505,
+     "max": 312.191,
+     "mean": 295.129,
+     "min": 264.859,
+     "n": 20,
+     "offered": 320.0,
+     "seeds": 11
+    },
+    {
+     "ci": 32.833,
+     "max": 460.421,
+     "mean": 396.422,
+     "min": 326.527,
+     "n": 30,
+     "offered": 480.0,
+     "seeds": 11
+    },
+    {
+     "ci": 34.063,
+     "max": 459.784,
+     "mean": 390.56,
+     "min": 284.702,
+     "n": 50,
+     "offered": 800.0,
+     "seeds": 11
+    },
+    {
+     "ci": 27.315,
+     "max": 436.452,
+     "mean": 387.596,
+     "min": 331.928,
+     "n": 75,
+     "offered": 1200.0,
+     "seeds": 11
+    },
+    {
+     "ci": 21.185,
+     "max": 416.776,
+     "mean": 361.95,
+     "min": 320.793,
+     "n": 100,
+     "offered": 1600.0,
+     "seeds": 11
+    }
+   ]
+  },
+  "low": {
+   "aodv": [
+    {
+     "ci": null,
+     "max": 38.9423,
+     "mean": 38.1889,
+     "min": 36.8488,
+     "n": 10,
+     "offered": 40.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 71.149,
+     "mean": 69.5612,
+     "min": 68.6611,
+     "n": 20,
+     "offered": 80.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 96.347,
+     "mean": 91.9122,
+     "min": 84.2714,
+     "n": 30,
+     "offered": 120.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 122.258,
+     "mean": 117.353,
+     "min": 110.152,
+     "n": 50,
+     "offered": 200.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 94.7845,
+     "mean": 89.7934,
+     "min": 86.2739,
+     "n": 75,
+     "offered": 300.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 70.345,
+     "mean": 64.3477,
+     "min": 55.2201,
+     "n": 100,
+     "offered": 400.0,
+     "seeds": 3
+    }
+   ],
+   "olsr": [
+    {
+     "ci": null,
+     "max": 38.9423,
+     "mean": 38.2597,
+     "min": 37.0157,
+     "n": 10,
+     "offered": 40.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 65.7787,
+     "mean": 64.5904,
+     "min": 62.6991,
+     "n": 20,
+     "offered": 80.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 92.4786,
+     "mean": 88.4736,
+     "min": 85.8795,
+     "n": 30,
+     "offered": 120.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 139.992,
+     "mean": 134.501,
+     "min": 128.781,
+     "n": 50,
+     "offered": 200.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 167.481,
+     "mean": 159.623,
+     "min": 154.207,
+     "n": 75,
+     "offered": 300.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 181.21,
+     "mean": 169.241,
+     "min": 155.557,
+     "n": 100,
+     "offered": 400.0,
+     "seeds": 3
+    }
+   ],
+   "static": [
+    {
+     "ci": null,
+     "max": 39.6857,
+     "mean": 30.0373,
+     "min": 22.7252,
+     "n": 10,
+     "offered": 40.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 78.1122,
+     "mean": 75.4423,
+     "min": 70.163,
+     "n": 20,
+     "offered": 80.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 115.75,
+     "mean": 113.393,
+     "min": 110.986,
+     "n": 30,
+     "offered": 120.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 180.846,
+     "mean": 175.284,
+     "min": 171.456,
+     "n": 50,
+     "offered": 200.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 244.804,
+     "mean": 237.052,
+     "min": 228.997,
+     "n": 75,
+     "offered": 300.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 266.437,
+     "mean": 255.838,
+     "min": 245.836,
+     "n": 100,
+     "offered": 400.0,
+     "seeds": 3
+    }
+   ]
+  },
+  "medium": {
+   "aodv": [
+    {
+     "ci": null,
+     "max": 78.2336,
+     "mean": 76.5901,
+     "min": 73.6673,
+     "n": 10,
+     "offered": 80.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 143.011,
+     "mean": 136.776,
+     "min": 129.176,
+     "n": 20,
+     "offered": 160.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 199.945,
+     "mean": 192.011,
+     "min": 181.438,
+     "n": 30,
+     "offered": 240.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 212.461,
+     "mean": 203.799,
+     "min": 192.891,
+     "n": 50,
+     "offered": 400.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 144.437,
+     "mean": 141.004,
+     "min": 136.275,
+     "n": 75,
+     "offered": 600.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 111.593,
+     "mean": 99.3558,
+     "min": 89.0501,
+     "n": 100,
+     "offered": 800.0,
+     "seeds": 3
+    }
+   ],
+   "olsr": [
+    {
+     "ci": null,
+     "max": 78.1577,
+     "mean": 76.4789,
+     "min": 73.5611,
+     "n": 10,
+     "offered": 80.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 131.209,
+     "mean": 129.287,
+     "min": 126.278,
+     "n": 20,
+     "offered": 160.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 185.579,
+     "mean": 176.361,
+     "min": 170.834,
+     "n": 30,
+     "offered": 240.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 293.319,
+     "mean": 287.119,
+     "min": 283.216,
+     "n": 50,
+     "offered": 400.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 311.539,
+     "mean": 291.221,
+     "min": 277.587,
+     "n": 75,
+     "offered": 600.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 302.042,
+     "mean": 275.878,
+     "min": 256.925,
+     "n": 100,
+     "offered": 800.0,
+     "seeds": 3
+    }
+   ],
+   "static": [
+    {
+     "ci": null,
+     "max": 79.4472,
+     "mean": 60.2061,
+     "min": 45.6628,
+     "n": 10,
+     "offered": 80.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 156.285,
+     "mean": 150.89,
+     "min": 140.235,
+     "n": 20,
+     "offered": 160.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 231.773,
+     "mean": 226.843,
+     "min": 221.533,
+     "n": 30,
+     "offered": 240.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 362.253,
+     "mean": 351.002,
+     "min": 343.366,
+     "n": 50,
+     "offered": 400.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 394.232,
+     "mean": 389.535,
+     "min": 380.549,
+     "n": 75,
+     "offered": 600.0,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 397.6,
+     "mean": 376.68,
+     "min": 357.535,
+     "n": 100,
+     "offered": 800.0,
+     "seeds": 3
+    }
+   ]
+  }
+ },
+ "meta": {
+  "configuration": "IEEE 802.11b DSSS 1 Mbit/s, 250 m field, central gateway, static sensors, --arpPrepopulate=1",
+  "excluded": "No original (ARP-affected) value is included. No mobility result exists for the ARP-fixed runs.",
+  "generated_by": "experiments/wifi-std/build_site_arp_fixed.py",
+  "intervals": "95 % Student-t CI over 11 seeds (high traffic, bottleneck). 3-seed cells: seed min-max only, ci = null.",
+  "raw_cross_checks": 785,
+  "runs": {
+   "bottleneck": 176,
+   "protocol_comparison": 306,
+   "rate_sweep": 72
+  },
+  "sources": [
+   {
+    "path": "analysis/chapter4-tables-figures/t43_cells.csv",
+    "sha256": "cfbfe4f29dccf9c2ba78d1acc5631c9f12fc6112ac7983ac50f94dac8404e614"
+   },
+   {
+    "path": "analysis/chapter4-tables-figures/t43a_ranking.csv",
+    "sha256": "51499bdb14017b4fb40e86dbd8e78c602410d30a5b1f5bfc57172a224487757b"
+   },
+   {
+    "path": "analysis/chapter4-tables-figures/t44_bottleneck.csv",
+    "sha256": "169183e0e4264a8ec0e4a0036f99446be45d682776cab1f51b0399fea8a85a4a"
+   },
+   {
+    "path": "analysis/chapter4-tables-figures/t45_ratesweep.csv",
+    "sha256": "9d657c59021f76771f29e1325cf27a74454838879292ad66558e696d1ec0222c"
+   },
+   {
+    "path": "analysis/arp-fixed-throughput-delay/cells.csv",
+    "sha256": "b8a5e6b90d5ec034553c8830984f5ac68fb6582db21fae37f3cec947c3074f44"
+   },
+   {
+    "path": "publication/CLAIMS.csv",
+    "sha256": "9ebe3c2ef06b1f92b3ab4f2bfa3c006b553706b774286ad2f566f20b200778d7"
+   },
+   {
+    "path": "analysis/chapter4-tables-figures/INPUTS.sha256",
+    "sha256": "e986109b499904b302132326463c5a345cda0169da1b899495b15a565da2081b"
+   },
+   {
+    "path": "analysis/arp-fixed-throughput-delay/INPUTS.sha256",
+    "sha256": "5d2012be5f40646be200930f74a9af9f6b843c9f02a76d361e1b598d5ad89236"
+   }
+  ],
+  "status": "Primary 802.11b analysis of the thesis draft. The advisor approved this analysis structure (ARP-fixed runs primary, original runs secondary) in October 2026; the thesis itself remains under advisor review.",
+  "title": "IEEE 802.11b, ARP-fixed re-runs (ARP cache pre-populated)"
+ },
+ "pdr": {
+  "high": {
+   "aodv": [
+    {
+     "ci": 2.4678,
+     "max": 98.444,
+     "mean": 93.4526,
+     "min": 87.9507,
+     "n": 10,
+     "seeds": 11
+    },
+    {
+     "ci": 2.2775,
+     "max": 90.0474,
+     "mean": 85.094,
+     "min": 79.3027,
+     "n": 20,
+     "seeds": 11
+    },
+    {
+     "ci": 6.8623,
+     "max": 73.9152,
+     "mean": 61.0258,
+     "min": 42.8368,
+     "n": 30,
+     "seeds": 11
+    },
+    {
+     "ci": 2.1196,
+     "max": 35.1784,
+     "mean": 31.5334,
+     "min": 25.1082,
+     "n": 50,
+     "seeds": 11
+    },
+    {
+     "ci": 0.887,
+     "max": 15.7786,
+     "mean": 13.0442,
+     "min": 11.0854,
+     "n": 75,
+     "seeds": 11
+    },
+    {
+     "ci": 0.7098,
+     "max": 7.7381,
+     "mean": 6.1641,
+     "min": 4.3102,
+     "n": 100,
+     "seeds": 11
+    }
+   ],
+   "olsr": [
+    {
+     "ci": 2.2271,
+     "max": 99.5467,
+     "mean": 95.1324,
+     "min": 89.1825,
+     "n": 10,
+     "seeds": 11
+    },
+    {
+     "ci": 1.4731,
+     "max": 85.9972,
+     "mean": 83.2122,
+     "min": 79.6924,
+     "n": 20,
+     "seeds": 11
+    },
+    {
+     "ci": 4.8495,
+     "max": 76.0152,
+     "mean": 64.3925,
+     "min": 52.0025,
+     "n": 30,
+     "seeds": 11
+    },
+    {
+     "ci": 2.6716,
+     "max": 49.5609,
+     "mean": 43.7314,
+     "min": 38.4535,
+     "n": 50,
+     "seeds": 11
+    },
+    {
+     "ci": 1.4508,
+     "max": 25.9924,
+     "mean": 22.1188,
+     "min": 19.2354,
+     "n": 75,
+     "seeds": 11
+    },
+    {
+     "ci": 0.8421,
+     "max": 13.778,
+     "mean": 11.6594,
+     "min": 9.5578,
+     "n": 100,
+     "seeds": 11
+    }
+   ],
+   "static": [
+    {
+     "ci": 8.2801,
+     "max": 99.4782,
+     "mean": 78.8304,
+     "min": 57.0493,
+     "n": 10,
+     "seeds": 11
+    },
+    {
+     "ci": 2.9724,
+     "max": 97.6233,
+     "mean": 92.2878,
+     "min": 82.8226,
+     "n": 20,
+     "seeds": 11
+    },
+    {
+     "ci": 6.8446,
+     "max": 95.9836,
+     "mean": 82.6419,
+     "min": 68.0708,
+     "n": 30,
+     "seeds": 11
+    },
+    {
+     "ci": 4.2607,
+     "max": 57.5104,
+     "mean": 48.8518,
+     "min": 35.611,
+     "n": 50,
+     "seeds": 11
+    },
+    {
+     "ci": 2.2778,
+     "max": 36.3947,
+     "mean": 32.3207,
+     "min": 27.6787,
+     "n": 75,
+     "seeds": 11
+    },
+    {
+     "ci": 1.3249,
+     "max": 26.0655,
+     "mean": 22.6366,
+     "min": 20.0626,
+     "n": 100,
+     "seeds": 11
+    }
+   ]
+  },
+  "low": {
+   "aodv": [
+    {
+     "ci": null,
+     "max": 97.6046,
+     "mean": 95.7161,
+     "min": 92.3574,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 89.1635,
+     "mean": 87.1736,
+     "min": 86.0456,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 80.4943,
+     "mean": 76.7892,
+     "min": 70.4056,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 61.2852,
+     "mean": 58.8264,
+     "min": 55.2167,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 31.6755,
+     "mean": 30.0076,
+     "min": 28.8314,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 17.6312,
+     "mean": 16.128,
+     "min": 13.8403,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "olsr": [
+    {
+     "ci": null,
+     "max": 97.6046,
+     "mean": 95.9289,
+     "min": 92.8816,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 82.4335,
+     "mean": 80.9442,
+     "min": 78.5741,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 77.2624,
+     "mean": 73.9163,
+     "min": 71.749,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 70.1749,
+     "mean": 67.4221,
+     "min": 64.5551,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 55.9696,
+     "mean": 53.347,
+     "min": 51.5336,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 45.4183,
+     "mean": 42.4183,
+     "min": 38.9886,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "static": [
+    {
+     "ci": null,
+     "max": 99.4677,
+     "mean": 75.2852,
+     "min": 56.9582,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 97.8897,
+     "mean": 94.5437,
+     "min": 87.9278,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 96.7047,
+     "mean": 94.736,
+     "min": 92.725,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 90.654,
+     "mean": 87.8657,
+     "min": 85.9468,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 81.8099,
+     "mean": 79.2193,
+     "min": 76.5272,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 66.7795,
+     "mean": 64.1229,
+     "min": 61.616,
+     "n": 100,
+     "seeds": 3
+    }
+   ]
+  },
+  "medium": {
+   "aodv": [
+    {
+     "ci": null,
+     "max": 97.8558,
+     "mean": 95.8001,
+     "min": 92.1442,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 89.4402,
+     "mean": 85.5408,
+     "min": 80.7875,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 83.365,
+     "mean": 80.0569,
+     "min": 75.6483,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 53.1499,
+     "mean": 50.9829,
+     "min": 48.2543,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 24.0886,
+     "mean": 23.5159,
+     "min": 22.7274,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 13.9583,
+     "mean": 12.4276,
+     "min": 11.1385,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "olsr": [
+    {
+     "ci": null,
+     "max": 97.7609,
+     "mean": 95.7018,
+     "min": 92.1338,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 82.0588,
+     "mean": 80.8571,
+     "min": 78.9753,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 77.3751,
+     "mean": 73.5361,
+     "min": 71.2271,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 73.3776,
+     "mean": 71.8267,
+     "min": 70.8501,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 51.9622,
+     "mean": 48.5737,
+     "min": 46.2983,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 37.8481,
+     "mean": 34.5718,
+     "min": 32.1616,
+     "n": 100,
+     "seeds": 3
+    }
+   ],
+   "static": [
+    {
+     "ci": null,
+     "max": 99.3738,
+     "mean": 75.3068,
+     "min": 57.1157,
+     "n": 10,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 97.7419,
+     "mean": 94.3675,
+     "min": 87.704,
+     "n": 20,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 96.635,
+     "mean": 94.5794,
+     "min": 92.3656,
+     "n": 30,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 90.6224,
+     "mean": 87.8077,
+     "min": 85.8975,
+     "n": 50,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 65.7483,
+     "mean": 64.9648,
+     "min": 63.4662,
+     "n": 75,
+     "seeds": 3
+    },
+    {
+     "ci": null,
+     "max": 49.7324,
+     "mean": 47.1157,
+     "min": 44.7211,
+     "n": 100,
+     "seeds": 3
+    }
+   ]
+  }
+ },
+ "ranking": [
+  {
+   "leader": "olsr",
+   "margin_pp": 0.2128,
+   "n": 10,
+   "seeds": 3,
+   "traffic": "low"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 7.3701,
+   "n": 20,
+   "seeds": 3,
+   "traffic": "low"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 17.9468,
+   "n": 30,
+   "seeds": 3,
+   "traffic": "low"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 20.4436,
+   "n": 50,
+   "seeds": 3,
+   "traffic": "low"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 25.8722,
+   "n": 75,
+   "seeds": 3,
+   "traffic": "low"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 21.7047,
+   "n": 100,
+   "seeds": 3,
+   "traffic": "low"
+  },
+  {
+   "leader": "aodv",
+   "margin_pp": 0.0984,
+   "n": 10,
+   "seeds": 3,
+   "traffic": "medium"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 8.8267,
+   "n": 20,
+   "seeds": 3,
+   "traffic": "medium"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 14.5225,
+   "n": 30,
+   "seeds": 3,
+   "traffic": "medium"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 15.981,
+   "n": 50,
+   "seeds": 3,
+   "traffic": "medium"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 16.391,
+   "n": 75,
+   "seeds": 3,
+   "traffic": "medium"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 12.5439,
+   "n": 100,
+   "seeds": 3,
+   "traffic": "medium"
+  },
+  {
+   "leader": "olsr",
+   "margin_pp": 1.6797,
+   "n": 10,
+   "seeds": 11,
+   "traffic": "high"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 7.1938,
+   "n": 20,
+   "seeds": 11,
+   "traffic": "high"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 18.2493,
+   "n": 30,
+   "seeds": 11,
+   "traffic": "high"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 5.1204,
+   "n": 50,
+   "seeds": 11,
+   "traffic": "high"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 10.2019,
+   "n": 75,
+   "seeds": 11,
+   "traffic": "high"
+  },
+  {
+   "leader": "static",
+   "margin_pp": 10.9772,
+   "n": 100,
+   "seeds": 11,
+   "traffic": "high"
+  }
+ ],
+ "ratesweep": {
+  "olsr-100": [
+   {
+    "change_vs16_pp": 0.0,
+    "gw_airtime": 0.9035,
+    "pdr": 11.7287,
+    "pdr_max": 13.2225,
+    "pdr_min": 10.797,
+    "rate": 16,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 7.5062,
+    "gw_airtime": 0.8998,
+    "pdr": 19.2349,
+    "pdr_max": 20.8498,
+    "pdr_min": 18.3818,
+    "rate": 12,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 22.8431,
+    "gw_airtime": 0.8949,
+    "pdr": 34.5718,
+    "pdr_max": 37.8481,
+    "pdr_min": 32.1616,
+    "rate": 8,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 30.6895,
+    "gw_airtime": 0.6703,
+    "pdr": 42.4183,
+    "pdr_max": 45.4183,
+    "pdr_min": 38.9886,
+    "rate": 4,
+    "seeds": 3
+   }
+  ],
+  "olsr-50": [
+   {
+    "change_vs16_pp": 0.0,
+    "gw_airtime": 0.8741,
+    "pdr": 45.5763,
+    "pdr_max": 49.1135,
+    "pdr_min": 39.8581,
+    "rate": 16,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 9.8563,
+    "gw_airtime": 0.8638,
+    "pdr": 55.4326,
+    "pdr_max": 58.6751,
+    "pdr_min": 51.2971,
+    "rate": 12,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 26.2504,
+    "gw_airtime": 0.8002,
+    "pdr": 71.8267,
+    "pdr_max": 73.3776,
+    "pdr_min": 70.8501,
+    "rate": 8,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 21.8457,
+    "gw_airtime": 0.4325,
+    "pdr": 67.4221,
+    "pdr_max": 70.1749,
+    "pdr_min": 64.5551,
+    "rate": 4,
+    "seeds": 3
+   }
+  ],
+  "olsr-75": [
+   {
+    "change_vs16_pp": 0.0,
+    "gw_airtime": 0.8909,
+    "pdr": 22.8825,
+    "pdr_max": 23.8347,
+    "pdr_min": 21.3333,
+    "rate": 16,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 11.8216,
+    "gw_airtime": 0.8854,
+    "pdr": 34.7041,
+    "pdr_max": 35.8377,
+    "pdr_min": 33.1627,
+    "rate": 12,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 25.6913,
+    "gw_airtime": 0.8773,
+    "pdr": 48.5737,
+    "pdr_max": 51.9622,
+    "pdr_min": 46.2983,
+    "rate": 8,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 30.4645,
+    "gw_airtime": 0.5811,
+    "pdr": 53.347,
+    "pdr_max": 55.9696,
+    "pdr_min": 51.5336,
+    "rate": 4,
+    "seeds": 3
+   }
+  ],
+  "static-100": [
+   {
+    "change_vs16_pp": 0.0,
+    "gw_airtime": 0.8768,
+    "pdr": 23.7321,
+    "pdr_max": 26.0655,
+    "pdr_min": 21.223,
+    "rate": 16,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 8.2953,
+    "gw_airtime": 0.8737,
+    "pdr": 32.0274,
+    "pdr_max": 34.2035,
+    "pdr_min": 29.4147,
+    "rate": 12,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 23.3836,
+    "gw_airtime": 0.8689,
+    "pdr": 47.1157,
+    "pdr_max": 49.7324,
+    "pdr_min": 44.7211,
+    "rate": 8,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 40.3908,
+    "gw_airtime": 0.5405,
+    "pdr": 64.1229,
+    "pdr_max": 66.7795,
+    "pdr_min": 61.616,
+    "rate": 4,
+    "seeds": 3
+   }
+  ],
+  "static-50": [
+   {
+    "change_vs16_pp": 0.0,
+    "gw_airtime": 0.8602,
+    "pdr": 55.6888,
+    "pdr_max": 57.5104,
+    "pdr_min": 53.7211,
+    "rate": 16,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 16.0727,
+    "gw_airtime": 0.8491,
+    "pdr": 71.7615,
+    "pdr_max": 74.0556,
+    "pdr_min": 70.2908,
+    "rate": 12,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 32.1189,
+    "gw_airtime": 0.6554,
+    "pdr": 87.8077,
+    "pdr_max": 90.6224,
+    "pdr_min": 85.8975,
+    "rate": 8,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 32.1768,
+    "gw_airtime": 0.3273,
+    "pdr": 87.8657,
+    "pdr_max": 90.654,
+    "pdr_min": 85.9468,
+    "rate": 4,
+    "seeds": 3
+   }
+  ],
+  "static-75": [
+   {
+    "change_vs16_pp": 0.0,
+    "gw_airtime": 0.8706,
+    "pdr": 35.4392,
+    "pdr_max": 36.3947,
+    "pdr_min": 34.6856,
+    "rate": 16,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 10.5628,
+    "gw_airtime": 0.8669,
+    "pdr": 46.002,
+    "pdr_max": 46.9195,
+    "pdr_min": 45.1681,
+    "rate": 12,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 29.5256,
+    "gw_airtime": 0.8553,
+    "pdr": 64.9648,
+    "pdr_max": 65.7483,
+    "pdr_min": 63.4662,
+    "rate": 8,
+    "seeds": 3
+   },
+   {
+    "change_vs16_pp": 43.7801,
+    "gw_airtime": 0.4808,
+    "pdr": 79.2193,
+    "pdr_max": 81.8099,
+    "pdr_min": 76.5272,
+    "rate": 4,
+    "seeds": 3
+   }
+  ]
+ }
+}

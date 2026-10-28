@@ -1,7 +1,7 @@
 # Methodology
 
 **Analysis of an IoT Network Performance Using NS-3**
-Salinthip Keereerat (6630613037), College of Computing, Prince of Songkla University, Phuket Campus
+Salinthip Keereerat, College of Computing, Prince of Songkla University, Phuket Campus
 Advisor: Komsan Kanjanasit — Co-advisors: Wisarut Chantara, Kullawat Chaowanawatee
 
 This document covers the V3 sigmoid-metric extension. The V2.7 baseline (10/20/30/50-node

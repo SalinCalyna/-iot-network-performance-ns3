@@ -31,9 +31,14 @@ Advisor: Komsan Kanjanasit · Co-Advisors: Wisarut Chantara, Kullawat Chaowanawa
 IoT deployments often funnel every sensor's traffic to one gateway over multi-hop wireless
 links, so a few congested or unreliable relays can decide the network's reliability. This project
 uses the ns-3 simulator to locate those weak points and to test whether routing can avoid them.
-The frozen IEEE 802.11b study (Phases 1–7, 1,782 baseline runs) identifies gateway and first-hop
-congestion as the dominant measurable bottleneck and shows that reducing offered traffic improves
-OLSR delivery at high node counts. An independent 51-run validation reproduced these results.
+The IEEE 802.11b study compares AODV, OLSR and a position-based static shortest-hop tree as the
+mesh grows from 10 to 100 sensors. Most of the packet loss that the original instrumentation could
+not explain was traced to an ARP artifact: all sensors start sending at the same instant, their ARP
+requests collide, and waiting packets are dropped uncounted. The core experiments were therefore
+re-run, seed-matched, with the ARP cache pre-populated (static sensors). With the artifact removed,
+Static Routing delivered the most from 20 sensors upward, gateway airtime approached saturation at
+large N, and lowering each sensor's rate improved delivery in every tested condition. The original
+802.11b findings are kept below, marked as superseded.
 The Wi-Fi 6 study adds explicit low-risk and high-risk relay states to an 802.11ax mesh. It
 compares Static, Risk-Aware, OLSR and AODV routing in matched experiments. With three high-risk
 relays at N = 30, Risk-Aware routing raised delivery by 23.18 percentage points and cut risk
@@ -43,7 +48,8 @@ exposure by 46.33 points.
 
 | Count | What it measures |
 |---:|---|
-| **1,782** | V3 baseline runs, IEEE 802.11b (seeds 20–30) |
+| **306 / 176 / 72** | ARP-fixed IEEE 802.11b runs: protocol comparison / bottleneck / rate sweep (static sensors) |
+| **1,782** | original V3 baseline runs, IEEE 802.11b (seeds 20–30); affected by the ARP artifact |
 | **208** | Wi-Fi 6 main-study runs: N = 30 (160) and N = 100 (48) |
 | **4** | Wi-Fi 6 routing protocols: Static, Risk-Aware, OLSR, AODV |
 | **10** | seeds at N = 30 — inferential statistics |
@@ -76,7 +82,63 @@ Risk-Aware − Static on the same seed, with k = 3 high-risk relays, 8 kbps per 
   - A route-maintenance feedback loop is suspected. This is a **hypothesis** and was not isolated
     experimentally.
 
-### IEEE 802.11b study (frozen, Phases 1–7)
+### IEEE 802.11b study: ARP-fixed results (primary)
+
+> **Status.** These results are from the thesis draft under advisor review. The advisor approved the
+> analysis structure in October 2026: ARP-fixed runs as primary evidence, and the original runs as
+> secondary evidence with their limitations disclosed. All ARP-fixed runs use static sensors: no mobility result is
+> claimed. The original retry-exhaustion measurement has no ARP-fixed counterpart and is not
+> reported as a finding.
+
+1. **ARP artifact.** In the 12 Static N = 50 diagnostic runs, ARP drops equal 99.9–101.4 % of the
+   loss the original instrumentation could not attribute (values above 100 % reflect a counter
+   offset, not a proportion). With the ARP cache pre-populated, every run (474/474) has 0 ARP drops.
+   *(C02, C03)*
+2. **Protocol comparison.** With ARP fixed, Static Routing has the highest mean PDR and goodput in
+   every condition from N = 20 upward (15/15). At high traffic the Static − OLSR and Static − AODV
+   goodput differences have 95 % confidence intervals that exclude zero at every N (12/12): Static
+   is ahead from N = 20 upward and behind at N = 10. At N = 10, OLSR and AODV are both ahead of
+   Static, the leader's margin over the other is at most 1.7 pp, and the high-traffic N = 10 leader
+   depends on the PDR denominator (AODV by 0.26 pp against scheduled sends). Static Routing uses
+   known positions, so this is not evidence of a better deployable protocol. *(C04–C07)*
+
+   **Static at N = 10: interpret with caution.** Static has the lowest PDR at N = 10 in all three
+   conditions (75.3–78.8 %, against 93.5–95.9 % for OLSR and AODV). Static routes only over a 90 m
+   disk model: a sensor without a path on that model gets no installed route and sends directly to
+   the gateway. Such sensors average 2.8 of 10 at N = 10 and 0.6 at N = 20; there are none from
+   N = 50 upward. Across the 17 Static N = 10 runs, PDR falls as their number rises (Pearson
+   r = −0.93; at high traffic 99.5 % with none and 57.0 % with 8). This is an association, not an
+   isolated cause: Static's N = 10 results reflect its disk model, not only its routing. *(C18)*
+3. **Capacity.** At high traffic, Static's delivered goodput stays at 362–396 kbit/s from N = 30 to
+   N = 100 while the offered load rises from 480 to 1,600 kbit/s. *(C08)*
+4. **Gateway bottleneck.** From N = 75 upward, gateway airtime is 0.86–0.90, and MAC frame-drop
+   events concentrate at sensors one hop from the gateway in 12/16 conditions (ratio 1.54–2.31).
+   This is consistent with a gateway-region bottleneck; it is a correlation, not a demonstrated
+   cause. MAC frame-drop events are not lost packets: their counts exceed the measured packet loss
+   in 141/143 Static runs, so no share of loss is attributed to any MAC mechanism. *(C09–C11)*
+5. **Offered rate.** Every reduced rate (12, 8, 4 kbit/s) gives higher PDR than 16 kbit/s in 18/18
+   conditions and 54/54 seed-level comparisons (3 seeds per point; descriptive). The gain is not
+   monotonic for OLSR at N = 50 (71.8 % at 8 kbit/s, 67.4 % at 4 kbit/s). *(C12, C13)*
+6. **Delay.** Static has the lowest mean delay of delivered packets in 15/18 conditions. The metric
+   covers delivered packets only and is shaped by synchronised start times. *(C14)*
+7. **V4 sigmoid routing (original configuration only).** No credible improvement over Static:
+   +0.11 pp, 95 % CI [−0.75, +0.97], 594 pairs. *(C15)*
+8. **Reproducibility.** The present source reproduces the original data in 681/681 applicable
+   comparisons (51 reruns). An independent validation audit also re-executed single runs bit-exactly.
+   *(C16)*
+
+Evidence: claim IDs refer to [`publication/CLAIMS.csv`](publication/CLAIMS.csv), which names the
+result files and scripts; `python3 publication/verify_published_claims.py` recomputes every number
+above from the raw results. Reproduction: [`docs/arp-fixed-reproduction.md`](docs/arp-fixed-reproduction.md).
+
+### Original IEEE 802.11b results (Phases 1–7): superseded
+
+> These findings were produced without ARP pre-population, so they include uncounted ARP loss that
+> affected the protocols unequally. They are kept for transparency. Findings 4, 6 and 7 are
+> superseded: the "unattributed" loss was ARP drops, the Static N = 50 rate result does not hold
+> once ARP is fixed, and retry-limit drops are frame events that cannot be expressed as a share of
+> packet loss.
+
 
 > Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated
 > conditions, and reducing offered traffic rate can effectively mitigate this bottleneck and
@@ -84,19 +146,20 @@ Risk-Aware − Static on the same seed, with k = 3 high-risk relays, 8 kbps per 
 > intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed
 > by the current instrumentation.
 
-1. Performance degrades as node count and traffic load increase, consistently across AODV, OLSR and Static. *(V3 baseline, 1,782 runs)*
+1. **[ARP-affected]** Performance degrades as node count and traffic load increase, consistently across AODV, OLSR and Static. *(V3 baseline, 1,782 runs)*
 2. V4 sigmoid-based adaptive routing re-routed up to 100 % of seeds relative to Static's shortest-path tree, but produced no statistically credible improvement over Static. This is a valid negative result, not a failed implementation. *(V4 matched/sensitivity/Tier-1)*
-3. Gateway and first-hop congestion is the dominant measurable bottleneck. Gateway airtime reaches about 0.86–0.89 at high node counts under high traffic, and MAC-queue drops are 1.2–2.4× over-represented in the first-hop neighbourhood. NO_ROUTE / ROUTE_ERROR drops are negligible in every tested condition. *(176-run bottleneck characterisation)*
-4. MAC-layer retry exhaustion exists, but it is not the dominant mechanism: a mean of roughly 6 % of loss, concentrated farther from the gateway. *(36-run validation)*
-5. Reducing the offered rate (16 → 12 → 8 → 4 kbps) improves OLSR PDR by about +14.7 pp at N = 75 and +25.2 pp at N = 100 at the deepest cut. At N = 100, delivered throughput rises, a sign of recovery from congestion collapse. *(72-run offered-rate sweep)*
-6. Static routing at N = 50 shows no improvement from rate reduction: PDR is flat to negative across all rates and seeds. The mechanisms the intervention relieves (airtime, MAC-queue overflow) were never the dominant source of loss there. *(12-run diagnostic)*
-7. Part of the loss remains unattributed by the instrumentation. At Static/N = 50, residual loss is 64.65 %–99.57 % (typically ≥ 92 %), while attributed mechanisms account for about 0.4–35.4 %. This is an instrumentation limitation, not a claim about an unmeasured cause. *(Static/N = 50 diagnostic)*
+3. **[consistent with the ARP-fixed results]** Gateway and first-hop congestion is the dominant measurable bottleneck. Gateway airtime reaches about 0.86–0.89 at high node counts under high traffic, and MAC-queue drops are 1.2–2.4× over-represented in the first-hop neighbourhood. NO_ROUTE / ROUTE_ERROR drops are negligible in every tested condition. *(176-run bottleneck characterisation)*
+4. **[superseded]** MAC-layer retry exhaustion exists, but it is not the dominant mechanism: a mean of roughly 6 % of loss, concentrated farther from the gateway. *(36-run validation)*
+5. **[ARP-affected]** Reducing the offered rate (16 → 12 → 8 → 4 kbps) improves OLSR PDR by about +14.7 pp at N = 75 and +25.2 pp at N = 100 at the deepest cut. At N = 100, delivered throughput rises, a sign of recovery from congestion collapse. *(72-run offered-rate sweep)*
+6. **[superseded]** Static routing at N = 50 shows no improvement from rate reduction: PDR is flat to negative across all rates and seeds. The mechanisms the intervention relieves (airtime, MAC-queue overflow) were never the dominant source of loss there. *(12-run diagnostic)*
+7. **[superseded]** Part of the loss remains unattributed by the instrumentation. At Static/N = 50, residual loss is 64.65 %–99.57 % (typically ≥ 92 %), while attributed mechanisms account for about 0.4–35.4 %. This is an instrumentation limitation, not a claim about an unmeasured cause. *(Static/N = 50 diagnostic)*
 
 ## Research status
 
 | Track | Network | Status |
 |---|---|---|
-| Phases 1–7 (V3 baseline to reproducibility) | IEEE 802.11b mesh | **Frozen** — reproducible (51/51 validation runs) |
+| Phases 1–7 (V3 baseline to reproducibility) | IEEE 802.11b mesh | **Frozen**: reproducible (51/51 validation runs); affected by the ARP artifact, superseded for the protocol, bottleneck and rate conclusions |
+| ARP-fixed re-runs (ARP cache pre-populated) | IEEE 802.11b mesh | **Completed** (2026-10-18) and independently validated (2026-10-28); static sensors only; thesis under advisor review |
 | Wi-Fi 6 Risk-Aware Routing (low/high-risk relays, k = 0–3) | IEEE 802.11ax mesh | **Completed and validated** (2026-10): N = 30 (10 seeds), N = 100 (3 seeds) |
 | N = 100 saturated-load risk experiment | IEEE 802.11ax mesh | **Not run** — pending approval |
 | Phase 8: BA topology / risky-node routing | Barabasi-Albert graph | **Proposed** — not yet executed ([details](#phase-8-ba-topology--risky-node-routing-proposed)) |
@@ -135,6 +198,11 @@ can mitigate congestion and improve network reliability.
 - **Exact parameters:**
   [`config_fingerprint.txt`](analysis/final-reproducibility-check/config_fingerprint.txt) and
   [`REPORT_DATA_DICTIONARY.md`](analysis/final-report-data/REPORT_DATA_DICTIONARY.md).
+- **ARP-fixed re-runs (primary 802.11b evidence):** `scratch/iot-network-wifi-std-arp.cc` reproduces the
+  probe configuration and adds `--arpPrepopulate`, which fills every node's ARP cache before traffic starts.
+  With the flag off it reproduced the original outputs exactly (29 regression runs). Re-runs: 306
+  protocol-comparison, 176 bottleneck and 72 rate-sweep runs, static sensors, seed-matched to the original runs.
+  Build, rerun and verification: [`docs/arp-fixed-reproduction.md`](docs/arp-fixed-reproduction.md).
 
 ### Wi-Fi 6 Risk-Aware Routing (2026-10)
 
@@ -212,7 +280,9 @@ and the AODV diagnostic are on the
 
 ### IEEE 802.11b results
 
-The seven findings above summarise the frozen results. The authoritative values are in the
+The seven original findings above summarise the frozen results (see the ARP-fixed results for the
+current conclusions). The dashboard's original 802.11b sections show these original values; its separate
+"802.11b ARP-fixed results" section shows the ARP-fixed values. The authoritative values are in the
 [Final Report Data Package](analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md), and the
 [dashboard](https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html) presents
 them with charts.
@@ -260,17 +330,20 @@ Source for both: [`UPDATE8_TIER1_ACTIVATION_SCREEN.md`](analysis/update8-tier1-a
   the MAC queue lifetime (500 ms) was not varied.
 
 **IEEE 802.11b study**
-- **AODV:** AODV's PDR and packet-loss figures are affected by a known ns-3 FlowMonitor
-  `PacketsSent`-denominator artifact, tied to AODV's route discovery and repair behaviour. Read
-  them as indicative and directionally robust, not as exact cross-protocol comparisons. Throughput
-  and qualitative trends are unaffected.
+- **PDR denominator (corrected 2026-10):** earlier versions of this README attributed a FlowMonitor
+  `PacketsSent`-denominator artifact to AODV. The sent counts show it affects **OLSR**: when an OLSR
+  source has no route, the send fails and the packet is never counted, so OLSR sent counts are up to
+  10.0 % below the schedule (one of ten sensors sending nothing at N = 10). AODV and Static sent
+  counts match the schedule. OLSR PDR is therefore optimistic relative to the offered load; goodput
+  is unaffected.
 - **OLSR:** `RoutingOverheadPackets` reads 0 for OLSR in the V3 dataset. This is a metric-coverage
   limitation (the classifier is scoped to AODV's control ports), **not** evidence that OLSR sends
   no control traffic.
-- **Static routing:** some sensors were unreachable at low node counts in the V3 baseline (a
-  sparse-topology / placement effect). This was not observed as material in the bottleneck and
-  intervention experiments. The unattributed-loss gap at Static/N = 50 (Finding 7) is a separate,
-  later finding.
+- **Static routing:** at low node counts some sensors have no path on the 90 m disk model (a
+  sparse-topology / placement effect): such sensors have no installed route and transmit directly
+  to the gateway. This affects the V3 baseline and the ARP-fixed runs, mainly at N = 10, where
+  Static's PDR should be interpreted with caution (claim C18). The "unattributed-loss gap" at Static/N = 50 (original Finding 7) was later traced
+  to ARP drops; see the ARP-fixed results.
 - **V4:** a valid negative result. The mechanism activates and changes routing behaviour, but does
   not improve delivery under the tested conditions.
 
@@ -393,8 +466,8 @@ name, uncommitted and not part of this repository.
   area; 20 dBm tx power.
 - **Traffic:** 8 kbps continuous UDP CBR per sensor, 512 B packets; 100 s total simulation time,
   with traffic active from 30 to 100 s.
-- A validation pass on these results found the same AODV `PacketsSent`-denominator behaviour that
-  the frozen research later confirmed.
+- A validation pass on these results reported an AODV `PacketsSent`-denominator behaviour. The later
+  V3 sent-count analysis (2026-10) found the undercount in OLSR, not AODV.
 
 **Early V3 sigmoid prototype (legacy, superseded by V4).** `scratch/iot-network-v3.cc` was an
 early, separate exploration: a 15-node clustered topology with a fourth routing mode, computing
@@ -413,7 +486,7 @@ Dijkstra shortest paths over sigmoid-weighted edge costs. Only a 4-run smoke tes
 
 | | |
 |---|---|
-| Researcher | Salinthip Keereerat (Student ID 6630613037) |
+| Researcher | Salinthip Keereerat |
 | Institution | College of Computing, Prince of Songkla University, Phuket Campus |
 | Advisor | Komsan Kanjanasit |
 | Co-Advisors | Wisarut Chantara, Kullawat Chaowanawatee |
@@ -426,7 +499,9 @@ Dijkstra shortest paths over sigmoid-weighted edge costs. Only a 4-run smoke tes
 | [Live dashboard](https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html) | Interactive results for both studies, including the Wi-Fi 6 sections and the AODV diagnostic |
 | [`docs/research-history.md`](docs/research-history.md) | V1 → V2 → V3 → V4 → bottleneck → intervention → frozen, plus Phase 8 |
 | [`docs/v1-v4-methodology-results.md`](docs/v1-v4-methodology-results.md) | The advisor's V1–V4 framing, mapped to tracks and files |
-| [`analysis/final-report-data/`](analysis/final-report-data/) | Authoritative frozen 802.11b results package |
+| [`analysis/final-report-data/`](analysis/final-report-data/) | Original (frozen) 802.11b results package, affected by the ARP artifact |
+| [`docs/arp-fixed-reproduction.md`](docs/arp-fixed-reproduction.md) | ARP-fixed 802.11b study: simulator, build, rerun, regenerate |
+| [`publication/`](publication/) | ARP-fixed claims table, claim verifier and file manifest |
 | [`analysis/final-reproducibility-check/`](analysis/final-reproducibility-check/) | 51-run reproducibility validation |
 | [`docs/wifi6-risk-reproducibility.md`](docs/wifi6-risk-reproducibility.md) | Wi-Fi 6 study: build, dependencies, reproduction levels, raw-output archive plan |
 | [`analysis/wifi6-risk-writeup/`](analysis/wifi6-risk-writeup/) | Wi-Fi 6 report tables T-W1–T-W7 and figures F-W1–F-W8 |
@@ -435,7 +510,11 @@ Dijkstra shortest paths over sigmoid-weighted edge costs. Only a 4-run smoke tes
 
 **Dashboard.**
 - A static HTML/CSS/JS site (no backend) built from the frozen package and the validated Wi-Fi 6
-  data.
+  data. The original 802.11b sections (1–3) still show the original (frozen) values and are labelled
+  accordingly. A separate **"802.11b ARP-fixed results"** section shows the ARP-fixed values from
+  `site/data/arp-fixed.json`, generated by `experiments/wifi-std/build_site_arp_fixed.py` from the verified
+  ARP-fixed analysis outputs (every value cross-checked against the raw runs) and tested by
+  `experiments/wifi-std/test_site_arp_fixed.py`.
 - GitHub Pages serves the `main` branch, so the dashboard lives under `/site/` (the site root shows
   this README). `.github/workflows/deploy-pages.yml` also runs on every push to `main`.
 - The dashboard shows completed, validated work only, in five areas:
@@ -470,7 +549,7 @@ results/
   v4-matched/, v4-sensitivity/   V4 sigmoid-routing results
   *.csv, logs/, plots/, v3/      Legacy (V2.7) results, kept for history
 analysis/
-  final-report-data/             Authoritative frozen results package (source of truth)
+  final-report-data/             Original (frozen) 802.11b results package; affected by the ARP artifact
   wifi6-risk-writeup/            Wi-Fi 6 risk study: report tables T-W1..T-W7, figures F-W1..F-W8
   final-reproducibility-check/   51-run reproducibility validation
   bottleneck-characterisation/   Raw §10 / retry-exhaustion / rate-sweep run outputs

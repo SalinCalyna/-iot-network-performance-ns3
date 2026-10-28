@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gateway-Centric IoT Mesh — NS-3 Research Platform</title>
-<meta name="description" content="NS-3 research dashboard: gateway-centric IoT wireless mesh networks. Frozen IEEE 802.11b study (baseline, bottleneck, retry, rate intervention, V4 sigmoid routing) and a completed Wi-Fi 6 (802.11ax) risk-aware routing study with paired statistics.">
+<meta name="description" content="NS-3 research dashboard: gateway-centric IoT wireless mesh networks. IEEE 802.11b study (original runs, superseded for conclusions by ARP-fixed re-runs: see the README) and a completed Wi-Fi 6 (802.11ax) risk-aware routing study with paired statistics.">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%226%22%20fill%3D%22%23154394%22/%3E%3Ccircle%20cx%3D%2216%22%20cy%3D%229%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%227%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Ccircle%20cx%3D%2225%22%20cy%3D%2223%22%20r%3D%222.6%22%20fill%3D%22%23fff%22/%3E%3Cpath%20d%3D%22M16%209%20L7%2023%20M16%209%20L25%2023%20M7%2023%20L25%2023%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.6%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" integrity="sha512-h9FcoyWjHcOcmEVkxOfTLnmZFWIH0iZhZT1H2TbOq55xssQGEJHEaIm+PgoUaZbRvQTNTluNOEfb1ZRy6D3BOw==" crossorigin="anonymous" referrerpolicy="no-referrer">
@@ -23,6 +23,7 @@
     <nav aria-label="Dashboard sections">
     <div class="navgroup">
       <a class="navlink" href="#view-overview" data-target="view-overview"><span class="dot" aria-hidden="true"></span>Overview</a>
+      <a class="navlink" href="#view-arp-fixed" data-target="view-arp-fixed"><span class="dot" aria-hidden="true"></span>802.11b ARP-fixed results</a>
       <a class="navlink" href="#view-performance" data-target="view-performance"><span class="dot" aria-hidden="true"></span>1 · V3 Baseline</a>
       <a class="navlink" href="#view-bottleneck" data-target="view-bottleneck"><span class="dot" aria-hidden="true"></span>2 · Bottleneck &amp; Intervention</a>
       <a class="navlink" href="#view-routing" data-target="view-routing"><span class="dot" aria-hidden="true"></span>3 · V4 Sigmoid Routing</a>
@@ -76,7 +77,7 @@
         </div>
       </div>
       <div class="meta">
-        <span class="chip ok">● 802.11B STUDY FROZEN</span>
+        <span class="chip ok">● 802.11B RE-RUN WITH ARP FIXED</span>
         <span class="chip" style="color:var(--purple)">● V4 NEGATIVE RESULT</span>
         <span class="chip ok">● WI-FI 6 STUDY COMPLETED</span>
         <a class="ext-link" href="https://github.com/SalinCalyna/-iot-network-performance-ns3" target="_blank" rel="noopener">GitHub source ↗</a>
@@ -89,22 +90,56 @@
       <section class="view hero" id="view-overview">
         <div class="eyebrow">NS-3 Research · completed, validated work</div>
         <div class="hero-title">Analysis of Gateway-Centric IoT Wireless Mesh Networks Using NS-3</div>
-        <p class="hero-subtitle">Two simulation studies of a multi-hop IoT mesh in which every sensor reports to one gateway. The frozen IEEE 802.11b study locates where packets are lost as the network grows, and tests traffic-rate reduction and an adaptive (sigmoid) routing metric. The Wi-Fi 6 study adds high-risk relay nodes to an 802.11ax mesh and measures how much risk-aware routing reduces exposure and loss.</p>
+        <p class="hero-subtitle">Two simulation studies of a multi-hop IoT mesh in which every sensor reports to one gateway. The IEEE 802.11b study locates where delivery degrades as the network grows, and tests traffic-rate reduction and an adaptive (sigmoid) routing metric. After an ARP artifact was found, its core experiments were re-run with the ARP cache pre-populated; the 802.11b charts on this page still show the original runs. The Wi-Fi 6 study adds high-risk relay nodes to an 802.11ax mesh and measures how much risk-aware routing reduces exposure and loss.</p>
         <div class="area-cards">
-          <a class="area-card" href="#view-performance"><span class="ac-num">1</span><span class="ac-title">V3 Baseline</span><span class="ac-meta"><span id="kpi-v3">1,782</span> runs · AODV / OLSR / Static · N = 10–100 · 11 seeds</span><span class="ac-res">Delivery degrades as network size and traffic load grow, for all three protocols.</span></a>
-          <a class="area-card" href="#view-bottleneck"><span class="ac-num">2</span><span class="ac-title">Bottleneck &amp; Rate Intervention</span><span class="ac-meta"><span id="kpi-bottleneck">176</span> + 36 + 72 + 12 runs</span><span class="ac-res">OLSR gateway airtime reaches 0.86–0.89 at N ≥ 75 (high traffic); cutting the rate 16 → 4 kbps raises OLSR PDR by +25.2 pp at N = 100.</span></a>
+          <a class="area-card" href="#view-performance"><span class="ac-num">1</span><span class="ac-title">V3 Baseline</span><span class="ac-meta"><span id="kpi-v3">1,782</span> runs · AODV / OLSR / Static · N = 10–100 · 11 seeds</span><span class="ac-res">Original runs (ARP-affected). With ARP fixed, Static Routing delivers the most from N = 20 upward.</span></a>
+          <a class="area-card" href="#view-bottleneck"><span class="ac-num">2</span><span class="ac-title">Bottleneck &amp; Rate Intervention</span><span class="ac-meta"><span id="kpi-bottleneck">176</span> + 36 + 72 + 12 runs</span><span class="ac-res">Original runs. With ARP fixed: gateway airtime 0.86–0.90 at N ≥ 75, and every reduced rate improves PDR (18/18 conditions).</span></a>
           <a class="area-card" href="#view-routing"><span class="ac-num">3</span><span class="ac-title">V4 Sigmoid Routing</span><span class="ac-meta">957 runs</span><span class="ac-res">Re-routes up to 11/11 seeds without a credible PDR gain over Static: a valid negative result.</span></a>
           <a class="area-card highlight" href="#view-w6-overview"><span class="ac-num">4</span><span class="ac-title">Wi-Fi 6 Risk-Aware Routing</span><span class="ac-meta">208 runs · N = 30 (160 runs, 10 seeds) · N = 100 (48 runs, 3 seeds) · + 72-run uniform-placement follow-up</span><span class="ac-res">At N = 30, k = 3: PDR <strong>+23.18 pp</strong> [95 % CI +19.81, +26.54] and risk exposure <strong>−46.33 pp</strong> [95 % CI −53.21, −39.46] vs Static, 10/10 pairs; an upper bound (oracle risk knowledge). N = 100 descriptive only.</span></a>
           <a class="area-card" href="#view-conclusions"><span class="ac-num">5</span><span class="ac-title">Conclusions &amp; Reproducibility</span><span class="ac-meta">51-run reproducibility check</span><span class="ac-res"><span id="kpi-repro">681/681</span> applicable comparisons reproduced exactly; Wi-Fi 6 package published.</span></a>
         </div>
       </section>
 
+      <!-- ============================================================ 802.11b ARP-FIXED (data/arp-fixed.json) -->
+      <section class="view" id="view-arp-fixed">
+        <div class="section-eyebrow">IEEE 802.11b · ARP-fixed re-runs · proposed primary analysis</div>
+        <h2>802.11b results with the ARP cache pre-populated</h2>
+        <p class="lede">306 protocol-comparison, 176 bottleneck and 72 rate-sweep runs with static sensors, seed-matched to the original runs. This is the proposed primary 802.11b analysis of the thesis draft (the advisor approved this analysis structure, with the original runs as secondary evidence, in October 2026; the thesis itself remains under advisor review). Every value in this section comes from <code>data/arp-fixed.json</code>, generated by <code>experiments/wifi-std/build_site_arp_fixed.py</code> from the ARP-fixed analysis outputs and tested by <code>experiments/wifi-std/test_site_arp_fixed.py</code>. No original (ARP-affected) value is shown here.</p>
+        <p id="af-status" class="panel-sub" role="status"></p>
+        <div class="key-finding"><span class="kf-label">Key Finding</span>With ARP fixed, Static Routing has the highest PDR and goodput in every condition from N = 20 upward (15/15). Gateway airtime reaches 0.86–0.90 from N = 75 upward, consistent with a gateway-region bottleneck, and every reduced offered rate improves PDR (18/18 conditions; 3 seeds, descriptive).</div>
+        <div class="filters"><div class="filter-group"><span class="fl">Traffic</span><div id="af-traffic" style="display:flex;gap:2px"></div></div></div>
+        <div id="af-legend"></div>
+        <div class="grid cols-2">
+          <div class="panel"><h3>PDR vs network size (ARP-fixed)</h3><p class="panel-sub">% of sent packets delivered; OLSR is optimistic because its unsendable packets are not counted</p><div class="chart-wrap" id="chart-af-pdr"></div></div>
+          <div class="panel"><h3>Goodput vs network size (ARP-fixed)</h3><p class="panel-sub">payload kbit/s delivered at the gateway, with the offered load for reference</p><div class="chart-wrap" id="chart-af-goodput"></div></div>
+          <div class="panel"><h3>Mean delay of delivered packets (ARP-fixed)</h3><p class="panel-sub">ms; delivered packets only, shaped by synchronised start times; not a routing-only effect</p><div class="chart-wrap" id="chart-af-delay"></div></div>
+          <div class="panel">
+            <div class="panel-head"><h3>Gateway airtime (ARP-fixed)</h3><div class="filters" style="margin:0"><div class="filter-group"><span class="fl">Traffic</span><div id="af-bn-traffic" style="display:flex"></div></div></div></div>
+            <div id="af-bn-legend"></div>
+            <p class="panel-sub">% channel-busy time at the gateway, OLSR and Static</p><div class="chart-wrap" id="chart-af-airtime"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><h3>PDR vs offered rate (ARP-fixed)</h3><div class="filters" style="margin:0"><div class="filter-group"><span class="fl">N</span><div id="af-rate-n" style="display:flex"></div></div></div></div>
+            <div id="af-rate-legend"></div>
+            <p class="panel-sub">OLSR and Static, 16 → 4 kbit/s per sensor</p><div class="chart-wrap" id="chart-af-rate"></div>
+          </div>
+        </div>
+        <ul class="evidence-list">
+          <li>Static sensors only: no ARP-fixed mobile run exists, so no mobility result is shown.</li>
+          <li>Static Routing uses known positions and a 90 m disk model; its lead is not evidence of a better deployable protocol.</li>
+          <li>At N = 10, Static has the lowest PDR (75.3–78.8 %, against 93.5–95.9 % for OLSR and AODV). Sensors without a path on the 90 m disk model get no installed route and send directly to the gateway (2.8 of 10 on average); Static's N = 10 results should be interpreted with caution (claim C18).</li>
+          <li>MAC frame-drop events are not lost packets, so no share of loss is attributed to any MAC mechanism.</li>
+          <li>Claims, evidence files and the claim verifier: <code>publication/CLAIMS.csv</code>, <code>publication/verify_published_claims.py</code>.</li>
+        </ul>
+      </section>
+
       <!-- ============================================================ 1. V3 BASELINE -->
       <section class="view" id="view-performance">
-        <div class="section-eyebrow">1 · V3 Baseline — IEEE 802.11b</div>
+        <div class="section-eyebrow">1 · V3 Baseline — IEEE 802.11b · original runs</div>
         <h2>Network performance vs network size and traffic</h2>
+        <div class="callout warn" style="margin-bottom:14px;font-size:.88rem"><strong>Original configuration: superseded for conclusions.</strong> This section shows the original 1,782-run baseline, including mobile conditions; no ARP-fixed mobile run exists, so no mobility conclusion is drawn. The original 802.11b runs were later found to include uncounted ARP loss: every sensor starts sending at the same instant, the ARP requests collide, and waiting packets are dropped without being counted. The study was re-run with the ARP cache pre-populated (static sensors). See the <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3#ieee-80211b-study-arp-fixed-results-primary" target="_blank" rel="noopener">ARP-fixed results</a>. The charts in this section have not been regenerated from the ARP-fixed runs.</div>
         <p class="lede">1,782 runs: 3 protocols × 6 node counts × 3 traffic levels × 3 mobility modes (162 conditions) × 11 seeds (20–30), 300 s each. Values are pooled over traffic and mobility unless stated.</p>
-        <div class="key-finding"><span class="kf-label">Key Finding</span>Performance becomes increasingly constrained as network scale and traffic load increase, with bottleneck effects becoming more pronounced at larger scales — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
+        <div class="key-finding"><span class="kf-label">Key Finding (original runs)</span>Performance becomes increasingly constrained as network scale and traffic load increase, with bottleneck effects becoming more pronounced at larger scales — a structural effect tied to topology and channel capacity, not a single protocol's failure.</div>
         <details class="panel setup" style="margin-bottom:16px">
           <summary><h3 style="display:inline">Experimental setup</h3></summary>
           <div class="table-scroll" tabindex="0" role="region" aria-label="V3 experimental setup"><table class="data">
@@ -125,15 +160,16 @@
           <div class="panel"><h3>End-to-end delay vs network size</h3><p class="panel-sub">ms, delivered packets</p><div class="chart-wrap" id="chart-delay"></div></div>
           <div class="panel"><div id="traffic-legend"></div><h3>PDR by traffic level</h3><p class="panel-sub">pooled over node count and mobility</p><div class="chart-wrap" id="chart-traffic-load"></div></div>
         </div>
-        <div class="callout" style="margin-top:14px;font-size:.84rem">AODV's PDR and packet loss are affected by a known ns-3 FlowMonitor <code>PacketsSent</code>-denominator artifact: read them as indicative, not as exact cross-protocol values. Throughput and trends are unaffected.</div>
+        <div class="callout" style="margin-top:14px;font-size:.84rem"><strong>Corrected:</strong> the FlowMonitor <code>PacketsSent</code>-denominator effect concerns <strong>OLSR</strong>, not AODV as an earlier version of this note said. When an OLSR source has no route the send fails and is not counted, so OLSR sent counts are up to 10.0 % below the schedule and OLSR PDR is optimistic. AODV and Static sent counts match the schedule. Throughput is unaffected.</div>
       </section>
 
       <!-- ============================================================ 2. BOTTLENECK & INTERVENTION -->
       <section class="view" id="view-bottleneck">
-        <div class="section-eyebrow">2 · Bottleneck Analysis &amp; Traffic-Rate Intervention — IEEE 802.11b</div>
+        <div class="section-eyebrow">2 · Bottleneck Analysis &amp; Traffic-Rate Intervention — IEEE 802.11b · original runs</div>
         <h2>Where packets are lost, and whether less traffic helps</h2>
+        <div class="callout warn" style="margin-bottom:14px;font-size:.88rem"><strong>Original configuration: superseded for conclusions.</strong> This section shows the original bottleneck, retry-exhaustion and rate-sweep runs. The original 802.11b runs were later found to include uncounted ARP loss: every sensor starts sending at the same instant, the ARP requests collide, and waiting packets are dropped without being counted. The study was re-run with the ARP cache pre-populated (static sensors). See the <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3#ieee-80211b-study-arp-fixed-results-primary" target="_blank" rel="noopener">ARP-fixed results</a>. The charts in this section have not been regenerated from the ARP-fixed runs.</div>
         <p class="lede">Per-node instrumentation (176 runs: OLSR and Static, N = 30/50/75/100, medium and high traffic, 11 seeds), retry-exhaustion validation (36 runs), offered-rate sweep (72 runs) and a Static N = 50 negative control (12 runs).</p>
-        <div class="key-finding"><span class="kf-label">Key Finding</span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — OLSR gateway airtime reaches 0.86–0.89 at N≥75 under high traffic (Static: 0.62–0.66).</div>
+        <div class="key-finding"><span class="kf-label">Key Finding (original runs)</span><span>Gateway and first-hop congestion is the dominant measurable bottleneck under near-saturated conditions — OLSR gateway airtime reaches 0.86–0.89 at N≥75 under high traffic (Static: 0.62–0.66). <em>With ARP fixed, gateway airtime is 0.86–0.90 from N = 75 upward for both protocols, consistent with a gateway-region bottleneck.</em></span></div>
         <div class="grid cols-2">
           <div class="panel"><div id="bn-legend"></div><h3>Gateway airtime vs network size</h3><p class="panel-sub">% channel-busy time at the gateway, high traffic</p><div class="chart-wrap" id="chart-gw-airtime"></div></div>
           <div class="panel">
@@ -149,10 +185,11 @@
         <ul class="evidence-list">
           <li>MAC-queue drops are 1.4–2.4× over-represented at hop ≤ 1 in 11 of 16 cells (below 1 in OLSR N=30 high and OLSR N=50 medium; three medium-traffic cells have no MAC-queue drops) — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/bottleneck_results.csv" target="_blank" rel="noopener">bottleneck_results.csv</a>.</li>
           <li>Routing failures are not the driver: NO_ROUTE / ROUTE_ERROR account for &lt;2% of loss in every tested condition.</li>
-          <li>Only a subset of observed packet loss (0–53% at the most saturated cell) can be directly attributed to a single logged counter. The bottleneck's location is well supported; not every lost packet has a known individual cause.</li>
+          <li>Only a subset of observed packet loss (0–53% at the most saturated cell) can be directly attributed to a single logged counter. The bottleneck's location is well supported; not every lost packet has a known individual cause. <em>[Superseded: in the Static N = 50 diagnostic, the unattributed loss was ARP drops (99.9–101.4 % of it).]</em></li>
         </ul>
 
         <h3 class="sub-h">Retry exhaustion is real but secondary</h3>
+        <div class="callout warn" style="margin-bottom:12px;font-size:.86rem"><strong>Original runs; superseded form.</strong> The "share of loss" figures below divide MAC frame-drop event counts by packet loss. That is not valid: a counted drop event is not necessarily a lost packet, and in the ARP-fixed Static runs the counted events exceed the measured loss in 141/143 runs. The figures are kept as a record of the original analysis, not as findings.</div>
         <div class="grid cols-2">
           <div class="panel"><h3>Average share of loss (12 cells)</h3><p class="panel-sub">unweighted mean over the retry-validation cells (36 runs): MAC-queue overflow ≈17.1%, retry exhaustion ≈6.0%</p><div class="chart-wrap" id="chart-retry-vs-macq"></div>
             <p class="panel-sub" style="margin:10px 0 0">MAC-queue overflow is the larger of the two in 7 of the 12 measured cells (all six high-traffic cells and OLSR N=100 medium); in the other five (medium-traffic, low-stress) cells retry exhaustion is the larger but still minor of the two.</p></div>
@@ -163,7 +200,7 @@
         </div>
 
         <h3 class="sub-h" id="view-intervention">Traffic-rate intervention, with Static as negative control</h3>
-        <div class="key-finding"><span class="kf-label">Key Finding</span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load.</div>
+        <div class="key-finding"><span class="kf-label">Key Finding (original runs)</span><span>Reducing offered rate improves OLSR PDR by +14.7pp (N=75) and +25.2pp (N=100) at the deepest cut, with N=100 delivered throughput actually rising at the lower offered load. <em>With ARP fixed, every reduced rate improves PDR for both OLSR and Static in 18/18 conditions and 54/54 seed comparisons (3 seeds; descriptive).</em></span></div>
         <div class="grid cols-2">
           <div class="panel"><div id="sc-legend"></div><h3>PDR vs offered rate</h3><p class="panel-sub">OLSR (N = 75, 100) and Static (N = 50), 3 seeds per point</p><div class="chart-wrap" id="chart-static-control"></div></div>
           <div class="panel">
@@ -175,14 +212,14 @@
         </div>
         <ul class="evidence-list">
           <li>The PDR gain is monotonic across every tested seed. At N=100, delivered throughput rises at a reduced offered rate (12 kbps: +24.3% in seed-mean throughput; +25.5% as the mean of the three per-seed changes) — the signature of recovering from congestion collapse, not simply sending less.</li>
-          <li><strong>Static/N=50 PDR does not improve</strong> with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is −7.6 percentage points). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss; most of it remains unattributed (64.65%–99.57%, typically ≥92%) — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/static_n50_diagnostic.csv" target="_blank" rel="noopener">static_n50_diagnostic.csv</a>.</li>
-          <li>Intervention effectiveness is protocol- and load-dependent and should not be overgeneralized to every condition.</li>
+          <li><em>[Superseded]</em> <strong>Static/N=50 PDR does not improve</strong> with rate reduction (16 kbps is the highest-PDR condition of the four tested; change at the deepest cut is −7.6 percentage points). Congestion was genuinely relieved, but the relieved mechanisms were never the dominant source of this condition's loss; most of it remains unattributed (64.65%–99.57%, typically ≥92%) — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/static_n50_diagnostic.csv" target="_blank" rel="noopener">static_n50_diagnostic.csv</a>. <em>That loss was later traced to ARP drops; with ARP fixed, Static N = 50 gains at every reduced rate.</em></li>
+          <li><em>[Superseded]</em> Intervention effectiveness is protocol- and load-dependent and should not be overgeneralized to every condition. <em>With ARP fixed, every reduced rate improved PDR for both protocols at every tested N, though not monotonically for OLSR at N = 50 (71.8 % at 8 kbps vs 67.4 % at 4 kbps).</em></li>
         </ul>
       </section>
 
       <!-- ============================================================ 3. V4 -->
       <section class="view" id="view-routing">
-        <div class="section-eyebrow">3 · V4 Sigmoid Routing — IEEE 802.11b · valid negative result</div>
+        <div class="section-eyebrow">3 · V4 Sigmoid Routing — IEEE 802.11b · valid negative result · original runs only</div>
         <h2>Adaptive sigmoid routing changed routes, not performance</h2>
         <p class="lede">957 runs: 594 matched-condition runs over the full V3 condition grid, a 297-run parameter-sensitivity sweep and a 66-run Tier-1 activation screen (N = 50, medium traffic, 11 seeds per configuration).</p>
         <div class="key-finding"><span class="kf-label">Key Finding</span>Routing activation ≠ performance improvement — the strongest-activation V4 configuration re-routes 100% of seeds but does not produce a statistically credible PDR gain.</div>
@@ -673,13 +710,13 @@ install on every sensor i:  "gateway via parent[i]"</pre>
       <section class="view" id="view-conclusions">
         <div class="section-eyebrow">5 · Conclusions, Limitations &amp; Reproducibility</div>
         <h2>What the evidence shows</h2>
-        <div class="callout" style="margin-bottom:14px;font-size:.92rem"><strong>IEEE 802.11b study.</strong> The study identifies gateway and first-hop congestion as the dominant measurable bottleneck under near-saturated conditions and demonstrates that reducing offered traffic rate can effectively mitigate this bottleneck and improve PDR in OLSR networks at high node densities. However, the effectiveness of the intervention is protocol- and load-dependent, and a portion of packet loss remains unattributed by the current instrumentation.</div>
+        <div class="callout" style="margin-bottom:14px;font-size:.92rem"><strong>IEEE 802.11b study (ARP-fixed re-runs, static sensors).</strong> Most loss the original instrumentation could not attribute was ARP drops (99.9–101.4 % in the diagnostic runs). With the ARP cache pre-populated, Static Routing delivered the most from N = 20 upward (15/15 conditions); gateway airtime reached 0.86–0.90 from N = 75 and MAC frame-drop events concentrated one hop from the gateway in 12/16 conditions, consistent with a gateway-region bottleneck; and every reduced offered rate improved delivery (18/18 conditions, 3 seeds; descriptive). The thesis is under advisor review. Where sections 1–3 conflict with this, they are superseded.</div>
         <div class="panel">
           <ol class="findings">
-            <li><strong>Scale.</strong> Increasing network scale and traffic increase congestion pressure across the three routing protocols in the Without-Risk baseline.</li>
-            <li><strong>Bottleneck.</strong> Gateway and first-hop regions are supported as major measurable bottlenecks, with OLSR gateway airtime reaching 0.86–0.89 at N≥75 under high traffic.</li>
-            <li><strong>Intervention.</strong> Traffic reduction can improve performance under overloaded conditions, with OLSR PDR improving by +14.7 percentage points at N=75 and +25.2 percentage points at N=100 at the deepest cut; Static N = 50 does not improve.</li>
-            <li><strong>V4 routing — negative result.</strong> Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</li>
+            <li><strong>Scale.</strong> Delivered goodput levels off well below the offered load: at high traffic, Static stays at 362–396 kbit/s from N = 30 to N = 100 while the offered load rises to 1,600 kbit/s (ARP-fixed).</li>
+            <li><strong>Bottleneck.</strong> Gateway airtime is 0.86–0.90 from N = 75 upward and MAC frame-drop events concentrate one hop from the gateway in 12/16 conditions (ARP-fixed): consistent with a gateway-region bottleneck, not a demonstrated cause.</li>
+            <li><strong>Intervention.</strong> Every reduced offered rate improved PDR in 18/18 conditions and 54/54 seed comparisons (ARP-fixed; 3 seeds, descriptive), though not monotonically for OLSR at N = 50. The original "Static N = 50 does not improve" result was caused by ARP drops.</li>
+            <li><strong>V4 routing — negative result (original runs only).</strong> Routing activation alone does not guarantee performance improvement; the strongest V4 activation-screen configuration re-routed 100% of seeds without a statistically credible PDR gain.</li>
             <li><strong>Wi-Fi 6 risk-aware routing.</strong> At N = 30 (10 seeds, matched pairs), routing around high-risk relays with a risk-weighted Dijkstra raised nominal PDR over Static by +23.18 pp [95 % CI +19.81, +26.54] and cut risk exposure by 46.33 pp [95 % CI −53.21, −39.46] at k = 3, in 10/10 pairs (exact Wilcoxon p = 0.00195, Holm-adjusted 0.0117), at a p95 delay cost of +4.1 to +9.1 ms versus Static (k = 1–3; delay is over delivered packets, so Static's lower value partly reflects the relayed packets it lost). At N = 100 (3 seeds) the direction was the same in 3/3 seeds; this is reported descriptively, without a significance claim. Oracle risk knowledge makes this an upper bound.</li>
             <li><strong>Uniform random risk placement (N = 100, 72 runs, 12 matched draws).</strong> With the high-risk sensors placed independently of every protocol, no Static − OLSR exposure difference was detected (+0.68 pp [95 % CI −1.09, +2.45] at 8 kbps; −0.45 pp [−2.18, +1.28] at 32 kbps), so the 37 pp gap of the subtree design does not appear. Risk-Aware had lower exposure and higher nominal PDR than OLSR in 12/12 draws (Holm-adjusted p = 0.006). It differed from Static only in the 5 draws with a risky node on Static's tree, where its PDR gains are descriptive and not statistically significant (<a href="#view-w6-randplace">section</a>).</li>
             <li><strong>AODV at N = 100.</strong> In this configuration AODV delivered 56.60 % against OLSR's 99.62 % (k = 0, 3 seeds); the Block Ack modification was excluded as the cause (seed 20); the mechanism is a hypothesis.</li>
@@ -691,10 +728,10 @@ install on every sensor i:  "gateway via parent[i]"</pre>
           <div class="panel">
             <h3>IEEE 802.11b study</h3>
             <ul class="evidence-list" style="margin:6px 0 0">
-              <li><strong>AODV:</strong> FlowMonitor <code>PacketsSent</code>-denominator artifact affects interpretation of PDR/PacketLoss — read as indicative, not exact.</li>
+              <li><strong>OLSR (corrected):</strong> sends that fail for lack of a route are not counted, so OLSR PDR is optimistic (sent counts up to 10.0 % below the schedule). AODV and Static sent counts match the schedule; earlier versions attributed this artifact to AODV.</li>
               <li><strong>OLSR:</strong> <code>RoutingOverheadPackets</code> = 0 is a metric-coverage limitation, not proof of zero control traffic.</li>
-              <li><strong>Static:</strong> Some residual packet loss remains unattributed (64.65%–99.57% at Static/N=50, typically ≥92%).</li>
-              <li><strong>Instrumentation:</strong> Not all packet-loss mechanisms are directly observable using the current counters. PHY RX drops are not directly equivalent to permanent packet loss.</li>
+              <li><strong>Static:</strong> the residual loss reported as unattributed in the original runs was ARP drops (99.9–101.4 % of it in the 12 diagnostic runs).</li>
+              <li><strong>Instrumentation:</strong> Not all packet-loss mechanisms are directly observable using the current counters. PHY RX drops are not directly equivalent to permanent packet loss. MAC frame-drop events are not lost packets either: in the ARP-fixed Static runs, counted events exceed the measured loss in 141/143 runs.</li>
               <li><strong>V4:</strong> Routing adaptation did not produce measurable overall improvement, even at 100% activation.</li>
             </ul>
           </div>
@@ -708,7 +745,7 @@ install on every sensor i:  "gateway via parent[i]"</pre>
         <div class="grid cols-2">
           <div class="panel">
             <h3>IEEE 802.11b — verified reproducible</h3>
-            <p class="panel-sub" style="margin:0">A 51-run validation matrix re-executed the baseline, bottleneck, intervention and Static-control conditions: of 687 metric comparisons, 681 of 681 applicable comparisons passed exactly (6 not applicable), with no numerical drift — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md" target="_blank" rel="noopener">FINAL_REPRODUCIBILITY_CHECK.md</a>. All 802.11b values on this page come from the frozen <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md" target="_blank" rel="noopener">Final Report Data Package</a> (metric definitions: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/REPORT_DATA_DICTIONARY.md" target="_blank" rel="noopener">REPORT_DATA_DICTIONARY.md</a>).</p>
+            <p class="panel-sub" style="margin:0">A 51-run validation matrix re-executed the baseline, bottleneck, intervention and Static-control conditions: of 687 metric comparisons, 681 of 681 applicable comparisons passed exactly (6 not applicable), with no numerical drift — <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-reproducibility-check/FINAL_REPRODUCIBILITY_CHECK.md" target="_blank" rel="noopener">FINAL_REPRODUCIBILITY_CHECK.md</a>. This check concerns the original runs. The 802.11b charts and section values on this page come from the original (frozen) <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/FINAL_REPORT_DATA_PACKAGE.md" target="_blank" rel="noopener">Final Report Data Package</a> (metric definitions: <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3/blob/main/analysis/final-report-data/REPORT_DATA_DICTIONARY.md" target="_blank" rel="noopener">REPORT_DATA_DICTIONARY.md</a>). The ARP-fixed results are in the <a href="https://github.com/SalinCalyna/-iot-network-performance-ns3#ieee-80211b-study-arp-fixed-results-primary" target="_blank" rel="noopener">README</a> and <code>results/wifi-std/arp-*</code>, checked by <code>publication/verify_published_claims.py</code>.</p>
           </div>
           <div class="panel">
             <h3>Wi-Fi 6 — reproducibility package</h3>
@@ -730,6 +767,7 @@ install on every sensor i:  "gateway via parent[i]"</pre>
 
 <script src="charts.js"></script>
 <script src="app.js"></script>
+<script src="arp-fixed.js"></script>
 <script src="wifi6.js"></script>
 <script src="randplace.js"></script>
 <script src="topology.js"></script>

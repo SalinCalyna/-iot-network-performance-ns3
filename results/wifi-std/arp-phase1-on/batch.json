@@ -1,0 +1,29 @@
+{
+ "batch": "arp-phase1-on",
+ "run_ids": [
+  "b-on_static_50_rate16_seed20",
+  "b-on_static_50_rate16_seed25",
+  "b-on_static_50_rate16_seed30",
+  "b-on_static_50_rate12_seed20",
+  "b-on_static_50_rate12_seed25",
+  "b-on_static_50_rate12_seed30",
+  "b-on_static_50_rate8_seed20",
+  "b-on_static_50_rate8_seed25",
+  "b-on_static_50_rate8_seed30",
+  "b-on_static_50_rate4_seed20",
+  "b-on_static_50_rate4_seed25",
+  "b-on_static_50_rate4_seed30",
+  "b-on_olsr_75_rate16_seed20",
+  "b-on_olsr_100_rate16_seed20"
+ ],
+ "source": "scratch/iot-network-wifi-std-arp.cc",
+ "source_sha256": "4923685a52f9f8131caff2ecc45a806620c649bc621c82da4ca55a6eba836227",
+ "binary": "build/scratch/ns3-dev-iot-network-wifi-std-arp-default",
+ "binary_sha256": "9f74bd9ce2c6f009de10fd715ac43c571a00ed67bfd5dbb4f2e853e9ef50a78c",
+ "timeout_sec": null,
+ "stop_on_failure": true,
+ "created": "2026-10-16T10:00:12+0700",
+ "git_head": "42bd7e906e9d8f545cb28e310768eab82fbaf1c7",
+ "git_branch": "exp/ba-risky-pilot",
+ "adopted_existing": true
+}

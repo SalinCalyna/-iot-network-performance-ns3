@@ -5,6 +5,16 @@ Phases 1–7 research, and now into the proposed Phase 8, so that earlier code a
 understandable without being confused with current or newer findings. See the main
 [README](../README.md) for the current, authoritative status of every phase.
 
+> **Status note (2026-10-28): ARP artifact.** After Phase 7, packet loss that the frozen 802.11b
+> instrumentation could not attribute was traced to the Address Resolution Protocol (ARP). Every sensor
+> starts sending at the same instant, the ARP requests collide, and packets waiting for address
+> resolution are dropped without being counted. The frozen simulators do not pre-populate the ARP cache.
+> The affected experiments were re-run, seed-matched, with the ARP cache pre-populated (306
+> protocol-comparison, 176 bottleneck and 72 rate-sweep runs; static sensors only). This ARP-fixed
+> analysis is the primary 802.11b analysis of the thesis draft (the advisor approved this analysis structure, with the original runs as secondary evidence, in October 2026; the thesis itself remains under advisor review). Phases 1–7 are kept below as they were written, for traceability; statements
+> that the ARP-fixed analysis superseded or affects are marked **[superseded]** or **[ARP-affected]**.
+> See the [ARP-fixed results](../README.md#ieee-80211b-study-arp-fixed-results-primary) and [`publication/CLAIMS.csv`](../publication/CLAIMS.csv).
+
 ## V1 — `scratch-simulator.cc`
 
 Earliest implementation. Kept for reference only; not used in any reported result.
@@ -16,6 +26,8 @@ seeds = 60 runs, on a multi-hop 802.11b ad-hoc mesh. Established the basic simul
 (topology generation, FlowMonitor-based metrics, static-routing BFS construction) that all later
 phases build on. Identified the AODV FlowMonitor `PacketsSent`-denominator behaviour later
 reconfirmed in the frozen research (see the README's AODV caveat).
+**[superseded]** The later V3 sent-count analysis (2026-10) found that the `PacketsSent` undercount
+affects OLSR (a send that fails for lack of a route is not counted), not AODV.
 
 ## Early V3 sigmoid prototype — `scratch/iot-network-v3.cc`
 
@@ -36,6 +48,9 @@ The official, frozen baseline: AODV/OLSR/Static across 6 node counts (10–100),
 3 mobility modes, seeds 20–30 (11 seeds) — 1,782 official runs. Established that performance
 degrades monotonically with node count and traffic load across all three protocols. This
 simulator, not `iot-network.cc`, is the current baseline.
+**[ARP-affected]** These runs include the uncounted ARP loss, which affected the protocols unequally.
+With ARP fixed (static sensors), Static Routing has the highest delivery in every condition from N = 20
+upward (15/15), so the frozen protocol ranking does not carry over. No ARP-fixed mobile run exists.
 
 ## Phase 2 — V4 Sigmoid-Based Adaptive Routing
 
@@ -47,6 +62,9 @@ and measurably restructures routes, but does not produce a statistically credibl
 improvement over Static — a valid negative result that closed the "better path selection" line of
 investigation.
 
+*Still valid as a result of the original configuration: V4 and Static share the same ARP behaviour, so
+this comparison is internally matched. V4 was not re-run with ARP fixed.*
+
 ## Phase 3 — Bottleneck Characterisation — `scratch/iot-network-bottleneck-probe.cc`
 
 Since neither node/traffic scaling (Phase 1) nor better routing (Phase 2) explained the
@@ -54,6 +72,8 @@ degradation, a new instrumented simulator was built to measure *where* the loss 
 airtime, MAC-queue drops, PHY RX drops, and hop distance. 176 runs (OLSR/Static × 4 node counts ×
 2 traffic levels × 11 seeds) localised the dominant measurable bottleneck to the gateway and
 first-hop neighbourhood under near-saturated conditions.
+*Consistent with the ARP-fixed re-runs:* with ARP fixed, gateway-region congestion persists (gateway
+airtime 0.86–0.90 from N = 75 upward). MAC-queue drop counts are frame events, not lost packets.
 
 ## Phase 4 — Retry-Exhaustion Validation
 
@@ -62,6 +82,11 @@ mechanism behind the airtime/queue signature. Result: retry exhaustion is real a
 secondary to MAC-queue overflow, and spatially concentrated in the opposite location (farther from
 the gateway).
 
+**[superseded form]** "Secondary to MAC-queue overflow" compared shares of loss computed from MAC drop
+counters. Those counters record frame events, and in the ARP-fixed Static runs they exceed the measured
+packet loss in 141/143 runs, so they cannot be expressed as shares of loss. This measurement has no
+ARP-fixed counterpart.
+
 ## Phase 5 — Offered-Rate Intervention
 
 Tested whether reducing offered traffic rate (16/12/8/4 kbps) relieves the identified bottleneck
@@ -69,6 +94,8 @@ Tested whether reducing offered traffic rate (16/12/8/4 kbps) relieves the ident
 consistently for OLSR at N=75 and N=100 (the near-saturated conditions), with the clearest single
 piece of evidence being that N=100 delivered throughput actually *rises* at a reduced offered
 rate.
+**[ARP-affected]** With ARP fixed, every reduced rate improved PDR for both OLSR and Static in 18/18
+conditions (3 seeds; descriptive).
 
 ## Phase 6 — Static/N=50 Diagnostic
 
@@ -76,6 +103,8 @@ Static routing at N=50 did not show the same improvement in Phase 5. A focused 1
 found that congestion was genuinely relieved (airtime and MAC-queue drops fell as expected), but
 the relieved mechanisms were never the dominant source of loss for this specific condition —
 explaining the null result without inventing a cause for the large residual (unattributed) loss.
+**[superseded]** The residual loss was ARP drops: in these 12 runs, ARP drops equal 99.9–101.4 % of the
+previously unattributed loss. With ARP fixed, Static N = 50 improves at every reduced rate.
 
 ## Phase 7 — Final Reproducibility Validation
 
@@ -83,6 +112,16 @@ A 51-run validation matrix independently re-executed representative conditions f
 phase and compared 687 metrics against the frozen datasets: 681 applicable comparisons passed
 exactly, 0 failed, 0 numerical drift. This confirmed the frozen results are reproducible from the
 current source code and configuration, closing Phases 1–7 of the research.
+*Still valid:* this check concerns the reproducibility of the frozen outputs, which it confirms. It does
+not address the ARP artifact.
+
+## ARP artifact diagnosis and ARP-fixed re-runs (2026-10, after Phase 7)
+
+A new simulator, `scratch/iot-network-wifi-std-arp.cc`, reproduces the frozen configuration (with the flag
+off it reproduced the frozen outputs exactly in 29 regression runs) and adds `--arpPrepopulate`. A paired
+diagnostic traced the Phase 6 residual to ARP drops, and the Phase 1, 3 and 5 experiments were re-run with
+the ARP cache pre-populated (static sensors). This is the primary 802.11b analysis of the thesis draft (the advisor approved this analysis structure, with the original runs as secondary evidence, in October 2026; the thesis itself remains under advisor review). Details:
+[`docs/arp-fixed-reproduction.md`](arp-fixed-reproduction.md).
 
 ## Phase 8 — BA Topology / Risky-Node Routing (proposed, opened 2026-10)
 
@@ -137,6 +176,8 @@ https://salincalyna.github.io/-iot-network-performance-ns3/site/index.html
 V1 -> V2/V2.7 -> early V3 sigmoid prototype -> V3 Official Baseline -> V4 Sigmoid Adaptive Routing
    -> Bottleneck Characterisation -> Retry-Exhaustion Validation -> Offered-Rate Intervention
    -> Static/N=50 Diagnostic -> Final Reproducibility Validation (FROZEN, Phases 1-7)
+   -> ARP artifact diagnosis + ARP-fixed re-runs (2026-10; primary 802.11b analysis, structure
+      approved by the advisor; supersedes Phase 4's share-of-loss form and the Phase 6 residual)
    -> BA Topology / Risky-Node Routing (Phase 8, PROPOSED 2026-10, not yet executed)
 
 Separate track (802.11ax wireless mesh, not BA):

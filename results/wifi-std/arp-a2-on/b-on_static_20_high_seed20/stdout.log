@@ -1,0 +1,1 @@
+wifi-std done: standard=80211b static n=20 traffic=high rate=16kbps seed=20  PDR=97.5854%  thr=329.136kbps  unreachable=0  phyRxDrop=1672511  macQdrop=0  maxRetryDrop=538  droppedMpdu(enq/exp/retry/old)=0/0/538/0  gwBusy=0.537309  ring1Busy=0.465248

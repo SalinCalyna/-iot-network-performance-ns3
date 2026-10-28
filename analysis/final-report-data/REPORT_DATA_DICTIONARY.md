@@ -2,6 +2,22 @@
 
 Read-only reference for every metric used in `analysis/final-report-data/`. All definitions are drawn from the actual simulator source (`scratch/iot-network-v3-ext.cc` for V3/V4, `scratch/iot-network-bottleneck-probe.cc` for §10/retry/rate-sweep) and the existing approved analysis reports — nothing here is newly invented.
 
+> **Status note (2026-10-28).** The definitions below describe the frozen 802.11b datasets and remain
+> correct as definitions. Four caveats in the table were later superseded; the table is kept unchanged for
+> traceability:
+> - **PDR (AODV denominator caveat):** the `PacketsSent` undercount affects **OLSR** (a send that fails for
+>   lack of a route is not counted; sent counts up to 10.0 % below the schedule). AODV and Static sent counts
+>   match the schedule.
+> - **total_mac_queue_drops ("terminal, per-packet, mutually exclusive"):** these are per-frame MAC events.
+>   A counted drop is not necessarily a lost packet; in the ARP-fixed Static runs, counted drop events
+>   exceed the measured loss in 141/143 runs.
+> - **total_max_retry_drops ("1.5–18 % of total loss"):** for the same reason, retry-limit drops cannot be
+>   expressed as a share of loss.
+> - **Residual loss ("not an identified mechanism"):** the residual was ARP drops (99.9–101.4 % of it in
+>   the 12 Static N = 50 diagnostic runs), which the frozen simulators did not count.
+>
+> The ARP-fixed re-analysis is the primary 802.11b analysis of the thesis draft (the advisor approved this analysis structure, with the original runs as secondary evidence, in October 2026; the thesis itself remains under advisor review). See [README](../../README.md#ieee-80211b-study-arp-fixed-results-primary).
+
 | Metric | Definition | Unit | Source dataset(s) | Aggregation | Seed range | Cross-protocol comparable? | Known caveat |
 |---|---|---|---|---|---|---|---|
 | **PDR** | `100 * PacketsReceived / PacketsSent` (FlowMonitor, gateway-bound flows only) | % | V3, V4, §10, Retry, Rate Sweep | mean/sd across seeds | 20-30 (V3/V4), 20-30 (§10), 20/25/30 (Retry, Rate Sweep) | Yes for OLSR/Static/V4. **Caution for AODV** — see below | **AODV FlowMonitor `PacketsSent` denominator artifact**: AODV's route discovery/repair/retransmission makes its transmitted-packet count scale with topology/route churn differently from OLSR/Static, so AODV PDR/PacketLoss are *indicative*, not an exact cross-protocol denominator (documented pre-existing limitation, confirmed unchanged by the integrity audit). |

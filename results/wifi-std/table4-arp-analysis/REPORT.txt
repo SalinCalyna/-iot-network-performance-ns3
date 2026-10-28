@@ -1,0 +1,20 @@
+Table 4 (bottleneck): frozen original (off) vs --arpPrepopulate=1 (on), 802.11b, static, 11 seeds (20-30) per cell
+PDR %, thr kbps, airtime 0-1 (+-95% CI on), MAC-queue/PHY-RX drops pkts/run, conc. x (seeds with MAC-queue drops)
+hop<=1 sensor share check (on vs frozen) max |diff| = 0.0004; max ARP drops on = 0 pkts/run
+
+olsr    30 medium | PDR  38.23 ->  74.73+-2.42 | thr   96.7 ->  189.0 | gw air 0.185 -> 0.497+-0.023 | ring1 0.174 -> 0.457 | macQ       0 ->       2 | conc nan -> 0.51(2) | NO_ROUTE 0 -> 0
+olsr    30 high   | PDR  42.52 ->  64.39+-4.85 | thr  215.0 ->  325.0 | gw air 0.438 -> 0.838+-0.007 | ring1 0.414 -> 0.800 | macQ     573 ->    7200 | conc 0.67 -> 1.00(11) | NO_ROUTE 3 -> 24
+olsr    50 medium | PDR  37.90 ->  68.21+-3.25 | thr  159.8 ->  287.6 | gw air 0.363 -> 0.823+-0.016 | ring1 0.342 -> 0.771 | macQ      15 ->    2729 | conc 0.37 -> 0.91(11) | NO_ROUTE 0 -> 0
+olsr    50 high   | PDR  38.70 ->  43.73+-2.67 | thr  326.0 ->  367.9 | gw air 0.735 -> 0.875+-0.002 | ring1 0.720 -> 0.872 | macQ   10135 ->   28150 | conc 1.51 -> 1.54(11) | NO_ROUTE 15 -> 29
+olsr    75 medium | PDR  34.83 ->  47.99+-2.93 | thr  220.3 ->  303.5 | gw air 0.581 -> 0.879+-0.002 | ring1 0.548 -> 0.863 | macQ    1704 ->   17449 | conc 1.38 -> 1.63(11) | NO_ROUTE 0 -> 11
+olsr    75 high   | PDR  25.21 ->  22.12+-1.45 | thr  315.7 ->  275.6 | gw air 0.864 -> 0.892+-0.001 | ring1 0.855 -> 0.891 | macQ   28191 ->   62717 | conc 1.76 -> 1.71(11) | NO_ROUTE 229 -> 212
+olsr   100 medium | PDR  28.55 ->  35.18+-1.91 | thr  239.8 ->  296.2 | gw air 0.743 -> 0.895+-0.001 | ring1 0.717 -> 0.889 | macQ    9542 ->   34001 | conc 1.82 -> 1.82(11) | NO_ROUTE 66 -> 35
+olsr   100 high   | PDR  14.73 ->  11.66+-0.84 | thr  235.7 ->  182.0 | gw air 0.889 -> 0.904+-0.001 | ring1 0.881 -> 0.900 | macQ   43476 ->   90510 | conc 1.87 -> 1.73(11) | NO_ROUTE 1336 -> 1119
+static  30 medium | PDR  41.56 ->  91.83+-1.55 | thr  105.1 ->  232.3 | gw air 0.172 -> 0.423+-0.024 | ring1 0.159 -> 0.393 | macQ       0 ->       0 | conc nan -> nan(0) | NO_ROUTE 0 -> 0
+static  30 high   | PDR  44.21 ->  82.64+-6.84 | thr  223.7 ->  418.1 | gw air 0.365 -> 0.815+-0.023 | ring1 0.340 -> 0.766 | macQ       2 ->    2790 | conc 2.39 -> 2.31(11) | NO_ROUTE 0 -> 0
+static  50 medium | PDR  36.44 ->  85.75+-2.47 | thr  153.6 ->  361.5 | gw air 0.242 -> 0.708+-0.040 | ring1 0.227 -> 0.666 | macQ       0 ->     216 | conc nan -> 2.24(6) | NO_ROUTE 0 -> 0
+static  50 high   | PDR  39.11 ->  48.85+-4.26 | thr  329.8 ->  411.9 | gw air 0.562 -> 0.862+-0.003 | ring1 0.535 -> 0.855 | macQ    3257 ->   24012 | conc 2.08 -> 2.10(11) | NO_ROUTE 0 -> 0
+static  75 medium | PDR  30.67 ->  58.80+-4.29 | thr  194.0 ->  371.9 | gw air 0.304 -> 0.858+-0.003 | ring1 0.283 -> 0.836 | macQ       1 ->   11746 | conc 2.32 -> 2.28(11) | NO_ROUTE 0 -> 0
+static  75 high   | PDR  28.93 ->  32.32+-2.28 | thr  365.9 ->  408.8 | gw air 0.622 -> 0.873+-0.001 | ring1 0.603 -> 0.877 | macQ    6550 ->   50646 | conc 2.20 -> 1.99(11) | NO_ROUTE 0 -> 0
+static 100 medium | PDR  27.80 ->  43.16+-2.90 | thr  234.4 ->  363.9 | gw air 0.385 -> 0.870+-0.002 | ring1 0.357 -> 0.863 | macQ     284 ->   25823 | conc 2.36 -> 2.26(11) | NO_ROUTE 0 -> 0
+static 100 high   | PDR  22.05 ->  22.64+-1.32 | thr  371.9 ->  381.7 | gw air 0.656 -> 0.878+-0.001 | ring1 0.642 -> 0.884 | macQ   12464 ->   79134 | conc 2.07 -> 1.93(11) | NO_ROUTE 0 -> 0

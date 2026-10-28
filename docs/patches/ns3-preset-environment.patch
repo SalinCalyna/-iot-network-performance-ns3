@@ -1,0 +1,13 @@
+diff --git a/ns3 b/ns3
+index f45ae829c..686ab5a7d 100755
+--- a/ns3
++++ b/ns3
+@@ -1476,7 +1476,7 @@ def load_preset_environment():
+                 exit(1)
+             else:
+                 # Now we have CMakePresent environment variables
+-                cmake_presets = cmake_presets[0]["environment"].items()
++                cmake_presets = cmake_presets[0].get("environment", {}).items()
+                 # But they may have expansion macros that we need to manually handle
+                 # Then, if they have $penv{} around, we remove and replace by os.getenv(name, "")
+                 cmake_presets = [(key, replace_penv_vars(value)) for key, value in cmake_presets]

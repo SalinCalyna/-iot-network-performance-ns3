@@ -1,0 +1,25 @@
+N,traffic,order_off,order_on,changed,top_separated_off,top_separated_on
+10,low,aodv > olsr > static,olsr > aodv > static,True,False,False
+10,medium,aodv > olsr > static,aodv > olsr > static,False,False,False
+10,high,aodv > olsr > static,olsr > aodv > static,True,False,False
+10,pooled,aodv > olsr > static,olsr > aodv > static,True,True,False
+20,low,aodv > static > olsr,static > aodv > olsr,True,False,False
+20,medium,aodv > static > olsr,static > aodv > olsr,True,False,False
+20,high,aodv > static > olsr,static > aodv > olsr,True,False,True
+20,pooled,aodv > olsr > static,static > aodv > olsr,True,False,True
+30,low,aodv > olsr > static,static > aodv > olsr,True,False,False
+30,medium,aodv > static > olsr,static > aodv > olsr,True,False,False
+30,high,static > olsr > aodv,static > olsr > aodv,False,False,True
+30,pooled,aodv > static > olsr,static > aodv > olsr,True,False,True
+50,low,olsr > static > aodv,static > olsr > aodv,True,False,True
+50,medium,olsr > static > aodv,static > olsr > aodv,True,False,True
+50,high,static > olsr > aodv,static > olsr > aodv,False,False,False
+50,pooled,olsr > static > aodv,static > olsr > aodv,True,False,False
+75,low,olsr > static > aodv,static > olsr > aodv,True,True,True
+75,medium,olsr > static > aodv,static > olsr > aodv,True,False,True
+75,high,static > olsr > aodv,static > olsr > aodv,False,False,True
+75,pooled,olsr > static > aodv,static > olsr > aodv,True,False,False
+100,low,olsr > static > aodv,static > olsr > aodv,True,False,True
+100,medium,olsr > static > aodv,static > olsr > aodv,True,False,False
+100,high,static > olsr > aodv,static > olsr > aodv,False,True,True
+100,pooled,olsr > static > aodv,static > olsr > aodv,True,False,False

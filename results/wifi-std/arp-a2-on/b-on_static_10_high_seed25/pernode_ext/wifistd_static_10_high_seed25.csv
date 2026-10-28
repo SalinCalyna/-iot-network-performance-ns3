@@ -1,0 +1,12 @@
+node_id,hop_to_gw,dropped_mpdu_failed_enqueue,dropped_mpdu_expired_lifetime,dropped_mpdu_retry_limit,dropped_mpdu_qos_old,arp_l3_drops,arp_cache_drops
+0,1,0,0,0,0,0,0
+1,2,0,0,16,0,0,0
+2,2,0,0,2,0,0,0
+3,1,0,0,1,0,0,0
+4,1,0,0,41,0,0,0
+5,3,0,0,0,0,0,0
+6,1,0,0,0,0,0,0
+7,1,0,0,1,0,0,0
+8,1,0,0,0,0,0,0
+9,2,0,0,0,0,0,0
+10,0,0,0,0,0,0,0

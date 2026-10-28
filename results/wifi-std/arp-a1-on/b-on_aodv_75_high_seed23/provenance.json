@@ -1,0 +1,27 @@
+{
+ "run_id": "b-on_aodv_75_high_seed23",
+ "argv": [
+  "<NS3_ROOT>/build/scratch/ns3-dev-iot-network-wifi-std-arp-default",
+  "--standard=80211b",
+  "--protocol=aodv",
+  "--nSensors=75",
+  "--trafficLevel=high",
+  "--seed=23",
+  "--offeredRateKbps=16",
+  "--arpPrepopulate=1",
+  "--outDir=results/wifi-std/arp-a1-on/b-on_aodv_75_high_seed23"
+ ],
+ "cwd": "<NS3_ROOT>",
+ "git_head": "043f0f60999fc0718dae3d317ece0fa70fb6c0c1",
+ "git_branch": "exp/wifi6-arp",
+ "source": "scratch/iot-network-wifi-std-arp.cc",
+ "source_sha256": "4923685a52f9f8131caff2ecc45a806620c649bc621c82da4ca55a6eba836227",
+ "binary": "build/scratch/ns3-dev-iot-network-wifi-std-arp-default",
+ "binary_sha256": "9f74bd9ce2c6f009de10fd715ac43c571a00ed67bfd5dbb4f2e853e9ef50a78c",
+ "exit_code": 0,
+ "wall_sec": 361.7,
+ "stderr_bytes": 0,
+ "timeout_sec": null,
+ "timed_out": false,
+ "finished": "2026-10-18T17:07:14+0700"
+}
