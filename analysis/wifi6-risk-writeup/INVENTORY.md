@@ -66,8 +66,9 @@ F-W8 is included because the per-packet traces support it (delivered packets onl
    MaxDelay or Hello sensitivity would change the methodology.
 3. Link failures after traffic starts are not split between Hello expiry and MAC drops ("Close link" lines were
    not counted). The unicast vs broadcast share of expired MPDUs is unknown.
-4. The saturated-load experiment at N = 100 has not been run (pending approval). The congestion trade-off of
-   risk avoidance is therefore untested.
+4. The N = 100 subtree design was also run at saturated load (16 and 32 kbps, 3 seeds; validated), but those
+   results are not yet part of the reported findings, so the congestion trade-off of risk avoidance is not covered
+   by them.
 5. Only 3 seeds exist at N = 100, so it supports no inferential statistics.
 6. The thesis chapter outlines (`CHAPTER_3/4/5_OUTLINE.md`) and `CLAIM_TO_EVIDENCE_MAP.csv` cover only the
    802.11b phases. The Wi-Fi 6 study is in TABLE_FIGURE_PLAN.csv but not yet in those files.

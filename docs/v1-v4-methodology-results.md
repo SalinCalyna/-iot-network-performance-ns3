@@ -29,7 +29,7 @@ from older docs. Every item below carries one of four labels:
 | V3 | BA topology / risk-aware routing (paper reproduction) | `scratch/iot-network-v3.cc`, a **different, same-named program** that exists only locally/uncommitted (see note below) | Implemented (uncommitted), **Not yet verified** — zero runs |
 | V3 Phase 1 | Official extended baseline | `scratch/iot-network-v3-ext.cc` | Implemented, Experiment completed (1,782 official runs) |
 | V4 | Sigmoid-adaptive routing | `scratch/iot-network-v3-ext.cc`, `--protocol=v4` | Implemented, Experiment completed (957 runs), **closed** |
-| (outside V1–V4) | Wi-Fi 6 Risk-Aware Routing: explicit low/high-risk relay states on the 802.11ax wireless mesh | `scratch/iot-network-wifi6-risk-v2.cc` | Implemented, **Experiment completed** (N = 30: 160 runs, 10 seeds; N = 100: 48 runs, 3 seeds); N = 100 saturated load **Proposed, not run** |
+| (outside V1–V4) | Wi-Fi 6 Risk-Aware Routing: explicit low/high-risk relay states on the 802.11ax wireless mesh | `scratch/iot-network-wifi6-risk-v2.cc` | Implemented, **Experiment completed** (N = 30: 160 runs, 10 seeds; N = 100: 48 runs, 3 seeds); N = 100 saturated load (16 / 32 kbps) **Run and validated** (2026-10-25); results not yet reported in the findings |
 
 **Branch/filename note:** `iot-network-v3.cc` means two different programs depending on where you
 look. On this repository's `main` branch it is the legacy 15-node sigmoid pilot (what the

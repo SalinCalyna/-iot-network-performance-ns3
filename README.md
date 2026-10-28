@@ -37,8 +37,10 @@ not explain was traced to an ARP artifact: all sensors start sending at the same
 requests collide, and waiting packets are dropped uncounted. The core experiments were therefore
 re-run, seed-matched, with the ARP cache pre-populated (static sensors). With the artifact removed,
 Static Routing delivered the most from 20 sensors upward, gateway airtime approached saturation at
-large N, and lowering each sensor's rate improved delivery in every tested condition. The original
-802.11b findings are kept below, marked as superseded.
+large N, and lowering each sensor's rate improved delivery in every tested condition. Static routing
+here is an oracle/reference baseline: it is given sensor positions in advance and routes on a 90 m disk
+model, so its lead shows what a perfectly-informed static tree can deliver, not that it is a better
+protocol to deploy. The original 802.11b findings are kept below, marked as superseded.
 The Wi-Fi 6 study adds explicit low-risk and high-risk relay states to an 802.11ax mesh. It
 compares Static, Risk-Aware, OLSR and AODV routing in matched experiments. With three high-risk
 relays at N = 30, Risk-Aware routing raised delivery by 23.18 percentage points and cut risk
@@ -54,6 +56,10 @@ exposure by 46.33 points.
 | **4** | Wi-Fi 6 routing protocols: Static, Risk-Aware, OLSR, AODV |
 | **10** | seeds at N = 30 — inferential statistics |
 | **3** | seeds at N = 100 — descriptive only |
+| **72** | Wi-Fi 6 uniform random risk placement, N = 100 (12 matched draws): a protocol-independent robustness check, since the main study's subtree placement puts risk on Static's own tree (Static's worst case) |
+| **108** | PSU Phuket campus-layout simulation runs: an illustrative application, radio model not calibrated |
+
+The headline subtree result was re-tested with protocol-independent (uniform random) risk placement at N = 100.
 
 ## Key findings
 
@@ -99,8 +105,10 @@ Risk-Aware − Static on the same seed, with k = 3 high-risk relays, 8 kbps per 
    goodput differences have 95 % confidence intervals that exclude zero at every N (12/12): Static
    is ahead from N = 20 upward and behind at N = 10. At N = 10, OLSR and AODV are both ahead of
    Static, the leader's margin over the other is at most 1.7 pp, and the high-traffic N = 10 leader
-   depends on the PDR denominator (AODV by 0.26 pp against scheduled sends). Static Routing uses
-   known positions, so this is not evidence of a better deployable protocol. *(C04–C07)*
+   depends on the PDR denominator (AODV by 0.26 pp against scheduled sends). Static routing here is
+   an oracle/reference baseline: it is given sensor positions in advance and routes on a 90 m disk
+   model, so its lead shows what a perfectly-informed static tree can deliver, not that it is a better
+   protocol to deploy. *(C04–C07)*
 
    **Static at N = 10: interpret with caution.** Static has the lowest PDR at N = 10 in all three
    conditions (75.3–78.8 %, against 93.5–95.9 % for OLSR and AODV). Static routes only over a 90 m
@@ -120,7 +128,10 @@ Risk-Aware − Static on the same seed, with k = 3 high-risk relays, 8 kbps per 
    conditions and 54/54 seed-level comparisons (3 seeds per point; descriptive). The gain is not
    monotonic for OLSR at N = 50 (71.8 % at 8 kbit/s, 67.4 % at 4 kbit/s). *(C12, C13)*
 6. **Delay.** Static has the lowest mean delay of delivered packets in 15/18 conditions. The metric
-   covers delivered packets only and is shaped by synchronised start times. *(C14)*
+   covers delivered packets only and is shaped by synchronised start times. Static routing here is an
+   oracle/reference baseline: it is given sensor positions in advance and routes on a 90 m disk model,
+   so its lead shows what a perfectly-informed static tree can deliver, not that it is a better
+   protocol to deploy. *(C14)*
 7. **V4 sigmoid routing (original configuration only).** No credible improvement over Static:
    +0.11 pp, 95 % CI [−0.75, +0.97], 594 pairs. *(C15)*
 8. **Reproducibility.** The present source reproduces the original data in 681/681 applicable
@@ -161,7 +172,7 @@ above from the raw results. Reproduction: [`docs/arp-fixed-reproduction.md`](doc
 | Phases 1–7 (V3 baseline to reproducibility) | IEEE 802.11b mesh | **Frozen**: reproducible (51/51 validation runs); affected by the ARP artifact, superseded for the protocol, bottleneck and rate conclusions |
 | ARP-fixed re-runs (ARP cache pre-populated) | IEEE 802.11b mesh | **Completed** (2026-10-18) and independently validated (2026-10-28); static sensors only; thesis under advisor review |
 | Wi-Fi 6 Risk-Aware Routing (low/high-risk relays, k = 0–3) | IEEE 802.11ax mesh | **Completed and validated** (2026-10): N = 30 (10 seeds), N = 100 (3 seeds) |
-| N = 100 saturated-load risk experiment | IEEE 802.11ax mesh | **Not run** — pending approval |
+| N = 100 saturated-load risk study (16 / 32 kbps) | IEEE 802.11ax mesh | **Run and validated** (2026-10-25); results not yet reported in the findings |
 | Phase 8: BA topology / risky-node routing | Barabasi-Albert graph | **Proposed** — not yet executed ([details](#phase-8-ba-topology--risky-node-routing-proposed)) |
 
 The Wi-Fi 6 study and the proposed Phase 8 BA study are separate investigations, on different
@@ -320,7 +331,9 @@ Source for both: [`UPDATE8_TIER1_ACTIVATION_SCREEN.md`](analysis/update8-tier1-a
   discover links over the real radio range.
 - **Synchronized CBR traffic:** all sensors send at the same instants.
 - **Light load:** per-run gateway airtime is 0.04–0.08 at N = 30 and 0.19–0.44 at N = 100,
-  excluding AODV. The N = 100 saturated-load experiment has not been run.
+  excluding AODV. The N = 100 subtree risk study's main results are at light load (8 kbps). The same
+  design was also run at saturated load (16 and 32 kbps, 3 seeds; validated), but those results are
+  not yet part of the reported findings. The uniform-random-placement follow-up also includes 32 kbps.
 - **Three seeds at N = 100:** those results are descriptive only.
 - **Residual Block Ack tail:** under saturation only, 13–37 per 100k delivered packets are delayed
   more than 10 s. In the main experiments no Static, Risk-Aware or OLSR packet exceeded 10 s, and
@@ -420,7 +433,7 @@ V1 -> V2/V2.7 -> early V3 sigmoid prototype -> V3 Official Baseline -> V4 Sigmoi
    -> Phase 8 BA Topology / Risky-Node Routing (PROPOSED 2026-10, not yet executed)
 
 Separate track (802.11ax wireless mesh, not BA):
-   Wi-Fi 6 Risk-Aware Routing (COMPLETED 2026-10) -> N=100 saturated-load experiment (NOT RUN)
+   Wi-Fi 6 Risk-Aware Routing (COMPLETED 2026-10) -> N=100 saturated-load study (RUN 2026-10-25; not yet reported)
 ```
 
 Earlier iterations (V1/V2.7) are preserved for context, not as current findings. See

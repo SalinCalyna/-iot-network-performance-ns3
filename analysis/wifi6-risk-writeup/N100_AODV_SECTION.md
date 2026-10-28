@@ -182,5 +182,6 @@ item requires new simulation.
 | F-W8 | Figure (optional) | Delay CDF per protocol, N = 100, k = 0 | packet_paths.csv | To plot |
 
 Also still to do in text: the methodology description of risk-v2 (Block Ack fix, risk model, selection rule),
-and a statement that the N = 100 saturated-load experiment has not been performed (pending approval). That
-experiment would add the congestion trade-off currently listed as a limitation.
+and a statement that the N = 100 subtree design was also run at saturated load (16 and 32 kbps, 3 seeds;
+validated) but is not yet part of the reported findings. Those results would add the congestion trade-off
+currently listed as a limitation.
